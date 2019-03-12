@@ -14,6 +14,11 @@ This software has following features:
 - Accounts
 - Messaging
 
+## Framework used
+
+- Laravel 5.5
+- Bootstrap 3.3.7
+
 ## Here are some screenshots:
 
 Auto generated fake data were used.
