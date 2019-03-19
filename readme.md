@@ -41,6 +41,13 @@ Here are some basic steps to start using this application
 - Turn `APP_DEBUG` to `false` in `.env` for Production environment
 - You can keep maintenance mode by running `php artisan up` and `php artisan down`
 
+## Create School and Admin
+
+- At first login with your `Master` account
+- Create a **School**
+- Create `Admins` for that School
+- Manage that School using these `Admin` accounts
+
 ## Here are some screenshots:
 
 Auto generated fake data were used.
