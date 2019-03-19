@@ -10,8 +10,16 @@
         <div class="col-md-2" id="side-navbar">
             @include('layouts.leftside-menubar')
         </div>
+        @else
+        <div class="col-md-3" id="side-navbar">
+            <ul class="nav flex-column">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url('create-school') }}"><i class="material-icons">gamepad</i> <span class="nav-link-text">Back to Manage School</span></a>
+                </li>
+            </ul>
+        </div>
         @endif
-        <div class="col-md-{{ (\Auth::user()->role == 'master')? 12 : 8 }}" id="main-container">
+        <div class="col-md-8" id="main-container">
             @if (session('status'))
             <div class="alert alert-success">
                 {{ session('status') }}
