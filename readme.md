@@ -29,8 +29,6 @@ This software has following features:
 - Laravel 5.5
 - Bootstrap 3.3.7
 
-![Build Status](https://travis-ci.com/changeweb/Unifiedtransform.svg?)branch=master
-
 ## How to Start
 Here are some basic steps to start using this application
 
