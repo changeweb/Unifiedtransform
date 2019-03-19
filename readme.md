@@ -13,7 +13,7 @@ GNU General Public License v3.0
 ## Features
 
 This software has following features:
-
+- Roles: Master, Admin, Teacher, Student, Librarian, Accountant
 - Attendance
 - Mark
 - Registration
@@ -28,6 +28,17 @@ This software has following features:
 
 - Laravel 5.5
 - Bootstrap 3.3.7
+
+## How to Start
+Here are some basic steps to start using this application
+
+- Create `.env` file from `.env.example` and generate `APP_KEY` using `php artisan key:generate`
+- Set Database connection configuration in `.env` file
+- I've used Email: `hasib@unifiedtransform.com` and Password: `secret` as `Master` account credentials in `database\seeds\UsersTableSeeder.php`. Change it from there.
+- Then to create tables and to seed the tables with fake data use `php artisan migrate:refresh --seed`
+- Create School and admin from `Master` account. Login page: `Your example.com\login`
+- Turn `APP_DEBUG` to `false` in `.env` for Production environment
+- You can keep maintenance mode by running `php artisan up` and `php artisan down`
 
 ## Here are some screenshots:
 
