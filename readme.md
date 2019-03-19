@@ -32,6 +32,7 @@ This software has following features:
 ## How to Start
 Here are some basic steps to start using this application
 
+- Run `php composer.phar install` to install Laravel packages
 - Create `.env` file from `.env.example` and generate `APP_KEY` using `php artisan key:generate`
 - Set Database connection configuration in `.env` file
 - I've used Email: `hasib@unifiedtransform.com` and Password: `secret` as `Master` account credentials in `database\seeds\UsersTableSeeder.php`. Change it from there.
