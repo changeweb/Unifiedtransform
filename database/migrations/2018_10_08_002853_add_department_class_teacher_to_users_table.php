@@ -26,7 +26,7 @@ class AddDepartmentClassTeacherToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['department']);
+            $table->dropColumn(['department_id']);
         });
     }
 }
