@@ -217,15 +217,16 @@ class UserController extends Controller
         'blood_group' => 'required',
         //'nationality' => 'required',
         'phone_number' => 'required|unique:users',
+        'email' => 'email|max:255|unique:users',
       ]);
-      if(!empty($request->email)){
-        $request->validate([
-          'email' => 'email|max:255|unique:users',
-        ]);
-      }
+      // if(!empty($request->email)){
+      //   $request->validate([
+      //     'email' => 'email|max:255|unique:users',
+      //   ]);
+      // }
       $tb = new User;
       $tb->name = $request->name;
-      $tb->email = (!empty($request->email))?$request->email:'';
+      $tb->email = $request->email;
       $tb->password = bcrypt($request->password);
       $tb->role = 'admin';
       $tb->active = 1;

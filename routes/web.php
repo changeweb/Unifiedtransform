@@ -162,7 +162,7 @@ Route::middleware(['accountant','auth'])->group(function (){
 
 Route::get('create-school', 'SchoolController@index')->middleware('master.admin');
 
-Route::middleware(['master'])->group(function (){
+Route::middleware(['auth','master'])->group(function (){
   Route::get('register/admin/{id}/{code}', function($id, $code){
       session([
         'register_role' => 'admin',
