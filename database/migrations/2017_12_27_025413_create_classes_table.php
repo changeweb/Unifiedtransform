@@ -18,7 +18,6 @@ class CreateClassesTable extends Migration
             $table->string('class_number');
             $table->integer('school_id')->unsigned();
             $table->string('group');
-            $table->integer('user_id')->unsigned();
             $table->timestamps();
         });
     }
