@@ -1,6 +1,6 @@
 ## School Management and Accounting Software
 
-We like to challenge the quality of what we build to make it better. To do so we try to make the product simple to use, make the design beautiful and user friendly. Innovation and hardwork help to fulfill these requirements. I believe inorder to innovate we need to think differently. A few months ago I came across that there was no open source free School Management software that met the quality I wanted. I happen to know a bit of programming so I decided to make one. I also believe that working with more people can push the standard higher than working alone. So I decided to make it open source and free.
+We like to challenge the quality of what we build to make it better. To do so, we try to make the product intuitive, beautiful, and user friendly. Innovation and hard work help to fulfill these requirements. I believe in order to innovate we need to think differently. A few months ago I discovered there was no open source free School Management software that met my quality standards. I happen to know a bit of programming so I decided to make one. I also believe that working with more people can push the standard higher than working alone. So I decided to make it open source and free.
 
 ## Contribute
 
@@ -43,7 +43,7 @@ Here are some basic steps to start using this application
 
 ## Create School and Admin
 
-- At first login with your `Master` account
+- First login with your `Master` account
 - Create a **School**
 - Create `Admins` for that School
 - Manage that School using these `Admin` accounts
