@@ -19,6 +19,6 @@ class UsersTableSeeder extends Seeder
             'active' => 1,
             'verified' => 1,
         ]);
-        //factory(App\User::class, 200)->create();
+        factory(App\User::class, 200)->create();
     }
 }
