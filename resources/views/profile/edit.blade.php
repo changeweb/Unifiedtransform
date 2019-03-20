@@ -81,7 +81,6 @@
 
                             <div class="col-md-6">
                                 <select id="department" class="form-control" name="department_id">
-                                    <option value="{{$user->department_id}}">{{$user->department->department_name}}</option>
                                     @if (count($departments)) > 0)
                                         @foreach ($departments as $d)
                                             <option value="{{$d->id}}">{{$d->department_name}}</option>
