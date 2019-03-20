@@ -64,11 +64,7 @@ In `database\seeds\UsersTableSeeder.php`:
 ...
 //factory(App\User::class, 200)->create();
 ?>
-
-
-
-* Turn `APP_DEBUG` to `false` in `.env` for Production environment
-* You can switch to and from maintenance mode by running `php artisan up` and `php artisan down`
+```
 
 ## Create a school and an admin
 
@@ -82,6 +78,11 @@ In `database\seeds\UsersTableSeeder.php`:
 * Important: A `master` CANNOT manage a school's data!
 * Login as `admin` at `example.com\login`
 * Now add data to the school as required.
+
+## Good to know
+
+* In `.env`, turn `APP_DEBUG` to `false` for production environment.
+* You can switch to and from maintenance mode by running `php artisan up` and `php artisan down`.
 
 ## Here are some screenshots:
 
