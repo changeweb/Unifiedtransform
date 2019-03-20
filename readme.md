@@ -43,29 +43,29 @@ Here are some basic steps to start using this application
   * comment all the seeders except `$this->call(UsersTableSeeder::class);` in `database\seeds\DatabaseSeeder.php`;
   * then comment `factory(App\User::class, 200)->create();` in `UsersTableSeeder.php`.
 
-  So your files will look something like this:
+So your files will look something like this:
 
-  In `database\seeds\DatabaseSeeder.php`:
+In `database\seeds\DatabaseSeeder.php`:
 
-      ```php
-      <?php
-      ...
-      //$this->call(SectionsTableSeeder::class);
-      $this->call(UsersTableSeeder::class);
-      //$this->call(AttendancesTableSeeder::class);
-      ...
-      ?>
-      ```
+```php
+<?php
+...
+//$this->call(SectionsTableSeeder::class);
+$this->call(UsersTableSeeder::class);
+//$this->call(AttendancesTableSeeder::class);
+...
+?>
+```
 
-  In `database\seeds\UsersTableSeeder.php`:
+In `database\seeds\UsersTableSeeder.php`:
 
-      ```php
-      <?php
-      ...
-      //factory(App\User::class, 200)->create();
-      ?>
-      
-      
+```php
+<?php
+...
+//factory(App\User::class, 200)->create();
+?>
+
+
 
 * Turn `APP_DEBUG` to `false` in `.env` for Production environment
 * You can switch to and from maintenance mode by running `php artisan up` and `php artisan down`
