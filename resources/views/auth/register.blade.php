@@ -10,23 +10,15 @@
         <div class="col-md-2" id="side-navbar">
             @include('layouts.leftside-menubar')
         </div>
-        @else
-        <div class="col-md-3" id="side-navbar">
-            <ul class="nav flex-column">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ url('create-school') }}"><i class="material-icons">gamepad</i> <span class="nav-link-text">Back to Manage School</span></a>
-                </li>
-            </ul>
-        </div>
         @endif
-        <div class="col-md-8" id="main-container">
+        <div class="col-md-{{ \Auth::user()->role != 'master' ? '8' : '12' }}" id="main-container">
             @if (session('status'))
             <div class="alert alert-success">
                 {{ session('status') }}
             </div>
             @endif
             <div class="panel panel-default">
-                <div class="page-panel-title">Register {{ucfirst(session('register_role'))}}</div>
+                <div class="page-panel-title panel-heading text-center">Register {{ucfirst(session('register_role'))}}</div>
 
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" id="registerForm" action="{{ url('register/'.session('register_role')) }}">
@@ -97,6 +89,7 @@
                                     required>
                             </div>
                         </div>
+                        
                         @if(session('register_role', 'student') == 'student')
                         <div class="form-group{{ $errors->has('section') ? ' has-error' : '' }}">
                             <label for="section" class="col-md-4 control-label">Class and Section</label>
@@ -131,6 +124,7 @@
                             </div>
                         </div>
                         @endif
+                        
                         @if(session('register_role', 'teacher') == 'teacher')
                         <div class="form-group{{ $errors->has('department') ? ' has-error' : '' }}">
                             <label for="department" class="col-md-4 control-label">Department</label>
@@ -171,6 +165,7 @@
                             </div>
                         </div>
                         @endif
+                        
                         <div class="form-group{{ $errors->has('blood_group') ? ' has-error' : '' }}">
                             <label for="blood_group" class="col-md-4 control-label">Blood Group</label>
 
@@ -225,6 +220,7 @@
                                 @endif
                             </div>
                         </div>
+                        
                         @if(session('register_role', 'student') == 'student')
                         <div class="form-group{{ $errors->has('version') ? ' has-error' : '' }}">
                             <label for="version" class="col-md-4 control-label">Version</label>
@@ -242,6 +238,7 @@
                                 @endif
                             </div>
                         </div>
+                        
                         <div class="form-group{{ $errors->has('session') ? ' has-error' : '' }}">
                             <label for="session" class="col-md-4 control-label">Session</label>
 
@@ -500,127 +497,6 @@
                                 @endif
                             </div>
                         </div>
-                        {{--
-                        <div class="form-group{{ $errors->has('psc_group') ? ' has-error' : '' }}">
-                            <label for="psc_group" class="col-md-4 control-label">PSC Group</label>
-
-                            <div class="col-md-6">
-                                <input id="psc_group" type="text" class="form-control" name="psc_group" value="{{ old('psc_group') }}"
-                                    required>
-
-                                @if ($errors->has('psc_group'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('psc_group') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('psc_roll') ? ' has-error' : '' }}">
-                            <label for="psc_roll" class="col-md-4 control-label">PSC Roll</label>
-
-                            <div class="col-md-6">
-                                <input id="psc_roll" type="text" class="form-control" name="psc_roll" value="{{ old('psc_roll') }}"
-                                    required>
-
-                                @if ($errors->has('psc_roll'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('psc_roll') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('psc_registration') ? ' has-error' : '' }}">
-                            <label for="psc_registration" class="col-md-4 control-label">PSC Registration</label>
-
-                            <div class="col-md-6">
-                                <input id="psc_registration" type="text" class="form-control" name="psc_registration"
-                                    value="{{ old('psc_registration') }}" required>
-
-                                @if ($errors->has('psc_registration'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('psc_registration') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('psc_session') ? ' has-error' : '' }}">
-                            <label for="psc_session" class="col-md-4 control-label">PSC Session</label>
-
-                            <div class="col-md-6">
-                                <input id="psc_session" type="text" class="form-control" name="psc_session" value="{{ old('psc_session') }}"
-                                    required>
-
-                                @if ($errors->has('psc_session'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('psc_session') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('psc_board') ? ' has-error' : '' }}">
-                            <label for="psc_board" class="col-md-4 control-label">PSC Board</label>
-
-                            <div class="col-md-6">
-                                <input id="psc_board" type="text" class="form-control" name="psc_board" value="{{ old('psc_board') }}"
-                                    required>
-
-                                @if ($errors->has('psc_board'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('psc_board') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('psc_passing_year') ? ' has-error' : '' }}">
-                            <label for="psc_passing_year" class="col-md-4 control-label">PSC Passing Year</label>
-
-                            <div class="col-md-6">
-                                <input id="psc_passing_year" type="text" class="form-control" name="psc_passing_year"
-                                    value="{{ old('psc_passing_year') }}" required>
-
-                                @if ($errors->has('psc_passing_year'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('psc_passing_year') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('psc_institution_name') ? ' has-error' : '' }}">
-                            <label for="psc_institution_name" class="col-md-4 control-label">PSC Institution Name</label>
-
-                            <div class="col-md-6">
-                                <input id="psc_institution_name" type="text" class="form-control" name="psc_institution_name"
-                                    value="{{ old('psc_institution_name') }}" required>
-
-                                @if ($errors->has('psc_institution_name'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('psc_institution_name') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('psc_gpa') ? ' has-error' : '' }}">
-                            <label for="psc_gpa" class="col-md-4 control-label">PSC GPA</label>
-
-                            <div class="col-md-6">
-                                <input id="psc_gpa" type="text" class="form-control" name="psc_gpa" value="{{ old('psc_gpa') }}"
-                                    required>
-
-                                @if ($errors->has('psc_gpa'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('psc_gpa') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                        </div>
-                        --}}
                         @endif
 
                         <div class="form-group">
@@ -641,6 +517,14 @@
                         </div>
                     </form>
                 </div>
+                
+                @if(\Auth::user()->role == 'master')
+                <div class="panel-footer">
+                    <a href="/home" class="btn btn-default">Back to the Manage school Dashboard</a>
+                    <a href="/create" class="btn btn-info">Back to 'Create a new school'</a>
+                </div>
+                @endif
+                
             </div>
         </div>
     </div>
