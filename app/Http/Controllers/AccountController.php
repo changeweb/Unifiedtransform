@@ -9,10 +9,23 @@ class AccountController extends Controller
 
   public function sectors(){
     $sectors= \App\AccountSector::where('school_id', \Auth::user()->school_id)->get();
-    $incomes = \App\Account::where('school_id', \Auth::user()->school_id)->where('type', 'income')->orderBy('id', 'desc')->take(50)->get();
-    $expenses = \App\Account::where('school_id', \Auth::user()->school_id)->where('type', 'expense')->orderBy('id', 'desc')->take(50)->get();
+    $incomes = \App\Account::where('school_id', \Auth::user()->school_id)
+                          ->where('type', 'income')
+                          ->orderBy('id', 'desc')
+                          ->take(50)
+                          ->get();
+    $expenses = \App\Account::where('school_id', \Auth::user()->school_id)
+                            ->where('type', 'expense')
+                            ->orderBy('id', 'desc')
+                            ->take(50)
+                            ->get();
     $sector = [];
-    return view('accounts.sector',['sectors'=>$sectors,'sector'=>$sector,'incomes'=>$incomes,'expenses'=>$expenses]);
+    return view('accounts.sector',[
+                                  'sectors'=>$sectors,
+                                  'sector'=>$sector,
+                                  'incomes'=>$incomes,
+                                  'expenses'=>$expenses
+                                ]);
   }
 
   /**
@@ -76,10 +89,17 @@ class AccountController extends Controller
   }
 
   public function income(){
-    $sectors = \App\AccountSector::where('school_id', \Auth::user()->school_id)->where('type','income')->get();
-    $classes = \App\Myclass::where('school_id', \Auth::user()->school_id)->pluck('id')->toArray();
-    $sections = \App\Section::with('class')->whereIn('class_id', $classes)->get();
-    $students = \App\User::whereIn('section_id',$sections->pluck('id')->toArray())->get();
+    $sectors = \App\AccountSector::where('school_id', \Auth::user()->school_id)
+                                ->where('type','income')
+                                ->get();
+    $classes = \App\Myclass::where('school_id', \Auth::user()->school_id)
+                            ->pluck('id')
+                            ->toArray();
+    $sections = \App\Section::with('class')
+                            ->whereIn('class_id', $classes)
+                            ->get();
+    $students = \App\User::whereIn('section_id',$sections->pluck('id')->toArray())
+                          ->get();
     return view('accounts.income',[
       'sectors'=>$sectors,
       'sections'=>$sections,
@@ -110,7 +130,10 @@ class AccountController extends Controller
   }
 
   public function postIncome(Request $request){
-    $incomes = \App\Account::where('school_id', \Auth::user()->school_id)->where('type', 'income')->whereYear('created_at',$request->year)->get();
+    $incomes = \App\Account::where('school_id', \Auth::user()->school_id)
+                          ->where('type', 'income')
+                          ->whereYear('created_at',$request->year)
+                          ->get();
     return view('accounts.income-list',['incomes'=>$incomes]);
   }
 
@@ -140,7 +163,9 @@ class AccountController extends Controller
   }
 
   public function expense(){
-    $sectors = \App\AccountSector::where('school_id', \Auth::user()->school_id)->where('type','expense')->get();
+    $sectors = \App\AccountSector::where('school_id', \Auth::user()->school_id)
+                                ->where('type','expense')
+                                ->get();
     return view('accounts.expense',['sectors'=>$sectors]);
 
   }
@@ -167,7 +192,10 @@ class AccountController extends Controller
   }
 
   public function postExpense(Request $request){
-    $expenses = \App\Account::where('school_id', \Auth::user()->school_id)->where('type', 'expense')->whereYear('created_at',$request->year)->get();
+    $expenses = \App\Account::where('school_id', \Auth::user()->school_id)
+                            ->where('type', 'expense')
+                            ->whereYear('created_at',$request->year)
+                            ->get();
     return view('accounts.expense-list',['expenses'=>$expenses]);
   }
 

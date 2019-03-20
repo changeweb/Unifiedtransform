@@ -17,17 +17,33 @@ class CourseController extends Controller
      */
     public function index($teacher_id, $section_id){
       if(\Auth::user()->role != 'student' && $teacher_id > 0) {
-        $courses = Course::with(['section', 'teacher','exam'])->where('teacher_id', $teacher_id)->get();
-        $exams = \App\Exam::where('school_id', \Auth::user()->school_id)->where('active',1)->get();
+        $courses = Course::with(['section', 'teacher','exam'])
+                        ->where('teacher_id', $teacher_id)
+                        ->get();
+        $exams = \App\Exam::where('school_id', \Auth::user()->school_id)
+                          ->where('active',1)
+                          ->get();
 
         return view('course.teacher-course',['courses'=>$courses,'exams'=>$exams]);
-      }else if(\Auth::user()->role == 'student' && $section_id == \Auth::user()->section_id && $section_id > 0){
-        $courses = Course::with(['section', 'teacher'])->where('section_id', $section_id)->get();
+
+      }else if(\Auth::user()->role == 'student'
+                && $section_id == \Auth::user()->section_id
+                && $section_id > 0)
+      {
+        $courses = Course::with(['section', 'teacher'])
+                        ->where('section_id', $section_id)
+                        ->get();
 
         return view('course.class-course',['courses'=>$courses,'exams'=>[]]);
+
       }else if(\Auth::user()->role != 'student' && $section_id > 0) {
-        $courses = Course::with(['section', 'teacher','exam'])->where('section_id', $section_id)->get();
-        $exams = \App\Exam::where('school_id', \Auth::user()->school_id)->where('active',1)->get();
+
+        $courses = Course::with(['section', 'teacher','exam'])
+                        ->where('section_id', $section_id)
+                        ->get();
+        $exams = \App\Exam::where('school_id', \Auth::user()->school_id)
+                          ->where('active',1)
+                          ->get();
         
         return view('course.class-course',['courses'=>$courses,'exams'=>$exams]);
       } else {
@@ -53,7 +69,10 @@ class CourseController extends Controller
     public function course($teacher_id,$course_id,$exam_id,$section_id)
     {
       $this->addStudentsToCourse($teacher_id,$course_id,$exam_id,$section_id);
-      $students = \App\Grade::with('student')->where('course_id', $course_id)->where('exam_id',$exam_id)->get();
+      $students = \App\Grade::with('student')
+                            ->where('course_id', $course_id)
+                            ->where('exam_id',$exam_id)
+                            ->get();
       return view('course.students', [
         'students'=>$students,
         'teacher_id'=>$teacher_id,

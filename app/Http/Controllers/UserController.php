@@ -18,22 +18,54 @@ class UserController extends Controller
     public function index($school_code, $student_code, $teacher_code)
     {
       session()->forget('section-attendance');
-      if(!empty($school_code) && $student_code == 1){
-        $users = User::with(['section.class','school','studentInfo'])->where('code', $school_code)->where('role', 'student')->orderBy('name', 'asc')->paginate(50);
-        return view('list.student-list',['users' =>$users,'current_page'=>$users->currentPage(),'per_page'=>$users->perPage()]);
-      } else if(!empty($school_code) && $teacher_code == 1){
-        $users = User::with(['section','school'])->where('code', $school_code)->where('role', 'teacher')->orderBy('name', 'asc')->paginate(50);
-        return view('list.teacher-list',['users' => $users, 'current_page'=>$users->currentPage(),'per_page'=>$users->perPage()]);
+      if(!empty($school_code) && $student_code == 1){// For student
+        $users = User::with(['section.class','school','studentInfo'])
+                      ->where('code', $school_code)
+                      ->where('role', 'student')
+                      ->orderBy('name', 'asc')
+                      ->paginate(50);
+        return view('list.student-list',[
+                                          'users' =>$users,
+                                          'current_page'=>$users->currentPage(),
+                                          'per_page'=>$users->perPage()
+                                        ]);
+      } else if(!empty($school_code) && $teacher_code == 1){// For teacher
+        $users = User::with(['section','school'])
+                      ->where('code', $school_code)
+                      ->where('role', 'teacher')
+                      ->orderBy('name', 'asc')
+                      ->paginate(50);
+        return view('list.teacher-list',[
+                                          'users' => $users,
+                                          'current_page'=>$users->currentPage(),
+                                          'per_page'=>$users->perPage()
+                                        ]);
       }
     }
 
     public function indexOther($school_code, $role){
       if($role == 'accountant'){
-        $users = User::with('school')->where('code', $school_code)->where('role', 'accountant')->orderBy('name', 'asc')->paginate(50);
-        return view('accounts.accountant-list',['users' => $users, 'current_page'=>$users->currentPage(),'per_page'=>$users->perPage()]);
+        $users = User::with('school')
+                      ->where('code', $school_code)
+                      ->where('role', 'accountant')
+                      ->orderBy('name', 'asc')
+                      ->paginate(50);
+        return view('accounts.accountant-list',[
+                                                'users' => $users,
+                                                'current_page'=>$users->currentPage(),
+                                                'per_page'=>$users->perPage()
+                                              ]);
       } else if($role == 'librarian') {
-        $users = User::with('school')->where('code', $school_code)->where('role', 'librarian')->orderBy('name', 'asc')->paginate(50);
-        return view('library.librarian-list',['users' => $users, 'current_page'=>$users->currentPage(),'per_page'=>$users->perPage()]);
+        $users = User::with('school')
+                      ->where('code', $school_code)
+                      ->where('role', 'librarian')
+                      ->orderBy('name', 'asc')
+                      ->paginate(50);
+        return view('library.librarian-list',[
+                                              'users' => $users,
+                                              'current_page'=>$users->currentPage(),
+                                              'per_page'=>$users->perPage()
+                                            ]);
       } else {
         return view('home');
       }
@@ -61,13 +93,21 @@ class UserController extends Controller
 
     public function promoteSectionStudents($section_id){
       if($section_id > 0){
-        $students = User::with('section','studentInfo')->where('section_id', $section_id)->get();
-        $classes = \App\Myclass::with('sections')->where('school_id', \Auth::user()->school_id)->get();
+        $students = User::with('section','studentInfo')
+                        ->where('section_id', $section_id)
+                        ->get();
+        $classes = \App\Myclass::with('sections')
+                                ->where('school_id', \Auth::user()->school_id)
+                                ->get();
       } else {
         $students = [];
         $classes = [];
       }
-      return view('school.promote-students',['students'=>$students, 'classes'=>$classes,'section_id'=>$section_id]);
+      return view('school.promote-students',[
+                                              'students'=>$students,
+                                              'classes'=>$classes,
+                                              'section_id'=>$section_id
+                                            ]);
     }
 
     public function promoteSectionStudentsPost(Request $request){
@@ -111,7 +151,9 @@ class UserController extends Controller
     public function create($student_code)
     {
       //$user = User::with('section')->where('code', Auth::user()->code)->where('student_code', $student_code)->first();
-      $user = User::with('section','studentInfo')->where('student_code', $student_code)->first();
+      $user = User::with('section','studentInfo')
+                  ->where('student_code', $student_code)
+                  ->first();
       return view('profile.user', ['user' => $user]);
     }
 
@@ -124,6 +166,7 @@ class UserController extends Controller
         'old_password' => 'required|min:6',
         'new_password' => 'required|min:6',
       ]);
+
       if (Hash::check($request->old_password, \Auth::user()->password)) {
         $request->user()->fill([
           'password' => Hash::make($request->new_password)
@@ -367,10 +410,16 @@ class UserController extends Controller
     public function edit($id)
     {
       $user = User::find($id);
-      $classes = \App\Myclass::where('school_id',\Auth::user()->school_id)->pluck('id')->toArray();
+      $classes = \App\Myclass::where('school_id',\Auth::user()->school_id)
+                            ->pluck('id')
+                            ->toArray();
       $sections = \App\Section::whereIn('class_id',$classes)->get();
       $departments = \App\Department::where('school_id',\Auth::user()->school_id)->get();
-      return view('profile.edit',['user'=>$user,'sections'=>$sections,'departments'=>$departments]);
+      return view('profile.edit',[
+                                  'user'=>$user,
+                                  'sections'=>$sections,
+                                  'departments'=>$departments
+                                ]);
     }
 
     /**
