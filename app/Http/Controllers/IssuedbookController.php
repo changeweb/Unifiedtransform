@@ -7,13 +7,19 @@ use Illuminate\Http\Request;
 class IssuedbookController extends Controller
 {
     public function index(){
-      $issuedBooks = \App\Issuedbook::join('books', 'issued_books.book_code', '=', 'books.book_code')->select('issued_books.*','books.title','books.type','users.name')->join('users', 'issued_books.student_code', '=', 'users.student_code')->where('issued_books.borrowed', '=', 1)
-      ->where('issued_books.school_id', '=', \Auth::user()->school->id)->paginate(50);
+      $issuedBooks = \App\Issuedbook::join('books', 'issued_books.book_code', '=', 'books.book_code')
+                                    ->select('issued_books.*','books.title','books.type','users.name')
+                                    ->join('users', 'issued_books.student_code', '=', 'users.student_code')
+                                    ->where('issued_books.borrowed', '=', 1)
+                                    ->where('issued_books.school_id', '=', \Auth::user()->school->id)
+                                    ->paginate(50);
       return view('library.issued-books',['issued_books'=>$issuedBooks]);
     }
 
     public function create(){
-      $books = \App\Book::where('school_id', \Auth::user()->school_id)->where('quantity','>',0)->get();
+      $books = \App\Book::where('school_id', \Auth::user()->school_id)
+                        ->where('quantity','>',0)
+                        ->get();
       return view('library.issuebooks',['books'=>$books]);
     }
 

@@ -22,6 +22,7 @@ class UploadController extends Controller {
       'upload_type' => 'required',
       'file' => 'required|max:10000|mimes:doc,docx,png,jpeg,pdf,xlsx,xls,ppt,pptx,txt'
     ]);
+
     $upload_dir = 'school-'.\Auth::user()->school_id.'/'.date("Y").'/'.$request->upload_type;
     $path = \Storage::disk('public')->putFile($upload_dir, $request->file('file'));//$request->file('file')->store($upload_dir);
     
@@ -29,6 +30,7 @@ class UploadController extends Controller {
       $request->validate([
         'title' => 'required|string',
       ]);
+      
       $tb = new \App\Notice;
       $tb->file_path = 'storage/'.$path;
       $tb->title = $request->title;
