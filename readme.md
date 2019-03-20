@@ -32,20 +32,20 @@ This software has following features:
 ## How to Start
 Here are some basic steps to start using this application
 
-- Run `php composer.phar install` to install Laravel packages
-- Create `.env` file from `.env.example` and generate `APP_KEY` using `php artisan key:generate`
-- Set the database connection configuration in `.env` file
-- To create a `Master`, go to the `database\seeds\UsersTableSeeder.php` and change the `name`, the `email` and the `password` settings to your likings. Leave the other settings (role, active, veerfied) unchanged!
-- To create the tables, run `php artisan migrate`.
-- To seed the tables with fake data, use `php artisan db:seed`.
-- If you want to run the migration and the seeding together, use `php artisan migrate:refresh --seed`
-- You must seed `database\seeds\UsersTableSeeder.php` at least once in order to create the **Master** account. To do so, follow these steps:
--- comment all the seeders except `$this->call(UsersTableSeeder::class);` in `database\seeds\DatabaseSeeder.php`;
--- then comment `factory(App\User::class, 200)->create();` in `UsersTableSeeder.php`.
+* Run `php composer.phar install` to install Laravel packages
+* Create `.env` file from `.env.example` and generate `APP_KEY` using `php artisan key:generate`
+* Set the database connection configuration in `.env` file
+* To create a `Master`, go to the `database\seeds\UsersTableSeeder.php` and change the `name`, the `email` and the `password` settings to your likings. Leave the other settings (role, active, veerfied) unchanged!
+* To create the tables, run `php artisan migrate`.
+* To seed the tables with fake data, use `php artisan db:seed`.
+* If you want to run the migration and the seeding together, use `php artisan migrate:refresh --seed`
+* You must seed `database\seeds\UsersTableSeeder.php` at least once in order to create the **Master** account. To do so, follow these steps:
+ * comment all the seeders except `$this->call(UsersTableSeeder::class);` in `database\seeds\DatabaseSeeder.php`;
+ * then comment `factory(App\User::class, 200)->create();` in `UsersTableSeeder.php`.
 
-So your files will look something like this:
+  So your files will look something like this:
 
-In `database\seeds\DatabaseSeeder.php`:
+  In `database\seeds\DatabaseSeeder.php`:
 
     ...
     //$this->call(SectionsTableSeeder::class);
@@ -53,21 +53,26 @@ In `database\seeds\DatabaseSeeder.php`:
     //$this->call(AttendancesTableSeeder::class);
     ...
 
-In `database\seeds\UsersTableSeeder.php`:
+  In `database\seeds\UsersTableSeeder.php`:
 
     ...
     //factory(App\User::class, 200)->create();
 
-- Create School and admin from `Master` account. Login page: `Your example.com\login`
-- Turn `APP_DEBUG` to `false` in `.env` for Production environment
-- You can keep maintenance mode by running `php artisan up` and `php artisan down`
+* Turn `APP_DEBUG` to `false` in `.env` for Production environment
+* You can keep maintenance mode by running `php artisan up` and `php artisan down`
 
-## Create School and Admin
+## Create a school and an admin
 
-- First login with your `Master` account
-- Create a **School**
-- Create `Admins` for that School
-- Manage that School using these `Admin` accounts
+* Only a `master` can create a new school!
+* Login at `example.com\login` using your `Master` account credentials
+* Create a new `school`
+* Create a new `admin` for the newly created school
+
+## Manage a school
+
+* A `master` cannot manage a school's data!
+* At `example.com\login`, login as `admin`
+* Now add data to the school as required.
 
 ## Here are some screenshots:
 
