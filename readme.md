@@ -47,31 +47,31 @@ Here are some basic steps to start using this application
 
   In `database\seeds\DatabaseSeeder.php`:
 
-    ...
-    //$this->call(SectionsTableSeeder::class);
-    $this->call(UsersTableSeeder::class);
-    //$this->call(AttendancesTableSeeder::class);
-    ...
+      ...
+      //$this->call(SectionsTableSeeder::class);
+      $this->call(UsersTableSeeder::class);
+      //$this->call(AttendancesTableSeeder::class);
+      ...
 
   In `database\seeds\UsersTableSeeder.php`:
 
-    ...
-    //factory(App\User::class, 200)->create();
+      ...
+      //factory(App\User::class, 200)->create();
 
 * Turn `APP_DEBUG` to `false` in `.env` for Production environment
-* You can keep maintenance mode by running `php artisan up` and `php artisan down`
+* You can switch to and from maintenance mode by running `php artisan up` and `php artisan down`
 
 ## Create a school and an admin
 
-* Only a `master` can create a new school!
+* Important: only a `master` can create a new school and its admins!
 * Login at `example.com\login` using your `Master` account credentials
 * Create a new `school`
 * Create a new `admin` for the newly created school
 
 ## Manage a school
 
-* A `master` cannot manage a school's data!
-* At `example.com\login`, login as `admin`
+* Important: A `master` CANNOT manage a school's data!
+* Login as `admin` at `example.com\login`
 * Now add data to the school as required.
 
 ## Here are some screenshots:
