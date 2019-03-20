@@ -1,6 +1,6 @@
 ## School Management and Accounting Software
 
-We like to challenge the quality of what we build to make it better. To do so, we try to make the product intuitive, beautiful, and user friendly. Innovation and hard work help to fulfill these requirements. I believe in order to innovate we need to think differently. A few months ago I discovered there was no open source free School Management software that met my quality standards. I happen to know a bit of programming so I decided to make one. I also believe that working with more people can push the standard higher than working alone. So I decided to make it open source and free.
+We like to challenge the quality of what we build to make it better. To do so, we try to make the product intuitive, beautiful, and user friendly. Innovation and hard work help to fulfill these requirements. I believe in order to innovate we need to think differently. A few months ago I discovered there was no open source free school management software that met my quality standards. I happen to know a bit of programming so I decided to make one. I also believe that working with more people can push the standard higher than working alone. So I decided to make it open source and free.
 
 ## Contribute
 
@@ -34,14 +34,18 @@ Here are some basic steps to start using this application
 
 - Run `php composer.phar install` to install Laravel packages
 - Create `.env` file from `.env.example` and generate `APP_KEY` using `php artisan key:generate`
-- Set Database connection configuration in `.env` file
-- I've used Email: `hasib@unifiedtransform.com` and Password: `secret` as `Master` account credentials in `database\seeds\UsersTableSeeder.php`. Change it from there.
-- Then to create tables run `php artisan migrate` and to seed the tables with fake data use `php artisan db:seed`. If you want to run them together then use `php artisan migrate:refresh --seed`
-- But you need to seed `database\seeds\UsersTableSeeder.php` atleast once in order to create your **Master** account. To do so comment all the seeders except `$this->call(UsersTableSeeder::class);` in `database\seeds\DatabaseSeeder.php`. Then comment `factory(App\User::class, 200)->create();` in `UsersTableSeeder.php`.
+- Set the database connection configuration in `.env` file
+- To create a `Master`, go to the `database\seeds\UsersTableSeeder.php` and change the `name`, the `email` and the `password` settings to your likings. Leave the other settings (role, active, veerfied) unchanged!
+- To create the tables, run `php artisan migrate`.
+- To seed the tables with fake data, use `php artisan db:seed`.
+- If you want to run the migration and the seeding together, use `php artisan migrate:refresh --seed`
+- You must seed `database\seeds\UsersTableSeeder.php` at least once in order to create the **Master** account. To do so, follow these steps:
+-- comment all the seeders except `$this->call(UsersTableSeeder::class);` in `database\seeds\DatabaseSeeder.php`;
+-- then comment `factory(App\User::class, 200)->create();` in `UsersTableSeeder.php`.
 
-So your files will look something like these.
+So your files will look something like this:
 
-In `database\seeds\DatabaseSeeder.php`
+In `database\seeds\DatabaseSeeder.php`:
 
     ...
     //$this->call(SectionsTableSeeder::class);
@@ -49,7 +53,7 @@ In `database\seeds\DatabaseSeeder.php`
     //$this->call(AttendancesTableSeeder::class);
     ...
 
-In `database\seeds\UsersTableSeeder.php`
+In `database\seeds\UsersTableSeeder.php`:
 
     ...
     //factory(App\User::class, 200)->create();
