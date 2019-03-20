@@ -136,11 +136,11 @@
                             <label for="department" class="col-md-4 control-label">Department</label>
 
                             <div class="col-md-6">
-                                <select id="department" class="form-control" name="department_id">
+                                <select id="department" class="form-control" name="department_id" required>
                                     @if (count(session('departments')) > 0)
-                                    @foreach (session('departments') as $d)
-                                    <option value="{{$d->id}}">{{$d->department_name}}</option>
-                                    @endforeach
+                                        @foreach (session('departments') as $d)
+                                            <option value="{{$d->id}}">{{$d->department_name}}</option>
+                                        @endforeach
                                     @endif
                                 </select>
 
