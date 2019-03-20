@@ -175,7 +175,7 @@ Route::middleware(['auth','master'])->group(function (){
   Route::post('create-school', 'SchoolController@store');
   Route::get('school/admin-list/{school_id}','SchoolController@show');
 });
-Route::middleware(['admin','auth'])->group(function (){
+Route::middleware(['auth','admin'])->group(function (){
   Route::post('school/add-class','MyclassController@store');
   Route::post('school/add-section','SectionController@store');
   Route::post('school/add-department','SchoolController@addDepartment');

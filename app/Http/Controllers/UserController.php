@@ -317,7 +317,7 @@ class UserController extends Controller
       $tb->pic_path = (!empty($request->pic_path))?$request->pic_path:'';
       $tb->verified = 1;
       $tb->department_id = $request->department_id;
-      $tb->section_id = (count($request->class_teacher_section_id) > 0)?$request->class_teacher_section_id:0;
+      $tb->section_id = ($request->class_teacher_section_id != 0)?$request->class_teacher_section_id:0;
       $tb->save();
       return back()->with('status', 'Saved');
     }
