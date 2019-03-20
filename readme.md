@@ -35,7 +35,7 @@ Here are some basic steps to start using this application
 * Run `php composer.phar install` to install Laravel packages
 * Create `.env` file from `.env.example` and generate `APP_KEY` using `php artisan key:generate`
 * Set the database connection configuration in `.env` file
-* To create a `Master`, go to the `database\seeds\UsersTableSeeder.php` and change the `name`, the `email` and the `password` settings to your likings. Leave the other settings (role, active, veerfied) unchanged!
+* To create a `Master`, go to the `database\seeds\UsersTableSeeder.php` and change the `name`, the `email` and the `password` settings to your likings. Leave the other settings (role, active, verfied) unchanged!
 * To create the tables, run `php artisan migrate`.
 * To seed the tables with fake data, use `php artisan db:seed`.
 * If you want to run the migration and the seeding together, use `php artisan migrate:refresh --seed`
@@ -43,28 +43,21 @@ Here are some basic steps to start using this application
   * comment all the seeders except `$this->call(UsersTableSeeder::class);` in `database\seeds\DatabaseSeeder.php`;
   * then comment `factory(App\User::class, 200)->create();` in `UsersTableSeeder.php`.
 
-So your files will look something like this:
+   So your files will look something like this:
 
-In `database\seeds\DatabaseSeeder.php`:
+   In `database\seeds\DatabaseSeeder.php`:
 
-```php
-<?php
-...
-//$this->call(SectionsTableSeeder::class);
-$this->call(UsersTableSeeder::class);
-//$this->call(AttendancesTableSeeder::class);
-...
-?>
-```
+      ...
+      //$this->call(SectionsTableSeeder::class);
+      $this->call(UsersTableSeeder::class);
+      //$this->call(AttendancesTableSeeder::class);
+      ...
 
-In `database\seeds\UsersTableSeeder.php`:
+   In `database\seeds\UsersTableSeeder.php`:
 
-```php
-<?php
-...
-//factory(App\User::class, 200)->create();
-?>
-```
+      ...
+      //factory(App\User::class, 200)->create();
+
 
 ## Create a school and an admin
 
