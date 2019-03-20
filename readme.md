@@ -40,8 +40,8 @@ Here are some basic steps to start using this application
 * To seed the tables with fake data, use `php artisan db:seed`.
 * If you want to run the migration and the seeding together, use `php artisan migrate:refresh --seed`
 * You must seed `database\seeds\UsersTableSeeder.php` at least once in order to create the **Master** account. To do so, follow these steps:
- * comment all the seeders except `$this->call(UsersTableSeeder::class);` in `database\seeds\DatabaseSeeder.php`;
- * then comment `factory(App\User::class, 200)->create();` in `UsersTableSeeder.php`.
+  * comment all the seeders except `$this->call(UsersTableSeeder::class);` in `database\seeds\DatabaseSeeder.php`;
+  * then comment `factory(App\User::class, 200)->create();` in `UsersTableSeeder.php`.
 
   So your files will look something like this:
 
