@@ -37,6 +37,23 @@ Here are some basic steps to start using this application
 - Set Database connection configuration in `.env` file
 - I've used Email: `hasib@unifiedtransform.com` and Password: `secret` as `Master` account credentials in `database\seeds\UsersTableSeeder.php`. Change it from there.
 - Then to create tables run `php artisan migrate` and to seed the tables with fake data use `php artisan db:seed`. If you want to run them together then use `php artisan migrate:refresh --seed`
+- But you need to seed `database\seeds\UsersTableSeeder.php` atleast once in order to create your **Master** account. To do so comment all the seeders except `$this->call(UsersTableSeeder::class);` in `database\seeds\DatabaseSeeder.php`. Then comment `factory(App\User::class, 200)->create();` in `UsersTableSeeder.php`.
+
+So your files will look something like these.
+
+In `database\seeds\DatabaseSeeder.php`
+
+    ...
+    //$this->call(SectionsTableSeeder::class);
+    $this->call(UsersTableSeeder::class);
+    //$this->call(AttendancesTableSeeder::class);
+    ...
+
+In `database\seeds\UsersTableSeeder.php`
+
+    ...
+    //factory(App\User::class, 200)->create();
+
 - Create School and admin from `Master` account. Login page: `Your example.com\login`
 - Turn `APP_DEBUG` to `false` in `.env` for Production environment
 - You can keep maintenance mode by running `php artisan up` and `php artisan down`
