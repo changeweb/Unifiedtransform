@@ -148,11 +148,11 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($student_code)
+    public function create($user_code)
     {
       //$user = User::with('section')->where('code', Auth::user()->code)->where('student_code', $student_code)->first();
       $user = User::with('section','studentInfo')
-                  ->where('student_code', $student_code)
+                  ->where('student_code', $user_code)
                   ->first();
       return view('profile.user', ['user' => $user]);
     }
