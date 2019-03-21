@@ -86,7 +86,7 @@
 
 		var color = Chart.helpers.color;
 		var config = {
-			type: 'line',
+			type: 'bar',
 			data: {
 				datasets: [{
                     label: 'Income',
@@ -115,7 +115,7 @@
 			options: {
 				title: {
                     display: true,
-					text: 'Income and Expense (In Taka) in Time Scale'
+					text: 'Income and Expense (In Dollar) in Time Scale'
 				},
 				scales: {
 					xAxes: [{
