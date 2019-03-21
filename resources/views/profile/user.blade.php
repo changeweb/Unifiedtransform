@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@if(count($user) > 0)
+@if(count(array($user)) > 0)
   @section('title', $user->name)
 @endif
 
@@ -12,7 +12,7 @@
         </div>
         <div class="col-md-10" id="main-container">
             <div class="panel panel-default">
-              @if(count($user) > 0)
+              @if(count(array($user)) > 0)
                 <div class="panel-body">
                     @if (session('status'))
                         <div class="alert alert-success">
@@ -29,31 +29,6 @@
                 </div>
               @endif
             </div>
-            <br/>
-            {{--
-            @if($user->role == "student")
-            <h4>Board Exams</h4>
-            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-              @if(count($user->studentBoardExam) > 0)
-                @foreach($user->studentBoardExam as $exam)
-                    @component('components.user-board-exam',[
-                        'exam_name'=>$exam['exam_name'],
-                        'group'=>$exam['group'],
-                        'roll'=>$exam['roll'],
-                        'registration'=>$exam['registration'],
-                        'session'=>$exam['session'],
-                        'board'=>$exam['board'],
-                        'passing_year'=>$exam['passing_year'],
-                        'institution_name'=>$exam['institution_name'],
-                        'gpa'=>$exam['gpa'],
-                    ])
-                    @endcomponent
-                @endforeach
-              @endif
-            <br/>
-            <br/>
-            </div>
-            @endif--}}
         </div>
     </div>
 </div>
