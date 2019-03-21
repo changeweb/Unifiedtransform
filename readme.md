@@ -82,7 +82,7 @@ Here are some basic steps to start using this application
 Auto generated fake data were used.
 
 ![Screenshot_2019-03-12 - Arvid Marquardt](https://user-images.githubusercontent.com/9896315/54187724-68008500-44d8-11e9-9ed1-880bcef0fa06.png)
-![Screenshot_2019-03-12 Account Sectors - Arvid Marquardt](https://user-images.githubusercontent.com/9896315/54187725-68991b80-44d8-11e9-9121-bc113047e1d0.png)
+![Screenshot_2019-03-21 Account Sectors - Britney Luettgen](https://user-images.githubusercontent.com/9896315/54765196-45cadd80-4c23-11e9-81d2-c761796678c8.png)
 ![Screenshot_2019-03-12 Add New Book - Arvid Marquardt](https://user-images.githubusercontent.com/9896315/54187727-68991b80-44d8-11e9-972b-370a7b4a89b1.png)
 ![Screenshot_2019-03-12 Add Routine - Arvid Marquardt](https://user-images.githubusercontent.com/9896315/54187728-68991b80-44d8-11e9-9655-62b83fe9e4dc.png)
 ![Screenshot_2019-03-12 Alba Huel - Arvid Marquardt](https://user-images.githubusercontent.com/9896315/54187729-6931b200-44d8-11e9-936e-df49e1ca91e6.png)
