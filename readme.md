@@ -36,7 +36,15 @@ Here are some basic steps to start using this application
 * Create `.env` file from `.env.example` and generate `APP_KEY` using `php artisan key:generate`
 * Set the database connection configuration in `.env` file
 * To create a `Master`, go to the `database\seeds\UsersTableSeeder.php` and change the `name`, the `email` and the `password` settings to your likings. Leave the other settings (role, active, verfied) unchanged!
+* [Laravel Passport](https://laravel.com/docs/5.5/passport) package is included to support API. If you want to use it then run `php artisan passport:keys` or to remove this package then just follow these steps
+
+   * Remove it from `composer.json` and run `composer update` and `composer dump-autoload`.
+   * And all classes that relies on passport must be edited as well. The most common classes are:
+      * `app\User.php` model, remove the `HasApiToken` trait.
+      * `app\Proiders\AuthServiceProvider`, remove `Passport::routes();` in your boot method.
+      * In `config/auth.php`, change your driver option for `api` from `passport` to `api` authentication
 * To create the tables, run `php artisan migrate`.
+   * If you don't want to use **Passport** package then remove the **Passport Migrations** in database `migrations` table and run command `artisan migrate:refresh`
 * To seed the tables with fake data, use `php artisan db:seed`.
 * If you want to run the migration and the seeding together, use `php artisan migrate:refresh --seed`
 * You must seed `database\seeds\UsersTableSeeder.php` at least once in order to create the **Master** account. To do so, follow these steps:
