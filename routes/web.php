@@ -52,7 +52,7 @@ Route::middleware(['auth'])->group(function (){
   Route::post('attendance/adjust','AttendanceController@adjustPost')->middleware(['teacher']);
 });
 
-Route::middleware(['teacher','auth'])->group(function (){
+Route::middleware(['auth','teacher'])->group(function (){
   Route::get('grades/all-exams-grade', 'GradeController@allExamsGrade');
   Route::get('grades/section/{section_id}', 'GradeController@gradesOfSection');
   Route::get('grades/{student_id}', 'GradeController@index');
@@ -64,21 +64,21 @@ Route::middleware(['teacher','auth'])->group(function (){
 });
 
 
-Route::get('grades/{student_id}', 'GradeController@index')->middleware(['student','auth']);
+Route::get('grades/{student_id}', 'GradeController@index')->middleware(['auth','student']);
 
-Route::middleware(['accountant','auth'])->group(function (){
+Route::middleware(['auth','accountant'])->group(function (){
   Route::get('fees/all', 'FeeController@index');
   Route::get('fees/create', 'FeeController@create');
   Route::post('fees/create', 'FeeController@store');
 });
 
-Route::middleware(['admin','auth'])->group(function (){
+Route::middleware(['auth','admin'])->group(function (){
   Route::get('gpa/create-gpa', 'GradesystemController@create');
   Route::post('create-gpa', 'GradesystemController@store');
   Route::post('gpa/delete', 'GradesystemController@destroy');
 });
 
-Route::middleware(['teacher','auth'])->group(function (){
+Route::middleware(['auth','teacher'])->group(function (){
   Route::get('gpa/all-gpa', 'GradesystemController@index');
 });
 
@@ -93,9 +93,9 @@ Route::middleware(['auth'])->group(function (){
   Route::get('courses/{teacher_id}/{section_id}', 'CourseController@index');
 });
 
-Route::get('user/{id}/notifications', 'NotificationController@index')->middleware(['student','auth']);
+Route::get('user/{id}/notifications', 'NotificationController@index')->middleware(['auth','student']);
 
-Route::middleware(['teacher','auth'])->group(function (){
+Route::middleware(['auth','teacher'])->group(function (){
   Route::get('course/students/{teacher_id}/{course_id}/{exam_id}/{section_id}','CourseController@course');
   Route::post('courses/create', 'CourseController@create');
   // Route::post('courses/save-under-exam', 'CourseController@update');
@@ -103,7 +103,7 @@ Route::middleware(['teacher','auth'])->group(function (){
   Route::post('courses/save-configuration', 'CourseController@saveConfiguration');
 });
 
-Route::middleware(['admin','auth'])->group(function (){
+Route::middleware(['auth','admin'])->group(function (){
   Route::get('academic/syllabus', 'SyllabusController@create');
   Route::get('academic/notice', 'NoticeController@create');
   Route::get('academic/event', 'EventController@create');
@@ -114,18 +114,18 @@ Route::middleware(['admin','auth'])->group(function (){
   Route::get('academic/remove/routine/{id}', 'RoutineController@update');
 });
 
-Route::middleware(['admin','auth'])->group(function (){
+Route::middleware(['auth','admin'])->group(function (){
   Route::get('exams', 'ExamController@index');
   Route::get('exams/create', 'ExamController@create');
   Route::post('exams/create', 'ExamController@store');
   Route::post('exams/activate-exam', 'ExamController@update');
 });
-Route::middleware(['teacher','auth'])->group(function (){
+Route::middleware(['auth','teacher'])->group(function (){
   Route::get('exams/active', 'ExamController@indexActive');
   Route::get('school/sections','SectionController@index');
 });
 
-Route::middleware(['librarian','auth'])->group(function (){
+Route::middleware(['auth','librarian'])->group(function (){
   Route::get('library/issue-books', 'IssuedbookController@create');
   Route::post('library/issue-books', 'IssuedbookController@store');
   Route::get('library/all-books', 'BookController@index');
@@ -135,7 +135,7 @@ Route::middleware(['librarian','auth'])->group(function (){
   Route::post('library/save_as_returned', 'IssuedbookController@update');
 });
 
-Route::middleware(['accountant','auth'])->group(function (){
+Route::middleware(['auth','accountant'])->group(function (){
   Route::get('accounts/sectors','AccountController@sectors');
   Route::post('accounts/create-sector','AccountController@storeSector');
   Route::get('accounts/sector-list','AccountController@listSector');
@@ -215,7 +215,7 @@ Route::middleware(['auth','admin'])->group(function (){
 });
 
 //use PDF;
-Route::middleware(['master.admin','auth'])->group(function (){
+Route::middleware(['auth','master.admin'])->group(function (){
   Route::post('upload/file', 'UploadController@upload');
 //   Route::get('pdf/profile/{user_id}',function($user_id){
 //     $data = App\User::find($user_id);
@@ -231,7 +231,7 @@ Route::middleware(['master.admin','auth'])->group(function (){
 // 		return $pdf->stream('result.pdf');
 //   });
 });
-Route::middleware(['teacher','auth'])->group(function (){
+Route::middleware(['auth','teacher'])->group(function (){
   Route::post('calculate-marks','GradeController@calculateMarks');
   Route::post('message/students', 'NotificationController@store');
 });
