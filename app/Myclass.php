@@ -6,7 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Myclass extends Model
 {
-	protected $table = "classes";
+    protected $table = "classes";
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'class_number', 'group', 'school_id',
+    ];
     /**
      * Get the school record associated with the user.
     */
