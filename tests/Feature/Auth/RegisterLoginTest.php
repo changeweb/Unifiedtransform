@@ -33,7 +33,7 @@ class RegisterLoginTest extends TestCase
         $this->myclass = \App\Myclass::create($this->classData)->first();
 
         $this->sectionData = [
-            'section_number' => 'A',
+            'section_number' => 'B',
             'room_number' => 302,
             'class_id' => $this->myclass->id,
         ];
