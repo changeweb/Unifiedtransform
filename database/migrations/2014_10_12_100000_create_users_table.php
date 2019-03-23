@@ -24,13 +24,13 @@ class CreateUsersTable extends Migration
             $table->integer('school_id');
             $table->integer('code');//given by us
             $table->integer('student_code')->unique();// given by us
-            $table->string('gender');
-            $table->string('blood_group');
-            $table->string('nationality');
-            $table->string('phone_number')->unique();
-            $table->string('address');
-            $table->text('about');
-            $table->string('pic_path');
+            $table->string('gender')->default('');
+            $table->string('blood_group')->default('');
+            $table->string('nationality')->default('');
+            $table->string('phone_number')->unique()->default('');
+            $table->string('address')->default('');
+            $table->text('about')->default('');
+            $table->string('pic_path')->default('');
             $table->tinyInteger('verified');
             $table->integer('section_id')->unsigned();
             $table->timestamps();

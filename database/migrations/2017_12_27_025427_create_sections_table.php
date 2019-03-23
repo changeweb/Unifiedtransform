@@ -18,7 +18,7 @@ class CreateSectionsTable extends Migration
             $table->string('section_number');
             $table->integer('room_number');
             $table->integer('class_id')->unsigned();
-          $table->integer('user_id')->unsigned();
+            $table->integer('user_id')->unsigned()->default(0);
             $table->timestamps();
         });
     }
