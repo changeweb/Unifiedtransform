@@ -14,9 +14,9 @@ class AddTermStartEndDateToExamsTable extends Migration
     public function up()
     {
         Schema::table('exams', function (Blueprint $table) {
-            $table->string('term',20);
-            $table->string('start_date',50);
-            $table->string('end_date',50);
+            $table->string('term',20)->default('');
+            $table->string('start_date',50)->default('');
+            $table->string('end_date',50)->default('');
         });
     }
 

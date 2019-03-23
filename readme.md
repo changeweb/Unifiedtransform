@@ -5,6 +5,7 @@ We like to challenge the quality of what we build to make it better. To do so, w
 ## Contribute
 
 Community contribution can make this product better!!
+- We want testable softwares. So test cases are being written for this app too. You also can contribute by writing test case!
 
 ## License
 
