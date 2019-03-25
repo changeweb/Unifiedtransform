@@ -38,7 +38,7 @@ Here are some basic steps to start using this application
 * Create `.env` file from `.env.example` and generate `APP_KEY` using `php artisan key:generate`
 * Set the database connection configuration in `.env` file
 * To create a `Master`, go to the `database\seeds\UsersTableSeeder.php` and change the `name`, the `email` and the `password` settings to your likings. Leave the other settings (role, active, verfied) unchanged!
-* [Laravel Passport](https://laravel.com/docs/5.5/passport) package is included to support API. If you want to use it then run `php artisan passport:keys` or to remove this package then just follow these steps
+* [Laravel Passport](https://laravel.com/docs/5.5/passport) package is included to support API. To remove this package then just follow these steps:
 
    * Remove it from `composer.json` require dependencies and remove command `@php artisan passport:keys` from `post-install-cmd` script
    * Run `composer update` and `composer dump-autoload`.
