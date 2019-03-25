@@ -40,7 +40,8 @@ Here are some basic steps to start using this application
 * To create a `Master`, go to the `database\seeds\UsersTableSeeder.php` and change the `name`, the `email` and the `password` settings to your likings. Leave the other settings (role, active, verfied) unchanged!
 * [Laravel Passport](https://laravel.com/docs/5.5/passport) package is included to support API. If you want to use it then run `php artisan passport:keys` or to remove this package then just follow these steps
 
-   * Remove it from `composer.json` and run `composer update` and `composer dump-autoload`.
+   * Remove it from `composer.json` require dependencies and remove command `@php artisan passport:keys` from `post-install-cmd` script
+   * Run `composer update` and `composer dump-autoload`.
    * And all classes that relies on passport must be edited as well. The most common classes are:
       * `app\User.php` model, remove the `HasApiToken` trait.
       * `app\Proiders\AuthServiceProvider`, remove `Passport::routes();` in your boot method.

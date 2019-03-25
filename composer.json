@@ -51,6 +51,9 @@
         "post-create-project-cmd": [
             "@php artisan key:generate"
         ],
+        "post-install-cmd": [
+            "@php artisan passport:keys"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover"
