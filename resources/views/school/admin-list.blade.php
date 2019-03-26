@@ -6,6 +6,11 @@
 <div class="container">
     <div class="row">
         <div class="col-md-2" id="side-navbar">
+            @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+            @endif
             <ul class="nav flex-column">
                 <li class="nav-item">
                     <a class="nav-link" href="{{url('create-school')}}"><i class="material-icons">gamepad</i> Manage School</a>
@@ -19,13 +24,21 @@
                 <div class="panel-body">
                     <table class="table">
                     <tr>
+                        <th>Action</th>
                         <th>Name</th>
                         <th>Code</th>
                         <th>Email</th>
                         <th>Phone Number</th>
                     </tr>   
                     @foreach ($admins as $admin)
-                    <tr> 
+                    <tr>
+                        <td>
+                            @if($admin->active == 0)
+                                <a href="{{url('master/activate-admin/'.$admin->id)}}" class="btn btn-success" role="button">Activate</a>
+                            @else
+                                <a href="{{url('master/deactivate-admin/'.$admin->id)}}" class="btn btn-danger" role="button">Deactivate</a>
+                            @endif
+                        </td>
                         <td>
                             {{$admin->name}}
                         </td>

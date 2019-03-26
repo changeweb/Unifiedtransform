@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -43,5 +44,12 @@ class LoginController extends Controller
         $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone_number';
         request()->merge([$field => $login]);
         return $field;
+    }
+
+    public function credentials(Request $request)
+    {
+        $credentials = $request->only($this->username(), 'password');
+        $credentials = array_add($credentials, 'active', '1');
+        return $credentials;
     }
 }
