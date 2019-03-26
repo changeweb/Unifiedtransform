@@ -209,15 +209,16 @@ Route::middleware(['auth','admin'])->group(function (){
   Route::post('register/accountant',  'UserController@storeAccountant');
   Route::post('register/librarian',  'UserController@storeLibrarian');
 
-  Route::get('edit/user/{id}','UserController@edit');
-  Route::post('edit/user','UserController@update');
-
   Route::get('edit/course/{id}','CourseController@edit');
   Route::post('edit/course/{id}','CourseController@updateNameAndTime');
 });
 
+
+
 //use PDF;
 Route::middleware(['auth','master.admin'])->group(function (){
+  Route::get('edit/user/{id}','UserController@edit');
+  Route::post('edit/user','UserController@update');
   Route::post('upload/file', 'UploadController@upload');
 //   Route::get('pdf/profile/{user_id}',function($user_id){
 //     $data = App\User::find($user_id);

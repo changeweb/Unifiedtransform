@@ -116,10 +116,10 @@
                       @endif
                       @if(\Auth::user()->role == 'master')
                         <td>
-                          <a class="btn btn-danger btn-sm" href="{{url('register/admin/'.$school->id.'/'.$school->code)}}"><small>+ Create Admin</small></a>
+                          <a class="btn btn-danger btn-sm" role="button" href="{{url('register/admin/'.$school->id.'/'.$school->code)}}"><small>+ Create Admin</small></a>
                         </td>
                         <td>
-                          <a href="{{url('school/admin-list/'.$school->id)}}"><small>View Admins</small></a>
+                          <a class="btn btn-success btn-sm" role="button" href="{{url('school/admin-list/'.$school->id)}}"><small>View Admins</small></a>
                         </td>
                       @endif
                     </tr>
