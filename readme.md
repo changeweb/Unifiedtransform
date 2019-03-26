@@ -34,6 +34,7 @@ This software has following features:
 ## How to Start
 Here are some basic steps to start using this application
 
+**Note:** Instruction on cached data for Dashboard is given in **Good to know** segment below.
 * Run `php composer.phar install` to install Laravel packages
 * Create `.env` file from `.env.example` and generate `APP_KEY` using `php artisan key:generate`
 * Set the database connection configuration in `.env` file
@@ -65,7 +66,7 @@ Here are some basic steps to start using this application
       ...
 
    In `database\seeds\UsersTableSeeder.php`:
-
+   
       ...
       //factory(App\User::class, 200)->create();
 
@@ -87,6 +88,28 @@ Here are some basic steps to start using this application
 
 * In `.env`, turn `APP_DEBUG` to `false` for production environment.
 * You can switch to and from maintenance mode by running `php artisan up` and `php artisan down`.
+* Dashboard page contents(e.g. Student count, Teacher count, Notice, etc.) are cached because these are not frequently changed. If you don't want these to be cached, just remove the cache lines in `index` method in `app\Http\Controller\HomeController.php`like the following example.
+So your edit would be something like this:
+
+From:
+
+    ...
+    $classes = \Cache::remember('classes', $minutes, function () {
+       return \App\Myclass::where('school_id', \Auth::user()->school->id)
+                            ->pluck('id')
+                            ->toArray();
+    });
+    ...
+    
+To:
+
+    ...
+    $classes = \App\Myclass::where('school_id', \Auth::user()->school->id)
+                            ->pluck('id')
+                            ->toArray();
+    ...
+
+You can do similar for other cache lines.
 
 ## Here are some screenshots:
 
