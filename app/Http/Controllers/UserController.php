@@ -504,6 +504,32 @@ class UserController extends Controller
     }
 
     /**
+     * Activate admin
+    */
+    public function activateAdmin($id){
+      $admin = User::find($id);
+      if($admin->active !== 0)
+        $admin->active = 0;
+      else
+        $admin->active = 1;
+      $admin->save();
+      return back()->with('status', 'Saved');
+    }
+
+    /**
+     * Deactivate admin
+    */
+    public function deactivateAdmin($id){
+      $admin = User::find($id);
+      if($admin->active !== 1)
+        $admin->active = 1;
+      else
+        $admin->active = 0;
+      $admin->save();
+      return back()->with('status', 'Saved');
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
