@@ -3,13 +3,6 @@
 @section('title', 'Manage Schools')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-      @if(\Auth::user()->role != 'master')
-        <div class="col-md-2" id="side-navbar">
-          @include('layouts.leftside-menubar')
-        </div>
-      @endif
         <div class="col-md-{{ (\Auth::user()->role == 'master')? 12 : 10 }}" id="main-container">
             @if (session('status'))
               <div class="alert alert-success">
@@ -230,6 +223,4 @@
               </div>
           </div>
         </div>
-    </div>
-</div>
 @endsection

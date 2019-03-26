@@ -3,11 +3,6 @@
 @section('title', 'All Fees')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2" id="side-navbar">
-            @include('layouts.leftside-menubar')
-        </div>
         <div class="col-md-10" id="main-container">
             <div class="panel panel-default">
                 <div class="page-panel-title">All Fees
@@ -24,8 +19,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
 <script>
 $("#btnPrint").on("click", function () {
     var feesTable = document.createElement('table');

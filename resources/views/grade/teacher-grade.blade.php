@@ -3,74 +3,67 @@
 @section('title', 'Grade')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2">
-          @include('layouts.leftside-menubar')
+    <div class="col-md-10" id="main-container">
+        <div class="panel panel-default">
+          @if(count($grades) > 0)
+            <div class="panel-body">
+                @if (session('status'))
+                    <div class="alert alert-success">
+                        {{ session('status') }}
+                    </div>
+                @endif
+            @foreach ($grades as $grade)
+                <h4>
+                    Marks Given by
+                    @if(count($grades) > 0)
+                        @foreach ($grades as $grade)
+                            <b>Teacher Code</b> - {{$grade->teacher->student_code}} &nbsp;<b>Name</b> - {{$grade->teacher->name}}
+                            @break($loop->first)
+                        @endforeach
+                    @else
+                        No Related Data Found.
+                    @endif
+                </h4>
+                <b>Course - </b> <small>{{$grade->course->course_name}}</small>
+                <b>Class - </b> <small>{{$grade->course->section->class->class_number}}</small> <b>Section - </b> <small>{{$grade->course->section->section_number}}</small> 
+                <b>Exam - </b> <small>{{$grade->exam->exam_name}}</small>
+                @if($grade->course->quiz_count > 0)
+                  <div class="alert alert-info" role="alert">
+                    <ul>
+                      <li>Quiz Counted Best <span class="label label-success">{{$grade->course->quiz_count}}</span></li>
+                    </ul>
+                  </div>
+                @endif
+                @if($grade->course->assignment_count > 0)
+                  <div class="alert alert-info" role="alert">
+                    <ul>
+                      <li>Assignment Counted Best <span class="label label-success">{{$grade->course->assignment_count}}</span></li>
+                    </ul>
+                  </div>
+                @endif
+                @if($grade->course->ct_count > 0)
+                  <div class="alert alert-info" role="alert">
+                    <ul>
+                      <li>Class Test Counted Best <span class="label label-success">{{$grade->course->ct_count}}</span></li>
+                    </ul>
+                  </div>
+                @endif
+                @break($loop->first)
+            @endforeach
+            </div>
+          @else
+            <div class="panel-body">
+                No Related Data Found.
+            </div>
+          @endif
         </div>
-        <div class="col-md-10" id="main-container">
-            <div class="panel panel-default">
-              @if(count($grades) > 0)
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                @foreach ($grades as $grade)
-                    <h4>
-                        Marks Given by
-                        @if(count($grades) > 0)
-                            @foreach ($grades as $grade)
-                                <b>Teacher Code</b> - {{$grade->teacher->student_code}} &nbsp;<b>Name</b> - {{$grade->teacher->name}}
-                                @break($loop->first)
-                            @endforeach
-                        @else
-                            No Related Data Found.
-                        @endif
-                    </h4>
-                    <b>Course - </b> <small>{{$grade->course->course_name}}</small>
-                    <b>Class - </b> <small>{{$grade->course->section->class->class_number}}</small> <b>Section - </b> <small>{{$grade->course->section->section_number}}</small> 
-                    <b>Exam - </b> <small>{{$grade->exam->exam_name}}</small>
-                    @if($grade->course->quiz_count > 0)
-                      <div class="alert alert-info" role="alert">
-                        <ul>
-                          <li>Quiz Counted Best <span class="label label-success">{{$grade->course->quiz_count}}</span></li>
-                        </ul>
-                      </div>
-                    @endif
-                    @if($grade->course->assignment_count > 0)
-                      <div class="alert alert-info" role="alert">
-                        <ul>
-                          <li>Assignment Counted Best <span class="label label-success">{{$grade->course->assignment_count}}</span></li>
-                        </ul>
-                      </div>
-                    @endif
-                    @if($grade->course->ct_count > 0)
-                      <div class="alert alert-info" role="alert">
-                        <ul>
-                          <li>Class Test Counted Best <span class="label label-success">{{$grade->course->ct_count}}</span></li>
-                        </ul>
-                      </div>
-                    @endif
-                    @break($loop->first)
-                @endforeach
-                </div>
-              @else
-                <div class="panel-body">
-                    No Related Data Found.
-                </div>
-              @endif
-            </div>
-            @if(count($grades) > 0)
-              @include('layouts.teacher.grade-table')
-            @else
-              No Related Data Found.
-            @endif
-            </div>
+        @if(count($grades) > 0)
+          @include('layouts.teacher.grade-table')
+        @else
+          No Related Data Found.
+        @endif
         </div>
     </div>
-</div>
 
 <script>
 (function ( $ ) {

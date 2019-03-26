@@ -2,11 +2,6 @@
 @section('title', 'Income List')
 @section('content')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet">
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2" id="side-navbar">
-            @include('layouts.leftside-menubar')
-        </div>
         <div class="col-md-10" id="main-container">
             <div class="panel panel-default">
                 <div class="page-panel-title">View List of Income
@@ -96,8 +91,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 <script>
 $('.datepicker').datepicker({

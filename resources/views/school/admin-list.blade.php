@@ -3,15 +3,6 @@
 @section('title', 'Admins')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-2" id="side-navbar">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url('create-school')}}"><i class="material-icons">gamepad</i> Manage School</a>
-                </li>
-            </ul>
-        </div>
         <div class="col-md-8" id="main-container">
             <h2>Admins</h2>
             <div class="panel panel-default">
@@ -43,6 +34,5 @@
               @endif
             </div>
           </div>
-    </div>
-</div>
+    
 @endsection

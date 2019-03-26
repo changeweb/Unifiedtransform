@@ -3,11 +3,6 @@
 @section('title', 'Attendance')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2" id="side-navbar">
-            @include('layouts.leftside-menubar')
-        </div>
         <div class="col-md-10" id="main-container">
             <ol class="breadcrumb" style="margin-top: 3%;">
                 <li><a href="{{url('school/sections?att=1')}}" style="color:#3b80ef;">All Classes &amp; Sections</a></li>
@@ -39,6 +34,4 @@
                 @endif
             </div>
         </div>
-    </div>
-</div>
 @endsection

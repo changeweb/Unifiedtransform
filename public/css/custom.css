@@ -1,0 +1,64 @@
+.add-btn{
+	position: absolute;
+    text-align: center;
+    bottom: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    background-color: green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin:0 20px 20px 0;
+    border-radius: 30%;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.22), 0 1px 2px rgba(0,0,0,0.24);
+    cursor: pointer;
+    transition: .3s box-shadow ease-in-out;
+}
+
+.add-btn:hover{
+	box-shadow: 0 2px 3px rgba(0,0,0,0.22), 0 2px 4px rgba(0,0,0,0.24);
+	transition: .3s all ease-in-out;
+}
+
+.add-btn a{
+	color: #fff;
+}
+
+.add-btn a:hover{
+	color: #fff;
+	text-decoration: none;
+}
+
+.dt-button{
+	background-color: green !important;
+    background-image: none !important;
+    color: #fff !important;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.22), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.addNewSection{
+	min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.addNewSection i{
+	font-size: 100px;
+    border: 1px solid #5d5d5d;
+    padding: 30px;
+    border-radius: 50%;
+    display: block;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.22), 0 2px 4px rgba(0,0,0,0.24);
+    cursor: pointer;
+}
+
+.addNewSection i:hover{
+    box-shadow: 0 2px 3px rgba(0,0,0,0.22), 0 3px 5px rgba(0,0,0,0.24);
+}
+
+.addNewSection a:hover{
+    text-decoration: none;
+}

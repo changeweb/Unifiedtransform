@@ -1,6 +1,7 @@
 {{$users->links()}}
 <div class="table-responsive">
-<table class="table table-bordered table-data-div table-condensed table-striped table-hover">
+<table class="table table-bordered table-data-div table-condensed table-striped table-hover" 
+        data-url="{{$add_new_url}}">
   <thead>
     <tr>
       <th scope="col">#</th>

@@ -128,16 +128,34 @@
                 </div>
             </div>
         </nav>
-        @yield('content')
+        <div class="container{{ (\Auth::user()->role == 'master')? '' : '-fluid' }}">
+            <div class="row">
+                @if(Auth::user()->role !== 'master')
+                    <div class="col-md-2" id="side-navbar">
+                        @include('layouts.leftside-menubar')
+                    </div>
+                @else
+                    <div class="col-md-2">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{url('create-school')}}"><i class="material-icons">gamepad</i> Manage School</a>
+                            </li>
+                        </ul>
+                    </div>
+                @endif
+                @yield('content')
+            </div>
+        </div>
     </div>
     <!-- Styles -->
     <!-- Latest compiled and minified CSS -->
-    {{--
-    <link rel="stylesheet" href="{{asset('css/bootstrap.min.css') }}" id="bootstrap-print-id"> --}}
+    
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous" id="bootstrap-print-id">
     <link href="{{asset('css/flatly.bootstrap-3.3.7.min.css') }}" rel="stylesheet" id="bootswatch-print-id">
     <link href="{{asset('css/dataTables-1.10.16.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('css/custom.css') }}"> 
 
     <style>
         .navbar-default .navbar-toggle .icon-bar {
@@ -363,6 +381,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/bootstrap-3.3.7.min.js') }}"></script>
     <script src="{{ asset('js/dataTables-1.10.16.min.js') }}"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
     <script src="{{ asset('js/dataTables-1.10.16.bootstrap.min.js') }}"></script>
 
     <script>
@@ -372,6 +391,15 @@
         $(document).ready(function () {
             var myTable = $('.table-data-div').DataTable({
                 paging: false,
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        text: 'Add new',
+                        action: function ( e, dt, node, config ) {
+                            window.location.href = $('.table-data-div').data('url');
+                        }
+                    }
+                ]
             });
         });
         window.addEventListener('load', function () {

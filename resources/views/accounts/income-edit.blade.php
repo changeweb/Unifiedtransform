@@ -1,11 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Edit Income')
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2" id="side-navbar">
-            @include('layouts.leftside-menubar')
-        </div>
         <div class="col-md-8" id="main-container">
             <div class="panel panel-default">
                 <div class="page-panel-title">Edit Income</div>
@@ -71,8 +66,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 <script>
   $(function(){

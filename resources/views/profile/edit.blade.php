@@ -3,23 +3,16 @@
 @section('title', 'Edit')
 
 @section('content')
-<div class="container{{ (\Auth::user()->role == 'master')? '' : '-fluid' }}">
-    <div class="row">
-      @if(\Auth::user()->role != 'master')
-        <div class="col-md-2" id="side-navbar">
-          @include('layouts.leftside-menubar')
-        </div>
-      @endif
         <div class="col-md-{{ (\Auth::user()->role == 'master')? 12 : 8 }}" id="main-container">
             @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
             @if (session('status'))
                 <div class="alert alert-success">
                     {{ session('status') }}
@@ -365,8 +358,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>

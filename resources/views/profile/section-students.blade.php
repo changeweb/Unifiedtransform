@@ -3,11 +3,6 @@
 @section('title', 'Course Students')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2" id="side-navbar">
-            @include('layouts.leftside-menubar')
-        </div>
         <div class="col-md-10" id="main-container">
             <ol class="breadcrumb" style="margin-top: 3%;">
                 @if(isset($_GET['grade']) && $_GET['grade'] == 1)
@@ -49,6 +44,4 @@
               @endif
             </div>
         </div>
-    </div>
-</div>
 @endsection

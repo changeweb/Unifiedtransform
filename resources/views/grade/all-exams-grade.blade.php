@@ -3,11 +3,6 @@
 @section('title', 'Grade')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2" id="side-navbar">
-            @include('layouts.leftside-menubar')
-        </div>
         <div class="col-md-8" id="main-container">
             <h2>Marks and Grades of All Classes</h2>
             <div class="panel panel-default">
@@ -69,6 +64,4 @@
               @endif
             </div>
         </div>
-    </div>
-</div>
 @endsection

@@ -3,18 +3,10 @@
 @section('title', 'Librarians')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2" id="side-navbar">
-            @include('layouts.leftside-menubar')
-        </div>
         <div class="col-md-10" id="main-container">
             <div class="panel panel-default">
               @if(count($users) > 0)
-              @foreach ($users as $user)
-                <div class="page-panel-title">List of all {{ucfirst($user->role)}}s</div>
-                 @break($loop->first)
-              @endforeach
+                <div class="page-panel-title">List of all {{ucfirst($users[0]->role)}}s</div>
                 <div class="panel-body">
                     @if (session('status'))
                         <div class="alert alert-success">
@@ -22,16 +14,19 @@
                         </div>
                     @endif
 
-                    @component('components.users-list',['users'=>$users,'current_page'=>$current_page,'per_page'=>$per_page])
+                    @component('components.users-list',
+                      [
+                        'users'=>$users,
+                        'add_new_url'=> url('register/accountant'),
+                        'current_page'=>$current_page,
+                        'per_page'=>$per_page
+                      ])
                     @endcomponent
                 </div>
               @else
-                <div class="panel-body">
-                    No Related Data Found.
-                </div>
+                @component('components.add-new',['url'=> url('register/librarian')])
+                @endcomponent
               @endif
             </div>
         </div>
-    </div>
-</div>
 @endsection

@@ -3,21 +3,6 @@
 @section('title', 'Change Password')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        @if(Auth::user()->role !== 'master')
-        <div class="col-md-2" id="side-navbar">
-            @include('layouts.leftside-menubar')
-        </div>
-        @else
-        <div class="col-md-2">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url('create-school')}}"><i class="material-icons">gamepad</i> Manage School</a>
-                </li>
-            </ul>
-        </div>
-        @endif
         <div class="col-md-10" id="main-container">
             <div class="panel panel-default">
                 <div class="page-panel-title">
@@ -73,6 +58,4 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
 @endsection
