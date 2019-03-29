@@ -6,7 +6,7 @@ We like to challenge the quality of what we build to make it better. To do so, w
 
 Community contribution can make this product better!!
 - We want testable softwares. So test cases are being written for this app too. You also can contribute by writing test case!
-- To run Feature Tests use `./vendor/bin/phpunit` and to run Browser Tests set `APP_URL` environment variable in your `.env` file. This value should match the URL you use to access your application in a browser. Then run `php artisan dusk`.
+- To run Feature and Unit Tests use `./vendor/bin/phpunit` and to run Browser Tests set `APP_URL` environment variable in your `.env` file. This value should match the URL you use to access your application in a browser. Then run `php artisan dusk`.
 
 ## License
 
@@ -127,7 +127,7 @@ Auto generated fake data were used.
 ![Screenshot_2019-03-12 Attendance - Arvid Marquardt](https://user-images.githubusercontent.com/9896315/54187734-6a62df00-44d8-11e9-9242-78b6fb805eda.png)
 ![Screenshot_2019-03-12 Course - Arvid Marquardt](https://user-images.githubusercontent.com/9896315/54187735-6afb7580-44d8-11e9-99c0-6095b98f432e.png)
 ![Screenshot_2019-03-12 Course Students - Arvid Marquardt(1)](https://user-images.githubusercontent.com/9896315/54187737-6afb7580-44d8-11e9-9bc1-def5aee46e57.png)
-![Screenshot_2019-03-12 Grade - Arvid Marquardt(1)](https://user-images.githubusercontent.com/9896315/54187738-6b940c00-44d8-11e9-9228-b6d044105650.png)
+![Screenshot_2019-03-29 Grade - Deron Ruecker DDS](https://user-images.githubusercontent.com/9896315/55222646-a4511680-5236-11e9-89f0-606df40c1a6b.png)
 ![Screenshot_2019-03-12 Manage Schools - Arvid Marquardt(3)](https://user-images.githubusercontent.com/9896315/54187739-6b940c00-44d8-11e9-83c0-fb06cbd3c316.png)
 ![Screenshot_2019-03-12 Manage Schools - Arvid Marquardt](https://user-images.githubusercontent.com/9896315/54187740-6c2ca280-44d8-11e9-93b1-a998ac1cd585.png)
 ![Screenshot_2019-03-12 Promote Section Students - Arvid Marquardt(1)](https://user-images.githubusercontent.com/9896315/54187741-6c2ca280-44d8-11e9-871a-51148b27c2b4.png)
