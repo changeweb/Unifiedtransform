@@ -50,7 +50,7 @@
                         <b>Percentage Example:</b> Total percentage must be 100%. You can put 100% to a field or distribute it according to your need. Full mark is also needed for Percentage to work.
                       </li>
                       <li>
-                        <b>Full Mark Example:</b> If you take Class Test where full mark is 15, then Full mark for Class Test is 15.
+                        <b>Full Mark Example:</b> If you take a Class Test where full mark is 15, then Full mark for Class Test is 15.
                       </li>
                     </ul>
                   </div>
@@ -178,7 +178,9 @@
                   @endforeach
                   <input type="hidden" name="exam_id" value="{{$exam_id}}">
                   <input type="hidden" name="teacher_id" value="{{$teacher_id}}">
-                  <input type="submit" class="btn btn-info btn-xs pull-right" value="Get Total Marks">
+                  <button type="submit" class="btn btn-info btn-xs pull-right">
+                    <span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span> Get Total Marks
+                  </button>
                 </form>
               </div>
               <div class="panel-body">
