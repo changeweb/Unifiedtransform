@@ -4,13 +4,6 @@
 
 @section('content')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet">
-<div class="container{{ (\Auth::user()->role == 'master')? '' : '-fluid' }}">
-    <div class="row">
-      @if(\Auth::user()->role != 'master')
-        <div class="col-md-2" id="side-navbar">
-          @include('layouts.leftside-menubar')
-        </div>
-      @endif
         <div class="col-md-{{ (\Auth::user()->role == 'master')? 12 : 8 }}" id="main-container">
             @if (session('status'))
                 <div class="alert alert-success">
@@ -606,8 +599,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 <script>

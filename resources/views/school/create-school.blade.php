@@ -171,7 +171,7 @@
                   </tbody>
                 </table>
                 <br>
-                @if(\Auth::user()->role == 'admin' && \Auth::user()->school_id == $school->id)
+                @if(\Auth::user()->role == 'admin')
                 <h4>Add Users</h4>
                 <table class="table table-condensed" style="width:600px">
                   <thead>
