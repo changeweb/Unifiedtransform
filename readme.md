@@ -4,7 +4,7 @@ We like to challenge the quality of what we build to make it better. To do so, w
 
 ## Contribute
 
-Community contribution can make this product better!! See [Contribution guideline](Unifiedtransform/CONTRIBUTING.md) before making any Pull request
+Community contribution can make this product better!! See [Contribution guideline](https://github.com/changeweb/Unifiedtransform/blob/master/CONTRIBUTING.md) before making any Pull request
 - We want testable softwares. So test cases are being written for this app too. You also can contribute by writing test case!
 - To run Feature and Unit Tests use `./vendor/bin/phpunit` and to run Browser Tests set `APP_URL` environment variable in your `.env` file. This value should match the URL you use to access your application in a browser. Then run `php artisan dusk`.
 
