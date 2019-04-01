@@ -7,6 +7,7 @@
     "require": {
         "php": ">=7.0.0",
         "fideloper/proxy": "~3.3",
+        "friendsofphp/php-cs-fixer": "^2.14",
         "jdavidbakr/laravel-cache-garbage-collector": "^1.0",
         "laravel/framework": "5.5.*",
         "laravel/passport": "^4.0",
