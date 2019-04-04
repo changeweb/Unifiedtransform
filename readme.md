@@ -31,6 +31,15 @@ This software has following features:
 - Laravel 5.5
 - Bootstrap 3.3.7
 
+## Server Requirements
+
+- PHP >= 7.0.0
+- OpenSSL PHP Extension
+- PDO PHP Extension
+- Mbstring PHP Extension
+- Tokenizer PHP Extension
+- XML PHP Extension
+
 ## How to Start
 Here are some basic steps to start using this application
 
