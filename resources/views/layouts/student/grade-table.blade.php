@@ -57,8 +57,6 @@
               @if($grade->marks >= $gs->from_mark && $grade->marks <= $gs->to_mark)
                 <b>{{$gs->grade}}</b>
                 @break
-              @else
-                No Grade
               @endif
             @endforeach
           </td>
@@ -94,8 +92,6 @@
          @if($grade->marks >= $gs->from_mark && $grade->marks <= $gs->to_mark)
             <b>{{$gs->grade}}</b>
             @break
-          @else
-            No Grade
           @endif
         @endforeach
       </td>
