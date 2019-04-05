@@ -28,36 +28,36 @@ class HomeController extends Controller
       } else {
         $minutes = 1440;// 24 hours = 1440 minutes
         $school_id = \Auth::user()->school->id;
-        $classes = \Cache::remember('classes-'.$school_id, $minutes, function () {
+        $classes = \Cache::remember('classes-'.$school_id, $minutes, function () use($school_id) {
           return \App\Myclass::where('school_id', $school_id)
                             ->pluck('id')
                             ->toArray();
         });
-        $totalStudents = \Cache::remember('totalStudents-'.$school_id, $minutes, function () {
+        $totalStudents = \Cache::remember('totalStudents-'.$school_id, $minutes, function () use($school_id) {
           return \App\User::where('school_id',$school_id)
                           ->where('role','student')
                           ->count();
         });
-        $totalTeachers = \Cache::remember('totalTeachers-'.$school_id, $minutes, function () {
+        $totalTeachers = \Cache::remember('totalTeachers-'.$school_id, $minutes, function () use($school_id) {
           return \App\User::where('school_id',$school_id)
                           ->where('role','teacher')
                           ->count();
         });
-        $totalBooks = \Cache::remember('totalBooks-'.$school_id, $minutes, function () {
+        $totalBooks = \Cache::remember('totalBooks-'.$school_id, $minutes, function () use($school_id) {
           return \App\Book::where('school_id',$school_id)->count();
         });
-        $totalClasses = \Cache::remember('totalClasses-'.$school_id, $minutes, function () {
+        $totalClasses = \Cache::remember('totalClasses-'.$school_id, $minutes, function () use($school_id) {
           return \App\Myclass::where('school_id',$school_id)->count();
         });
         $totalSections = \Cache::remember('totalSections-'.$school_id, $minutes, function () use ($classes) {
           return \App\Section::whereIn('class_id', $classes)->count();
         });
-        $notices = \Cache::remember('notices-'.$school_id, $minutes, function () {
+        $notices = \Cache::remember('notices-'.$school_id, $minutes, function () use($school_id) {
           return \App\Notice::where('school_id', $school_id)
                             ->where('active',1)
                             ->get();
         });
-        $events = \Cache::remember('events-'.$school_id, $minutes, function () {
+        $events = \Cache::remember('events-'.$school_id, $minutes, function () use($school_id) {
           return \App\Event::where('school_id', $school_id)
                           ->where('active',1)
                           ->get();
@@ -67,12 +67,12 @@ class HomeController extends Controller
                             ->where('active',1)
                             ->get();
         });
-        $syllabuses = \Cache::remember('syllabuses-'.$school_id, $minutes, function () {
+        $syllabuses = \Cache::remember('syllabuses-'.$school_id, $minutes, function () use($school_id) {
           return \App\Syllabus::where('school_id', $school_id)
                               ->where('active',1)
                               ->get();
         });
-        $exams = \Cache::remember('exams-'.$school_id, $minutes, function () {
+        $exams = \Cache::remember('exams-'.$school_id, $minutes, function () use($school_id) {
           return \App\Exam::where('school_id', $school_id)
                           ->where('active',1)
                           ->get();
