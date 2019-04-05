@@ -62,7 +62,7 @@ class HomeController extends Controller
                           ->where('active',1)
                           ->get();
         });
-        $routines = \Cache::remember('routines-'.$school_id, $minutes, function () {
+        $routines = \Cache::remember('routines-'.$school_id, $minutes, function () use($school_id) {
           return \App\Routine::where('school_id', $school_id)
                             ->where('active',1)
                             ->get();
