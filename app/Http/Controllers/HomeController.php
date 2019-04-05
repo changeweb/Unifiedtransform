@@ -36,11 +36,13 @@ class HomeController extends Controller
         $totalStudents = \Cache::remember('totalStudents-'.$school_id, $minutes, function () use($school_id) {
           return \App\User::where('school_id',$school_id)
                           ->where('role','student')
+                          ->where('active', 1)
                           ->count();
         });
         $totalTeachers = \Cache::remember('totalTeachers-'.$school_id, $minutes, function () use($school_id) {
           return \App\User::where('school_id',$school_id)
                           ->where('role','teacher')
+                          ->where('active', 1)
                           ->count();
         });
         $totalBooks = \Cache::remember('totalBooks-'.$school_id, $minutes, function () use($school_id) {

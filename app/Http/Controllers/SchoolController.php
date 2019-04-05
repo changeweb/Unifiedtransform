@@ -18,7 +18,10 @@ class SchoolController extends Controller
       $schools = School::all();
       $classes = \App\Myclass::all();
       $sections = \App\Section::all();
-      $teachers = \App\User::where('role', 'teacher.department')->orderBy('name','ASC')->get();
+      $teachers = \App\User::where('role', 'teacher.department')
+                            ->orderBy('name','ASC')
+                            ->where('active', 1)
+                            ->get();
       $departments = \App\Department::where('school_id',\Auth::user()->school_id)->get();
       return view('school.create-school', [
         'schools'=>$schools,

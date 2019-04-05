@@ -42,6 +42,7 @@ class UserController extends Controller
             $users = User::with(['section.class', 'school', 'studentInfo'])
                 ->where('code', $school_code)
                 ->where('role', 'student')
+                ->where('active', 1)
                 ->orderBy('name', 'asc')
                 ->paginate(50);
 
@@ -54,6 +55,7 @@ class UserController extends Controller
             $users = User::with(['section', 'school'])
                 ->where('code', $school_code)
                 ->where('role', 'teacher')
+                ->where('active', 1)
                 ->orderBy('name', 'asc')
                 ->paginate(50);
 
@@ -76,6 +78,7 @@ class UserController extends Controller
             $users = User::with('school')
                 ->where('code', $school_code)
                 ->where('role', 'accountant')
+                ->where('active', 1)
                 ->orderBy('name', 'asc')
                 ->paginate(50);
 
@@ -88,6 +91,7 @@ class UserController extends Controller
             $users = User::with('school')
                 ->where('code', $school_code)
                 ->where('role', 'librarian')
+                ->where('active', 1)
                 ->orderBy('name', 'asc')
                 ->paginate(50);
 
@@ -147,6 +151,7 @@ class UserController extends Controller
         if ($section_id > 0) {
             $students = User::with('section', 'studentInfo')
                 ->where('section_id', $section_id)
+                ->where('active', 1)
                 ->get();
             $classes = Myclass::with('sections')
                 ->where('school_id', Auth::user()->school_id)
@@ -170,12 +175,15 @@ class UserController extends Controller
     public function promoteSectionStudentsPost(Request $request)
     {
         if ($request->section_id > 0) {
-            $students = User::where('section_id', $request->section_id)->get();
+            $students = User::where('section_id', $request->section_id)
+                ->where('active', 1)
+                ->get();
             $i = 0;
             foreach ($students as $student) {
                 $st[] = [
                     'id' => $student->id,
                     'section_id' => $request->to_section[$i],
+                    'active' => isset($request["left_school$i"])?0:1,
                 ];
 
                 $st2[] = [
@@ -185,12 +193,11 @@ class UserController extends Controller
 
                 ++$i;
             }
-
             DB::transaction(function () use ($st, $st2) {
                 $table1 = 'users';
-                Batch::update($table1, $st, 'id');
+                \Batch::update($table1, $st, 'id');
                 $table2 = 'student_infos';
-                Batch::update($table2, $st2, 'student_id');
+                \Batch::update($table2, $st2, 'student_id');
             });
 
             return back()->with('status', 'Saved');
@@ -208,6 +215,7 @@ class UserController extends Controller
         //$user = User::with('section')->where('code', Auth::user()->code)->where('student_code', $student_code)->first();
         $user = User::with('section', 'studentInfo')
               ->where('student_code', $user_code)
+              ->where('active', 1)
               ->first();
 
         return view('profile.user', ['user' => $user]);

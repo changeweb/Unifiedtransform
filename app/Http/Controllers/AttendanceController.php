@@ -23,6 +23,7 @@ class AttendanceController extends Controller
                     ->select('id','name','student_code','section_id')
                     ->where('section_id', $section_id)
                     ->where('role', 'student')
+                    ->where('active', 1)
                     ->get();
         $attendances = Attendance::where('section_id', $section_id)
                       ->whereDate('created_at', \DB::raw('CURDATE()'))
@@ -54,7 +55,10 @@ class AttendanceController extends Controller
                       ->where('student_id', $student_id)
                       ->get();
         } else {
-          $student = User::with('section')->where('id',$student_id)->first();
+          $student = User::with('section')
+                    ->where('id',$student_id)
+                    ->where('active', 1)
+                    ->first();
           $exam = \App\ExamForClass::where('class_id',$student->section->class->id)->first();
           
           if(count($exam) == 1)
@@ -71,7 +75,10 @@ class AttendanceController extends Controller
     }
 
     public function adjust($student_id){
-      $student = User::with('section')->where('id',$student_id)->first();
+      $student = User::with('section')
+                      ->where('id',$student_id)
+                      ->where('active', 1)
+                      ->first();
       $exam = \App\ExamForClass::where('class_id',$student->section->class->id)->first();
       if(count($exam) == 1)
         $exId = $exam->exam_id;
@@ -111,6 +118,7 @@ class AttendanceController extends Controller
                     ->select('id','name','student_code','section_id')
                     ->where('section_id', $section_id)
                     ->where('role', 'student')
+                    ->where('active', 1)
                     ->get();
         $attendances = Attendance::where('section_id', $section_id)
                       ->whereDate('created_at', \DB::raw('CURDATE()'))
@@ -141,6 +149,7 @@ class AttendanceController extends Controller
       $users = User::with(['section','school','studentInfo'])
               ->where('section_id', $section_id)
               ->where('role', 'student')
+              ->where('active', 1)
               ->orderBy('name', 'asc')
               ->paginate(50);
 
