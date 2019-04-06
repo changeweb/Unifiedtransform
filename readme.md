@@ -92,6 +92,8 @@ and may need to run `php artisan vendor:publish --provider="RenatoMarinho\Larave
       //factory(App\User::class, 200)->create();
 
 
+* [Laravel 5 log viewer](https://github.com/rap2hpoutre/laravel-log-viewer) is used to view Logs using a UI at 'example.com/logs' while in development environment.
+
 ## Create a school and an admin
 
 * Important: only a `master` can create a new school and its admins!
@@ -108,6 +110,7 @@ and may need to run `php artisan vendor:publish --provider="RenatoMarinho\Larave
 ## Good to know
 
 * In `.env`, turn `APP_DEBUG` to `false` for production environment.
+* Remove `Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');` from `routes/web.php` while in Production Environment.
 * You can switch to and from maintenance mode by running `php artisan up` and `php artisan down`.
 * Dashboard page contents(e.g. Student count, Teacher count, Notice, etc.) are cached because these are not frequently changed. If you don't want these to be cached, just remove the cache lines in `index` method in `app\Http\Controller\HomeController.php`like the following example.
 So your edit would be something like this:
