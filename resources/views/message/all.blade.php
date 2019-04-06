@@ -57,7 +57,7 @@
                                             @else
                                                 <span class="label label-default">Seen</span></strong>
                                             @endif
-                                        <p class="notification-desc">{{$message->message}}</p>
+                                        <p class="notification-desc">{!!$message->message!!}</p>
 
                                         <div class="notification-meta">
                                             <small class="timestamp">{{$message->created_at}}</small>
