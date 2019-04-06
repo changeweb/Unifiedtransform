@@ -24,7 +24,7 @@ This software has following features:
 - Exam
 - Grade
 - Accounts
-- Messaging
+- Messaging (uses CKEditor 5)
 
 ## Framework used
 
