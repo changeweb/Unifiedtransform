@@ -4,7 +4,7 @@ We like to challenge the quality of what we build to make it better. To do so, w
 
 ## Featured on Laravel News !!
 ![Screenshot_2019-04-07 Laravel News](https://user-images.githubusercontent.com/9896315/55683832-1b3c8c80-5966-11e9-8dfb-ab30a79a98ed.png)
-
+See the news [here](https://laravel-news.com/unified-transform-open-source-school-management-platform)
 ## Contribute
 
 Community contribution can make this product better!! See [Contribution guideline](https://github.com/changeweb/Unifiedtransform/blob/master/CONTRIBUTING.md) before making any Pull request
