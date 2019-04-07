@@ -7,7 +7,7 @@ trait GradeTrait {
     public function addStudentsToCourse($teacher_id,$course_id,$exam_id,$section_id) {
         $countGradeIds = Grade::where('course_id', $course_id)->where('exam_id', $exam_id)->count();
         if($countGradeIds < 1){
-            $students = \App\User::where('section_id',$section_id)->where('active',1)->pluck('id')->toArray();
+            $students = \App\User::where('section_id',$section_id)->where('role','student')->where('active',1)->pluck('id')->toArray();
 
             $grades = Grade::whereIn('student_id',$students)->where('course_id',$course_id)->where('exam_id',$exam_id)->pluck('student_id')->toArray();
 
