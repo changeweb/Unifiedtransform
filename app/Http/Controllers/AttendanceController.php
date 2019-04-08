@@ -19,6 +19,7 @@ class AttendanceController extends Controller
     public function index($section_id, $student_id, $exam_id)
     {
       if($section_id > 0 && \Auth::user()->role != 'student'){
+        // View attendances of students of a section
         $students = User::with('section')
                     ->select('id','name','student_code','section_id')
                     ->where('section_id', $section_id)
@@ -49,31 +50,38 @@ class AttendanceController extends Controller
           'exam_id'=>$exam_id
         ]);
       } else {
+        // View attendance of a single student by student id
         if(\Auth::user()->role == 'student'){
+          // From student view
           $exam = \App\ExamForClass::where('class_id',\Auth::user()->section->class->id)->first();
           $attendances = Attendance::with(['student', 'section'])
                       ->where('student_id', $student_id)
                       ->get();
         } else {
+          // From other users view
           $student = User::with('section')
-                    ->where('id',$student_id)
+                    ->where('id', $student_id)
+                    ->where('role', 'student')
                     ->where('active', 1)
                     ->first();
           $exam = \App\ExamForClass::where('class_id',$student->section->class->id)->first();
-          
-          if(count($exam) == 1)
-            $exId = $exam->exam_id;
-          else
-            $exId = 0;
-          $attendances = Attendance::with(['student', 'section'])
+        }
+        if($exam)
+          $exId = $exam->exam_id;
+        else
+          $exId = 0;
+        $attendances = Attendance::with(['student', 'section'])
                       ->where('student_id', $student_id)
                       ->where('exam_id', $exId)
                       ->get();
-        }
         return view('attendance.student-attendances',['attendances' => $attendances]);
       }
     }
-
+    /**
+     * View for Adjust missing Attendances
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function adjust($student_id){
       $student = User::with('section')
                       ->where('id',$student_id)
@@ -91,7 +99,11 @@ class AttendanceController extends Controller
                       ->get();
       return view('attendance.adjust',['attendances'=>$attendances,'student_id'=>$student_id]);
     }
-
+    /**
+     * @param Request $request
+     * Adjust missing Attendances POST request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function adjustPost(Request $request){
       $request->validate([
         'att_id' => 'required|array',
@@ -110,7 +122,9 @@ class AttendanceController extends Controller
         return false;
       }
     }
-
+    /*
+    * Add students to a Course before taking attendances
+    */
     public function addStudentsToCourseBeforeAtt($teacher_id,$course_id,$exam_id,$section_id){
       $this->addStudentsToCourse($teacher_id,$course_id,$exam_id,$section_id);
        
