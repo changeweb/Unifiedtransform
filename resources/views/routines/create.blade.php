@@ -20,7 +20,7 @@
                     @endif
                     @component('components.file-uploader',['upload_type'=>'routine'])
                     @endcomponent
-                    @component('components.uploaded-files-list',['files'=>$files,'upload_type'=>'routine'])
+                    @component('components.uploaded-files-list',['files'=>$files,'parent'=>($section_id !== 0)?'section':'','upload_type'=>'routine'])
                     @endcomponent
                 </div>
             </div>

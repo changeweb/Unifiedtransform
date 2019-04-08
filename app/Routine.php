@@ -13,4 +13,11 @@ class Routine extends Model
     {
         return $this->belongsTo('App\School');
     }
+    /**
+     * Get the Section record associated with the Routine.
+    */
+    public function section()
+    {
+        return $this->belongsTo('App\Section');
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Syllabus as Syllabus;
 use App\Http\Resources\SyllabusResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class SyllabusController extends Controller
 {
@@ -15,7 +16,11 @@ class SyllabusController extends Controller
      */
      public function index()
      {
-      //return view('syllabus.course-syllabus');
+        $files = Syllabus::with('myclass')
+                          ->where('school_id',\Auth::user()->school_id)
+                          ->where('active',1)
+                          ->get();
+        return view('syllabus.course-syllabus',['files'=>$files,'class_id' => 0]);
      }
 
     /**
@@ -23,10 +28,23 @@ class SyllabusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(int $class_id)
     {
-      $files = Syllabus::where('school_id',\Auth::user()->school_id)->where('active',1)->get();
-      return view('syllabus.course-syllabus',['files'=>$files]);
+      try{
+        if(Schema::hasColumn('syllabuses','class_id')){
+          $files = Syllabus::with('myclass')
+                          ->where('school_id',\Auth::user()->school_id)
+                          ->where('class_id', $class_id)
+                          ->where('active',1)
+                          ->get();
+        } else {
+          return '<code>class_id</code> column missing. Run <code>php artisan migrate</code>';
+        }
+      } catch(Exception $ex){
+        return 'Something went wrong!!';
+      }
+      
+      return view('syllabus.course-syllabus',['files'=>$files,'class_id'=>$class_id]);
     }
 
     /**

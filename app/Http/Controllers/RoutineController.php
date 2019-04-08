@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Routine as Routine;
 use App\Http\Resources\RoutineResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class RoutineController extends Controller
 {
@@ -13,12 +14,13 @@ class RoutineController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-     public function index($class_id)
+     public function index()
      {
-       return ($class_id > 0)? RoutineResource::collection(Routine::where('class_id', $class_id)->get()):response()->json([
-         'Invalid Class id: '. $class_id,
-         404
-       ]);
+       $files = Routine::with('section')
+                        ->where('school_id',\Auth::user()->school_id)
+                        ->where('active',1)
+                        ->get();
+        return view('routines.create',['files'=>$files,'section_id' => 0]);
      }
 
     /**
@@ -26,10 +28,22 @@ class RoutineController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(int $section_id)
     {
-      $files = Routine::where('school_id',\Auth::user()->school_id)->where('active',1)->get();
-      return view('routines.create',['files'=>$files]);
+      try{
+        if(Schema::hasColumn('routines','section_id')){
+          $files = Routine::with('section')
+                          ->where('school_id',\Auth::user()->school_id)
+                          ->where('section_id', $section_id)
+                          ->where('active',1)
+                          ->get();
+        } else {
+          return '<code>section_id</code> column missing. Run <code>php artisan migrate</code>';
+        }
+      } catch(Exception $ex){
+        return 'Something went wrong!!';
+      }
+      return view('routines.create',['files'=>$files,'section_id'=>$section_id]);
     }
 
     /**
