@@ -100,7 +100,7 @@ class AttendanceController extends Controller
       return view('attendance.adjust',['attendances'=>$attendances,'student_id'=>$student_id]);
     }
     /**
-     * @param Request $request
+     * @param  \Illuminate\Http\Request  $request
      * Adjust missing Attendances POST request
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -122,8 +122,9 @@ class AttendanceController extends Controller
         return false;
       }
     }
-    /*
-    * Add students to a Course before taking attendances
+    /**
+      * Add students to a Course before taking attendances
+      * @return \Illuminate\Http\Response
     */
     public function addStudentsToCourseBeforeAtt($teacher_id,$course_id,$exam_id,$section_id){
       $this->addStudentsToCourse($teacher_id,$course_id,$exam_id,$section_id);
@@ -158,7 +159,11 @@ class AttendanceController extends Controller
           'exam_id'=>$exam_id
         ]);
     }
-
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     * View students of a section to view attendances
+     * @return \Illuminate\Http\Response
+    */
     public function sectionIndex(Request $request, $section_id){
       $users = User::with(['section','school','studentInfo'])
               ->where('section_id', $section_id)

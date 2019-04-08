@@ -5,20 +5,21 @@ use App\Grade as Grade;
 
 trait GradeTrait {
     public function addStudentsToCourse($teacher_id,$course_id,$exam_id,$section_id) {
-        $countGradeIds = Grade::where('course_id', $course_id)->where('exam_id', $exam_id)->count();
-        if($countGradeIds < 1){
-            $students = \App\User::where('section_id',$section_id)->where('role','student')->where('active',1)->pluck('id')->toArray();
-
-            $grades = Grade::whereIn('student_id',$students)->where('course_id',$course_id)->where('exam_id',$exam_id)->pluck('student_id')->toArray();
-
-            $grade_student_ids = array();
-
-            foreach($grades as $grade){
-                array_push($grade_student_ids, $grade->student_id);
-            }
+        // Check whether desired Course for a certain Examination are added in order to give marks or not
+        $countGradeIds = Grade::where('course_id', $course_id)
+                                ->where('exam_id', $exam_id)
+                                ->count();
+        if($countGradeIds < 1){// Not added
+            // Get student ids of that section
+            $students = \App\User::where('section_id',$section_id)
+                                    ->where('role','student')
+                                    ->where('active',1)
+                                    ->pluck('id')
+                                    ->toArray();
 
             foreach($students as $student_id){
                 if(!in_array($student_id,$grades)){
+                    // Put default values
                     $tb = new Grade;
                     $tb->gpa = 0;
                     $tb->marks = 0;
@@ -45,17 +46,20 @@ trait GradeTrait {
                     $tb->course_id = $course_id;
                     $tb->created_at = date('Y-m-d H:i:s');
                     $tb->updated_at = date('Y-m-d H:i:s');
-                    //$tb->user_id = \Auth::user()->id;
+                    //$tb->user_id = \Auth::user()->id; // User id who is logged in while this command executes
                     $tbc[] = $tb->attributesToArray();
                 }
             }
             try{
                 if(count($tbc) > 0)
+                    // Insert students of that section to give marks later for this course and Examination
                     Grade::insert($tbc);
                     return;
             }catch(\Exception $e){
                 return false;
             }
+        } else {// Added desired course for desired exam
+            return true;
         }
     }
 }
