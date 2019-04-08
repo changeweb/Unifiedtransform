@@ -29,7 +29,7 @@
                                     </div>
                                     @if(isset($_GET['course']) && $_GET['course'] == 1)
                                     <div class="col-md-4">
-                                        <a role="button" class="btn btn-info btn-xs" href="{{url('academic/syllabus')}}"><i class="material-icons">visibility</i> View Syllabus for this Class</a>
+                                        <a role="button" class="btn btn-info btn-xs" href="{{url('academic/syllabus/'.$class->id)}}"><i class="material-icons">visibility</i> View Syllabus for this Class</a>
                                     </div>
                                     @endif
                                 </div>
@@ -95,7 +95,7 @@
                                                 <a role="button" class="btn btn-danger btn-xs" href="{{url('section/students/'.$section->id.'?section=1')}}"><i class="material-icons">visibility</i> View Students of this section</a>
                                             </td>
                                             <td>
-                                                <a role="button" class="btn btn-primary btn-xs" href="{{url('academic/routine')}}"><i class="material-icons">visibility</i> View Routines for this section</a>
+                                                <a role="button" class="btn btn-primary btn-xs" href="{{url('academic/routine/'.$section->id)}}"><i class="material-icons">visibility</i> View Routines for this section</a>
                                             </td>
                                             @endif
                                             </tr>

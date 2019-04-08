@@ -9,6 +9,7 @@ $factory->define(App\Routine::class, function (Faker $faker) {
         'description' => $faker->sentences(3, true),
         'active' => $faker->randomElement([0, 1]),
         'school_id' => $faker->randomElement(App\School::pluck('id')->toArray()),
+        'section_id' => $faker->randomElement(App\Section::pluck('id')->toArray()),
         'user_id' =>  $faker->randomElement(App\User::pluck('id')->toArray()),
     ];
 });

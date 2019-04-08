@@ -104,10 +104,12 @@ Route::middleware(['auth','teacher'])->group(function (){
 });
 
 Route::middleware(['auth','admin'])->group(function (){
-  Route::get('academic/syllabus', 'SyllabusController@create');
+  Route::get('academic/syllabus', 'SyllabusController@index');
+  Route::get('academic/syllabus/{class_id}', 'SyllabusController@create');
   Route::get('academic/notice', 'NoticeController@create');
   Route::get('academic/event', 'EventController@create');
-  Route::get('academic/routine', 'RoutineController@create');
+  Route::get('academic/routine', 'RoutineController@index');
+  Route::get('academic/routine/{section_id}', 'RoutineController@create');
   Route::get('academic/remove/syllabus/{id}', 'SyllabusController@update');
   Route::get('academic/remove/notice/{id}', 'NoticeController@update');
   Route::get('academic/remove/event/{id}', 'EventController@update');
