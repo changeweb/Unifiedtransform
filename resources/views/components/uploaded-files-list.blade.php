@@ -7,8 +7,7 @@
         @if($upload_type == 'syllabus' && $parent == 'class')
           <th scope="col">Class</th>
         @elseif($upload_type == 'routine' && $parent == 'section')
-          <th scope="col">
-            section</th>
+          <th scope="col">section</th>
         @endif
         <th scope="col">Is Active</th>
         <th scope="col">Action</th>
