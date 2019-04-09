@@ -114,6 +114,7 @@ and may need to run `php artisan vendor:publish --provider="RenatoMarinho\Larave
 
 * In `.env`, turn `APP_DEBUG` to `false` for production environment.
 * Remove `Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');` from `routes/web.php` while in Production Environment.
+* `Cache::remember()` generates cache files. To delete expired cache files [LaravelCacheGarbageCollector](https://github.com/jdavidbakr/laravel-cache-garbage-collector) package is used. Run `php artisan cache:gc`.
 * You can switch to and from maintenance mode by running `php artisan up` and `php artisan down`.
 * Dashboard page contents(e.g. Student count, Teacher count, Notice, etc.) are cached because these are not frequently changed. If you don't want these to be cached, just remove the cache lines in `index` method in `app\Http\Controller\HomeController.php`like the following example.
 So your edit would be something like this:
