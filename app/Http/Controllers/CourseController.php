@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Course as Course;
 use App\Http\Resources\CourseResource;
 use Illuminate\Http\Request;
+use App\Http\Requests\Course\SaveConfigurationRequest;
 use App\Http\Traits\GradeTrait;
 
 class CourseController extends Controller
@@ -106,25 +107,11 @@ class CourseController extends Controller
       return back()->with('status', 'Created');
     }
 
-    public function saveConfiguration(Request $request){
-      $request->validate([
-        'grade_system_name' => 'required|string',
-        'quiz_count' => 'required|numeric|min:0|max:5',
-        'assignment_count' => 'required|numeric|min:0|max:3',
-        'ct_count' => 'required|numeric|min:0|max:5',
-        'quiz_perc' => 'required|numeric|min:0|max:100',
-        'attendance_perc' => 'required|numeric|min:0|max:100',
-        'assign_perc' => 'required|numeric|min:0|max:100',
-        'ct_perc' => 'required|numeric|min:0|max:100',
-        'final_perc' => 'required|numeric|min:0|max:100',
-        'practical_perc' => 'required|numeric|min:0|max:100',
-        'att_fullmark' => 'required|numeric|min:0|max:100',
-        'quiz_fullmark' => 'required|numeric|min:0|max:100',
-        'assignment_fullmark' => 'required|numeric|min:0|max:100',
-        'ct_fullmark' => 'required|numeric|min:0|max:100',
-        'final_fullmark' => 'required|numeric|min:0|max:100',
-        'practical_fullmark' => 'required|numeric|min:0|max:100',
-      ]);
+    /**
+     * @param SaveConfigurationRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function saveConfiguration(SaveConfigurationRequest $request){
       $tb = Course::find($request->course_id);
       $tb->grade_system_name = $request->grade_system_name;
       $tb->quiz_count = $request->quiz_count;
