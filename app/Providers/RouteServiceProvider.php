@@ -23,7 +23,18 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Route::patterns([
+            'teacher_id' => '[0-9]+',
+            'course_id' => '[0-9]+',
+            'exam_id' => '[0-9]+',
+            'section_id' => '[0-9]+',
+            'student_id' => '[0-9]+',
+            'school_code' => '[0-9]+',
+            'user_code' => '[0-9]+',
+            'id' => '[0-9]+',
+            'code' => '[0-9]+',
+            'role' => '[a-z]+',
+        ]);
 
         parent::boot();
     }
