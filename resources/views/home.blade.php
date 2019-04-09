@@ -82,7 +82,7 @@
                             @if(count($notices) > 0)
                               <div class="list-group">
                               @foreach($notices as $notice)
-                                <a href="{{ url($notice->file_path)}}" class="list-group-item" target="_blank">{{$notice->title}}</a>
+                                <a href="{{url($notice->file_path)}}" class="list-group-item" download>{{$notice->title}}</a>
                               @endforeach
                               </div>
                             @else
@@ -100,7 +100,7 @@
                             @if(count($events) > 0)
                               <div class="list-group">
                               @foreach($events as $event)
-                                <a href="{{ url($event->file_path)}}" class="list-group-item" target="_blank">{{$event->title}}</a>
+                                <a href="{{url($event->file_path)}}" class="list-group-item" download>{{$event->title}}</a>
                               @endforeach
                               </div>
                             @else
@@ -116,7 +116,7 @@
                             @if(count($routines) > 0)
                               <div class="list-group">
                               @foreach($routines as $routine)
-                                <a href="{{ url($routine->file_path)}}" class="list-group-item" target="_blank">{{$routine->title}}</a>
+                                <a href="{{url($routine->file_path)}}" class="list-group-item" download>{{$routine->title}}</a>
                               @endforeach
                               </div>
                             @else
@@ -132,7 +132,7 @@
                             @if(count($syllabuses) > 0)
                               <div class="list-group">
                                 @foreach($syllabuses as $syllabus)
-                                <a href="{{ url($syllabus->file_path)}}" class="list-group-item" target="_blank">{{$syllabus->title}}</a>
+                                <a href="{{url($syllabus->file_path)}}" class="list-group-item" download>{{$syllabus->title}}</a>
                                 @endforeach
                               </div>
                             @else
