@@ -33,6 +33,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get( '/_debugbar/assets/stylesheets', '\Barryvdh\Debugbar\Controllers\AssetController@css' );
+Route::get( '/_debugbar/assets/javascript', '\Barryvdh\Debugbar\Controllers\AssetController@js' );
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
