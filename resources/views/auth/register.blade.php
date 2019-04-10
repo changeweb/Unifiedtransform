@@ -23,6 +23,10 @@
             @if (session('status'))
             <div class="alert alert-success">
                 {{ session('status') }}
+                {{-- Display View admin links --}}
+                @if (session('register_school_id'))
+                    <a href="{{ url('school/admin-list/' . session('register_school_id')) }}" target="_blank" class="text-white pull-right">View Admins</a>
+                @endif
             </div>
             @endif
             <div class="panel panel-default">
