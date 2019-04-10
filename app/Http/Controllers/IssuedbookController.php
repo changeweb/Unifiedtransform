@@ -45,7 +45,7 @@ class IssuedbookController extends Controller
         \DB::transaction(function () use ($ib, $request) {
           \App\Issuedbook::insert($ib);
           \App\Book::whereIn('book_code',$request->book_code)->update([
-            'quantity' => ($book->quantity - 1)
+            'quantity' => \DB::raw('GREATEST(quantity - 1, 0)')
           ]);
         });
         return back()->with('status', 'Saved');
