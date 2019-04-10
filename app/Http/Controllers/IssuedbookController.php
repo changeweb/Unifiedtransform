@@ -42,7 +42,7 @@ class IssuedbookController extends Controller
           // $book->quantity = $book->quantity - 1;
           // $book->save();
         }
-        \DB::transaction(function () use ($ib) {
+        \DB::transaction(function () use ($ib, $request) {
           \App\Issuedbook::insert($ib);
           \App\Book::whereIn('book_code',$request->book_code)->update([
             'quantity' => ($book->quantity - 1)
