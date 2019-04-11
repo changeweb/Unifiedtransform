@@ -174,7 +174,6 @@
                     </tr>
                     @endif
                     @endif
-                  @endforeach
                   </tbody>
                 </table>
                 <br>
@@ -227,6 +226,7 @@
                   </tbody>
                 </table>
                 @endif
+                @endforeach
               </div>
           </div>
         </div>
