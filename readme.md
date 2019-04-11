@@ -44,6 +44,12 @@ This software has following features:
 - XML PHP Extension
 
 ## How to Start
+Using a Container:
+
+[Docker](https://www.docker.com/) is now supported. To run this software in a Docker container run `docker-compose up -d`. You need to change Docker configuration files according to your need.
+
+Not using a Container:
+
 Here are some basic steps to start using this application
 
 **Note:** Instruction on cached data for Dashboard is given in **Good to know** segment below.
