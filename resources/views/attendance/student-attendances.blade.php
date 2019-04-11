@@ -43,17 +43,17 @@
                                     @if($attendance->present == 1)
                                     <tr class="success">
                                         <td>Present</td>
-                                        <td>{{$attendance->created_at}}</td>
+                                        <td>{{$attendance->created_at->format('M d Y h:i:sa')}}</td>
                                     </tr>
                                     @elseif($attendance->present == 2)
                                     <tr class="warning">
                                         <td>Escaped</td>
-                                        <td>{{$attendance->created_at}}</td>
+                                        <td>{{$attendance->created_at->format('M d Y h:i:sa')}}</td>
                                     </tr>
                                     @else
                                     <tr class="danger">
                                         <td>Absent</td>
-                                        <td>{{$attendance->created_at}}</td>
+                                        <td>{{$attendance->created_at->format('M d Y h:i:sa')}}</td>
                                     </tr>
                                     @endif
                                 @endforeach
