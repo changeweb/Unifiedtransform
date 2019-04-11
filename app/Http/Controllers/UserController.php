@@ -20,6 +20,7 @@ use App\Http\Requests\User\ChangePasswordRequest;
 use App\Http\Requests\User\CreateLibrarianRequest;
 use App\Http\Requests\User\CreateAccountantRequest;
 use Mavinoo\LaravelBatch\Batch;
+use App\Events\UserRegistered;
 
 /**
  * Class UserController
@@ -324,6 +325,9 @@ class UserController extends Controller
         $tb->pic_path = (!empty($request->pic_path)) ? $request->pic_path : '';
         $tb->verified = 1;
         $tb->save();
+
+        // Fire event to send welcome email
+        event(new UserRegistered($tb));
 
         return back()->with('status', 'Saved');
     }
