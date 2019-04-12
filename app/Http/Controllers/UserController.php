@@ -258,6 +258,7 @@ class UserController extends Controller
     public function store(CreateUserRequest $request)
     {
         DB::transaction(function () use ($request) {
+            $password = $request->password;
             $tb = new User();
             $tb->name = $request->name;
             $tb->email = (!empty($request->email)) ? $request->email : '';
@@ -299,6 +300,13 @@ class UserController extends Controller
             $info->mother_annual_income = (!empty($request->mother_annual_income)) ? $request->mother_annual_income : '';
             $info->user_id = Auth::user()->id;
             $info->save();
+
+            try {
+                // Fire event to send welcome email
+                event(new UserRegistered($tb, $password));
+            } catch(\Exception $ex) {
+                Log::info('Email failed to send to this address: '.$tb->email);
+            }
         });
 
         return back()->with('status', 'Saved');
@@ -328,11 +336,11 @@ class UserController extends Controller
         $tb->verified = 1;
         $tb->save();
 
-        try{
+        try {
             // Fire event to send welcome email
             // event(new userRegistered($userObject, $plain_password)); // $plain_password(optional)
             event(new UserRegistered($tb, $password));
-        } catch(\Exception $ex){
+        } catch(\Exception $ex) {
             Log::info('Email failed to send to this address: '.$tb->email);
         }
 
@@ -345,6 +353,8 @@ class UserController extends Controller
      */
     public function storeTeacher(CreateTeacherRequest $request)
     {
+        $password = $request->password;
+
         $tb = new User();
         $tb->name = $request->name;
         $tb->email = (!empty($request->email)) ? $request->email : '';
@@ -364,6 +374,13 @@ class UserController extends Controller
         $tb->section_id = ($request->class_teacher_section_id != 0) ? $request->class_teacher_section_id : 0;
         $tb->save();
 
+        try {
+            // Fire event to send welcome email
+            event(new UserRegistered($tb, $password));
+        } catch(\Exception $ex) {
+            Log::info('Email failed to send to this address: '.$tb->email);
+        }
+
         return back()->with('status', 'Saved');
     }
 
@@ -373,6 +390,7 @@ class UserController extends Controller
      */
     public function storeAccountant(CreateAccountantRequest $request)
     {
+        $password = $request->password;
         $tb = new User();
         $tb->name = $request->name;
         $tb->email = (!empty($request->email)) ? $request->email : '';
@@ -390,6 +408,13 @@ class UserController extends Controller
         $tb->verified = 1;
         $tb->save();
 
+        try {
+            // Fire event to send welcome email
+            event(new UserRegistered($tb, $password));
+        } catch(\Exception $ex) {
+            Log::info('Email failed to send to this address: '.$tb->email);
+        }
+
         return back()->with('status', 'Saved');
     }
 
@@ -399,6 +424,7 @@ class UserController extends Controller
      */
     public function storeLibrarian(CreateLibrarianRequest $request)
     {
+        $password = $request->password;
         $tb = new User();
         $tb->name = $request->name;
         $tb->email = (!empty($request->email)) ? $request->email : '';
@@ -415,6 +441,13 @@ class UserController extends Controller
         $tb->pic_path = (!empty($request->pic_path)) ? $request->pic_path : '';
         $tb->verified = 1;
         $tb->save();
+
+        try {
+            // Fire event to send welcome email
+            event(new UserRegistered($tb, $password));
+        } catch(\Exception $ex) {
+            Log::info('Email failed to send to this address: '.$tb->email);
+        }
 
         return back()->with('status', 'Saved');
     }

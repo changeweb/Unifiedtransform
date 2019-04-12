@@ -20,7 +20,14 @@
             width: 100%;
             height: 100%;
             z-index: 999999;
-            background: url({{asset('01-progress.gif')}}) 50% 50% no-repeat rgb(249,249,249);
+            background-color: #fff;
+            text-align: center;
+        }
+
+        .loader-gif {
+            width: 20%;
+            position: relative;
+            top: 30%;
         }
     </style>
 
@@ -35,7 +42,9 @@
 </head>
 
 <body>
-    <div class="loader"></div>
+    <div class="loader">
+        <img src="{{asset('01-progress.gif')}}" class="loader-gif" />
+    </div>
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
