@@ -8,7 +8,7 @@
                 <div class="page-panel-title">Dashboard</div>
 
                 <div class="panel-body">
-                    <a class="btn btn-danger btn-lg btn-block" href="{{url('create-school')}}" role="button">Manage Schools</a>
+                    <a class="btn btn-danger btn-lg btn-block" href="{{ route('shools.index') }}" role="button">Manage Schools</a>
                 </div>
             </div>
         </div>

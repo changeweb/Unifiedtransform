@@ -165,7 +165,7 @@ Route::middleware(['auth','accountant'])->group(function (){
   Route::get('accounts/delete-expense/{id}','AccountController@deleteExpense');
 });
 
-Route::get('create-school', 'SchoolController@index')->middleware('master.admin');
+Route::resource('schools', 'SchoolController', ['only' => ['index']])->middleware('master.admin');
 
 Route::middleware(['auth','master'])->group(function (){
   Route::get('register/admin/{id}/{code}', function($id, $code){
