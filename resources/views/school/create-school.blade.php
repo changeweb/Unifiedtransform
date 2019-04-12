@@ -227,6 +227,7 @@
                     </tr>
                   </tbody>
                 </table>
+                  @break
                 @endif
                 @endforeach
               </div>
