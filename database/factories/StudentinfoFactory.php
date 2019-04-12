@@ -1,10 +1,12 @@
 <?php
 
+use App\User;
+use App\StudentInfo;
 use Faker\Generator as Faker;
 
-$factory->define(App\StudentInfo::class, function (Faker $faker) {
+$factory->define(StudentInfo::class, function (Faker $faker) {
     return [
-      'student_id'           => $faker->randomElement(App\User::where('role', 'student')->pluck('id')->toArray()),
+      'student_id'           => $faker->randomElement(User::where('role', 'student')->pluck('id')->toArray()),
       'session'              => '2018',
       'version'              => $faker->randomElement(['bangla', 'english']),
       'group'                => $faker->randomElement(['', 'science', 'commerce', 'arts']),
@@ -26,19 +28,19 @@ $factory->define(App\StudentInfo::class, function (Faker $faker) {
     ];
 });
 
-$factory->state(App\StudentInfo::class, 'without_group', [
+$factory->state(StudentInfo::class, 'without_group', [
     'group' => ''
 ]);
 
-$factory->state(App\StudentInfo::class, 'science', [
+$factory->state(StudentInfo::class, 'science', [
     'group' => 'science'
 ]);
 
-$factory->state(App\StudentInfo::class, 'commerce', [
+$factory->state(StudentInfo::class, 'commerce', [
     'group' => 'commerce'
 ]);
 
-$factory->state(App\StudentInfo::class, 'arts', [
+$factory->state(StudentInfo::class, 'arts', [
     'group' => 'arts'
 ]);
 

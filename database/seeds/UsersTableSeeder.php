@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
@@ -20,10 +21,10 @@ class UsersTableSeeder extends Seeder
             'verified' => 1,
         ]);
 
-        factory(App\User::class, 10)->states('admin')->create();
-        factory(App\User::class, 10)->states('accountant')->create();
-        factory(App\User::class, 10)->states('librarian')->create();
-        factory(App\User::class, 30)->states('teacher')->create();
-        factory(App\User::class, 40)->states('student')->create();
+        factory(User::class, 10)->states('admin')->create();
+        factory(User::class, 10)->states('accountant')->create();
+        factory(User::class, 10)->states('librarian')->create();
+        factory(User::class, 30)->states('teacher')->create();
+        factory(User::class, 40)->states('student')->create();
     }
 }
