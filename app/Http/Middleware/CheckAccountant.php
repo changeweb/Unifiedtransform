@@ -15,9 +15,10 @@ class CheckAccountant
      */
     public function handle($request, Closure $next)
     {
-      if (\Auth::user()->role == 'accountant' || \Auth::user()->role == 'admin') {
-          return $next($request);
-      }
-      return redirect('home');
+        $user = \Auth::user();
+        if ($user->hasRole('accountant') || $user->hasRole('admin')) {
+            return $next($request);
+        }
+        return redirect('home');
     }
 }

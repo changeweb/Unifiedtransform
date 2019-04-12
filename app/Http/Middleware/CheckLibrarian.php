@@ -15,9 +15,10 @@ class CheckLibrarian
      */
     public function handle($request, Closure $next)
     {
-      if (\Auth::user()->role == 'librarian' || \Auth::user()->role == 'admin') {
-          return $next($request);
-      }
-      return redirect('home');
+        $user = \Auth::user();
+        if ($user->hasRole('librarian') || $user->hasRole('admin')) {
+            return $next($request);
+        }
+        return redirect('home');
     }
 }
