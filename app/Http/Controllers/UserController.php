@@ -309,6 +309,7 @@ class UserController extends Controller
      */
     public function storeAdmin(CreateAdminRequest $request)
     {
+        $password = $request->password;
         $tb = new User();
         $tb->name = $request->name;
         $tb->email = $request->email;
@@ -327,7 +328,8 @@ class UserController extends Controller
         $tb->save();
 
         // Fire event to send welcome email
-        event(new UserRegistered($tb));
+        // event(new userRegistered($userObject, $plain_password)); // $plain_password(optional)
+        event(new UserRegistered($tb, $password));
 
         return back()->with('status', 'Saved');
     }
