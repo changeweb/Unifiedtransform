@@ -1,5 +1,6 @@
 <?php
 
+use App\StudentInfo;
 use Illuminate\Database\Seeder;
 
 class StudentinfosTableSeeder extends Seeder
@@ -11,6 +12,9 @@ class StudentinfosTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\StudentInfo::class, 200)->create();
+        factory(StudentInfo::class, 50)->states('without_group')->create();
+        factory(StudentInfo::class, 25)->states('science')->create();
+        factory(StudentInfo::class, 15)->states('commerce')->create();
+        factory(StudentInfo::class, 10)->states('arts')->create();
     }
 }
