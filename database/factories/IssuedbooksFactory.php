@@ -7,7 +7,13 @@ $factory->define(App\Issuedbook::class, function (Faker $faker) {
       'student_code' => $faker->randomElement(App\User::pluck('student_code')->toArray()),
       'book_code' => $faker->randomElement(App\Book::pluck('book_code')->toArray()),
       'quantity' => $faker->randomElement([5,8,19,13,34]),
-      'school_id' => $faker->randomElement(App\School::pluck('id')->toArray()),
+      'school_id' => function () use ($faker) {
+          if(App\School::count() == 0)
+            return factory(App\School::class)->create()->id;
+          else {
+            return $faker->randomElement(App\School::pluck('id')->toArray());
+          }
+        },
       'issue_date' => $faker->date('Y-m-d', 'now'),
       'return_date' => $faker->date('Y-m-d', 'now'),
       'fine' => $faker->randomElement([5,8,19,13,34]),

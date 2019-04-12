@@ -25,15 +25,33 @@ $factory->define(User::class, function (Faker $faker) {
         'remember_token' => str_random(10),
         'active'         => 1,
         'role'           => $faker->randomElement(['student', 'teacher', 'admin', 'accountant', 'librarian']),
-        'school_id'      => $faker->randomElement(School::pluck('id')->toArray()),
-        'code'           => $faker->randomElement(School::pluck('code')->toArray()),
+        'school_id' => function () use ($faker) {
+          if(School::count() == 0)
+            return factory(School::class)->create()->id;
+          else {
+            return $faker->randomElement(School::pluck('id')->toArray());
+          }
+        },
+        'code' => function () use ($faker) {
+          if(School::count() == 0)
+            return factory(School::class)->create()->code;
+          else {
+            return $faker->randomElement(School::pluck('code')->toArray());
+          }
+        },
         'student_code'   => $faker->unique()->randomNumber(7, false),
         'address'        => $faker->address,
         'about'          => $faker->sentences(3, true),
         'pic_path'       => $faker->imageUrl(640, 480),
         'phone_number'   => $faker->unique()->phoneNumber,
         'verified'       => 1,
-        'section_id'     => $faker->randomElement(Section::pluck('id')->toArray()),
+        'section_id' => function () use ($faker) {
+          if(Section::count() == 0)
+            return factory(Section::class)->create()->id;
+          else {
+            return $faker->randomElement(Section::pluck('id')->toArray());
+          }
+        },
         'blood_group'    => $faker->randomElement(['a+','b+','ab', 'o+']),
         'nationality'    => 'Bangladeshi',
         'gender'         => $faker->randomElement(['male', 'female']),

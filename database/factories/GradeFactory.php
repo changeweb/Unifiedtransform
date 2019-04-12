@@ -23,9 +23,44 @@ $factory->define(App\Grade::class, function (Faker $faker) {
         'written' => $faker->randomNumber(2, false),
         'mcq' => $faker->randomNumber(2, false),
         'practical' => $faker->randomNumber(2, false),
-        'exam_id' => $faker->randomElement(App\Exam::pluck('id')->toArray()),
-        'student_id' => $faker->randomElement(App\User::where('role', 'student')->take(10)->pluck('id')->toArray()),
-        'teacher_id' => $faker->randomElement(App\User::where('role', 'teacher')->take(10)->pluck('id')->toArray()),
-        'course_id' => $faker->randomElement(App\Course::take(10)->pluck('id')->toArray())
+        'exam_id' => function () use ($faker) {
+          if(App\Exam::count() == 0)
+            return factory(App\Exam::class)->create()->id;
+          else {
+            return $faker->randomElement(App\Exam::pluck('id')->toArray());
+          }
+        },
+        'student_id' => function () use ($faker) {
+          if(App\User::where('role', 'student')->count() == 0)
+            return factory(App\User::class)->create([
+                    'role' => 'student',
+            ])->id;
+          else {
+            return $faker->randomElement(App\User::where('role', 'student')->take(10)->pluck('id')->toArray());
+          }
+        },
+        'teacher_id' => function () use ($faker) {
+          if(App\User::where('role', 'teacher')->count() == 0)
+            return factory(App\User::class)->create([
+                    'role' => 'teacher',
+            ])->id;
+          else {
+            return $faker->randomElement(App\User::where('role', 'teacher')->take(10)->pluck('id')->toArray());
+          }
+        },
+        'course_id' => function () use ($faker) {
+          if(App\Course::count() == 0)
+            return factory(App\Course::class)->create()->id;
+          else {
+            return $faker->randomElement(App\Course::take(10)->pluck('id')->toArray());
+          }
+        },
+        'user_id' => function () use ($faker) {
+          if(App\User::count() == 0)
+            return factory(App\User::class)->create()->id;
+          else {
+            return $faker->randomElement(App\User::pluck('id')->toArray());
+          }
+        },
     ];
 });

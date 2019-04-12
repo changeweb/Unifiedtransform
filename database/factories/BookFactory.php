@@ -14,8 +14,26 @@ $factory->define(App\Book::class, function (Faker $faker) {
         'img_path' => $faker->url,
         'about' => $faker->sentences(3, true),
         'price' => $faker->randomNumber,
-        'class_id' => $faker->randomElement(App\Myclass::pluck('id')->toArray()),
-        'school_id' => $faker->randomElement(App\School::pluck('id')->toArray()),
-        'user_id' =>  $faker->randomElement(App\User::pluck('id')->toArray()),
+        'class_id' => function () use ($faker) {
+          if(App\Myclass::count() == 0)
+            return factory(App\Myclass::class)->create()->id;
+          else {
+            return $faker->randomElement(App\Myclass::pluck('id')->toArray());
+          }
+        },
+        'school_id' => function () use ($faker) {
+          if(App\School::count() == 0)
+            return factory(App\School::class)->create()->id;
+          else {
+            return $faker->randomElement(App\School::pluck('id')->toArray());
+          }
+        },
+        'user_id' => function () use ($faker) {
+          if(App\User::count() == 0)
+            return factory(App\User::class)->create()->id;
+          else {
+            return $faker->randomElement(App\User::pluck('id')->toArray());
+          }
+        },
     ];
 });

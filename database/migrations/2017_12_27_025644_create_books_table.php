@@ -15,15 +15,15 @@ class CreateBooksTable extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->increments('id');
-      			$table->string('book_code',50)->unique();
-      			$table->string('title',250);
-      			$table->string('author',100);
-      			$table->integer('quantity')->unsigned();
-      			$table->string('rackNo',10);
-      			$table->string('rowNo',10);
+      		$table->string('book_code',50)->unique();
+      		$table->string('title',250);
+      		$table->string('author',100);
+      		$table->integer('quantity')->unsigned();
+      		$table->string('rackNo',10);
+      		$table->string('rowNo',10);
             $table->string('img_path');
             $table->text('about');
-			      $table->string('type',10);
+			$table->string('type',10);
             $table->integer('price');
             $table->integer('class_id')->unsigned();
             $table->integer('school_id')->unsigned();

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Auth;
 
+use App\School;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,15 +15,8 @@ class RegisterLoginTest extends TestCase
     {
         parent::setUp();
         $this->password = 'secret';
-        $this->schoolData = [
-            'name' => 'School 1',
-            'about' => 'First School',
-            'medium' => 'english',
-            'code' => date("y").substr(number_format(time() * mt_rand(),0,'',''),0,6),
-            'theme' => 'flatly',
-        ];
 
-        $this->school = \App\School::create($this->schoolData)->first();
+        $this->school = factory(School::class)->create();
 
         $this->classData = [
             'class_number' => 1,
@@ -58,7 +52,7 @@ class RegisterLoginTest extends TestCase
      *
      * @return void
      */
-    public function testUnauthenticatedUserCannotViewARegisterForm(){
+    public function test_unauthenticated_user_cannot_view_a_register_form(){
         $response = $this->get('/register');
         $response->assertStatus(302);
     }
@@ -67,7 +61,7 @@ class RegisterLoginTest extends TestCase
      *
      * @return void
      */
-    public function testUserCanBeCreated(){
+    public function test_user_can_be_created(){
         $this->user = \App\User::create($this->userData)->first();
         
         $this->assertEquals($this->userData['role'], $this->user->role);
@@ -77,7 +71,7 @@ class RegisterLoginTest extends TestCase
      *
      * @return void
      */
-    public function testUserCanViewALoginForm(){
+    public function test_user_Can_view_a_login_form(){
         $response = $this->get('/login');
         $response->assertSuccessful();
         $response->assertViewIs('auth.login');
@@ -87,7 +81,7 @@ class RegisterLoginTest extends TestCase
      *
      * @return void
      */
-    public function testUserCanLogIn(){
+    public function test_user_Can_log_in(){
         $this->user = \App\User::create($this->userData)->first();
 
         $response = $this->post('/login', [
