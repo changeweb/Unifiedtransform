@@ -28,13 +28,13 @@ class Myclass extends Model
         return $this->hasMany('App\Section','class_id');
     }
 
-    public function exam()
-    {
-        return $this->belongsTo('App\ExamForClass');
-    }
+    // public function exam()
+    // {
+    //     return $this->belongsTo('App\ExamForClass');
+    // }
 
 	public function books()
     {
-        return $this->hasMany('App\Book','book_id');
+        return $this->hasMany('App\Book','class_id');
     }
 }

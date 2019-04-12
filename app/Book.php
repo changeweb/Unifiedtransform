@@ -25,4 +25,12 @@ class Book extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    /**
+     * Get the student record associated with the user.
+    */
+    public function issuedbook()
+    {
+        return $this->hasMany('App\Issuedbook', 'book_id');
+    }
 }

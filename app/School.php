@@ -24,4 +24,9 @@ class School extends Model
   {
     return $this->hasMany('App\Department');
   }
+
+  public function gradesystems()
+  {
+    return $this->hasMany('App\Gradesystem');
+  }
 }
