@@ -65,6 +65,10 @@ $factory->define(User::class, function (Faker $faker) {
     ];
 });
 
+$factory->state(User::class, 'master', [
+    'role' => 'master'
+]);
+
 $factory->state(User::class, 'accountant', [
     'role' => 'accountant'
 ]);

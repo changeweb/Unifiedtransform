@@ -54,4 +54,9 @@ class User extends Authenticatable
     public function notifications(){
         return $this->hasMany('App\Notification','student_id');
     }
+
+    public function hasRole(string $role): bool
+    {
+        return $this->role == $role ? true : false;
+    }
 }

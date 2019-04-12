@@ -36,4 +36,21 @@ class UsersTest extends TestCase
     public function an_user_belongs_to_department() {
         $this->assertInstanceOf('App\Department', $this->user->department);
     }
+
+    /** @test */
+    public function an_user_has_role() {
+        $accountant = factory(User::class)->states('accountant')->create();
+        $admin      = factory(User::class)->states('admin')->create();
+        $librarian  = factory(User::class)->states('librarian')->create();
+        $master     = factory(User::class)->states('master')->create();
+        $student    = factory(User::class)->states('student')->create();
+        $teacher    = factory(User::class)->states('teacher')->create();
+
+        $this->assertTrue($accountant->hasRole('accountant'));
+        $this->assertTrue($admin->hasRole('admin'));
+        $this->assertTrue($librarian->hasRole('librarian'));
+        $this->assertTrue($master->hasRole('master'));
+        $this->assertTrue($student->hasRole('student'));
+        $this->assertTrue($teacher->hasRole('teacher'));
+    }
 }
