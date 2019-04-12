@@ -15,7 +15,8 @@ class CheckMasterOrAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (\Auth::user()->role == 'master' || \Auth::user()->role == 'admin') {
+        $user = \Auth::user();
+        if ($user->hasRole('master') || $user->hasRole('admin')) {
             return $next($request);
         }
         return redirect('home');
