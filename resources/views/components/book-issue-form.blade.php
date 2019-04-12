@@ -25,9 +25,9 @@
                 You can Select Multiple Books (<i>Maximum 10 books</i>)</small>)</label>
 
         <div class="col-md-6">
-            <select id="book_code" class="form-control" multiple name="book_code[]">
+            <select id="book_code" class="form-control" multiple name="book_id[]">
                 @foreach($books as $book)
-                <option value="{{$book->book_code}}">{{$book->title}} - {{$book->book_code}}</option>
+                <option value="{{$book->id}}">{{$book->title}} - {{$book->book_code}}</option>
                 @endforeach
             </select>
         </div>

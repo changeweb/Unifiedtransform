@@ -4,7 +4,7 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Book::class, function (Faker $faker) {
     return [
-        'book_code' => $faker->unique()->randomNumber(7, false),
+        'book_code' => 'bk'.$faker->unique()->randomNumber(7, false),
         'title' => $faker->sentences(1, true),
         'author' => $faker->name,
         'quantity' => $faker->randomElement([5,8,19,13,34]),

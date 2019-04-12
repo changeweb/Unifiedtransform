@@ -26,4 +26,19 @@ class GradeTest extends TestCase
     public function a_grade_belongs_to_course() {
         $this->assertInstanceOf('App\Course', $this->grade->course);
     }
+
+    /** @test */
+    public function a_grade_belongs_to_student() {
+        $this->assertInstanceOf('App\User', $this->grade->student);
+    }
+
+    /** @test */
+    public function a_grade_belongs_to_teacher() {
+        $this->assertInstanceOf('App\User', $this->grade->teacher);
+    }
+
+    /** @test */
+    public function a_grade_belongs_to_exam() {
+        $this->assertInstanceOf('App\Exam', $this->grade->exam);
+    }
 }

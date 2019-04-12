@@ -19,7 +19,7 @@
       <tr>
         <td>{{($loop->index + 1)}}</td>
         <td>{{$book->title}}</td>
-        <td>{{$book->book_code}}</td>
+        <td>{{$book->book->book_code}}</td>
         <td>{{$book->type}}</td>
         <td>{{$book->name}}</td>
         <td>{{$book->student_code}}</td>
@@ -29,7 +29,7 @@
           <form action="{{url('library/save_as_returned')}}" method="post">
             {{csrf_field()}}
             <input type="hidden" name="issue_id" value="{{$book->id}}">
-            <input type="hidden" name="book_code" value="{{$book->book_code}}">
+            <input type="hidden" name="book_id" value="{{$book->book_id}}">
             <button class="btn btn-xs btn-success">Save as Returned</button>
           </form>
         </td>

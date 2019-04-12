@@ -12,7 +12,7 @@ class IssuedbookController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-      $issuedBooks = \App\Issuedbook::join('books', 'issued_books.book_code', '=', 'books.book_code')
+      $issuedBooks = \App\Issuedbook::join('books', 'issued_books.book_id', '=', 'books.id')
                                     ->select('issued_books.*','books.title','books.type','users.name')
                                     ->join('users', 'issued_books.student_code', '=', 'users.student_code')
                                     ->where('issued_books.borrowed', '=', 1)
@@ -38,10 +38,10 @@ class IssuedbookController extends Controller
      * @return \Illuminate\Http\Response
      */
     private function insertEachIssuedBookInAnArray(Request $request){
-      foreach ($request->book_code as $bk){
+      foreach ($request->book_id as $bk){
           $issueBooks = new \App\Issuedbook;
           $issueBooks->student_code = $request->student_code;
-          $issueBooks->book_code = $bk;
+          $issueBooks->book_id = $bk;
           $issueBooks->quantity = 1;
           $issueBooks->school_id = \Auth::user()->school->id;
           $issueBooks->issue_date = $request->issue_date;
@@ -65,7 +65,7 @@ class IssuedbookController extends Controller
 
         \DB::transaction(function () use ($ib, $request) {
           \App\Issuedbook::insert($ib);
-          \App\Book::whereIn('book_code',$request->book_code)->update([
+          \App\Book::whereIn('id',$request->book_id)->update([
             'quantity' => \DB::raw('GREATEST(quantity - 1, 0)')
           ]);
         });
@@ -89,7 +89,7 @@ class IssuedbookController extends Controller
         $tb->borrowed = 0;
         $tb->quantity = 0;
         $tb->save();
-        $book = \App\Book::where('book_code',$request->book_code)->first();
+        $book = \App\Book::where('id',$request->book_id)->first();
         $book->quantity = $book->quantity + 1;
         $book->save();
       }, 5);
