@@ -17,9 +17,9 @@ class IssuedBookTest extends TestCase
      */
     public function test_insert_each_issued_book_in_an_array(\stdClass $requests, array $expected)
     {
-        foreach($requests->book_code as $bk){
+        foreach($requests->book_id as $bk){
           $issueBooks = new \App\Issuedbook;
-          $issueBooks->book_code = $bk;
+          $issueBooks->book_id = $bk;
           $issueBooks->student_code = $requests->student_code;
           $issueBooks->quantity = $requests->quantity;
           $issueBooks->school_id = $requests->school_id;//\Auth::user()->school->id;
@@ -34,7 +34,7 @@ class IssuedBookTest extends TestCase
 
     public function issued_book_provider(): array{
         $requests = [
-                'book_code' => [1023, 3253, 7643],
+                'book_id' => [1023, 3253, 7643],
                 'student_code'=>123456,
                 'quantity'=>1,
                 'school_id'=>1,
@@ -46,7 +46,7 @@ class IssuedBookTest extends TestCase
 
         $expected = [
             [
-                'book_code' => 1023,
+                'book_id' => 1023,
                 'student_code'=>123456,
                 'quantity'=>1,
                 'school_id'=>1,
@@ -56,7 +56,7 @@ class IssuedBookTest extends TestCase
                 'borrowed'=>1
             ],
             [
-                'book_code' => 3253,
+                'book_id' => 3253,
                 'student_code'=>123456,
                 'quantity'=>1,
                 'school_id'=>1,
@@ -66,7 +66,7 @@ class IssuedBookTest extends TestCase
                 'borrowed'=>1
             ],
             [
-                'book_code' => 7643,
+                'book_id' => 7643,
                 'student_code'=>123456,
                 'quantity'=>1,
                 'school_id'=>1,
