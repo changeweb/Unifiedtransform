@@ -249,3 +249,14 @@ Route::middleware(['auth','teacher'])->group(function (){
 //     return response()->download($pathToFile);
 //   });
 // });
+
+
+// View Emails - in browser
+Route::prefix('emails')->group(function () {
+  // Welcome Email
+  Route::get('/welcome', function () {
+      $user = App\User::find(1);
+      $password = "ABCXYZ";
+      return new App\Mail\SendWelcomeEmailToUser($user, $password);
+  });
+});
