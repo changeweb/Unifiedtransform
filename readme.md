@@ -118,6 +118,7 @@ and may need to run `php artisan vendor:publish --provider="RenatoMarinho\Larave
 
 ## Good to know
 
+* Setup your Mail configuration in `.env` file if you want to send email. Currently registered users are notified by invitation mail if Mail is configured properly.
 * In `.env`, turn `APP_DEBUG` to `false` for production environment.
 * Remove `Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');` from `routes/web.php` while in Production Environment.
 * `Cache::remember()` generates cache files. To delete expired cache files [LaravelCacheGarbageCollector](https://github.com/jdavidbakr/laravel-cache-garbage-collector) package is used. Run `php artisan cache:gc`.
