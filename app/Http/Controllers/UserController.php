@@ -258,7 +258,7 @@ class UserController extends Controller
     public function store(CreateUserRequest $request)
     {
         DB::transaction(function () use ($request) {
-            $password = $reques->password;
+            $password = $request->password;
             $tb = new User();
             $tb->name = $request->name;
             $tb->email = (!empty($request->email)) ? $request->email : '';
