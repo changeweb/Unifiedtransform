@@ -174,7 +174,7 @@
                     </tr>
                     @endif
                     @endif
-                  @endforeach
+                    @endforeach
                   </tbody>
                 </table>
                 <br>
