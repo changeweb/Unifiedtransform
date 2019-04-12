@@ -52,6 +52,13 @@ $factory->define(User::class, function (Faker $faker) {
             return $faker->randomElement(Section::pluck('id')->toArray());
           }
         },
+        'department_id' => function () use ($faker) {
+          if(App\Department::count() == 0)
+            return factory(App\Department::class)->create()->id;
+          else {
+            return $faker->randomElement(App\Department::pluck('id')->toArray());
+          }
+        },
         'blood_group'    => $faker->randomElement(['a+','b+','ab', 'o+']),
         'nationality'    => 'Bangladeshi',
         'gender'         => $faker->randomElement(['male', 'female']),
