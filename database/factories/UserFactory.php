@@ -36,3 +36,23 @@ $factory->define(App\User::class, function (Faker $faker) {
         'gender'         => $faker->randomElement(['male', 'female']),
     ];
 });
+
+$factory->state(App\User::class, 'accountant', [
+    'role' => 'accountant'
+]);
+
+$factory->state(App\User::class, 'admin', [
+    'role' => 'admin'
+]);
+
+$factory->state(App\User::class, 'librarian', [
+    'role' => 'librarian'
+]);
+
+$factory->state(App\User::class, 'teacher', [
+    'role' => 'teacher'
+]);
+
+$factory->state(App\User::class, 'student', [
+    'role' => 'student'
+]);
