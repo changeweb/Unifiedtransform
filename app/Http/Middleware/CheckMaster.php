@@ -15,7 +15,7 @@ class CheckMaster
      */
     public function handle($request, Closure $next)
     {
-      if (\Auth::user()->role == 'master') {
+      if (\Auth::user()->hasRole('master')) {
           return $next($request);
       }
       return redirect('home');
