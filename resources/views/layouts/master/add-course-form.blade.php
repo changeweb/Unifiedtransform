@@ -31,7 +31,7 @@
               <select class="form-control" id="assignTeacher{{$section->id}}" name="teacher_id">
                 <option value="0" selected disabled>Select Department First</option>
               @foreach($teachers as $teacher)
-                <option value="{{$teacher->id}}" data-department="{{$teacher->department->department_name}}">{{$teacher->name}} {{$teacher->department->department_name}}</option>
+                <option value="{{$teacher->id}}" data-department="{{$teacher->department_name}}">{{$teacher->name}} {{$teacher->department_name}}</option>
               @endforeach
               </select>
             </div>
