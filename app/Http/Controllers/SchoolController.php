@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use App\Myclass;
+use App\Section;
+use App\Department;
 use App\School as School;
 use App\Http\Resources\SchoolResource;
 use Illuminate\Http\Request;
@@ -15,21 +19,16 @@ class SchoolController extends Controller
      */
     public function index()
     {
-      $schools = School::all();
-      $classes = \App\Myclass::all();
-      $sections = \App\Section::all();
-      $teachers = \App\User::where('role', 'teacher.department')
-                            ->orderBy('name','ASC')
-                            ->where('active', 1)
-                            ->get();
-      $departments = \App\Department::where('school_id',\Auth::user()->school_id)->get();
-      return view('school.create-school', [
-        'schools'=>$schools,
-        'classes'=>$classes,
-        'sections'=>$sections,
-        'teachers'=>$teachers,
-        'departments'=>$departments,
-      ]);
+      $schools  = School::all();
+      $classes  = Myclass::all();
+      $sections = Section::all();
+      $teachers = User::where('role', 'teacher.department')
+                    ->orderBy('name','ASC')
+                    ->where('active', 1)
+                    ->get();
+      $departments = Department::where('school_id', \Auth::user()->school_id)->get();
+
+      return view('school.index', compact('schools', 'classes', 'sections', 'teachers', 'departments'));
     }
 
     /**

@@ -3,6 +3,7 @@
 use App\User;
 use App\School;
 use App\Section;
+use App\Department;
 use Faker\Generator as Faker;
 
 /*
@@ -25,40 +26,28 @@ $factory->define(User::class, function (Faker $faker) {
         'remember_token' => str_random(10),
         'active'         => 1,
         'role'           => $faker->randomElement(['student', 'teacher', 'admin', 'accountant', 'librarian']),
-        'school_id' => function () use ($faker) {
-          if(School::count() == 0)
-            return factory(School::class)->create()->id;
-          else {
-            return $faker->randomElement(School::pluck('id')->toArray());
-          }
-        },
-        'code' => function () use ($faker) {
-          if(School::count() == 0)
-            return factory(School::class)->create()->code;
-          else {
-            return $faker->randomElement(School::pluck('code')->toArray());
-          }
-        },
+        'school_id'      => function() {
+                                if (School::count()) return School::first()->id;
+                                else return factory(School::class)->create()->id;
+                            },
+        'code'           => function() {
+                                if (School::count()) return School::first()->code;
+                                else return factory(School::class)->create()->code;
+                            },
         'student_code'   => $faker->unique()->randomNumber(7, false),
         'address'        => $faker->address,
         'about'          => $faker->sentences(3, true),
         'pic_path'       => $faker->imageUrl(640, 480),
         'phone_number'   => $faker->unique()->phoneNumber,
         'verified'       => 1,
-        'section_id' => function () use ($faker) {
-          if(Section::count() == 0)
-            return factory(Section::class)->create()->id;
-          else {
-            return $faker->randomElement(Section::pluck('id')->toArray());
-          }
-        },
-        'department_id' => function () use ($faker) {
-          if(App\Department::count() == 0)
-            return factory(App\Department::class)->create()->id;
-          else {
-            return $faker->randomElement(App\Department::pluck('id')->toArray());
-          }
-        },
+        'section_id'     => function() {
+                                if (Section::count()) return Section::first()->id;
+                                else return factory(Section::class)->create()->id;
+                            },
+        'department_id' => function() {
+                                if (Department::count()) return Department::first()->id;
+                                else return factory(Department::class)->create()->id;
+                            },
         'blood_group'    => $faker->randomElement(['a+','b+','ab', 'o+']),
         'nationality'    => 'Bangladeshi',
         'gender'         => $faker->randomElement(['male', 'female']),
