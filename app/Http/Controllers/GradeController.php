@@ -345,12 +345,11 @@ class GradeController extends Controller
         $tbc[] = $tb->attributesToArray();
         $i++;
       }
-      
       try{
           if(count($tbc) > 0)
-            Grade::insert($tbc);
+            \Batch::update('grades',$tbc,'id');
         }catch(\Exception $e){
-            return false;
+            return "OOps, an error occured";
         }
 
       return back()->with('status', 'Saved');

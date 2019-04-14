@@ -16,9 +16,20 @@ trait GradeTrait {
                                     ->where('active',1)
                                     ->pluck('id')
                                     ->toArray();
+            $grades = Grade::whereIn('student_id',$students)
+                            ->where('course_id',$course_id)
+                            ->where('exam_id',$exam_id)
+                            ->pluck('student_id')
+                            ->toArray();
+
+            $grade_student_ids = array();
+
+            foreach($grades as $grade){
+                array_push($grade_student_ids, $grade->student_id);
+            }
 
             foreach($students as $student_id){
-                if(!in_array($student_id,$grades)){
+                if(!in_array($student_id,$grade_student_ids)){
                     // Put default values
                     $tb = new Grade;
                     $tb->gpa = 0;

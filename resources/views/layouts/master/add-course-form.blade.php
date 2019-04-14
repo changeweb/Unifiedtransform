@@ -18,7 +18,10 @@
               <select class="form-control" id="teacherDepartment{{$section->id}}" name="teacher_department">
                 <option value="0" selected disabled>Select Department</option>
                 @if(count($departments) > 0)
-                  @foreach ($departments as $d)
+                  {{$departments_of_this_school = $departments->filter(function ($department) use ($school){
+                    return $department->school_id == $school->id;
+                  })}}
+                  @foreach ($departments_of_this_school as $d)
                     <option value="{{$d->department_name}}">{{$d->department_name}}</option>
                   @endforeach
                 @endif
@@ -30,9 +33,14 @@
             <div class="col-sm-10">
               <select class="form-control" id="assignTeacher{{$section->id}}" name="teacher_id">
                 <option value="0" selected disabled>Select Department First</option>
-              @foreach($teachers as $teacher)
-                <option value="{{$teacher->id}}" data-department="{{$teacher->department->department_name}}">{{$teacher->name}} {{$teacher->department->department_name}}</option>
-              @endforeach
+                @if(count($teachers) > 0)
+                  {{$teachers_of_this_school = $teachers->filter(function ($teacher) use ($school){
+                    return $teacher->school_id == $school->id;
+                  })}}
+                  @foreach($teachers_of_this_school as $teacher)
+                    <option value="{{$teacher->id}}" data-department="{{$teacher->department_name}}">{{$teacher->name}} {{$teacher->department_name}}</option>
+                  @endforeach
+                @endif
               </select>
             </div>
           </div>

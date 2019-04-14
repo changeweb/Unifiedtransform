@@ -40,7 +40,7 @@ class User extends Authenticatable
 
     public function department()
     {
-        return $this->belongsTo('App\Department');
+        return $this->belongsTo('App\Department','department_id', 'id');
     }
 
     public function studentInfo(){

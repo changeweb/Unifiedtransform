@@ -18,7 +18,8 @@ class SchoolController extends Controller
       $schools = School::all();
       $classes = \App\Myclass::all();
       $sections = \App\Section::all();
-      $teachers = \App\User::where('role', 'teacher.department')
+      $teachers = \App\User::join('departments', 'departments.id', '=', 'users.department_id')
+                            ->where('role', 'teacher')
                             ->orderBy('name','ASC')
                             ->where('active', 1)
                             ->get();
