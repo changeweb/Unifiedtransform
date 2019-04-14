@@ -18,17 +18,20 @@ $factory->define(Book::class, function (Faker $faker) {
         'img_path'  => $faker->imageUrl($width = 150, $height = 150, 'cats'),
         'about'     => $faker->sentences(3, true),
         'price'     => $faker->randomNumber,
-        'class_id'  => function() {
-                            if (Myclass::count()) return Myclass::first()->id;
-                            else return factory(Myclass::class)->create()->id;
+        'class_id'  => function() use ($faker) {
+                            if (Myclass::count()) {
+                                return $faker->randomElement(Myclass::pluck('id')->toArray());
+                            } else return factory(Myclass::class)->create()->id;
                         },
-        'school_id'  => function() {
-                            if (School::count()) return School::first()->id;
-                            else return factory(School::class)->create()->id;
+        'school_id'  => function() use ($faker) {
+                            if (School::count()) {
+                                return $faker->randomElement(School::pluck('id')->toArray());
+                            } else return factory(School::class)->create()->id;
                         },
-        'user_id'    => function() {
-                            if (User::count()) return User::first()->id;
-                            else return factory(User::class)->states('librarian')->create()->id;
+        'user_id'    => function() use ($faker) {
+                            if (User::count()) {
+                                return $faker->randomElement(User::pluck('id')->toArray());
+                            } else return factory(User::class)->states('librarian')->create()->id;
                         }
     ];
 });
