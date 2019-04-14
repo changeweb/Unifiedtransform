@@ -30,9 +30,24 @@ class BookModuleTest extends TestCase
     public function it_displays_the_books_details() {
         $book = factory(Book::class)->create();
 
-        $this->withoutExceptionHandling();
         $this->get(route('library.books.show', $book->id))
             ->assertStatus(200)
             ->assertSee($book->title);
+    }
+
+    /** @test */
+    public function it_loads_the_new_book_page() {
+        $this->get(route('library.books.create'))
+            ->assertStatus(200);
+    }
+
+    /** @test */
+    public function it_creates_a_new_book() {
+        $book = factory(Book::class)->make();
+
+        $this->post(route('library.books.store'), $book->toArray())
+            ->assertRedirect(route('library.books.show', Book::first()->id));
+
+        $this->assertEquals(1, Book::count());
     }
 }
