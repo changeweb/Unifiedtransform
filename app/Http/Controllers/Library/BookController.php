@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 class BookController extends Controller
 {
     public function index() {
-        $books = Book::where('school_id', auth()->user()->school_id)->paginate();
+        $books = Book::bySchool(auth()->user()->school_id)->paginate();
 
         return view('library.books.index', compact('books'));
     }

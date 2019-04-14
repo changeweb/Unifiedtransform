@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Book extends Model
 {
     protected $table = "books";
-    
+
     public function school(){
         return $this->belongsTo('App\School');
     }
@@ -32,5 +32,16 @@ class Book extends Model
     public function issuedbook()
     {
         return $this->hasMany('App\Issuedbook', 'book_id');
+    }
+
+    /**
+    * Scope a query to only include books by school.
+    *
+    * @param  \Illuminate\Database\Eloquent\Builder  $query
+    * @param  int  $school_id
+    * @return \Illuminate\Database\Eloquent\Builder
+    */
+    public function scopeBySchool($query, int $school_id) {
+        return $query->where('school_id', $school_id);
     }
 }
