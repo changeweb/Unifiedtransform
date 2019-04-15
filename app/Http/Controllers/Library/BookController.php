@@ -27,7 +27,19 @@ class BookController extends Controller
     }
 
     public function store(BookRequest $request) {
-        $book = Book::create($request->all());
+        $book = Book::create([
+            'title'     => $request->title,
+            'book_code' => $request->book_code,
+            'author'    => $request->author,
+            'quantity'  => $request->quantity,
+            'rackNo'    => $request->rackNo,
+            'rowNo'     => $request->rowNo,
+            'type'      => $request->type,
+            'about'     => $request->about,
+            'class_id'  => $request->class_id,
+            'school_id' => auth()->user()->school_id,
+            'user_id'   => auth()->user()->id
+        ]);
 
         return redirect()->route('library.books.show', $book->id);
     }
