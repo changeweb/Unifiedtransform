@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\School as School;
-use App\Http\Resources\SchoolResource;
+use App\School;
+use App\Myclass;
+use App\Section;
+use App\User;
+use App\Department;
+//use App\Http\Resources\SchoolResource;
 use Illuminate\Http\Request;
 
 class SchoolController extends Controller
@@ -16,21 +20,15 @@ class SchoolController extends Controller
     public function index()
     {
       $schools = School::all();
-      $classes = \App\Myclass::all();
-      $sections = \App\Section::all();
-      $teachers = \App\User::join('departments', 'departments.id', '=', 'users.department_id')
+      $classes = Myclass::all();
+      $sections = Section::all();
+      $teachers = User::join('departments', 'departments.id', '=', 'users.department_id')
                             ->where('role', 'teacher')
                             ->orderBy('name','ASC')
                             ->where('active', 1)
                             ->get();
-      $departments = \App\Department::where('school_id',\Auth::user()->school_id)->get();
-      return view('school.create-school', [
-        'schools'=>$schools,
-        'classes'=>$classes,
-        'sections'=>$sections,
-        'teachers'=>$teachers,
-        'departments'=>$departments,
-      ]);
+      $departments = Department::where('school_id',\Auth::user()->school_id)->get();
+      return view('school.create-school', compact('schools', 'classes', 'sections', 'teachers', 'departments'));
     }
 
     /**
@@ -76,8 +74,8 @@ class SchoolController extends Controller
      */
     public function show($school_id)
     {
-      $admins = \App\User::where('school_id',$school_id)->where('role','admin')->get();
-      return view('school.admin-list',['admins'=>$admins]);
+      $admins = User::where('school_id',$school_id)->where('role','admin')->get();
+      return view('school.admin-list',compact('admins'));
     }
 
     /**
@@ -95,7 +93,7 @@ class SchoolController extends Controller
       $request->validate([
         'department_name' => 'required|string|max:50',
       ]);
-      $s = new \App\Department;
+      $s = new Department;
       $s->school_id = \Auth::user()->school_id;
       $s->department_name = $request->department_name;
       $s->save();
