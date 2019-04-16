@@ -10,11 +10,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class AttendanceTest extends TestCase
 {
     use RefreshDatabase;
+
     protected $attendance;
 
     public function setUp() {
         parent::setUp();
-        $this->attendance = factory(Attendance::class)->create();
+        $this->attendance = create(Attendance::class);
     }
 
     /** @test */

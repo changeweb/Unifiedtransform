@@ -15,7 +15,7 @@ class SchoolTest extends TestCase
 
     public function setUp() {
         parent::setUp();
-        $this->school = factory(School::class)->create();
+        $this->school = create(School::class);
     }
 
     /** @test */

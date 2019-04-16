@@ -10,11 +10,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class GradeTest extends TestCase
 {
     use RefreshDatabase;
+
     protected $grade;
 
     public function setUp() {
         parent::setUp();
-        $this->grade = factory(Grade::class)->create();
+        $this->grade = create(Grade::class);
     }
 
     /** @test */
