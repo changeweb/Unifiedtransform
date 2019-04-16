@@ -251,7 +251,7 @@
     <ul class="dropdown-menu" style="width: 100%;">
       <!-- Dropdown menu links -->
       <li>
-        <a class="dropdown-item" href="{{ url('library/all-books') }}"><i class="material-icons">developer_board</i>
+        <a class="dropdown-item" href="{{ route('library.books.index') }}"><i class="material-icons">developer_board</i>
           <span class="nav-link-text">All Books</span></a>
       </li>
       <li>
@@ -263,7 +263,7 @@
             class="nav-link-text">Issue Book</span></a>
       </li>
       <li>
-        <a class="dropdown-item" href="{{ url('library/add-new-book') }}"><i class="material-icons">note_add</i> <span
+        <a class="dropdown-item" href="{{ route('library.books.create') }}"><i class="material-icons">note_add</i> <span
             class="nav-link-text">Add New Book</span></a>
       </li>
     </ul>
