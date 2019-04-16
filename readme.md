@@ -7,7 +7,17 @@ We like to challenge the quality of what we build to make it better. To do so, w
 See the news [here](https://laravel-news.com/unified-transform-open-source-school-management-platform)
 ## Contribute
 
-Community contribution can make this product better!! See [Contribution guideline](https://github.com/changeweb/Unifiedtransform/blob/master/CONTRIBUTING.md) before making any Pull request
+Unifiedtransform is 100% open source and free forever!!
+
+Community contribution can make this product better!! See [Contribution guideline](https://github.com/changeweb/Unifiedtransform/blob/master/CONTRIBUTING.md) before making any Pull request.
+
+When you contribute to a Github project you agree with this terms of [Github Terms of Service(Contributions Under Repository License)](https://help.github.com/en/articles/github-terms-of-service#6-contributions-under-repository-license).
+
+Since this project is under **GNU General Public License v3.0**, according to Github's Terms of Service all your contributions are also under the same license terms.
+Thus you permit the user of this software to use your contribution under the terms of **GNU General Public License v3.0**.
+
+## Testing
+
 - We want testable softwares. So test cases are being written for this app too. You also can contribute by writing test case!
 - To run Feature and Unit Tests use `./vendor/bin/phpunit` and to run Browser Tests set `APP_URL` environment variable in your `.env` file. This value should match the URL you use to access your application in a browser. Then run `php artisan dusk`.
 
