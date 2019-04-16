@@ -130,13 +130,18 @@ Route::middleware(['auth','teacher'])->group(function (){
   Route::get('school/sections','SectionController@index');
 });
 
-Route::middleware(['auth','librarian'])->group(function (){
+Route::middleware(['auth', 'librarian'])->namespace('Library')->group(function () {
+    Route::prefix('library')->name('library.')->group(function () {
+        Route::resource('books', 'BookController',
+            ['only' => ['index', 'show', 'create', 'store']]
+        );
+    });
+});
+
+Route::middleware(['auth','librarian'])->group(function () {
   Route::get('library/issue-books', 'IssuedbookController@create');
   Route::post('library/issue-books', 'IssuedbookController@store');
-  Route::get('library/all-books', 'BookController@index');
   Route::get('library/issued-books', 'IssuedbookController@index');
-  Route::get('library/add-new-book', 'BookController@create');
-  Route::post('library/add-new-book', 'BookController@store');
   Route::post('library/save_as_returned', 'IssuedbookController@update');
 });
 
