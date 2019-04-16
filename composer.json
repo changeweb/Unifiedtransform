@@ -1,8 +1,8 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
-    "license": "MIT",
+    "name": "changeweb/Unifiedtransform",
+    "description": "A school management software.",
+    "keywords": ["school", "management"],
+    "license": "GPL 3",
     "type": "project",
     "require": {
         "php": ">=7.0.0",
