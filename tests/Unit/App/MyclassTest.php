@@ -15,7 +15,7 @@ class MyclassTest extends TestCase
 
     public function setUp() {
         parent::setUp();
-        $this->class = factory(Myclass::class)->create();
+        $this->class = create(Myclass::class);
     }
 
     /** @test */

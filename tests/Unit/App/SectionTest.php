@@ -10,11 +10,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class SectionTest extends TestCase
 {
     use RefreshDatabase;
+
     protected $section;
 
     public function setUp() {
         parent::setUp();
-        $this->section = factory(Section::class)->create();
+        $this->section = create(Section::class);
     }
 
     /** @test */
