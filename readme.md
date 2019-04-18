@@ -54,11 +54,35 @@ This software has following features:
 - XML PHP Extension
 
 ## How to Start
-Using a Container:
+### Using a Container:
 
-[Docker](https://www.docker.com/) is now supported. To run this software in a Docker container run `docker-compose up -d`. You need to change Docker configuration files according to your need.
+[Docker](https://www.docker.com/) is now supported.
 
-Not using a Container:
+You need to change Docker configuration files according to your need.
+
+- Change following lines in `docker-compose.yml`
+
+      MYSQL_ROOT_PASSWORD: your password
+      MYSQL_USER: root
+      MYSQL_PASSWORD: your password
+
+- To run this software in Docker containers run `sudo docker-compose up -d`.
+- Then run `sudo docker container ls --all`. Copy **Nginx** Container ID.
+- Then run `sudo docker exec -it <container id> bash`
+- Run `cp .env.example .env` and change following lines in `.env` file
+
+      DB_HOST=db
+      DB_PORT=3306
+      DB_DATABASE=school
+      DB_USERNAME=root
+      DB_PASSWORD=your password
+
+- Run `composer install`
+- Run `php artisan key:generate`
+- Run `php artisan migrate:fresh --seed`
+- Visit `http:\\localhost:80`.
+
+### Not using a Container:
 
 Here are some basic steps to start using this application
 
