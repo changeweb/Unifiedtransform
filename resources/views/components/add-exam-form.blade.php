@@ -30,28 +30,28 @@
             @endif
         </div>
     </div>
-    <div class="form-group{{ $errors->has('exam_start_date') ? ' has-error' : '' }}">
-        <label for="exam_start_date" class="col-md-4 control-label">Start Date</label>
+    <div class="form-group{{ $errors->has('start_date') ? ' has-error' : '' }}">
+        <label for="start_date" class="col-md-4 control-label">Start Date</label>
 
         <div class="col-md-6">
-            <input id="exam_start_date" type="text" class="form-control" name="exam_start_date" value="{{ old('exam_start_date') }}" placeholder="5th April..." required>
+            <input id="start_date" type="text" class="form-control" name="start_date" value="{{ old('start_date') }}" placeholder="5th April..." required>
 
-            @if ($errors->has('exam_start_date'))
+            @if ($errors->has('start_date'))
                 <span class="help-block">
-                    <strong>{{ $errors->first('exam_start_date') }}</strong>
+                    <strong>{{ $errors->first('start_date') }}</strong>
                 </span>
             @endif
         </div>
     </div>
-    <div class="form-group{{ $errors->has('exam_end_date') ? ' has-error' : '' }}">
-        <label for="exam_end_date" class="col-md-4 control-label">End Date</label>
+    <div class="form-group{{ $errors->has('end_date') ? ' has-error' : '' }}">
+        <label for="end_date" class="col-md-4 control-label">End Date</label>
 
         <div class="col-md-6">
-            <input id="exam_end_date" type="text" class="form-control" name="exam_end_date" value="{{ old('exam_end_date') }}" placeholder="20th April..." required>
+            <input id="end_date" type="text" class="form-control" name="end_date" value="{{ old('end_date') }}" placeholder="20th April..." required>
 
-            @if ($errors->has('exam_end_date'))
+            @if ($errors->has('end_date'))
                 <span class="help-block">
-                    <strong>{{ $errors->first('exam_end_date') }}</strong>
+                    <strong>{{ $errors->first('end_date') }}</strong>
                 </span>
             @endif
         </div>

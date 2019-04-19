@@ -12,7 +12,10 @@ $factory->define(App\Exam::class, function (Faker $faker) {
             return $faker->randomElement(App\School::pluck('id')->toArray());
           }
         },
+        'term' => $faker->sentence,
         'active' => $faker->randomElement([0,1]),
+        'start_date' => $faker->dateTime()->format('Y-m-d H:i:s'),
+        'end_date' => $faker->dateTime()->format('Y-m-d H:i:s'),
         'notice_published' => $faker->randomElement([0,1]),
         'result_published' => $faker->randomElement([0,1]),
         'user_id' => function () use ($faker) {
@@ -22,5 +25,7 @@ $factory->define(App\Exam::class, function (Faker $faker) {
             return $faker->randomElement(App\User::pluck('id')->toArray());
           }
         },
+        'created_at' => Carbon\Carbon::now(),
+        'updated_at' => Carbon\Carbon::now(),
     ];
 });
