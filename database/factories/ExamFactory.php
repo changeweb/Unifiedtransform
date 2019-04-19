@@ -25,7 +25,7 @@ $factory->define(App\Exam::class, function (Faker $faker) {
             return $faker->randomElement(App\User::pluck('id')->toArray());
           }
         },
-        'created_at' => Carbon\Carbon::now(),
-        'updated_at' => Carbon\Carbon::now(),
+        'created_at' => \Carbon\Carbon::now(),
+        'updated_at' => \Carbon\Carbon::now(),
     ];
 });
