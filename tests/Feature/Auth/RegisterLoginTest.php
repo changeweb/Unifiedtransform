@@ -2,7 +2,10 @@
 
 namespace Tests\Feature\Auth;
 
+use App\User;
 use App\School;
+use App\Myclass;
+use App\Section;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -24,7 +27,7 @@ class RegisterLoginTest extends TestCase
             'group' => '',
         ];
 
-        $this->myclass = \App\Myclass::create($this->classData)->first();
+        $this->myclass = Myclass::create($this->classData)->first();
 
         $this->sectionData = [
             'section_number' => 'B',
@@ -32,7 +35,7 @@ class RegisterLoginTest extends TestCase
             'class_id' => $this->myclass->id,
         ];
 
-        $this->section = \App\Section::create($this->sectionData)->first();
+        $this->section = Section::create($this->sectionData)->first();
         
         $this->userData = [
             'name' => 'userName',
@@ -62,7 +65,7 @@ class RegisterLoginTest extends TestCase
      * @return void
      */
     public function test_user_can_be_created(){
-        $this->user = \App\User::create($this->userData)->first();
+        $this->user = User::create($this->userData)->first();
         
         $this->assertEquals($this->userData['role'], $this->user->role);
     }
@@ -71,7 +74,7 @@ class RegisterLoginTest extends TestCase
      *
      * @return void
      */
-    public function test_user_Can_view_a_login_form(){
+    public function test_user_can_view_a_login_form(){
         $response = $this->get('/login');
         $response->assertSuccessful();
         $response->assertViewIs('auth.login');
@@ -81,8 +84,8 @@ class RegisterLoginTest extends TestCase
      *
      * @return void
      */
-    public function test_user_Can_log_in(){
-        $this->user = \App\User::create($this->userData)->first();
+    public function test_user_can_log_in(){
+        $this->user = User::create($this->userData)->first();
 
         $response = $this->post('/login', [
             'email' => $this->user->email,
