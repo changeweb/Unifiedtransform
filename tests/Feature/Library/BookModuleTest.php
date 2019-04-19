@@ -19,8 +19,6 @@ class BookModuleTest extends TestCase
 
     /** @test */
     public function it_shows_the_books_list() {
-        $books = factory(Book::class, 2)->create();
-
         $this->get(route('library.books.index'))
             ->assertStatus(200)
             ->assertViewHas('books');
