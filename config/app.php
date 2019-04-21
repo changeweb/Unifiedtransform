@@ -178,6 +178,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Mavinoo\LaravelBatch\LaravelBatchServiceProvider::class,
         Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
+        Lab404\Impersonate\ImpersonateServiceProvider::class,
     ],
 
     /*
