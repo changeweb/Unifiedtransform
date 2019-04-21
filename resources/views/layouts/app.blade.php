@@ -121,6 +121,11 @@
                                     <a href="{{url('user/config/change_password')}}">Change Password</a>
                                 </li>
                                 <li>
+                                    <a href="{{url('user/config/impersonate')}}">
+                                        {{ app('impersonate')->isImpersonating() ? 'Leave Impersonation' : 'Impersonate' }}
+                                    </a>                                
+                                </li>
+                                <li>
                                     <a href="{{ route('logout') }}" onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
                                         Logout

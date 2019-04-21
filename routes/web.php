@@ -91,6 +91,8 @@ Route::middleware(['auth'])->group(function (){
   Route::get('user/{user_code}', 'UserController@create');
   Route::get('user/config/change_password', 'UserController@changePasswordGet');
   Route::post('user/config/change_password', 'UserController@changePasswordPost');
+  Route::get('user/config/impersonate', 'UserController@impersonateGet');
+  Route::post('user/config/impersonate', 'UserController@impersonate');
   Route::get('section/students/{section_id}', 'UserController@sectionStudents');
   
   Route::get('courses/{teacher_id}/{section_id}', 'CourseController@index');
