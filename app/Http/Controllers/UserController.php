@@ -17,6 +17,7 @@ use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Requests\User\CreateAdminRequest;
 use App\Http\Requests\User\CreateTeacherRequest;
 use App\Http\Requests\User\ChangePasswordRequest;
+use App\Http\Requests\User\ImpersonateUserRequest;
 use App\Http\Requests\User\CreateLibrarianRequest;
 use App\Http\Requests\User\CreateAccountantRequest;
 use Mavinoo\LaravelBatch\Batch;
@@ -246,6 +247,32 @@ class UserController extends Controller
         }
 
         return back()->with('error-status', 'Passwords do not match.');
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function impersonateGet()
+    {
+        if (app('impersonate')->isImpersonating()) {
+            Auth::user()->leaveImpersonation();
+            return redirect('/home');
+        }
+        else {
+            return view('profile.impersonate', [
+                'other_users' => User::where('id', '!=', auth()->id())->get([ 'id', 'name', 'role' ])
+            ]);
+        }
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function impersonate(ImpersonateUserRequest $request)
+    {
+        $user = User::find($request->id);
+        Auth::user()->impersonate($user);
+        return redirect('/home');
     }
 
     /**
