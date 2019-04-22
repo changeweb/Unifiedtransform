@@ -24,7 +24,7 @@
                         <td>{{ $other_user->role }}</td>
                         <td>
                             <input type="hidden" name="id" value="{{$other_user->id}}" />
-                            <button>Impersonate</button>
+                            <button class="btn btn-default">Impersonate</button>
                         </td>
                     </tr>
                 </form>
