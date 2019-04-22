@@ -86,13 +86,16 @@ Route::middleware(['auth','teacher'])->group(function (){
 });
 
 Route::middleware(['auth'])->group(function (){
+  if (env('APP_ENV') != 'production') {
+    Route::get('user/config/impersonate', 'UserController@impersonateGet');
+    Route::post('user/config/impersonate', 'UserController@impersonate');
+  }
+
   Route::get('users/{school_code}/{student_code}/{teacher_code}', 'UserController@index');
   Route::get('users/{school_code}/{role}', 'UserController@indexOther');
   Route::get('user/{user_code}', 'UserController@create');
   Route::get('user/config/change_password', 'UserController@changePasswordGet');
   Route::post('user/config/change_password', 'UserController@changePasswordPost');
-  Route::get('user/config/impersonate', 'UserController@impersonateGet');
-  Route::post('user/config/impersonate', 'UserController@impersonate');
   Route::get('section/students/{section_id}', 'UserController@sectionStudents');
   
   Route::get('courses/{teacher_id}/{section_id}', 'CourseController@index');
