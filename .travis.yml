@@ -3,5 +3,8 @@ php:
 - 7.2
 - 7.1
 - 7.0
-before_script: composer install
+before_script:
+- cp .env.example .env
+- composer install
+- php artisan key:generate
 script: vendor/bin/phpunit -c phpunit.xml
