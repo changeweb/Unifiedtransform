@@ -42,15 +42,11 @@ COPY . /var/www
 # Copy existing application directory permissions
 COPY --chown=www:www . /var/www
 
+# Give laravel permission to storage folder
+RUN chmod -R 775 storage
+
 # Change current user to www
 USER www
-
-RUN composer install
-RUN php artisan key:generate
-RUN php artisan config:cache
-RUN php artisan migrate
-RUN npm install
-RUN npm run dev
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000

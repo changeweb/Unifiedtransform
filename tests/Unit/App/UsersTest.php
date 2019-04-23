@@ -10,11 +10,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class UsersTest extends TestCase
 {
     use RefreshDatabase;
+
     protected $user;
 
     public function setUp() {
         parent::setUp();
-        $this->user = factory(User::class)->create();
+        $this->user = create(User::class);
     }
 
     /** @test */

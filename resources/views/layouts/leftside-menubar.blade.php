@@ -263,7 +263,7 @@
             class="nav-link-text">Issue Book</span></a>
       </li>
       <li>
-        <a class="dropdown-item" href="{{ url('library/add-new-book') }}"><i class="material-icons">note_add</i> <span
+        <a class="dropdown-item" href="{{ route('library.books.create') }}"><i class="material-icons">note_add</i> <span
             class="nav-link-text">Add New Book</span></a>
       </li>
     </ul>

@@ -16,7 +16,7 @@ class BookTest extends TestCase
 
     public function setUp() {
         parent::setUp();
-        $this->book = factory(Book::class)->create();
+        $this->book = create(Book::class);
     }
 
     /** @test */

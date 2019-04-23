@@ -1,4 +1,4 @@
-## School Management and Accounting Software [![MadeWithLaravel.com shield](https://madewithlaravel.com/storage/repo-shields/1362-shield.svg)](https://madewithlaravel.com/p/unifiedtransform/shield-link)
+## School Management and Accounting Software [![Build Status](https://travis-ci.org/changeweb/Unifiedtransform.svg?branch=master)](https://travis-ci.org/changeweb/Unifiedtransform) [![MadeWithLaravel.com shield](https://madewithlaravel.com/storage/repo-shields/1362-shield.svg)](https://madewithlaravel.com/p/unifiedtransform/shield-link)
 
 We like to challenge the quality of what we build to make it better. To do so, we try to make the product intuitive, beautiful, and user friendly. Innovation and hard work help to fulfill these requirements. I believe in order to innovate we need to think differently. A few months ago I discovered there was no open source free school management software that met my quality standards. I happen to know a bit of programming so I decided to make one. I also believe that working with more people can push the standard higher than working alone. So I decided to make it open source and free.
 
@@ -7,7 +7,17 @@ We like to challenge the quality of what we build to make it better. To do so, w
 See the news [here](https://laravel-news.com/unified-transform-open-source-school-management-platform)
 ## Contribute
 
-Community contribution can make this product better!! See [Contribution guideline](https://github.com/changeweb/Unifiedtransform/blob/master/CONTRIBUTING.md) before making any Pull request
+Unifiedtransform is 100% open source and free forever!!
+
+Community contribution can make this product better!! See [Contribution guideline](https://github.com/changeweb/Unifiedtransform/blob/master/CONTRIBUTING.md) before making any Pull request.
+
+When you contribute to a Github project you agree with this terms of [Github Terms of Service(Contributions Under Repository License)](https://help.github.com/en/articles/github-terms-of-service#6-contributions-under-repository-license).
+
+Since this project is under **GNU General Public License v3.0**, according to Github's Terms of Service all your contributions are also under the same license terms.
+Thus you permit the user of this software to use your contribution under the terms of **GNU General Public License v3.0**.
+
+## Testing
+
 - We want testable softwares. So test cases are being written for this app too. You also can contribute by writing test case!
 - To run Feature and Unit Tests use `./vendor/bin/phpunit` and to run Browser Tests set `APP_URL` environment variable in your `.env` file. This value should match the URL you use to access your application in a browser. Then run `php artisan dusk`.
 
@@ -44,11 +54,35 @@ This software has following features:
 - XML PHP Extension
 
 ## How to Start
-Using a Container:
+### Using a Container:
 
-[Docker](https://www.docker.com/) is now supported. To run this software in a Docker container run `docker-compose up -d`. You need to change Docker configuration files according to your need.
+[Docker](https://www.docker.com/) is now supported.
 
-Not using a Container:
+You need to change Docker configuration files according to your need.
+
+- Change following lines in `docker-compose.yml`
+
+      MYSQL_ROOT_PASSWORD: your password
+      MYSQL_USER: root
+      MYSQL_PASSWORD: your password
+
+- To run this software in Docker containers run `sudo docker-compose up -d`.
+- Then run `sudo docker container ls --all`. Copy **Nginx** Container ID.
+- Then run `sudo docker exec -it <container id> bash`
+- Run `cp .env.example .env` and change following lines in `.env` file
+
+      DB_HOST=db
+      DB_PORT=3306
+      DB_DATABASE=school
+      DB_USERNAME=root
+      DB_PASSWORD=your password
+
+- Run `composer install`
+- Run `php artisan key:generate`
+- Run `php artisan migrate:fresh --seed`
+- Visit `http:\\localhost:80`.
+
+### Not using a Container:
 
 Here are some basic steps to start using this application
 
@@ -119,6 +153,7 @@ and may need to run `php artisan vendor:publish --provider="RenatoMarinho\Larave
 ## Good to know
 
 * Setup your Mail configuration in `.env` file if you want to send email. Currently registered users are notified by invitation mail if Mail is configured properly.
+* This project uses [Laravel Impersonate](https://github.com/404labfr/laravel-impersonate) in development and staging environments, so you can view the application through another user's eyes, which is useful for testing. See the guide for using [Impersonation](https://github.com/changeweb/Unifiedtransform/pull/118).
 * In `.env`, turn `APP_DEBUG` to `false` for production environment.
 * Remove `Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');` from `routes/web.php` while in Production Environment.
 * `Cache::remember()` generates cache files. To delete expired cache files [LaravelCacheGarbageCollector](https://github.com/jdavidbakr/laravel-cache-garbage-collector) package is used. Run `php artisan cache:gc`.

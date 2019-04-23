@@ -27,7 +27,7 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-      - "9000:80"
+      - "80:80"
       - "443:443"
     volumes:
       - ./:/var/www
@@ -46,7 +46,7 @@ services:
     environment:
       MYSQL_DATABASE: school
       MYSQL_ROOT_PASSWORD: x12345678y
-      MYSQL_USER: mykeels
+      MYSQL_USER: root
       MYSQL_PASSWORD: x12345678y
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql

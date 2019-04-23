@@ -86,6 +86,11 @@ Route::middleware(['auth','teacher'])->group(function (){
 });
 
 Route::middleware(['auth'])->group(function (){
+  if (env('APP_ENV') != 'production') {
+    Route::get('user/config/impersonate', 'UserController@impersonateGet');
+    Route::post('user/config/impersonate', 'UserController@impersonate');
+  }
+
   Route::get('users/{school_code}/{student_code}/{teacher_code}', 'UserController@index');
   Route::get('users/{school_code}/{role}', 'UserController@indexOther');
   Route::get('user/{user_code}', 'UserController@create');
@@ -132,7 +137,9 @@ Route::middleware(['auth','teacher'])->group(function (){
 
 Route::middleware(['auth', 'librarian'])->namespace('Library')->group(function () {
     Route::prefix('library')->name('library.')->group(function () {
-        Route::resource('books', 'BookController', ['only' => ['index', 'show']]);
+        Route::resource('books', 'BookController',
+            ['only' => ['index', 'show', 'create', 'store']]
+        );
     });
 });
 
@@ -140,8 +147,6 @@ Route::middleware(['auth','librarian'])->group(function () {
   Route::get('library/issue-books', 'IssuedbookController@create');
   Route::post('library/issue-books', 'IssuedbookController@store');
   Route::get('library/issued-books', 'IssuedbookController@index');
-  Route::get('library/add-new-book', 'BookController@create');
-  Route::post('library/add-new-book', 'BookController@store');
   Route::post('library/save_as_returned', 'IssuedbookController@update');
 });
 

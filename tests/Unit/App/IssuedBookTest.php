@@ -10,11 +10,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class IssuedBookTest extends TestCase
 {
     use RefreshDatabase;
+
     protected $issuedbook;
 
     public function setUp() {
         parent::setUp();
-        $this->issuedbook = factory(Issuedbook::class)->create();
+        $this->issuedbook = create(Issuedbook::class);
     }
 
     /** @test */

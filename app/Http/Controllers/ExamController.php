@@ -59,8 +59,8 @@ class ExamController extends Controller
         $request->validate([
             'exam_name' => 'required|string',
             'term' => 'required|string',
-            'exam_start_date' => 'required|string',
-            'exam_end_date' => 'required|string',
+            'start_date' => 'required|string',
+            'end_date' => 'required|string',
         ]);
 
         \DB::transaction(function () use ($request) {
@@ -68,8 +68,10 @@ class ExamController extends Controller
             $exam->exam_name = $request->exam_name;
             $exam->active = 1;
             $exam->term = $request->term;
-            $exam->start_date = $request->exam_start_date;
-            $exam->end_date = $request->exam_end_date;
+            $exam->start_date = $request->start_date;
+            $exam->end_date = $request->end_date;
+            $exam->notice_published = 0;
+            $exam->result_published = 0;
             $exam->school_id = \Auth::user()->school_id;
             $exam->user_id = \Auth::user()->id;
             $exam->save();
