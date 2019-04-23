@@ -1,0 +1,7 @@
+language: php
+php:
+- 7.2
+- 7.1
+- 7.0
+before_script: composer install
+script: vendor/bin/phpunit -c phpunit.xml
