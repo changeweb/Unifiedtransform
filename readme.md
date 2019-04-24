@@ -29,6 +29,8 @@ GNU General Public License v3.0
 
 This software has following features:
 - Roles: Master, Admin, Teacher, Student, Librarian, Accountant
+
+   **(You can Impersonate User Roles in Development environment)** See how [Impersonation](https://github.com/changeweb/Unifiedtransform/pull/118) works. Cool !!
 - Attendance
 - Mark
 - Registration
