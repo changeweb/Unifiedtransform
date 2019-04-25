@@ -203,6 +203,10 @@
     <ul class="dropdown-menu" style="width: 100%;">
       <!-- Dropdown menu links -->
       <li>
+        <a class="dropdown-item" href="{{url('users/'.Auth::user()->school->code.'/accountant')}}"><i class="material-icons">account_balance_wallet</i>
+          <span class="nav-link-text">Accountant List</span></a>
+      </li>
+      <li>
         <a class="dropdown-item" href="{{ url('accounts/sectors') }}"><i class="material-icons">developer_board</i>
           <span class="nav-link-text">Account Sectors</span></a>
       </li>
@@ -250,6 +254,10 @@
         class="material-icons">local_library</i> <span class="nav-link-text">Manage Library</span> <i class="material-icons pull-right">keyboard_arrow_down</i></a>
     <ul class="dropdown-menu" style="width: 100%;">
       <!-- Dropdown menu links -->
+      <li>
+        <a class="dropdown-item" href="{{url('users/'.Auth::user()->school->code.'/librarian')}}"><i class="material-icons">local_library</i>
+          <span class="nav-link-text">Librarian List</span></a>
+      </li>
       <li>
         <a class="dropdown-item" href="{{ route('library.books.index') }}"><i class="material-icons">developer_board</i>
           <span class="nav-link-text">All Books</span></a>

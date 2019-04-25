@@ -33,8 +33,8 @@
                                     </div>
                                     @endif
                                 </div>
-                            </div>
-                            <div id="collapse{{$class->id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{$class->id}}">
+                        </div>
+                        <div id="collapse{{$class->id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{$class->id}}">
                             <div class="panel-body">
                                 <table class="table table-bordered table-striped">
                                     <thead>

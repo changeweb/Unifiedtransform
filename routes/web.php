@@ -29,12 +29,12 @@ class ResultOutput()
     }
 }
 */
+
+\Debugbar::disable();
+
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get( '/_debugbar/assets/stylesheets', '\Barryvdh\Debugbar\Controllers\AssetController@css' );
-Route::get( '/_debugbar/assets/javascript', '\Barryvdh\Debugbar\Controllers\AssetController@js' );
 
 Auth::routes();
 
@@ -93,7 +93,7 @@ Route::middleware(['auth'])->group(function (){
 
   Route::get('users/{school_code}/{student_code}/{teacher_code}', 'UserController@index');
   Route::get('users/{school_code}/{role}', 'UserController@indexOther');
-  Route::get('user/{user_code}', 'UserController@create');
+  Route::get('user/{user_code}', 'UserController@show');
   Route::get('user/config/change_password', 'UserController@changePasswordGet');
   Route::post('user/config/change_password', 'UserController@changePasswordPost');
   Route::get('section/students/{section_id}', 'UserController@sectionStudents');

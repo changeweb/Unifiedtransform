@@ -39,7 +39,7 @@ $factory->define(App\Course::class, function (Faker $faker) {
         },
         'grade_system_name' => function () use ($faker) {
           if(App\Gradesystem::count() == 0)
-            return factory(App\Gradesystem::class)->create()->id;
+            return factory(App\Gradesystem::class)->create()->grade_system_name;
           else {
             return $faker->randomElement(App\Gradesystem::pluck('grade_system_name')->toArray());
           }

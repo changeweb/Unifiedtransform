@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Course as Course;
+use App\Course;
 use App\Http\Resources\CourseResource;
 use Illuminate\Http\Request;
 use App\Http\Requests\Course\SaveConfigurationRequest;
 use App\Http\Traits\GradeTrait;
+use App\Http\Controllers\Course\HandleCourse;
 
 class CourseController extends Controller
 {
@@ -18,38 +19,29 @@ class CourseController extends Controller
      */
     public function index($teacher_id, $section_id){
       if(\Auth::user()->role != 'student' && $teacher_id > 0) {
-        $courses = Course::with(['section', 'teacher','exam'])
-                        ->where('teacher_id', $teacher_id)
-                        ->get();
+        $courses = HandleCourse::getCoursesByTeacher($teacher_id);
         $exams = \App\Exam::where('school_id', \Auth::user()->school_id)
                           ->where('active',1)
                           ->get();
+        $view = 'course.teacher-course';
 
-        return view('course.teacher-course',['courses'=>$courses,'exams'=>$exams]);
-
-      }else if(\Auth::user()->role == 'student'
+      } else if(\Auth::user()->role == 'student'
                 && $section_id == \Auth::user()->section_id
-                && $section_id > 0)
-      {
-        $courses = Course::with(['section', 'teacher'])
-                        ->where('section_id', $section_id)
-                        ->get();
+                && $section_id > 0) {
+        $courses = HandleCourse::getCoursesBySection($section_id);
+        $view = 'course.class-course';
+        $exams = [];
 
-        return view('course.class-course',['courses'=>$courses,'exams'=>[]]);
-
-      }else if(\Auth::user()->role != 'student' && $section_id > 0) {
-
-        $courses = Course::with(['section', 'teacher','exam'])
-                        ->where('section_id', $section_id)
-                        ->get();
+      } else if(\Auth::user()->role != 'student' && $section_id > 0) {
+        $courses = HandleCourse::getCoursesBySection($section_id);
         $exams = \App\Exam::where('school_id', \Auth::user()->school_id)
                           ->where('active',1)
                           ->get();
-        
-        return view('course.class-course',['courses'=>$courses,'exams'=>$exams]);
+        $view = 'course.class-course';
       } else {
         return redirect('home');
       }
+      return view($view,['courses'=>$courses,'exams'=>$exams]);
     }
 
     /**
@@ -70,10 +62,7 @@ class CourseController extends Controller
     public function course($teacher_id,$course_id,$exam_id,$section_id)
     {
       $this->addStudentsToCourse($teacher_id,$course_id,$exam_id,$section_id);
-      $students = \App\Grade::with('student')
-                            ->where('course_id', $course_id)
-                            ->where('exam_id',$exam_id)
-                            ->get();
+      $students = HandleCourse::getStudentsFromGradeByCourseAndExam($course_id, $exam_id);
       return view('course.students', [
         'students'=>$students,
         'teacher_id'=>$teacher_id,
@@ -89,38 +78,11 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-      $tb = new Course;
-      $tb->course_name = $request->course_name;
-      $tb->class_id = $request->class_id;
-      $tb->course_type = $request->course_type;
-      $tb->course_time = $request->course_time;
-      $tb->section_id = $request->section_id;
-      $tb->teacher_id = $request->teacher_id;
-      $tb->grade_system_name = '';
-      $tb->quiz_count = 0;
-      $tb->assignment_count = 0;
-      $tb->ct_count = 0;
-      $tb->quiz_percent = 0;
-      $tb->attendance_percent = 0;
-      $tb->assignment_percent = 0;
-      $tb->ct_percent = 0;
-      $tb->final_exam_percent = 0;
-      $tb->practical_percent = 0;
-      $tb->att_fullmark = 0;
-      $tb->quiz_fullmark = 0;
-      $tb->a_fullmark = 0;
-      $tb->ct_fullmark = 0;
-      $tb->final_fullmark = 0;
-      $tb->practical_fullmark = 0;
-      $tb->exam_id = 0;
-      $tb->school_id = auth()->user()->school_id;
-      $tb->user_id = auth()->user()->id; // who is creating
-      // $tb->quiz_percent = $request->quiz_percent;
-      // $tb->test_percent = $request->test_percent;
-      // $tb->assignment_percent = $request->assignment_percent;
-      // $tb->class_work_percent = $request->class_work_percent;
-      // $tb->final_exam_percent = $request->final_exam_percent;
-      $tb->save();
+      try{
+        HandleCourse::addCourse($request);
+      } catch (\Exception $ex){
+        return 'Could not add course.';
+      }
       return back()->with('status', 'Created');
     }
 
@@ -129,24 +91,11 @@ class CourseController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function saveConfiguration(SaveConfigurationRequest $request){
-      $tb = Course::find($request->course_id);
-      $tb->grade_system_name = $request->grade_system_name;
-      $tb->quiz_count = $request->quiz_count;
-      $tb->assignment_count = $request->assignment_count;
-      $tb->ct_count = $request->ct_count;
-      $tb->quiz_percent = $request->quiz_perc;
-      $tb->attendance_percent = $request->attendance_perc;
-      $tb->assignment_percent = $request->assign_perc;
-      $tb->ct_percent = $request->ct_perc;
-      $tb->final_exam_percent = $request->final_perc;
-      $tb->practical_percent = $request->practical_perc;
-      $tb->att_fullmark = $request->att_fullmark;
-      $tb->quiz_fullmark = $request->quiz_fullmark;
-      $tb->a_fullmark = $request->assignment_fullmark;
-      $tb->ct_fullmark = $request->ct_fullmark;
-      $tb->final_fullmark = $request->final_fullmark;
-      $tb->practical_fullmark = $request->practical_fullmark;
-      $tb->save();
+      try{
+        HandleCourse::saveConfiguration($request);
+      } catch (\Exception $ex){
+        return 'Could not save configuration.';
+      }
       return back()->with('status', 'Saved');
     }
 
@@ -158,7 +107,7 @@ class CourseController extends Controller
      */
     public function show($id)
     {
-        return new CourseResource(Course::find($id));
+      return new CourseResource(Course::find($id));
     }
 
     /**
@@ -172,25 +121,6 @@ class CourseController extends Controller
       $course = Course::find($id);
       return view('course.edit', ['course'=>$course]);
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    // public function update(Request $request)
-    // {
-    //   $request->validate([
-    //     'course_id' => 'required|numeric',
-    //     'exam_id' => 'required|numeric',
-    //   ]);
-    //   $tb = Course::find($request->course_id);
-    //   $tb->exam_id = $request->exam_id;
-    //   $tb->save();
-    //   return back()->with('status', 'Saved');
-    // }
 
     /**
      * Update the specified resource in storage.

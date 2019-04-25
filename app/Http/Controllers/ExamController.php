@@ -132,11 +132,18 @@ class ExamController extends Controller
         $request->validate([
             'exam_id' => 'required|numeric',
         ]);
-        $tb = \App\Exam::find($request->exam_id);
-        $tb->notice_published = isset($request->notice_published)?1:0;
-        $tb->result_published = isset($request->result_published)?1:0;
-        $tb->active = (isset($request->active))?1:0;
-        $tb->save();
+        \DB::transaction(function () use ($request) {
+            $tb = \App\Exam::find($request->exam_id);
+            $tb->notice_published = isset($request->notice_published)?1:0;
+            $tb->result_published = isset($request->result_published)?1:0;
+            $tb->active = (isset($request->active))?1:0;
+            $tb->save();
+            if(!isset($request->active)){
+                $examForClass = new \App\ExamForClass;
+                $examForClass->active = 0;
+                $examForClass->save();
+            }
+        });
         return back()->with('status', 'Saved');
     }
 
