@@ -58,7 +58,7 @@ class AttendanceController extends Controller
     public function adjust($student_id){
       $student = HandleAttendance::getStudent($student_id);
       $exam = \App\ExamForClass::where('class_id',$student->section->class->id)->first();
-      if(count($exam) == 1)
+      if(count((array) $exam) == 1)
         $exId = $exam->exam_id;
       else
         $exId = 0;
@@ -140,7 +140,7 @@ class AttendanceController extends Controller
           // ];
           //DB::transaction(function () {
             $tb = Attendance::find($attendance);
-            if(count($tb) === 1 && !isset($request["isPresent$i"]) && $tb->present == 1){
+            if(count((array) $tb) === 1 && !isset($request["isPresent$i"]) && $tb->present == 1){
               // Attended today's class but escaped
               $tb->updated_at = date('Y-m-d H:i:s');
               $tb->save();
