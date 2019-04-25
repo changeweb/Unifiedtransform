@@ -79,6 +79,7 @@
         @endforeach
       @else
         <input type="hidden" name="update" value="0">
+        <input type="hidden" name="attendances[]" value="0">
         @foreach ($students as $student)
         <input type="hidden" name="students[]" value="{{$student->id}}">
         <tr>
