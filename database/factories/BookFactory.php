@@ -28,9 +28,9 @@ $factory->define(Book::class, function (Faker $faker) {
                                 return $faker->randomElement(School::pluck('id')->toArray());
                             } else return factory(School::class)->create()->id;
                         },
-        'user_id'    => function() use ($faker) {
+        'user_id'   => function() use ($faker) {
                             if (User::count()) {
-                                return $faker->randomElement(User::pluck('id')->toArray());
+                                return $faker->randomElement(User::where('role','librarian')->pluck('id')->toArray());
                             } else return factory(User::class)->states('librarian')->create()->id;
                         }
     ];

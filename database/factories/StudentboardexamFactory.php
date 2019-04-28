@@ -4,7 +4,7 @@ use Faker\Generator as Faker;
 
 $factory->define(App\StudentBoardExam::class, function (Faker $faker) {
     return [
-      'student_id' => $faker->randomElement(App\User::where('role', 'student')->pluck('id')->toArray()),
+      'student_id' => $faker->randomElement(App\User::student()->pluck('id')->toArray()),
       'exam_name' => $faker->randomElement(['JSC','SSC','O Level', 'A Level']),
       'group' => $faker->randomElement(['science','commerce','arts']),
       'roll' => $faker->randomNumber(7, false),
