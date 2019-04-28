@@ -85,11 +85,11 @@ class UserModuleTest extends TestCase
             'section_id' => $section->id,
             'to_section' => [6,1,3,7,5],
             'to_session' => [2019, 2019, 2019, 2019, 2019],
-            'left_school1' => 0,
-            'left_school2' => 1,
+            'left_school0' => 0,
+            'left_school1' => 1,
+            'left_school2' => 0,
             'left_school3' => 0,
             'left_school4' => 0,
-            'left_school5' => 0,
         ];
         $response = $this->followingRedirects()
                         ->post('school/promote-students', $request);
