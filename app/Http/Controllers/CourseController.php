@@ -7,11 +7,16 @@ use App\Http\Resources\CourseResource;
 use Illuminate\Http\Request;
 use App\Http\Requests\Course\SaveConfigurationRequest;
 use App\Http\Traits\GradeTrait;
-use App\Http\Controllers\Course\HandleCourse;
+use App\Services\Course\CourseService;
 
 class CourseController extends Controller
 {
     use GradeTrait;
+    protected $courseService;
+
+    public function __construct(CourseService $courseService){
+      $this->courseService = $courseService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +24,7 @@ class CourseController extends Controller
      */
     public function index($teacher_id, $section_id){
       if(\Auth::user()->role != 'student' && $teacher_id > 0) {
-        $courses = HandleCourse::getCoursesByTeacher($teacher_id);
+        $courses = $this->courseService->getCoursesByTeacher($teacher_id);
         $exams = \App\Exam::where('school_id', \Auth::user()->school_id)
                           ->where('active',1)
                           ->get();
@@ -28,12 +33,12 @@ class CourseController extends Controller
       } else if(\Auth::user()->role == 'student'
                 && $section_id == \Auth::user()->section_id
                 && $section_id > 0) {
-        $courses = HandleCourse::getCoursesBySection($section_id);
+        $courses = $this->courseService->getCoursesBySection($section_id);
         $view = 'course.class-course';
         $exams = [];
 
       } else if(\Auth::user()->role != 'student' && $section_id > 0) {
-        $courses = HandleCourse::getCoursesBySection($section_id);
+        $courses = $this->courseService->getCoursesBySection($section_id);
         $exams = \App\Exam::where('school_id', \Auth::user()->school_id)
                           ->where('active',1)
                           ->get();
@@ -62,7 +67,7 @@ class CourseController extends Controller
     public function course($teacher_id,$course_id,$exam_id,$section_id)
     {
       $this->addStudentsToCourse($teacher_id,$course_id,$exam_id,$section_id);
-      $students = HandleCourse::getStudentsFromGradeByCourseAndExam($course_id, $exam_id);
+      $students = $this->courseService->getStudentsFromGradeByCourseAndExam($course_id, $exam_id);
       return view('course.students', [
         'students'=>$students,
         'teacher_id'=>$teacher_id,
@@ -79,7 +84,7 @@ class CourseController extends Controller
     public function store(Request $request)
     {
       try{
-        HandleCourse::addCourse($request);
+        $this->courseService->addCourse($request);
       } catch (\Exception $ex){
         return 'Could not add course.';
       }
@@ -92,7 +97,7 @@ class CourseController extends Controller
      */
     public function saveConfiguration(SaveConfigurationRequest $request){
       try{
-        HandleCourse::saveConfiguration($request);
+        $this->courseService->saveConfiguration($request);
       } catch (\Exception $ex){
         return 'Could not save configuration.';
       }

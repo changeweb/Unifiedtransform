@@ -6,12 +6,12 @@ $factory->define(App\Attendance::class, function (Faker $faker) {
     return [
         'present' => $faker->randomElement([0,1,2]),
         'student_id' => function () use ($faker) {
-          if(App\User::where('role', 'student')->count() == 0)
+          if(App\User::student()->count() == 0)
             return factory(App\User::class)->create([
                     'role' => 'student',
             ])->id;
           else {
-            return $faker->randomElement(App\User::where('role', 'student')->take(10)->pluck('id')->toArray());
+            return $faker->randomElement(App\User::student()->take(10)->pluck('id')->toArray());
           }
         },
         'section_id' => function () use ($faker) {

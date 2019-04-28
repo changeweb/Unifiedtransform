@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\AccountSector;
+use App\Account;
+use App\Myclass;
+use App\User;
+use App\Section;
 use Illuminate\Http\Request;
-
 class AccountController extends Controller
 {
 
   public function sectors(){
-    $sectors= \App\AccountSector::where('school_id', \Auth::user()->school_id)->get();
-    $incomes = \App\Account::where('school_id', \Auth::user()->school_id)
+    $sectors= AccountSector::where('school_id', \Auth::user()->school_id)->get();
+    $incomes = Account::where('school_id', \Auth::user()->school_id)
                           ->where('type', 'income')
                           ->orderBy('id', 'desc')
                           ->take(50)
                           ->get();
-    $expenses = \App\Account::where('school_id', \Auth::user()->school_id)
+    $expenses = Account::where('school_id', \Auth::user()->school_id)
                             ->where('type', 'expense')
                             ->orderBy('id', 'desc')
                             ->take(50)
@@ -38,10 +42,11 @@ class AccountController extends Controller
       'name' => 'required|string',
       'type' => 'required|string'
     ]);
-    $sector = new \App\AccountSector();
+    $sector = new AccountSector();
     $sector->name= $request->name;
     $sector->type=$request->type;
-    $sector->school_id = \Auth::user()->school_id;
+    $sector->school_id = auth()->user()->school_id;
+    $sector->user_id = auth()->user()->id;
     $sector->save();
     return back()->with("status","Account Sector Created Succesfully.");
   }
@@ -52,9 +57,8 @@ class AccountController extends Controller
   * @return Response
   */
   public function editSector($id){
-    $sectors= \App\AccountSector::where('school_id', \Auth::user()->school_id)->get();
-    $sector = \App\AccountSector::find($id);
-    return view('accounts.sector',['sectors'=>$sectors,'sector'=>$sector]);
+    $sector = AccountSector::find($id);
+    return view('accounts.edit_sector',['sector'=>$sector]);
   }
 
 
@@ -69,9 +73,9 @@ class AccountController extends Controller
       'name' => 'required|string',
       'type' => 'required|string'
     ]);
-    $sector = \App\AccountSector::find($request->id);
-    $sector->name= $request->name;
-    $sector->type=$request->type;
+    $sector = AccountSector::find($request->id);
+    $sector->name = $request->name;
+    $sector->type = $request->type;
     $sector->save();
     return back()->with("status","Account Sector Updated Successfully.");
   }
@@ -83,22 +87,22 @@ class AccountController extends Controller
   * @return Response
   */
   public function deleteSector($id){
-    $sector = \App\AccountSector::find($id);
+    $sector = AccountSector::find($id);
     $sector->delete();
     return redirect('/accounts/sectors')->with("status","Account Sector Deleted Successfully.");
   }
 
   public function income(){
-    $sectors = \App\AccountSector::where('school_id', \Auth::user()->school_id)
+    $sectors = AccountSector::where('school_id', \Auth::user()->school_id)
                                 ->where('type','income')
                                 ->get();
-    $classes = \App\Myclass::where('school_id', \Auth::user()->school_id)
+    $classes = Myclass::where('school_id', \Auth::user()->school_id)
                             ->pluck('id')
                             ->toArray();
-    $sections = \App\Section::with('class')
+    $sections = Section::with('class')
                             ->whereIn('class_id', $classes)
                             ->get();
-    $students = \App\User::whereIn('section_id',$sections->pluck('id')->toArray())
+    $students = User::whereIn('section_id',$sections->pluck('id')->toArray())
                           ->get();
     return view('accounts.income',[
       'sectors'=>$sectors,
@@ -114,7 +118,7 @@ class AccountController extends Controller
       'description' => 'required'
     ]);
     
-    $income = new \App\Account();
+    $income = new Account();
     $income->name = $request->name;
     $income->type = "income";
     $income->amount = $request->amount;
@@ -130,7 +134,7 @@ class AccountController extends Controller
   }
 
   public function postIncome(Request $request){
-    $incomes = \App\Account::where('school_id', \Auth::user()->school_id)
+    $incomes = Account::where('school_id', \Auth::user()->school_id)
                           ->where('type', 'income')
                           ->whereYear('created_at',$request->year)
                           ->get();
@@ -138,7 +142,7 @@ class AccountController extends Controller
   }
 
   public function editIncome($id){
-    $income = \App\Account::find($id);
+    $income = Account::find($id);
     return view('accounts.income-edit',['income'=>$income]);
   }
   public function updateIncome(Request $request)
@@ -147,7 +151,7 @@ class AccountController extends Controller
       'name' => 'required|string',
       'amount' => 'required|numeric',
     ]);
-    $income = \App\Account::find($request->id);
+    $income = Account::find($request->id);
     $income->amount = $request->amount;
     $income->description = $request->description;
     $income->save();
@@ -156,14 +160,14 @@ class AccountController extends Controller
   }
 
   public function deleteIncome($id){
-    $income = \App\Account::find($id);
+    $income = Account::find($id);
     $income->delete();
 
     return back()->with("status","Income Deleted Successfully.");
   }
 
   public function expense(){
-    $sectors = \App\AccountSector::where('school_id', \Auth::user()->school_id)
+    $sectors = AccountSector::where('school_id', \Auth::user()->school_id)
                                 ->where('type','expense')
                                 ->get();
     return view('accounts.expense',['sectors'=>$sectors]);
@@ -176,7 +180,7 @@ class AccountController extends Controller
       'description' => 'required'
     ]);
     
-    $expense = new \App\Account();
+    $expense = new Account();
     $expense->name = $request->name;
     $expense->type = "expense";
     $expense->amount = $request->amount;
@@ -192,7 +196,7 @@ class AccountController extends Controller
   }
 
   public function postExpense(Request $request){
-    $expenses = \App\Account::where('school_id', \Auth::user()->school_id)
+    $expenses = Account::where('school_id', \Auth::user()->school_id)
                             ->where('type', 'expense')
                             ->whereYear('created_at',$request->year)
                             ->get();
@@ -200,7 +204,7 @@ class AccountController extends Controller
   }
 
   public function editExpense($id){
-    $expense = \App\Account::find($id);
+    $expense = Account::find($id);
     return view('accounts.expense-edit',['expense'=>$expense]);
   }
 
@@ -209,7 +213,7 @@ class AccountController extends Controller
       'name' => 'required|string',
       'amount' => 'required|numeric',
     ]);
-    $expense = \App\Account::find($request->id);
+    $expense = Account::find($request->id);
     $expense->amount = $request->amount;
     $expense->description = $request->description;
     $expense->save();
@@ -218,7 +222,7 @@ class AccountController extends Controller
   }
 
   public function deleteExpense($id){
-    $expense = \App\Account::find($id);
+    $expense = Account::find($id);
     $expense->delete();
     return back()->with("status","expense Deleted Successfully.");
   }

@@ -6,10 +6,15 @@ use App\Grade;
 use App\Http\Resources\GradeResource;
 use Illuminate\Http\Request;
 use App\Http\Traits\GradeTrait;
-use App\Http\Controllers\Grade\HandleGrade;
+use App\Services\Grade\GradeService;
 class GradeController extends Controller
 {
     use GradeTrait;
+    protected $gradeService;
+
+    public function __construct(GradeService $gradeService){
+      $this->gradeService = $gradeService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -85,7 +90,8 @@ class GradeController extends Controller
         'gradesystems' => $gradesystems,
         'course_id'=>$course_id,
         'exam_id'=>$exam_id,
-        'teacher_id'=>$teacher_id
+        'teacher_id'=>$teacher_id,
+        'section_id'=>$section_id,
       ]);
     }
 
@@ -132,6 +138,7 @@ class GradeController extends Controller
         'grade_system_name' => 'required|string',
         'exam_id' => 'required|numeric',
         'course_id' => 'required|numeric',
+        'section_id' => 'required|numeric',
       ]);
 
       $gradeSystem = \App\Gradesystem::where('school_id', \Auth::user()->school_id)
@@ -147,7 +154,7 @@ class GradeController extends Controller
                 ->toArray();
 
       foreach($grades as $key => $grade){
-        $totalMarks = HandleGrade::calculateMarks($course, $grade);
+        $totalMarks = $this->gradeService->calculateMarks($course, $grade);
         // Calculate GPA from Total marks
         $gpa = $this->calculateGpa($gradeSystem, $totalMarks);
         $tb = Grade::find($grade['id']);
@@ -157,8 +164,9 @@ class GradeController extends Controller
       }
       return redirect()->route('teacher-grade', [
         'teacher_id' => $request->teacher_id,
-        'course_id'=>$request->course_id,
-        'exam_id'=>$request->exam_id
+        'course_id' => $request->course_id,
+        'exam_id' => $request->exam_id,
+        'section_id' => $request->section_id,
       ]);
     }
 
@@ -214,7 +222,7 @@ class GradeController extends Controller
      */
     public function update(Request $request)
     {
-      $tbc = HandleGrade::updateGrade($request);
+      $tbc = $this->gradeService->updateGrade($request);
       try{
           if(count($tbc) > 0)
             \Batch::update('grades',$tbc,'id');

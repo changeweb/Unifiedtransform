@@ -31,12 +31,12 @@ $factory->define(App\Grade::class, function (Faker $faker) {
           }
         },
         'student_id' => function () use ($faker) {
-          if(App\User::where('role', 'student')->count() == 0)
+          if(App\User::student()->count() == 0)
             return factory(App\User::class)->create([
                     'role' => 'student',
             ])->id;
           else {
-            return $faker->randomElement(App\User::where('role', 'student')->take(10)->pluck('id')->toArray());
+            return $faker->randomElement(App\User::student()->take(10)->pluck('id')->toArray());
           }
         },
         'teacher_id' => function () use ($faker) {

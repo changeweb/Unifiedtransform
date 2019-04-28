@@ -61,6 +61,7 @@ class Kernel extends HttpKernel
         'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
         'master' => \App\Http\Middleware\CheckMaster::class,
         'master.admin' => \App\Http\Middleware\CheckMasterOrAdmin::class,
+        'teacher.student' => \App\Http\Middleware\CheckTeacherOrStudent::class,
         'admin' => \App\Http\Middleware\CheckAdmin::class,
         'accountant' => \App\Http\Middleware\CheckAccountant::class,
         'librarian' => \App\Http\Middleware\CheckLibrarian::class,

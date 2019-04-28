@@ -4,9 +4,6 @@ namespace Tests\Feature\Manage;
 
 use App\User;
 use App\Exam;
-use App\School;
-use App\Myclass;
-use App\Section;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -23,14 +20,20 @@ class ExamModuleTest extends TestCase
     }
     /** @test */
     public function view_is(){
-         $this->get('exams')
-            ->assertViewIs('exams.all');
+        $response = $this->get('exams');
+        $response->assertViewIs('exams.all');
     }
     /** @test */
     public function it_shows_the_exam_list() {
-        $this->get('exams')
-            ->assertStatus(200)
-            ->assertViewHas('exams');
+        $response = $this->get('exams');
+        $response->assertStatus(200);
+        $response->assertViewHas('exams');
+    }
+    /** @test */
+    public function admin_can_view_exam_creation_form() {
+        $response = $this->get('exams/create');
+        $response->assertStatus(200);
+        $response->assertViewHas('classes');
     }
     /** @test */
     public function admin_can_create_exam() {
@@ -44,13 +47,37 @@ class ExamModuleTest extends TestCase
             'classes' => [1,2,3]//id
         ];
         $request = array_merge($exam, $classes);
-        $this->followingRedirects()
-            ->post('exams/create', $request)
-            ->assertStatus(200);
+        $response = $this->followingRedirects()
+                    ->post('exams/create', $request);
+        $response->assertStatus(200);
 
         $this->assertDatabaseHas('exams', $exam);
         
-        $this->get('exams')
-            ->assertSee($exam['exam_name']);
+        $response = $this->get('exams');
+        $response->assertSee($exam['exam_name']);
+    }
+    /** @test */
+    public function admin_can_activate_exam() {
+        $exam = factory(Exam::class)->create();
+        $request = [
+            'exam_id' => $exam->id,
+            'active' => 1,
+            'notice_published' => 1,
+            'result_published' => 0,
+        ];
+        $response = $this->followingRedirects()->post('exams/activate-exam', $request);
+        $response->assertStatus(200);
+    }
+    /** @test */
+    public function admin_can_deactivate_exam() {
+        $exam = factory(Exam::class)->create();
+        $request = [
+            'exam_id' => $exam->id,
+            'active' => 0,
+            'notice_published' => 1,
+            'result_published' => 1,
+        ];
+        $response = $this->followingRedirects()->post('exams/activate-exam', $request);
+        $response->assertStatus(200);
     }
 }

@@ -6,7 +6,7 @@ use Faker\Generator as Faker;
 
 $factory->define(StudentInfo::class, function (Faker $faker) {
     return [
-      'student_id'           => $faker->randomElement(User::where('role', 'student')->pluck('id')->toArray()),
+      'student_id'           => $faker->randomElement(User::student()->pluck('id')->toArray()),
       'session'              => '2018',
       'version'              => $faker->randomElement(['bangla', 'english']),
       'group'                => $faker->randomElement(['', 'science', 'commerce', 'arts']),

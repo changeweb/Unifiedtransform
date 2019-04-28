@@ -5,18 +5,19 @@ namespace App\Listeners;
 use App\Events\StudentInfoUpdateRequested;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Http\Controllers\User\HandleUser;
+use App\Services\User\UserService;
 
 class UpdateStudentInfo
 {
+    protected $userService;
     /**
      * Create the event listener.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserService $userService)
     {
-        //
+        $this->userService = $userService;
     }
 
     /**
@@ -28,7 +29,7 @@ class UpdateStudentInfo
     public function handle(StudentInfoUpdateRequested $event)
     {
         try{
-            HandleUser::updateStudentInfo($event->request,$event->student_id);
+            $this->userService->updateStudentInfo($event->request,$event->student_id);
             return true;
         } catch(\Exception $ex) {
             Log::info('Failed to update Student information, Id: '.$event->user_id);

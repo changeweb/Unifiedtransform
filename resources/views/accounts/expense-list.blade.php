@@ -8,8 +8,11 @@
             @include('layouts.leftside-menubar')
         </div>
         <div class="col-md-10" id="main-container">
-            <div class="panel panel-default">
-                <div class="page-panel-title">View List of Expense
+          <br>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="panel panel-default">
+              <div class="page-panel-title">View List of  Expense
                 <button class="btn btn-xs btn-success pull-right" role="button" id="btnPrint" ><i class="material-icons">print</i> Print This Expense List</button></div>
 
                 <div class="panel-body">
@@ -39,7 +42,18 @@
                         </div>
                       </div>
                     </form>
-                    @isset($expenses)
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div style="width:100%; height: 300px;">
+                <canvas id="canvas"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              @isset($expenses)
                     <div class="table-responsive">
                       <table class="table table-data-div table-hover">
                         <thead>
@@ -93,9 +107,9 @@
                       </div>
                     </div>
                     @endisset
-                </div>
             </div>
-        </div>
+          </div>
+      </div>
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
@@ -117,4 +131,77 @@ $("#btnPrint").on("click", function () {
             printWindow.print();
         });
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+	<style>
+		canvas {
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+		}
+    </style>
+    <script>
+        'use strict';
+
+        window.chartColors = {
+            red: 'rgb(255, 99, 132)',
+            orange: 'rgb(255, 159, 64)',
+            yellow: 'rgb(255, 205, 86)',
+            green: 'rgb(75, 192, 192)',
+            blue: 'rgb(54, 162, 235)',
+            purple: 'rgb(153, 102, 255)',
+            grey: 'rgb(201, 203, 207)'
+        };
+
+		var color = Chart.helpers.color;
+		var config = {
+			type: 'bar',
+			data: {
+				datasets: [{
+                    label: 'Expense',
+					backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+					borderColor: window.chartColors.red,
+					fill: false,
+					data: [@foreach($expenses as $s)
+                        {
+                            t:"{{Carbon\Carbon::parse($s->created_at)->format('Y-d-m')}}",
+                            y:{{$s->amount}}
+                        },
+                        @endforeach]
+        }]
+                },
+			options: {
+				title: {
+                    display: true,
+					text: 'Expense (In Dollar) in Time Scale'
+				},
+        maintainAspectRatio: false,
+				scales: {
+					xAxes: [{
+						type: 'time',
+						time: {
+							parser: 'YYYY-DD-MM',
+							tooltipFormat: 'll HH:mm'
+						},
+						scaleLabel: {
+							display: true,
+							labelString: 'Date'
+						}
+					}],
+					yAxes: [{
+						scaleLabel: {
+							display: true,
+							labelString: 'Money'
+						}
+					}]
+				},
+			}
+		};
+
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myLine = new Chart(ctx, config);
+
+		};
+	    </script>
 @endsection

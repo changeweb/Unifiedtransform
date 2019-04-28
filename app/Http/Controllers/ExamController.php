@@ -161,10 +161,10 @@ class ExamController extends Controller
     //     'exam_id' => 'required|numeric',
     //   ]);
         
-        $tb = Course::find($request->course_id);
-        $tb->exam_id = $request->exam_id;
-        $tb->save();
-        return back()->with('status', 'Saved');
+        // $tb = Course::find($request->course_id);
+        // $tb->exam_id = $request->exam_id;
+        // $tb->save();
+        // return back()->with('status', 'Saved');
     }
 
     /**

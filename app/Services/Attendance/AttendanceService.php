@@ -1,31 +1,31 @@
 <?php
-namespace App\Http\Controllers\Attendance;
+namespace App\Services\Attendance;
 
 use App\User;
 use App\Attendance;
 use Illuminate\Support\Facades\Auth;
 
-class HandleAttendance {
+class AttendanceService {
 
-    public static function getStudentsBySection($section_id){
+    public function getStudentsBySection($section_id){
         return User::with('section')
                     ->select('id','name','student_code','section_id')
                     ->where('section_id', $section_id)
-                    ->where('role', 'student')
+                    ->student()
                     ->where('active', 1)
                     ->get();
     }
 
-    public static function getStudentsWithInfoBySection($section_id){
+    public function getStudentsWithInfoBySection($section_id){
         return User::with(['section','school','studentInfo'])
               ->where('section_id', $section_id)
-              ->where('role', 'student')
+              ->student()
               ->where('active', 1)
               ->orderBy('name', 'asc')
               ->paginate(50);
     }
 
-    public static function adjustPost($request){
+    public function adjustPost($request){
       try{
         for($i=0; $i < count($request->isPresent); $i++){
           $atts[] = [
@@ -41,7 +41,7 @@ class HandleAttendance {
       }
     }
 
-    public static function getTodaysAttendanceBySectionId($section_id){
+    public function getTodaysAttendanceBySectionId($section_id){
         return Attendance::where('section_id', $section_id)
                       ->whereDate('created_at', \DB::raw('CURDATE()'))
                       ->orderBy('created_at', 'desc')
@@ -49,7 +49,7 @@ class HandleAttendance {
                       ->unique('student_id');
     }
 
-    public static function getAllAttendanceBySecAndExam($section_id,$exam_id){
+    public function getAllAttendanceBySecAndExam($section_id,$exam_id){
         return \DB::table('attendances')
                     ->select('student_id', \DB::raw('
                       COUNT(CASE WHEN present=1 THEN present END) AS totalPresent,
@@ -62,15 +62,15 @@ class HandleAttendance {
                     ->get();
     }
 
-    public static function getStudent($student_id){
+    public function getStudent($student_id){
         return User::with('section')
                     ->where('id', $student_id)
-                    ->where('role', 'student')
+                    ->student()
                     ->where('active', 1)
                     ->first();
     }
 
-    public static function getAbsentAttendanceByStudentAndExam($student_id, $exId){
+    public function getAbsentAttendanceByStudentAndExam($student_id, $exId){
         return Attendance::with(['student', 'section'])
                       ->where('student_id', $student_id)
                       ->where('present',0)
@@ -78,7 +78,7 @@ class HandleAttendance {
                       ->get();
     }
 
-    public static function getAttendanceByStudentAndExam($student_id, $exId){
+    public function getAttendanceByStudentAndExam($student_id, $exId){
         return Attendance::with(['student', 'section'])
                       ->where('student_id', $student_id)
                       ->where('exam_id', $exId)

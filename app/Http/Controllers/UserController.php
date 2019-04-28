@@ -24,13 +24,20 @@ use Mavinoo\LaravelBatch\Batch;
 use App\Events\UserRegistered;
 use App\Events\StudentInfoUpdateRequested;
 use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\User\HandleUser;
+use App\Services\User\UserService;
 /**
  * Class UserController
  * @package App\Http\Controllers
  */
 class UserController extends Controller
 {
+    protected $userService;
+    protected $user;
+
+    public function __construct(UserService $userService, User $user){
+        $this->userService = $userService;
+        $this->user = $user;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -39,23 +46,15 @@ class UserController extends Controller
      * @param $teacher_code
      * @return \Illuminate\Http\Response
      */
-    public function index($school_code, $student_code, $teacher_code)
-    {
+    public function index($school_code, $student_code, $teacher_code){
         session()->forget('section-attendance');
-        if (!empty($school_code) && $student_code == 1) {// For student
-            $users = HandleUser::getStudents();
-            $view = 'list.student-list';
-        } elseif (!empty($school_code) && $teacher_code == 1) {// For teacher
-            $users = HandleUser::getTeachers();
-            $view = 'list.teacher-list';
-        } else {
+        
+        if($this->userService->isListOfStudents($school_code, $student_code))
+            return $this->userService->indexView('list.student-list', $this->userService->getStudents());
+        else if($this->userService->isListOfTeachers($school_code, $teacher_code))
+            return $this->userService->indexView('list.teacher-list',$this->userService->getTeachers());
+        else
             return view('home');
-        }
-        return view($view, [
-            'users' => $users,
-            'current_page' => $users->currentPage(),
-            'per_page' => $users->perPage(),
-        ]);
     }
 
     /**
@@ -63,22 +62,13 @@ class UserController extends Controller
      * @param $role
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function indexOther($school_code, $role)
-    {
-        if ($role == 'accountant') {
-            $users = HandleUser::getAccountants();
-            $view = 'accounts.accountant-list';
-        } elseif ($role == 'librarian') {
-            $users = HandleUser::getLibrarians();
-            $view = 'library.librarian-list';
-        } else {
+    public function indexOther($school_code, $role){
+        if($this->userService->isAccountant($role))
+            return $this->userService->indexOtherView('accounts.accountant-list', $this->userService->getAccountants());
+        else if($this->userService->isLibrarian($role))
+            return $this->userService->indexOtherView('library.librarian-list', $this->userService->getLibrarians());
+        else
             return view('home');
-        }
-        return view($view, [
-            'users' => $users,
-            'current_page' => $users->currentPage(),
-            'per_page' => $users->perPage(),
-        ]);
     }
 
     /**
@@ -108,9 +98,9 @@ class UserController extends Controller
      */
     public function sectionStudents($section_id)
     {
-        $students = HandleUser::getSectionStudentsWithSchool($section_id);
+        $students = $this->userService->getSectionStudentsWithSchool($section_id);
 
-        return view('profile.section-students', ['students' => $students]);
+        return view('profile.section-students', compact('students'));
     }
 
     /**
@@ -119,21 +109,14 @@ class UserController extends Controller
      */
     public function promoteSectionStudents($section_id)
     {
-        if ($section_id > 0) {
-            $students = HandleUser::getSectionStudentsWithStudentInfo($section_id);
-            $classes = Myclass::with('sections')
-                ->where('school_id', Auth::user()->school_id)
-                ->get();
-        } else {
-            $students = [];
-            $classes = [];
-        }
-
-        return view('school.promote-students', [
-            'students' => $students,
-            'classes' => $classes,
-            'section_id' => $section_id,
-        ]);
+        if($this->userService->hasSectionId($section_id))
+            return $this->userService->promoteSectionStudentsView(
+                $this->userService->getSectionStudentsWithStudentInfo($section_id),
+                Myclass::with('sections')->where('school_id', Auth::user()->school_id)->get(),
+                $section_id
+            );
+        else
+            return $this->userService->promoteSectionStudentsView([], [], $section_id);
     }
 
     /**
@@ -142,32 +125,7 @@ class UserController extends Controller
      */
     public function promoteSectionStudentsPost(Request $request)
     {   
-        if ($request->section_id > 0) {
-            $students = HandleUser::getSectionStudents($request->section_id);
-            $i = 0;
-            foreach ($students as $student) {
-                $st[] = [
-                    'id' => $student->id,
-                    'section_id' => $request->to_section[$i],
-                    'active' => isset($request["left_school$i"])?0:1,
-                ];
-
-                $st2[] = [
-                    'student_id' => $student->id,
-                    'session' => $request->to_session[$i],
-                ];
-
-                ++$i;
-            }
-            DB::transaction(function () use ($st, $st2) {
-                $table1 = 'users';
-                \Batch::update($table1, $st, 'id');
-                $table2 = 'student_infos';
-                \Batch::update($table2, $st2, 'student_id');
-            });
-
-            return back()->with('status', 'Saved');
-        }
+        return $this->userService->promoteSectionStudentsPost($request);
     }
 
     /**
@@ -206,7 +164,7 @@ class UserController extends Controller
         }
         else {
             return view('profile.impersonate', [
-                'other_users' => User::where('id', '!=', auth()->id())->get([ 'id', 'name', 'role' ])
+                'other_users' => $this->user->where('id', '!=', auth()->id())->get([ 'id', 'name', 'role' ])
             ]);
         }
     }
@@ -216,7 +174,7 @@ class UserController extends Controller
      */
     public function impersonate(ImpersonateUserRequest $request)
     {
-        $user = User::find($request->id);
+        $user = $this->user->find($request->id);
         Auth::user()->impersonate($user);
         return redirect('/home');
     }
@@ -232,7 +190,7 @@ class UserController extends Controller
     {
         DB::transaction(function () use ($request) {
             $password = $request->password;
-            $tb = HandleUser::storeStudent($request);
+            $tb = $this->userService->storeStudent($request);
             try {
                 // Fire event to store Student information
                 if(event(new StudentInfoUpdateRequested($request,$tb->id))){
@@ -256,7 +214,7 @@ class UserController extends Controller
     public function storeAdmin(CreateAdminRequest $request)
     {
         $password = $request->password;
-        $tb = HandleUser::storeAdmin($request);
+        $tb = $this->userService->storeAdmin($request);
         try {
             // Fire event to send welcome email
             // event(new userRegistered($userObject, $plain_password)); // $plain_password(optional)
@@ -275,7 +233,7 @@ class UserController extends Controller
     public function storeTeacher(CreateTeacherRequest $request)
     {
         $password = $request->password;
-        $tb = HandleUser::storeTeacher($request);
+        $tb = $this->userService->storeStaff($request, 'teacher');
         try {
             // Fire event to send welcome email
             event(new UserRegistered($tb, $password));
@@ -293,7 +251,7 @@ class UserController extends Controller
     public function storeAccountant(CreateAccountantRequest $request)
     {
         $password = $request->password;
-        $tb = HandleUser::storeAccountant($request);
+        $tb = $this->userService->storeStaff($request, 'accountant');
         try {
             // Fire event to send welcome email
             event(new UserRegistered($tb, $password));
@@ -311,7 +269,7 @@ class UserController extends Controller
     public function storeLibrarian(CreateLibrarianRequest $request)
     {
         $password = $request->password;
-        $tb = HandleUser::storeLibrarian($request);
+        $tb = $this->userService->storeStaff($request, 'librarian');
         try {
             // Fire event to send welcome email
             event(new UserRegistered($tb, $password));
@@ -331,9 +289,9 @@ class UserController extends Controller
      */
     public function show($user_code)
     {
-        $user = HandleUser::getUserByUserCode($user_code);
+        $user = $this->userService->getUserByUserCode($user_code);
 
-        return view('profile.user', ['user' => $user]);
+        return view('profile.user', compact('user'));
     }
 
     /**
@@ -345,7 +303,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
+        $user = $this->user->find($id);
         $classes = Myclass::query()
             ->where('school_id', Auth::user()->school_id)
             ->pluck('id')
@@ -375,7 +333,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request)
     {
         DB::transaction(function () use ($request) {
-            $tb = User::find($request->user_id);
+            $tb = $this->user->find($request->user_id);
             $tb->name = $request->name;
             $tb->email = (!empty($request->email)) ? $request->email : '';
             $tb->nationality = (!empty($request->nationality)) ? $request->nationality : '';
@@ -417,7 +375,7 @@ class UserController extends Controller
      */
     public function activateAdmin($id)
     {
-        $admin = User::find($id);
+        $admin = $this->user->find($id);
 
         if ($admin->active !== 0) {
             $admin->active = 0;
@@ -437,7 +395,7 @@ class UserController extends Controller
      */
     public function deactivateAdmin($id)
     {
-       $admin = User::find($id);
+       $admin = $this->user->find($id);
 
         if ($admin->active !== 1) {
             $admin->active = 1;
@@ -459,7 +417,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        // return (User::destroy($id))?response()->json([
+        // return ($this->user->destroy($id))?response()->json([
       //   'status' => 'success'
       // ]):response()->json([
       //   'status' => 'error'

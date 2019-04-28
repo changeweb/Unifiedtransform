@@ -29,6 +29,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function scopeStudent($q)
+    {
+        return $q->where('role', 'student');
+    }
+
     public function section()
     {
         return $this->belongsTo('App\Section');
