@@ -7,11 +7,17 @@ use App\User;
 use App\Http\Resources\AttendanceResource;
 use Illuminate\Http\Request;
 use App\Http\Traits\GradeTrait;
-use App\Http\Controllers\Attendance\HandleAttendance;
+use App\Services\Attendance\AttendanceService;
 
 class AttendanceController extends Controller
 {
     use GradeTrait;
+    
+    protected $attendanceService;
+
+    public function __construct(AttendanceService $attendanceService){
+      $this->attendanceService = $attendanceService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -21,9 +27,9 @@ class AttendanceController extends Controller
     {
       if($section_id > 0 && \Auth::user()->role != 'student'){
         // View attendances of students of a section
-        $students = HandleAttendance::getStudentsBySection($section_id);
-        $attendances = HandleAttendance::getTodaysAttendanceBySectionId($section_id);
-        $attCount = HandleAttendance::getAllAttendanceBySecAndExam($section_id,$exam_id);
+        $students = $this->attendanceService->getStudentsBySection($section_id);
+        $attendances = $this->attendanceService->getTodaysAttendanceBySectionId($section_id);
+        $attCount = $this->attendanceService->getAllAttendanceBySecAndExam($section_id,$exam_id);
 
         return view('attendance.attendance', [
           'students' => $students,
@@ -36,17 +42,21 @@ class AttendanceController extends Controller
         // View attendance of a single student by student id
         if(\Auth::user()->role == 'student'){
           // From student view
-          $exam = \App\ExamForClass::where('class_id',\Auth::user()->section->class->id)->first();
+          $exam = \App\ExamForClass::where('class_id',\Auth::user()->section->class->id)
+                  ->where('active', 1)
+                  ->first();
         } else {
           // From other users view
-          $student = HandleAttendance::getStudent($student_id);
-          $exam = \App\ExamForClass::where('class_id',$student->section->class->id)->first();
+          $student = $this->attendanceService->getStudent($student_id);
+          $exam = \App\ExamForClass::where('class_id',$student->section->class->id)
+                  ->where('active', 1)
+                  ->first();
         }
         if($exam)
           $exId = $exam->exam_id;
         else
           $exId = 0;
-        $attendances = HandleAttendance::getAttendanceByStudentAndExam($student_id, $exId);
+        $attendances = $this->attendanceService->getAttendanceByStudentAndExam($student_id, $exId);
         return view('attendance.student-attendances',['attendances' => $attendances]);
       }
     }
@@ -56,13 +66,15 @@ class AttendanceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function adjust($student_id){
-      $student = HandleAttendance::getStudent($student_id);
-      $exam = \App\ExamForClass::where('class_id',$student->section->class->id)->first();
+      $student = $this->attendanceService->getStudent($student_id);
+      $exam = \App\ExamForClass::where('class_id',$student->section->class->id)
+                  ->where('active', 1)
+                  ->first();
       if(count((array) $exam) == 1)
         $exId = $exam->exam_id;
       else
         $exId = 0;
-      $attendances = HandleAttendance::getAbsentAttendanceByStudentAndExam($student_id, $exId);
+      $attendances = $this->attendanceService->getAbsentAttendanceByStudentAndExam($student_id, $exId);
       return view('attendance.adjust',['attendances'=>$attendances,'student_id'=>$student_id]);
     }
     /**
@@ -74,7 +86,7 @@ class AttendanceController extends Controller
       $request->validate([
         'att_id' => 'required|array',
       ]);
-      return HandleAttendance::adjustPost($request);
+      return $this->attendanceService->adjustPost($request);
     }
     /**
       * Add students to a Course before taking attendances
@@ -83,9 +95,9 @@ class AttendanceController extends Controller
     public function addStudentsToCourseBeforeAtt($teacher_id,$course_id,$exam_id,$section_id){
       $this->addStudentsToCourse($teacher_id,$course_id,$exam_id,$section_id);
        
-        $students = HandleAttendance::getStudentsBySection($section_id);
-        $attendances = HandleAttendance::getTodaysAttendanceBySectionId($section_id);
-        $attCount = HandleAttendance::getAllAttendanceBySecAndExam($section_id,$exam_id);
+        $students = $this->attendanceService->getStudentsBySection($section_id);
+        $attendances = $this->attendanceService->getTodaysAttendanceBySectionId($section_id);
+        $attCount = $this->attendanceService->getAllAttendanceBySecAndExam($section_id,$exam_id);
 
         return view('attendance.attendance', [
           'students' => $students,
@@ -101,7 +113,7 @@ class AttendanceController extends Controller
      * @return \Illuminate\Http\Response
     */
     public function sectionIndex(Request $request, $section_id){
-      $users = HandleAttendance::getStudentsWithInfoBySection($section_id);
+      $users = $this->attendanceService->getStudentsWithInfoBySection($section_id);
 
       $request->session()->put('section-attendance', true);
 

@@ -24,6 +24,7 @@ class SectionController extends Controller
                   ->orderBy('section_number')
                   ->get();
       $exams = \App\ExamForClass::whereIn('class_id',$classeIds)
+                  ->where('active', 1)
                   ->groupBy('class_id')
                   ->get();
       return view('school.sections',[
