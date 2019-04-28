@@ -1,12 +1,12 @@
 <?php
-namespace App\Http\Controllers\Grade;
+namespace App\Services\Grade;
 
 use App\Grade;
 use Illuminate\Support\Facades\Auth;
 
-class HandleGrade {
+class GradeService {
 
-    public static function calculateMarks($course, $grade){
+    public function calculateMarks($course, $grade){
         $quizCount = $course->quiz_count;
         $assignmentCount = $course->assignment_count;
         $ctCount = $course->ct_count;
@@ -116,7 +116,7 @@ class HandleGrade {
         return $totalMarks;
     }
 
-    public static function updateGrade($request){
+    public function updateGrade($request){
         $i = 0;
         foreach($request->grade_ids as $id){
             $tb = Grade::find($id);

@@ -1,32 +1,32 @@
 <?php
-namespace App\Http\Controllers\Course;
+namespace App\Services\Course;
 
 use App\User;
 use App\Course;
 use App\Grade;
 use Illuminate\Support\Facades\Auth;
 
-class HandleCourse {
-    public static function getCoursesByTeacher($teacher_id){
+class CourseService {
+    public function getCoursesByTeacher($teacher_id){
         return Course::with(['section', 'teacher','exam'])
                         ->where('teacher_id', $teacher_id)
                         ->get();
     }
 
-    public static function getCoursesBySection($section_id){
+    public function getCoursesBySection($section_id){
         return Course::with(['section', 'teacher'])
                         ->where('section_id', $section_id)
                         ->get();
     }
 
-    public static function getStudentsFromGradeByCourseAndExam($course_id, $exam_id){
+    public function getStudentsFromGradeByCourseAndExam($course_id, $exam_id){
       return Grade::with('student')
                   ->where('course_id', $course_id)
                   ->where('exam_id',$exam_id)
                   ->get();
     }
 
-    public static function addCourse($request){
+    public function addCourse($request){
         $tb = new Course;
         $tb->course_name = $request->course_name;
         $tb->class_id = $request->class_id;
@@ -61,7 +61,7 @@ class HandleCourse {
         $tb->save();
     }
 
-    public static function saveConfiguration($request){
+    public function saveConfiguration($request){
         $tb = Course::find($request->id);
         $tb->grade_system_name = $request->grade_system_name;
         $tb->quiz_count = $request->quiz_count;
