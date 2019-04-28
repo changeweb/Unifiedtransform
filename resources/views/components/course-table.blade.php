@@ -79,32 +79,6 @@
       @endif
 
       @if(Auth::user()->role == 'admin')
-
-        {{-- @if($course->exam_id != 0)
-        <td>
-          <a role="button" class="btn btn-primary btn-xs pull-right" href="{{url('grades/c/store/'.$course->id.'/'.$course->exam_id.'/'.$course->teacher_id.'/'.$course->section->id)}}"><i class="material-icons">person_add</i> Add Students</a>
-        </td>
-        @else
-          <td><small>Create Exam to Add Student</small></td>
-        @endif
-
-        @if(count($exams)>0)
-          <td>
-            <form action="{{url('courses/save-under-exam')}}" class="form-inline" method="POST">
-            {{csrf_field()}}
-            <input type="hidden" name="course_id" value="{{$course->id}}">
-            <select class="form-control input-sm" name="exam_id" autocomplete="off">
-              @foreach($exams as $exam)
-                <option value="{{$exam->id}}" {{($course->exam_id == $exam->id)?"selected":''}}>{{$exam->exam_name}}</option>
-              @endforeach
-            </select>
-            <input type="submit" class="btn btn-success btn-xs" value="Save under selected exam"/>
-            </form>
-          </td>
-        @else
-          <td><small>No Exam Available</small></td>
-        @endif --}}
-
         <td>
           <a href="{{url('edit/course/'.$course->id)}}" class="btn btn-xs btn-danger"><i class="material-icons">edit</i> Edit</a>
         </td>

@@ -173,6 +173,8 @@
                   {{csrf_field()}}
                   Give Marks to Students
                   <input type="hidden" name="course_id" value="{{$course_id}}">
+                  <input type="hidden" name="section_id" value="{{$section_id}}">
+                  
                   @foreach($gradesystems as $gs)
                     <input type="hidden" name="grade_system_name" value="{{$gs->grade_system_name}}">
                   @endforeach

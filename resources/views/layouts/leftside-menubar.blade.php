@@ -59,33 +59,6 @@
         &amp; Sections</span></a>
   </li>
   @endif
-
-  {{-- <li class="nav-item dropdown">
-    <a role="button" href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
-        class="material-icons">contacts</i> <span class="nav-link-text">Users Lists</span> <i class="material-icons pull-right">keyboard_arrow_down</i></a>
-    <ul class="dropdown-menu" style="width: 100%;">
-      @if(Auth::user()->role != 'student')
-      <li class="nav-item">
-        <a class="dropdown-item" href="{{url('users/'.Auth::user()->school->code.'/1/0')}}"><i class="material-icons">contacts</i>
-          <span class="nav-link-text">Student List</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="dropdown-item" href="{{url('users/'.Auth::user()->school->code.'/0/1')}}"><i class="material-icons">contacts</i>
-          <span class="nav-link-text">Teacher List</span></a>
-      </li>
-      @endif
-      @if(Auth::user()->role == 'admin')
-      <li class="nav-item">
-        <a class="dropdown-item" href="{{url('users/'.Auth::user()->school->code.'/accountant')}}"><i class="material-icons">account_balance_wallet</i>
-          <span class="nav-link-text">Accountant List</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="dropdown-item" href="{{url('users/'.Auth::user()->school->code.'/librarian')}}"><i class="material-icons">local_library</i>
-          <span class="nav-link-text">Librarian List</span></a>
-      </li>
-      @endif
-    </ul>
-  </li> --}}
   @if(Auth::user()->role != 'student')
   <li class="nav-item">
     <a class="nav-link" href="{{url('users/'.Auth::user()->school->code.'/1/0')}}"><i class="material-icons">contacts</i>
@@ -171,31 +144,6 @@
     </ul>
   </li>
   @endif
-  {{--@if(Auth::user()->role == 'admin')
-  <li class="nav-item dropdown">
-    <a role="button" href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
-        class="material-icons">cloud_upload</i> <span class="nav-link-text">Manage Uploads</span> <i class="material-icons pull-right">keyboard_arrow_down</i></a>
-    <ul class="dropdown-menu" style="width: 100%;">
-      <!-- Dropdown menu links -->
-      <li>
-        <a class="dropdown-item" href="{{ url('academic/notice') }}"><i class="material-icons">developer_board</i>
-          <span class="nav-link-text">Upload Notice</span></a>
-      </li>
-      <li>
-        <a class="dropdown-item" href="{{ url('academic/event') }}"><i class="material-icons">developer_board</i> <span
-            class="nav-link-text">Upload Event</span></a>
-      </li>
-      <li>
-        <a class="dropdown-item" href="{{ url('academic/routine') }}"><i class="material-icons">developer_board</i>
-          <span class="nav-link-text">Upload Routine</span></a>
-      </li>
-      <li>
-        <a class="dropdown-item" href="{{ url('academic/syllabus') }}"><i class="material-icons">developer_board</i>
-          <span class="nav-link-text">Upload Syllabus</span></a>
-      </li>
-    </ul>
-  </li>
-  @endif--}}
   @if(Auth::user()->role == 'admin' || Auth::user()->role == 'accountant')
   <li class="nav-item dropdown">
     <a role="button" href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
@@ -208,7 +156,7 @@
       </li>
       <li>
         <a class="dropdown-item" href="{{ url('accounts/sectors') }}"><i class="material-icons">developer_board</i>
-          <span class="nav-link-text">Account Sectors</span></a>
+          <span class="nav-link-text">Add Account Sector</span></a>
       </li>
       <li>
         <a class="dropdown-item" href="{{ url('accounts/expense') }}"><i class="material-icons">note_add</i> <span

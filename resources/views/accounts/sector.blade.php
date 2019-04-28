@@ -7,71 +7,104 @@
             @include('layouts.leftside-menubar')
         </div>
         <div class="col-md-10" id="main-container">
-            <div class="panel panel-default">
-                <div class="page-panel-title">Account Sectors</div>
+            <div class="row">
+                <div class="col-md-6">
+                    <br>
+                    <div class="panel panel-default">
+                        <div class="page-panel-title">Account Sectors</div>
 
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
+                        <div class="panel-body">
+                            @if (session('status'))
+                                <div class="alert alert-success">
+                                    {{ session('status') }}
+                                </div>
+                            @endif
+                            <form class="form-horizontal" action="{{url('/accounts/create-sector')}}" method="post">
+                            {{ csrf_field() }}
+                            <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                                <label for="name" class="col-md-4 control-label">Sector Name</label>
+
+                                <div class="col-md-6">
+                                    <input id="name" type="text" class="form-control" name="name" value="{{ (!empty($sector->name))?$sector->name:old('name') }}" placeholder="Sector Name" required>
+
+                                    @if ($errors->has('name'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('name') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="form-group{{ $errors->has('type') ? ' has-error' : '' }}">
+                                <label for="type" class="col-md-4 control-label">Sector Type</label>
+
+                                <div class="col-md-6">
+                                    <select  class="form-control" name="type">
+                                        <option value="income">Income</option>
+                                        <option value="expense">Expense</option>
+                                    </select>
+
+                                    @if ($errors->has('type'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('type') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-4 col-sm-8">
+                                <button type="submit" class="btn btn-danger">Save</button>
+                                </div>
+                            </div>
+                            </form>
+
                         </div>
-                    @endif
-                    <form class="form-horizontal" action="{{url('/accounts/create-sector')}}" method="post">
-                      {{ csrf_field() }}
-                      <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                          <label for="name" class="col-md-4 control-label">Sector Name</label>
-
-                          <div class="col-md-6">
-                              <input id="name" type="text" class="form-control" name="name" value="{{ (!empty($sector->name))?$sector->name:old('name') }}" placeholder="Sector Name" required>
-
-                              @if ($errors->has('name'))
-                                  <span class="help-block">
-                                      <strong>{{ $errors->first('name') }}</strong>
-                                  </span>
-                              @endif
-                          </div>
-                      </div>
-                      <div class="form-group{{ $errors->has('type') ? ' has-error' : '' }}">
-                          <label for="type" class="col-md-4 control-label">Sector Type</label>
-
-                          <div class="col-md-6">
-                              <select  class="form-control" name="type">
-                                  @if(!empty($sector->type))
-                                      {!! Form::select('type',['income'=>'income','expense'=>'expense'],$sector->type,['class'=>'form-control','required'=>'true'])
-                                    !!}
-                                  @else
-                                    <option value="income">Income</option>
-                                    <option value="expense">Expense</option>
-                                  @endif
-                              </select>
-
-                              @if ($errors->has('type'))
-                                  <span class="help-block">
-                                      <strong>{{ $errors->first('type') }}</strong>
-                                  </span>
-                              @endif
-                          </div>
-                      </div>
-                      <div class="form-group">
-                        <div class="col-sm-offset-4 col-sm-8">
-                          <button type="submit" class="btn btn-danger">Save</button>
-                        </div>
-                      </div>
-                    </form>
-
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <br>
+                    <div style="width:100%;">
+                        <canvas id="canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>All Created Sectors</h3>
+                    <table class="table table-striped table-data-div">
+                        <thead>
+                            <tr>
+                                <th>Sector Name</th>
+                                <th>Type</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach ($sectors as $sector)
+                            <tr>
+                                <td>{{$sector->name}}</td>
+                                <td>{{$sector->type}}</td>
+                                <td>
+                                    <a href="{{url('accounts/edit-sector/'.$sector->id)}}" class="btn btn-danger btn-xs" role="button">Edit</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
 	<style>
 		canvas {
 			-moz-user-select: none;
 			-webkit-user-select: none;
 			-ms-user-select: none;
 		}
-	</style>
-    <div style="width:100%;">
-		<canvas id="canvas"></canvas>
-	</div>
-	<script>
+    </style>
+    <script>
         'use strict';
 
         window.chartColors = {
@@ -121,7 +154,7 @@
 					xAxes: [{
 						type: 'time',
 						time: {
-							format: 'YYYY-DD-MM',
+							parser: 'YYYY-DD-MM',
 							tooltipFormat: 'll HH:mm'
 						},
 						scaleLabel: {
@@ -145,9 +178,4 @@
 
 		};
 	    </script>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection
