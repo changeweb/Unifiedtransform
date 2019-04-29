@@ -56,6 +56,9 @@ class AccountingModuleTest extends TestCase
         $this->followingRedirects()
                 ->post('accounts/create-income', $request->toArray())
                 ->assertStatus(200);
-        $this->assertDatabaseHas('accounts', $request->toArray());
+        $this->assertDatabaseHas('accounts', [
+            'name' => $request->name,
+            'amount' => $request->amount,
+        ]);
     }
 }
