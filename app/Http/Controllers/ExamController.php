@@ -139,9 +139,7 @@ class ExamController extends Controller
             $tb->active = (isset($request->active))?1:0;
             $tb->save();
             if(!isset($request->active)){
-                $examForClass = new \App\ExamForClass;
-                $examForClass->active = 0;
-                $examForClass->save();
+                \App\ExamForClass::where('exam_id', $request->exam_id)->update(['active'=>0]);
             }
         });
         return back()->with('status', 'Saved');
