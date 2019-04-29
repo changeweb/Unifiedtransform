@@ -124,6 +124,7 @@ class AccountController extends Controller
     $income->amount = $request->amount;
     $income->description = $request->description;
     $income->school_id = \Auth::user()->school_id;
+    $income->user_id = auth()->user()->id;
     $income->save();
     return back()->with("status","Income saved Successfully.");
   }
@@ -186,6 +187,7 @@ class AccountController extends Controller
     $expense->amount = $request->amount;
     $expense->description = $request->description;
     $expense->school_id = \Auth::user()->school_id;
+    $expense->user_id = auth()->user()->id;
     $expense->save();
     return back()->with("status","expense saved Successfully.");
   }

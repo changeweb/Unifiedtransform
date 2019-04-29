@@ -84,7 +84,7 @@ Route::middleware(['auth','teacher'])->group(function (){
 });
 
 Route::middleware(['auth'])->group(function (){
-  if (env('APP_ENV') != 'production') {
+  if (config('app.env') != 'production') {
     Route::get('user/config/impersonate', 'UserController@impersonateGet');
     Route::post('user/config/impersonate', 'UserController@impersonate');
   }
@@ -202,6 +202,7 @@ Route::middleware(['auth','admin'])->group(function (){
     Route::post('promote-students','UserController@promoteSectionStudentsPost');
     Route::post('theme','SchoolController@changeTheme');
   });
+
   Route::prefix('register')->name('register.')->group(function (){
     Route::get('student', 'UserController@redirectToRegisterStudent');
     Route::get('teacher', function(){

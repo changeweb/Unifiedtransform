@@ -14,9 +14,10 @@ $factory->define(App\AccountSector::class, function (Faker $faker) {
           }
         },
       'user_id' => function() use ($faker) {
-                            if (App\User::count()) {
-                                return $faker->randomElement(App\User::where('role','accountant')->pluck('id')->toArray());
-                            } else return factory(App\User::class)->states('accountant')->create()->id;
-                        }
+        if (App\User::where('role','accountant')->count() > 0) {
+          return $faker->randomElement(App\User::where('role','accountant')->pluck('id')->toArray());
+        } else
+          return factory(App\User::class)->states('accountant')->create()->id;
+        },
     ];
 });
