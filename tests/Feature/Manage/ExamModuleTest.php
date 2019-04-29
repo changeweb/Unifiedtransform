@@ -19,15 +19,18 @@ class ExamModuleTest extends TestCase
         $this->withoutExceptionHandling();
     }
     /** @test */
-    public function view_is(){
-        $response = $this->get('exams');
-        $response->assertViewIs('exams.all');
-    }
-    /** @test */
     public function it_shows_the_exam_list() {
         $response = $this->get('exams');
         $response->assertStatus(200);
+        $response->assertViewIs('exams.all');
         $response->assertViewHas('exams');
+    }
+    /** @test */
+    public function can_view_active_exams_of_a_school(){
+        $response = $this->get('exams/active');
+        $response->assertStatus(200);
+        $response->assertViewIs('exams.active');
+        $response->assertViewHas(['exams', 'courses']);
     }
     /** @test */
     public function admin_can_view_exam_creation_form() {
@@ -63,21 +66,28 @@ class ExamModuleTest extends TestCase
             'exam_id' => $exam->id,
             'active' => 1,
             'notice_published' => 1,
-            'result_published' => 0,
         ];
-        $response = $this->followingRedirects()->post('exams/activate-exam', $request);
-        $response->assertStatus(200);
+        $this->followingRedirects()
+                ->post('exams/activate-exam', $request)
+                ->assertStatus(200);
+        $this->assertDatabaseHas('exams', [
+            'active' => 1,
+        ]);
     }
     /** @test */
     public function admin_can_deactivate_exam() {
         $exam = factory(Exam::class)->create();
         $request = [
             'exam_id' => $exam->id,
-            'active' => 0,
             'notice_published' => 1,
             'result_published' => 1,
         ];
-        $response = $this->followingRedirects()->post('exams/activate-exam', $request);
-        $response->assertStatus(200);
+        $this->followingRedirects()
+                ->post('exams/activate-exam', $request)
+                ->assertStatus(200);
+        $this->assertDatabaseHas('exams', [
+            'id' => $exam->id,
+            'active' => 0,
+        ]);
     }
 }

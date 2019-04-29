@@ -43,4 +43,19 @@ class AccountingModuleTest extends TestCase
         $response = $this->followingRedirects()->post('accounts/update-sector/', $request->toArray());
         $response->assertStatus(200);
     }
+    /** @test */
+    public function accountant_can_view_income_list(){
+        $account = factory(Account::class, 10)->create();
+        $response = $this->get('accounts/income');
+        $response->assertViewIs('accounts.income');
+        $response->assertViewHas(['sectors','sections','students']);
+    }
+    /** @test */
+    public function accountant_can_add_income(){
+        $request = factory(Account::class)->make();
+        $this->followingRedirects()
+                ->post('accounts/create-income', $request->toArray())
+                ->assertStatus(200);
+        $this->assertDatabaseHas('accounts', $request->toArray());
+    }
 }
