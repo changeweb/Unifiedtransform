@@ -19,17 +19,17 @@ $factory->define(Book::class, function (Faker $faker) {
         'about'     => $faker->sentences(3, true),
         'price'     => $faker->randomNumber,
         'class_id'  => function() use ($faker) {
-                            if (Myclass::count()) {
+                            if (Myclass::count() > 0) {
                                 return $faker->randomElement(Myclass::pluck('id')->toArray());
                             } else return factory(Myclass::class)->create()->id;
                         },
         'school_id'  => function() use ($faker) {
-                            if (School::count()) {
+                            if (School::count() > 0) {
                                 return $faker->randomElement(School::pluck('id')->toArray());
                             } else return factory(School::class)->create()->id;
                         },
         'user_id'   => function() use ($faker) {
-                            if (User::where('role','librarian')->count()) {
+                            if (User::where('role','librarian')->count() > 0) {
                                 return $faker->randomElement(User::where('role','librarian')->pluck('id')->toArray());
                             } else
                                 return factory(User::class)->states('librarian')->create()->id;
