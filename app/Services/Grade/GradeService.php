@@ -2,118 +2,245 @@
 namespace App\Services\Grade;
 
 use App\Grade;
+use App\Gradesystem;
+use App\Exam;
 use Illuminate\Support\Facades\Auth;
 
 class GradeService {
 
+  protected $final_att_mark;
+  protected $final_assignment_mark;
+  protected $final_quiz_mark;
+  protected $final_ct_mark;
+  protected $final_finalExam_mark;
+  protected $final_practical_mark;
+  protected $quizCount;
+  protected $assignmentCount;
+  protected $ctCount;
+  protected $quizSum;
+  protected $assignmentSum;
+  protected $ctSum;
+  protected $field;
+  protected $grade;
+  protected $maxFieldNum;
+  protected $fieldCount;
+  protected $full_field_mark;
+  protected $field_percentage;
+  protected $avg_field_sum;
+  protected $final_default_value;
+
+  public function isLoggedInUserStudent(){
+    return auth()->user()->role == 'student';
+  }
+
+  public function getExamByIdsFromGrades($grades){
+    $examIds = $grades->map(function($grade){
+      return $grade->exam_id;
+    });
+    $exams = Exam::whereIn('id', $examIds)
+                  ->orderBy('id','desc')
+                  ->get();
+    return $exams;
+  }
+
+  public function getStudentGradesWithInfoCourseTeacherExam($student_id){
+    return Grade::with(['student','course','teacher','exam'])
+                  ->where('student_id', $student_id)
+                  ->orderBy('exam_id')
+                  ->latest()
+                  ->get();
+  }
+
+  public function getGradeSystemBySchoolId($grades){
+    $grade_system_name = isset($grades[0]->course->grade_system_name) ? $grades[0]->course->grade_system_name : false;
+    return ($grade_system_name)?Gradesystem::where('school_id', auth()->user()->school_id)
+                        ->where('grade_system_name', $grade_system_name)
+                        //->groupBy('grade_system_name')
+                        ->get() : [];
+    
+  }
+
+  public function getGradeSystemByname($grade_system_name){
+    return Gradesystem::where('school_id', auth()->user()->school_id)
+                        ->where('grade_system_name', $grade_system_name)
+                        ->get();
+    
+  }
+
+  public function gradeIndexView($view, $grades, $gradesystems, $exams){
+    return view($view,[
+        'grades' => $grades,
+        'gradesystems' => $gradesystems,
+        'exams' => $exams,
+      ]);
+  }
+
+  public function getGradeSystemBySchoolIdGroupByName($grades){
+    $grade_system_name = isset($grades[0]->course->grade_system_name) ? $grades[0]->course->grade_system_name : false;
+    return ($grade_system_name)?Gradesystem::where('school_id', auth()->user()->school_id)
+                        ->where('grade_system_name', $grade_system_name)
+                        ->groupBy('grade_system_name')
+                        ->get() : [];
+  }
+
+  public function gradeTeacherIndexView($view, $grades, $gradesystems){
+    return view($view,[
+        'grades' => $grades,
+        'gradesystems' => $gradesystems
+      ]);
+  }
+
+  public function gradeCourseIndexView($view, $grades, $gradesystems, $course_id, $exam_id, $teacher_id, $section_id){
+    return view($view,[
+        'grades' => $grades,
+        'gradesystems' => $gradesystems,
+        'course_id'=>$course_id,
+        'exam_id'=>$exam_id,
+        'teacher_id'=>$teacher_id,
+        'section_id'=>$section_id,
+      ]);
+  }
+
+  public function getGradesByCourseExam($course_id, $exam_id){
+    return Grade::with('course','student')
+                ->where('course_id', $course_id)
+                ->where('exam_id',$exam_id)
+                ->get();
+  }
+
+  public function calculateGpaFromTotalMarks($grades, $course, $gradeSystem){
+    foreach($grades as $key => $grade){
+        $totalMarks = $this->calculateMarks($course, $grade);
+        // Calculate GPA from Total marks
+        $gpa = $this->calculateGpa($gradeSystem, $totalMarks);
+        $tb = Grade::find($grade['id']);
+        $tb->marks = $totalMarks;
+        $tb->gpa = $gpa;
+        $tbc[] = $tb->attributesToArray();
+    }
+    return $tbc;
+  }
+
+  public function saveCalculatedGPAFromTotalMarks($tbc){
+    try{
+      if(count($tbc) > 0)
+        return \Batch::update('grades',$tbc,'id');
+    }catch(\Exception $e){
+      return "OOps, an error occured";
+    }
+  }
+
     public function calculateMarks($course, $grade){
-        $quizCount = $course->quiz_count;
-        $assignmentCount = $course->assignment_count;
-        $ctCount = $course->ct_count;
-        $attPerc = $course->attendance_percent;
-        $assignPerc = $course->assignment_percent;
-        $quizPerc = $course->quiz_percent;
-        $ctPerc = $course->ct_percent;
-        $finalExamPerc = $course->final_exam_percent;
-        $quizSum = 0; $assignmentSum = 0; $ctSum = 0;
+        $this->grade = $grade;
+
+        $this->quizCount = $course->quiz_count;
+        $this->assignmentCount = $course->assignment_count;
+        $this->ctCount = $course->ct_count;
+
         // Quiz
-        if($quizCount > 0){
-          $quizGradeArray = array();
-          for($i=1; $i<=5; $i++){
-            array_push($quizGradeArray,$grade["quiz$i"]);
-          }
-          rsort($quizGradeArray);
-          $largest = array_slice($quizGradeArray, 0, $quizCount);
-
-          foreach($largest as $q){
-            $quizSum += $q;
-          }
-        } else {
-          for($i=1; $i<=5; $i++){
-            $quizSum += $grade["quiz$i"];
-          }
-        }
-        
+        $this->field = 'quiz';
+        $this->fieldCount = $this->quizCount;
+        $this->maxFieldNum = 5;
+        $this->quizSum = $this->getMarkSum();
         // Assignment
-        if($assignmentCount > 0){
-          $assignmentGradeArray = array();
-          for($i=1; $i<=3; $i++){
-            array_push($assignmentGradeArray,$grade["assignment$i"]);
-          }
-          rsort($assignmentGradeArray);
-          $largest = array_slice($assignmentGradeArray, 0, $assignmentCount);
-
-          foreach($largest as $a){
-            $assignmentSum += $a;
-          }
-        } else {
-          for($i=1; $i<=3; $i++){
-            $assignmentSum += $grade["assignment$i"];
-          }
-        }
-        
+        $this->field = 'assignment';
+        $this->fieldCount = $this->assignmentCount;
+        $this->maxFieldNum = 3;
+        $this->assignmentSum = $this->getMarkSum();
         // Class Test
-        if($ctCount > 0){
-          $ctGradeArray = array();
-          for($i=1; $i<=5; $i++){
-            array_push($ctGradeArray,$grade["ct$i"]);
-          }
-          rsort($ctGradeArray);
-          $largest = array_slice($ctGradeArray, 0, $ctCount);
-
-          foreach($largest as $c){
-            $ctSum += $c;
-          }
-        } else {
-          for($i=1; $i<=5; $i++){
-            $ctSum += $grade["ct$i"];
-          }
-        }
+        $this->field = 'ct';
+        $this->fieldCount = $this->ctCount;
+        $this->maxFieldNum = 5;
+        $this->ctSum = $this->getMarkSum();
         
         // Percentage related calculation
+        // Attendance
+        $this->full_field_mark = $course->att_fullmark;
+        $this->field_percentage = $course->attendance_percent;
+        $this->avg_field_sum = $this->grade['attendance'];
+        $this->final_default_value = $this->grade['attendance'];
+        $this->final_att_mark = $this->getFieldFinalMark();
+        // Quiz
+        $this->full_field_mark = $course->quiz_fullmark;
+        $this->field_percentage = $course->quiz_percent;
+        $this->avg_field_sum = $this->quizSum/$this->quizCount;
+        $this->final_default_value = $this->quizSum;
+        $this->final_quiz_mark = $this->getFieldFinalMark();
+        // Assignment
+        $this->full_field_mark = $course->a_fullmark;
+        $this->field_percentage = $course->assignment_percent;
+        $this->avg_field_sum = $this->assignmentSum/$this->assignmentCount;
+        $this->final_default_value = $this->assignmentSum;
+        $this->final_assignment_mark = $this->getFieldFinalMark();
+        // Class Test
+        $this->full_field_mark = $course->ct_fullmark;
+        $this->field_percentage = $course->ct_percent;
+        $this->avg_field_sum = $this->ctSum/$this->ctCount;
+        $this->final_default_value = $this->ctSum;
+        $this->final_ct_mark = $this->getFieldFinalMark();
+        // Final Exam
+        $this->full_field_mark = $course->final_fullmark;
+        $this->field_percentage = $course->final_exam_percent;
+        $this->avg_field_sum = ($this->grade['written']+$this->grade['mcq']);
+        $this->final_default_value = $this->grade['written']+$this->grade['mcq'];
+        $this->final_finalExam_mark = $this->getFieldFinalMark();
+        // Practical
+        $this->full_field_mark = $course->practical_fullmark;
+        $this->field_percentage = $course->practical_percent;
+        $this->avg_field_sum = $this->grade['practical'];
+        $this->final_default_value = $this->grade['practical'];
+        $this->final_practical_mark = $this->getFieldFinalMark();
         
-        if($course->att_fullmark > 0){
-          $final_att_mark = ($attPerc*$grade['attendance'])/($course->att_fullmark);
-        } else {
-          $final_att_mark = $grade['attendance'];
-        }
-
-        if($course->quiz_fullmark > 0){
-          $avgQuizSum = $quizSum/$quizCount;
-          $final_quiz_mark = ($quizPerc*$avgQuizSum)/($course->quiz_fullmark);
-        } else {
-          $final_quiz_mark = $quizSum;
-        }
-
-        if($course->a_fullmark > 0){
-          $avgAssignSum = $assignmentSum/$assignmentCount;
-          $final_assignment_mark = ($assignPerc*$avgAssignSum)/($course->a_fullmark);
-        } else {
-          $final_assignment_mark = $assignmentSum;
-        }
-
-        if($course->ct_fullmark > 0){
-          $avgCTSum = $ctSum/$ctCount;
-          $final_ct_mark = ($ctPerc*$avgCTSum)/($course->ct_fullmark);
-        } else {
-          $final_ct_mark = $ctSum;
-        }
-
-        if($course->final_fullmark > 0){
-          $final_finalExam_mark = ($finalExamPerc*($grade['written']+$grade['mcq']))/($course->final_fullmark);
-        } else {
-          $final_finalExam_mark = $grade['written']+$grade['mcq'];
-        }
-
-        if($course->practical_fullmark > 0){
-          $final_practical_mark = ($course->practical_percent*$grade['practical'])/($course->practical_fullmark);
-        } else {
-          $final_practical_mark = $grade['practical'];
-        }
         // Calculate total marks
-        $totalMarks = round((round($final_att_mark, 8, 2)+round($final_quiz_mark, 8, 2)+round($final_assignment_mark, 8, 2)+round($final_ct_mark, 8, 2)+round($final_finalExam_mark, 8, 2)+round($final_practical_mark, 8, 2)), 8, 2);
+        $totalMarks = $this->getTotalCalculatedMarks();
 
         return $totalMarks;
+    }
+
+    public function getMarkSum(){
+      $fieldSum = 0;
+      if($this->fieldCount > 0){
+          $fieldGradeArray = array();
+          for($i=1; $i<=$this->maxFieldNum; $i++){
+            array_push($fieldGradeArray,$this->grade["{$this->field}{$i}"]);
+          }
+          rsort($fieldGradeArray);
+          $largest = array_slice($fieldGradeArray, 0, $this->fieldCount);
+
+          foreach($largest as $l){
+            $fieldSum += $l;
+          }
+        } else {
+          for($i=1; $i<=5; $i++){
+            $fieldSum += $this->grade["{$this->field}{$i}"];
+          }
+        }
+      return $fieldSum;
+    }
+
+    public function getFieldFinalMark(){
+      return ($this->full_field_mark > 0)? (($this->field_percentage*$this->avg_field_sum)/$this->full_field_mark) : $this->final_default_value;
+    }
+      
+    public function getTotalCalculatedMarks(){
+      return round(
+        (round($this->final_att_mark, 8, 2)+
+        round($this->final_quiz_mark, 8, 2)+
+        round($this->final_assignment_mark, 8, 2)+
+        round($this->final_ct_mark, 8, 2)+
+        round($this->final_finalExam_mark, 8, 2)+
+        round($this->final_practical_mark, 8, 2)
+      ), 8, 2);
+    }
+
+    public function calculateGpa($gradeSystem, $totalMarks){
+      $totalMarks = round($totalMarks);
+      foreach($gradeSystem as $gs){
+        if($totalMarks > $gs->from_mark && $totalMarks <= $gs->to_mark){
+          return $gs->point;
+        }
+      }
+      return 'Something went wrong.';
     }
 
     public function updateGrade($request){
@@ -144,5 +271,14 @@ class GradeService {
             $i++;
         }
         return $tbc;
+    }
+
+    public function returnRouteWithParameters($route_name, $teacher_id, $course_id, $exam_id, $section_id){
+      return redirect()->route($route_name, [
+        'teacher_id' => $teacher_id,
+        'course_id' => $course_id,
+        'exam_id' => $exam_id,
+        'section_id' => $section_id,
+      ]);
     }
 }

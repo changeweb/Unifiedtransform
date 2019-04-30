@@ -8,6 +8,7 @@ use App\Myclass;
 use App\User;
 use App\Section;
 use Illuminate\Http\Request;
+
 class AccountController extends Controller
 {
 
