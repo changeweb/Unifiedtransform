@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Grade;
 use App\Http\Resources\GradeResource;
 use Illuminate\Http\Request;
+use App\Http\Requests\Grade\CalculateMarksRequest;
 use App\Http\Traits\GradeTrait;
 use App\Services\Grade\GradeService;
+
 class GradeController extends Controller
 {
     use GradeTrait;
+
     protected $gradeService;
 
     public function __construct(GradeService $gradeService){
@@ -22,77 +25,39 @@ class GradeController extends Controller
      */
     public function index($student_id)
     {
-      if(\Auth::user()->role == 'student'){
-        $grades = Grade::with(['student','course','teacher','exam'])
-                  ->where('student_id', \Auth::user()->id)
-                  ->orderBy('exam_id')
-                  ->latest()
-                  ->get();
+      if($this->gradeService->isLoggedInUserStudent()){
+        $grades = $this->gradeService->getStudentGradesWithInfoCourseTeacherExam(auth()->user()->id);
       } else {
-        $grades = Grade::with(['student','course','teacher','exam'])
-                  ->where('student_id', $student_id)
-                  ->orderBy('exam_id')
-                  ->latest()
-                  ->get();
+        $grades = $this->gradeService->getStudentGradesWithInfoCourseTeacherExam($student_id);
       }
       if(count($grades) > 0){
-        $examIds = $grades->map(function($grade){
-          return $grade->exam_id;
-        });
-        $exams = \App\Exam::whereIn('id', $examIds)
-                  ->orderBy('id','desc')
-                  ->get();
-        $gradesystems = \App\Gradesystem::where('school_id', \Auth::user()->school_id)
-                        ->where('grade_system_name',$grades[0]->course->grade_system_name)
-                        //->groupBy('grade_system_name')
-                        ->get();
+        $exams = $this->gradeService->getExamByIdsFromGrades($grades);
+        $gradesystems = $this->gradeService->getGradeSystemBySchoolId($grades);
       } else {
         $grades = [];
         $gradesystems = [];
         $exams = [];
       }
-      return view('grade.student-grade',[
-        'grades' => $grades,
-        'gradesystems' => $gradesystems,
-        'exams' => $exams,
-      ]);
+      return $this->gradeService->gradeIndexView('grade.student-grade', $grades, $gradesystems, $exams);
     }
 
     public function tindex($teacher_id,$course_id,$exam_id,$section_id)
     {
       $this->addStudentsToCourse($teacher_id,$course_id,$exam_id,$section_id);
       
-      $grades = Grade::with('course','student')
-                ->where('course_id', $course_id)
-                ->where('exam_id',$exam_id)
-                ->get();
-      $gradesystems = \App\Gradesystem::where('school_id', \Auth::user()->school_id)
-                      ->groupBy('grade_system_name')
-                      ->get();
-      return view('grade.teacher-grade',[
-        'grades' => $grades,
-        'gradesystems' => $gradesystems
-      ]);
+      $grades = $this->gradeService->getGradesByCourseExam($course_id, $exam_id);
+      $gradesystems = $this->gradeService->getGradeSystemBySchoolIdGroupByName($grades);
+
+      return $this->gradeService->gradeTeacherIndexView('grade.teacher-grade', $grades, $gradesystems);
     }
 
     public function cindex($teacher_id,$course_id,$exam_id,$section_id)
     {
       $this->addStudentsToCourse($teacher_id,$course_id,$exam_id,$section_id);
-      $grades = Grade::with('course','student')
-                ->where('course_id', $course_id)
-                ->where('exam_id',$exam_id)
-                ->get();
-      $gradesystems = \App\Gradesystem::where('school_id', \Auth::user()->school_id)
-                      ->groupBy('grade_system_name')
-                      ->get();
-      return view('grade.course-grade',[
-        'grades' => $grades,
-        'gradesystems' => $gradesystems,
-        'course_id'=>$course_id,
-        'exam_id'=>$exam_id,
-        'teacher_id'=>$teacher_id,
-        'section_id'=>$section_id,
-      ]);
+      $grades = $this->gradeService->getGradesByCourseExam($course_id, $exam_id);
+      $gradesystems = $this->gradeService->getGradeSystemBySchoolId($grades);
+
+      return $this->gradeService->gradeCourseIndexView('grade.course-grade', $grades, $gradesystems, $course_id, $exam_id, $teacher_id, $section_id);
     }
 
     public function allExamsGrade(){
@@ -122,52 +87,18 @@ class GradeController extends Controller
       return view('grade.class-result',['grades'=>$grades]);
     }
 
-    public function calculateGpa($gradeSystem, $totalMarks){
-      $totalMarks = round($totalMarks);
-      foreach($gradeSystem as $gs){
-        if($totalMarks > $gs->from_mark && $totalMarks <= $gs->to_mark){
-          return $gs->point;
-        }
-      }
-      return 'Something went wrong.';
-    }
-
-    public function calculateMarks(Request $request){
-      $request->validate([
-        'teacher_id' => 'required|numeric',
-        'grade_system_name' => 'required|string',
-        'exam_id' => 'required|numeric',
-        'course_id' => 'required|numeric',
-        'section_id' => 'required|numeric',
-      ]);
-
-      $gradeSystem = \App\Gradesystem::where('school_id', \Auth::user()->school_id)
-                      ->where('grade_system_name',$request->grade_system_name)
-                      ->get();
+    public function calculateMarks(CalculateMarksRequest $request){
+      $gradeSystem = $this->gradeService->getGradeSystemByname($request->grade_system_name);
 
       $course = \App\Course::find($request->course_id);
 
-      $grades = Grade::with('course')
-                ->where('course_id', $request->course_id)
-                ->where('exam_id',$request->exam_id)
-                ->get()
-                ->toArray();
+      $grades = $this->gradeService->getGradesByCourseExam($request->course_id, $request->exam_id)->toArray();
 
-      foreach($grades as $key => $grade){
-        $totalMarks = $this->gradeService->calculateMarks($course, $grade);
-        // Calculate GPA from Total marks
-        $gpa = $this->calculateGpa($gradeSystem, $totalMarks);
-        $tb = Grade::find($grade['id']);
-        $tb->marks = $totalMarks;
-        $tb->gpa = $gpa;
-        $tb->save();
-      }
-      return redirect()->route('teacher-grade', [
-        'teacher_id' => $request->teacher_id,
-        'course_id' => $request->course_id,
-        'exam_id' => $request->exam_id,
-        'section_id' => $request->section_id,
-      ]);
+      $tbc = $this->gradeService->calculateGpaFromTotalMarks($grades, $course, $gradeSystem);
+
+      $this->gradeService->saveCalculatedGPAFromTotalMarks($tbc);
+      
+      return $this->gradeService->returnRouteWithParameters('teacher-grade', $request->teacher_id, $request->course_id, $request->exam_id, $request->section_id);
     }
 
     /**

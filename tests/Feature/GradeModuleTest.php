@@ -76,7 +76,10 @@ class GradeModuleTest extends TestCase
         $course = factory(Course::class)->create();
         $exam = factory(Exam::class)->create();
         $section = factory(Section::class)->create();
-
+        factory(Grade::class, 20)->create([
+            'exam_id' => $exam->id,
+            'course_id' => $course->id,
+        ]);
         $request = [
             'teacher_id' => $teacher->id,
             'grade_system_name' => $gradeSystem->grade_system_name,
