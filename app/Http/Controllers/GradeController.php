@@ -38,7 +38,12 @@ class GradeController extends Controller
         $gradesystems = [];
         $exams = [];
       }
-      return $this->gradeService->gradeIndexView('grade.student-grade', $grades, $gradesystems, $exams);
+
+      $this->gradeService->grades = $grades;
+      $this->gradeService->gradesystems = $gradesystems;
+      $this->gradeService->exams = $exams;
+
+      return $this->gradeService->gradeIndexView('grade.student-grade');
     }
 
     public function tindex($teacher_id,$course_id,$exam_id,$section_id)
@@ -48,7 +53,10 @@ class GradeController extends Controller
       $grades = $this->gradeService->getGradesByCourseExam($course_id, $exam_id);
       $gradesystems = $this->gradeService->getGradeSystemBySchoolIdGroupByName($grades);
 
-      return $this->gradeService->gradeTeacherIndexView('grade.teacher-grade', $grades, $gradesystems);
+      $this->gradeService->grades = $grades;
+      $this->gradeService->gradesystems = $gradesystems;
+
+      return $this->gradeService->gradeTeacherIndexView('grade.teacher-grade');
     }
 
     public function cindex($teacher_id,$course_id,$exam_id,$section_id)
@@ -57,7 +65,14 @@ class GradeController extends Controller
       $grades = $this->gradeService->getGradesByCourseExam($course_id, $exam_id);
       $gradesystems = $this->gradeService->getGradeSystemBySchoolId($grades);
 
-      return $this->gradeService->gradeCourseIndexView('grade.course-grade', $grades, $gradesystems, $course_id, $exam_id, $teacher_id, $section_id);
+      $this->gradeService->grades = $grades;
+      $this->gradeService->gradesystems = $gradesystems;
+      $this->gradeService->course_id = $course_id;
+      $this->gradeService->exam_id = $exam_id;
+      $this->gradeService->teacher_id = $teacher_id;
+      $this->gradeService->section_id = $section_id;
+
+      return $this->gradeService->gradeCourseIndexView('grade.course-grade');
     }
 
     public function allExamsGrade(){
@@ -97,8 +112,13 @@ class GradeController extends Controller
       $tbc = $this->gradeService->calculateGpaFromTotalMarks($grades, $course, $gradeSystem);
 
       $this->gradeService->saveCalculatedGPAFromTotalMarks($tbc);
+
+      $this->gradeService->course_id = $request->course_id;
+      $this->gradeService->exam_id = $request->exam_id;
+      $this->gradeService->teacher_id = $request->teacher_id;
+      $this->gradeService->section_id = $request->section_id;
       
-      return $this->gradeService->returnRouteWithParameters('teacher-grade', $request->teacher_id, $request->course_id, $request->exam_id, $request->section_id);
+      return $this->gradeService->returnRouteWithParameters('teacher-grade');
     }
 
     /**
