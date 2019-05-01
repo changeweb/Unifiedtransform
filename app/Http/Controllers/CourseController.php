@@ -23,30 +23,24 @@ class CourseController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index($teacher_id, $section_id){
-      if(\Auth::user()->role != 'student' && $teacher_id > 0) {
+      if($this->courseService->isCourseOfTeacher($teacher_id)) {
         $courses = $this->courseService->getCoursesByTeacher($teacher_id);
-        $exams = \App\Exam::where('school_id', \Auth::user()->school_id)
-                          ->where('active',1)
-                          ->get();
+        $exams = $this->courseService->getExamsBySchoolId();
         $view = 'course.teacher-course';
 
-      } else if(\Auth::user()->role == 'student'
-                && $section_id == \Auth::user()->section_id
-                && $section_id > 0) {
+      } else if($this->courseService->isCourseOfStudentOfASection($section_id)) {
         $courses = $this->courseService->getCoursesBySection($section_id);
         $view = 'course.class-course';
         $exams = [];
 
-      } else if(\Auth::user()->role != 'student' && $section_id > 0) {
+      } else if($this->courseService->isCourseOfASection($section_id)) {
         $courses = $this->courseService->getCoursesBySection($section_id);
-        $exams = \App\Exam::where('school_id', \Auth::user()->school_id)
-                          ->where('active',1)
-                          ->get();
+        $exams = $this->courseService->getExamsBySchoolId();
         $view = 'course.class-course';
       } else {
         return redirect('home');
       }
-      return view($view,['courses'=>$courses,'exams'=>$exams]);
+      return view($view,compact('courses','exams'));
     }
 
     /**
@@ -68,11 +62,8 @@ class CourseController extends Controller
     {
       $this->addStudentsToCourse($teacher_id,$course_id,$exam_id,$section_id);
       $students = $this->courseService->getStudentsFromGradeByCourseAndExam($course_id, $exam_id);
-      return view('course.students', [
-        'students'=>$students,
-        'teacher_id'=>$teacher_id,
-        'section_id'=>$section_id,
-      ]);
+
+      return view('course.students', compact('students','teacher_id','section_id'));
     }
 
     /**
@@ -140,10 +131,7 @@ class CourseController extends Controller
         'course_name' => 'required|string',
         'course_time' => 'required|string',
       ]);
-      $tb = Course::find($id);
-      $tb->course_name = $request->course_name;
-      $tb->course_time = $request->course_time;
-      $tb->save();
+      $this->courseService->updateCourseInfo($id);
       return back()->with('status', 'Saved');
     }
 
