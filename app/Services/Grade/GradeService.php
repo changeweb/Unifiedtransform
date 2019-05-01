@@ -8,26 +8,35 @@ use Illuminate\Support\Facades\Auth;
 
 class GradeService {
 
-  protected $final_att_mark;
-  protected $final_assignment_mark;
-  protected $final_quiz_mark;
-  protected $final_ct_mark;
-  protected $final_finalExam_mark;
-  protected $final_practical_mark;
-  protected $quizCount;
-  protected $assignmentCount;
-  protected $ctCount;
-  protected $quizSum;
-  protected $assignmentSum;
-  protected $ctSum;
-  protected $field;
-  protected $grade;
-  protected $maxFieldNum;
-  protected $fieldCount;
-  protected $full_field_mark;
-  protected $field_percentage;
-  protected $avg_field_sum;
-  protected $final_default_value;
+  public $grades;
+  public $gradesystems;
+  public $course_id;
+  public $exam_id;
+  public $teacher_id;
+  public $section_id;
+  public $exams;
+  // Calculation marks starts
+  public $final_att_mark;
+  public $final_assignment_mark;
+  public $final_quiz_mark;
+  public $final_ct_mark;
+  public $final_finalExam_mark;
+  public $final_practical_mark;
+  public $quizCount;
+  public $assignmentCount;
+  public $ctCount;
+  public $quizSum;
+  public $assignmentSum;
+  public $ctSum;
+  public $field;
+  public $grade;
+  public $maxFieldNum;
+  public $fieldCount;
+  public $full_field_mark;
+  public $field_percentage;
+  public $avg_field_sum;
+  public $final_default_value;
+  // Calculation marks ends
 
   public function isLoggedInUserStudent(){
     return auth()->user()->role == 'student';
@@ -67,11 +76,11 @@ class GradeService {
     
   }
 
-  public function gradeIndexView($view, $grades, $gradesystems, $exams){
+  public function gradeIndexView($view){
     return view($view,[
-        'grades' => $grades,
-        'gradesystems' => $gradesystems,
-        'exams' => $exams,
+        'grades' => $this->grades,
+        'gradesystems' => $this->gradesystems,
+        'exams' => $this->exams,
       ]);
   }
 
@@ -83,21 +92,21 @@ class GradeService {
                         ->get() : [];
   }
 
-  public function gradeTeacherIndexView($view, $grades, $gradesystems){
+  public function gradeTeacherIndexView($view){
     return view($view,[
-        'grades' => $grades,
-        'gradesystems' => $gradesystems
+        'grades' => $this->grades,
+        'gradesystems' => $this->gradesystems
       ]);
   }
 
-  public function gradeCourseIndexView($view, $grades, $gradesystems, $course_id, $exam_id, $teacher_id, $section_id){
+  public function gradeCourseIndexView($view){
     return view($view,[
-        'grades' => $grades,
-        'gradesystems' => $gradesystems,
-        'course_id'=>$course_id,
-        'exam_id'=>$exam_id,
-        'teacher_id'=>$teacher_id,
-        'section_id'=>$section_id,
+        'grades' => $this->grades,
+        'gradesystems' => $this->gradesystems,
+        'course_id' => $this->course_id,
+        'exam_id' => $this->exam_id,
+        'teacher_id' => $this->teacher_id,
+        'section_id' => $this->section_id,
       ]);
   }
 
@@ -201,7 +210,7 @@ class GradeService {
       $fieldSum = 0;
       if($this->fieldCount > 0){
           $fieldGradeArray = array();
-          for($i=1; $i<=$this->maxFieldNum; $i++){
+          for($i=1; $i<=$this->maxFieldNum; ++$i){
             array_push($fieldGradeArray,$this->grade["{$this->field}{$i}"]);
           }
           rsort($fieldGradeArray);
@@ -211,7 +220,7 @@ class GradeService {
             $fieldSum += $l;
           }
         } else {
-          for($i=1; $i<=5; $i++){
+          for($i=1; $i<=5; ++$i){
             $fieldSum += $this->grade["{$this->field}{$i}"];
           }
         }
@@ -273,12 +282,12 @@ class GradeService {
         return $tbc;
     }
 
-    public function returnRouteWithParameters($route_name, $teacher_id, $course_id, $exam_id, $section_id){
+    public function returnRouteWithParameters($route_name){
       return redirect()->route($route_name, [
-        'teacher_id' => $teacher_id,
-        'course_id' => $course_id,
-        'exam_id' => $exam_id,
-        'section_id' => $section_id,
+        'teacher_id' => $this->teacher_id,
+        'course_id' => $this->course_id,
+        'exam_id' => $this->exam_id,
+        'section_id' => $this->section_id,
       ]);
     }
 }
