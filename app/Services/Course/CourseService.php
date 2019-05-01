@@ -4,13 +4,41 @@ namespace App\Services\Course;
 use App\User;
 use App\Course;
 use App\Grade;
+use App\Exam;
 use Illuminate\Support\Facades\Auth;
 
 class CourseService {
+    public function isCourseOfTeacher($teacher_id){
+        return auth()->user()->role != 'student' && $teacher_id > 0;
+    }
+
+    public function isCourseOfStudentOfASection($section_id){
+        return auth()->user()->role == 'student'
+                && $section_id == auth()->user()->section_id
+                && $section_id > 0;
+    }
+
+    public function isCourseOfASection($section_id){
+        return auth()->user()->role != 'student' && $section_id > 0;
+    }
+
     public function getCoursesByTeacher($teacher_id){
         return Course::with(['section', 'teacher','exam'])
                         ->where('teacher_id', $teacher_id)
                         ->get();
+    }
+
+    public function getExamsBySchoolId(){
+        return Exam::where('school_id', auth()->user()->school_id)
+                        ->where('active',1)
+                        ->get();
+    }
+
+    public function updateCourseInfo($id){
+        $tb = Course::find($id);
+        $tb->course_name = $request->course_name;
+        $tb->course_time = $request->course_time;
+        $tb->save();
     }
 
     public function getCoursesBySection($section_id){

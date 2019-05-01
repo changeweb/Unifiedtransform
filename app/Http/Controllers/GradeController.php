@@ -76,36 +76,26 @@ class GradeController extends Controller
     }
 
     public function allExamsGrade(){
-      $classes = \App\Myclass::where('school_id',\Auth::user()->school->id)->get();
+      $classes = $this->gradeService->getClassesBySchoolId();
       $classIds = $classes->pluck('id')->toArray();
-      $sections = \App\Section::whereIn('class_id',$classIds)
-                  ->orderBy('section_number')
-                  ->get();
-      return view('grade.all-exams-grade',[
-        'classes'=>$classes,
-        'sections'=>$sections
-      ]);
+      $sections = $this->gradeService->getSectionsByClassIds($classIds);
+      return view('grade.all-exams-grade',compact('classes',
+        'sections'));
     }
 
     public function gradesOfSection($section_id){
-      $examIds = \App\Exam::where('school_id', \Auth::user()->school_id)
-                  ->where('active',1)
-                  ->pluck('id')
-                  ->toArray();
-      $courses = \App\Course::where('section_id',$section_id)
-                  ->whereIn('exam_id', $examIds)
-                  ->pluck('id')
-                  ->toArray();
-      $grades = Grade::with(['student','course','exam'])
-                ->whereIn('course_id', $courses)
-                ->get();
-      return view('grade.class-result',['grades'=>$grades]);
+      $examIds = $this->gradeService->getActiveExamIds()->toArray();
+      $courses = $this->gradeService->getCourseBySectionIdExamIds($section_id, $examIds);
+      $grades = $this->gradeService->getGradesByCourseId($courses);
+
+      return view('grade.class-result',compact('grades'));
     }
 
     public function calculateMarks(CalculateMarksRequest $request){
       $gradeSystem = $this->gradeService->getGradeSystemByname($request->grade_system_name);
 
-      $course = \App\Course::find($request->course_id);
+      $this->gradeService->course_id = $request->course_id;
+      $course = $this->gradeService->getCourseByCourseId();
 
       $grades = $this->gradeService->getGradesByCourseExam($request->course_id, $request->exam_id)->toArray();
 

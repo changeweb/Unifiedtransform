@@ -4,6 +4,9 @@ namespace App\Services\Grade;
 use App\Grade;
 use App\Gradesystem;
 use App\Exam;
+use App\Course;
+use App\Section;
+use App\Myclass;
 use Illuminate\Support\Facades\Auth;
 
 class GradeService {
@@ -128,6 +131,39 @@ class GradeService {
         $tbc[] = $tb->attributesToArray();
     }
     return $tbc;
+  }
+
+  public function getActiveExamIds(){
+    return Exam::where('school_id', auth()->user()->school_id)
+                  ->where('active',1)
+                  ->pluck('id');
+  }
+
+  public function getCourseBySectionIdExamIds($section_id, $examIds){
+    return Course::where('section_id',$section_id)
+                  ->whereIn('exam_id', $examIds)
+                  ->pluck('id')
+                  ->toArray();
+  }
+
+  public function getGradesByCourseId($courses){
+    return Grade::with(['student','course','exam'])
+                ->whereIn('course_id', $courses)
+                ->get();
+  }
+
+  public function getClassesBySchoolId(){
+    return Myclass::where('school_id',auth()->user()->school->id)->get();
+  }
+
+  public function getSectionsByClassIds($classIds){
+    return Section::whereIn('class_id',$classIds)
+                  ->orderBy('section_number')
+                  ->get();
+  }
+
+  public function getCourseByCourseId(){
+    return Course::find($this->course_id);
   }
 
   public function saveCalculatedGPAFromTotalMarks($tbc){
