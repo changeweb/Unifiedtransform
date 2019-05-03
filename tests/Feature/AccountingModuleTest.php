@@ -48,13 +48,37 @@ class AccountingModuleTest extends TestCase
         $account = factory(Account::class, 10)->create();
         $response = $this->get('accounts/income');
         $response->assertViewIs('accounts.income');
-        $response->assertViewHas(['sectors','sections','students']);
+        $response->assertViewHas([
+            'sectors',
+            //'sections','students'
+            ]);
     }
     /** @test */
     public function accountant_can_add_income(){
         $request = factory(Account::class)->make();
         $this->followingRedirects()
                 ->post('accounts/create-income', $request->toArray())
+                ->assertStatus(200);
+        $this->assertDatabaseHas('accounts', [
+            'name' => $request->name,
+            'amount' => $request->amount,
+        ]);
+    }
+    /** @test */
+    public function accountant_can_view_expense_list(){
+        $account = factory(Account::class, 10)->create();
+        $response = $this->get('accounts/expense');
+        $response->assertViewIs('accounts.expense');
+        $response->assertViewHas([
+            'sectors',
+            //'sections','students'
+            ]);
+    }
+    /** @test */
+    public function accountant_can_add_expense(){
+        $request = factory(Account::class)->make();
+        $this->followingRedirects()
+                ->post('accounts/create-expense', $request->toArray())
                 ->assertStatus(200);
         $this->assertDatabaseHas('accounts', [
             'name' => $request->name,

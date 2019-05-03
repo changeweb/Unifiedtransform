@@ -6,6 +6,7 @@ use App\Attendance;
 use Illuminate\Support\Facades\Auth;
 
 class AttendanceService {
+  public $request;
 
     public function getStudentsBySection($section_id){
         return User::with('section')
@@ -83,5 +84,47 @@ class AttendanceService {
                       ->where('student_id', $student_id)
                       ->where('exam_id', $exId)
                       ->get();
+    }
+
+    public function updateAttendance(){
+      $i = 0;
+      $at = [];
+        foreach ($this->request->attendances as $key => $attendance) {
+          $tb = Attendance::find($attendance);
+            if(count((array) $tb) === 1 && !isset($this->request["isPresent$i"]) && $tb->present == 1){
+              // Attended today's class but escaped
+              $tb->updated_at = date('Y-m-d H:i:s');
+              $tb->save();
+              // Escape record
+              $tb2 = new Attendance;
+              $tb2->student_id = $this->request->students[$i];
+              $tb2->section_id = $this->request->section_id;
+              $tb2->exam_id = $this->request->exam_id;
+              $tb2->present = 2;
+              $tb2->user_id = auth()->user()->id;
+              $tb2->created_at = date('Y-m-d H:i:s');
+              $tb2->updated_at = date('Y-m-d H:i:s');
+              $at[] = $tb2->attributesToArray();
+            }
+          ++$i;
+        }
+        return $at;
+    }
+
+    public function storeAttendance(){
+      $i = 0;
+        foreach ($this->request->students as $key => $student) {
+          $tb = new Attendance;
+          $tb->student_id = $student;
+          $tb->section_id = $this->request->section_id;
+          $tb->exam_id = $this->request->exam_id;
+          $tb->present = isset($this->request["isPresent$i"])?1:0;
+          $tb->user_id = auth()->user()->id;
+          $tb->created_at = date('Y-m-d H:i:s');
+          $tb->updated_at = date('Y-m-d H:i:s');
+          $at[] = $tb->attributesToArray();
+          ++$i;
+        }
+        Attendance::insert($at);
     }
 }
