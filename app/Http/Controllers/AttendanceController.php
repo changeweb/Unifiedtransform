@@ -6,6 +6,7 @@ use App\Attendance;
 use App\User;
 use App\Http\Resources\AttendanceResource;
 use Illuminate\Http\Request;
+use App\Http\Requests\Attendance\StoreAttendanceRequest;
 use App\Http\Traits\GradeTrait;
 use App\Services\Attendance\AttendanceService;
 
@@ -130,67 +131,16 @@ class AttendanceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreAttendanceRequest $request)
     {
-      $request->validate([
-        'students' => 'required|array',
-        'attendances' => 'required|array',
-        'section_id' => 'required',
-        'exam_id' => 'required',
-        'update' => 'required',
-        'isPresent*' => 'required',
-      ]);
+      $this->attendanceService->request = $request;
       if($request->update == 1){
-        $i = 0;
-        foreach ($request->attendances as $key => $attendance) {
-          // $at[] = [
-          //   'id' => $attendance,
-          //   'present' => (isset($request["isPresent$i"]))?1:0,
-          //   'user_id' => \Auth::user()->id,
-          //   //'created_at' => date('Y-m-d H:i:s'),
-          //   'updated_at' => date('Y-m-d H:i:s'),
-          // ];
-          //DB::transaction(function () {
-            $tb = Attendance::find($attendance);
-            if(count((array) $tb) === 1 && !isset($request["isPresent$i"]) && $tb->present == 1){
-              // Attended today's class but escaped
-              $tb->updated_at = date('Y-m-d H:i:s');
-              $tb->save();
-              // Escape record
-              $tb2 = new Attendance;
-              $tb2->student_id = $request->students[$i];
-              $tb2->section_id = $request->section_id;
-              $tb2->exam_id = $request->exam_id;
-              $tb2->present = 2;
-              $tb2->user_id = \Auth::user()->id;
-              $tb2->created_at = date('Y-m-d H:i:s');
-              $tb2->updated_at = date('Y-m-d H:i:s');
-              $at[] = $tb2->attributesToArray();
-            }
-          //});
-          
-          $i++;
-        }
+        $at = $this->attendanceService->updateAttendance();
         if(isset($at))
           if(count($at) > 0)
             Attendance::insert($at);
-        // $table = 'attendances';
-        // \Batch::update($table,$at,'id');
       } else {
-        $i = 0;
-        foreach ($request->students as $key => $student) {
-          $tb = new Attendance;
-          $tb->student_id = $student;
-          $tb->section_id = $request->section_id;
-          $tb->exam_id = $request->exam_id;
-          $tb->present = isset($request["isPresent$i"])?1:0;
-          $tb->user_id = \Auth::user()->id;
-          $tb->created_at = date('Y-m-d H:i:s');
-          $tb->updated_at = date('Y-m-d H:i:s');
-          $at[] = $tb->attributesToArray();
-          $i++;
-        }
-        Attendance::insert($at);
+        $this->attendanceService->storeAttendance();
       }
       return back()->with('status','Saved');
     }
