@@ -28,5 +28,6 @@ class IssuedBookModuleTest extends TestCase
         ]);
         $this->followingRedirects()->post('library/issue-books', $request->toArray())
             ->assertStatus(200);
+        $this->assertEquals(Issuedbook::count(),count((array)$request->book_id));
     }
 }

@@ -34,6 +34,16 @@ class ExamService {
         return Myclass::where('school_id',auth()->user()->school->id)->get();
     }
 
+    public function getAlreadyAssignedClasses(){
+        $classes = $this->getClassesBySchoolId()
+                        ->pluck('id')
+                        ->toArray();
+        return ExamForClass::with('exam')
+                            ->where('active', 1)
+                            ->whereIn('class_id', $classes)
+                            ->get();
+    }
+
     public function createExam(){
         $exam = new Exam;
         $exam->exam_name = $this->request->exam_name;
