@@ -17,7 +17,7 @@
                         </div>
                     @endif
 
-                    @component('components.add-exam-form',['classes'=>$classes])
+                    @component('components.add-exam-form',['classes'=>$classes,'assigned_classes'=>$already_assigned_classes,])
                     @endcomponent
                 </div>
             </div>

@@ -40,7 +40,8 @@ class ExamController extends Controller
     public function create()
     {
         $classes = $this->examService->getClassesBySchoolId();
-        return view('exams.add',compact('classes'));
+        $already_assigned_classes = $this->examService->getAlreadyAssignedClasses();
+        return view('exams.add',compact('classes','already_assigned_classes'));
     }
 
     /**

@@ -61,11 +61,24 @@
 
         <div class="col-md-6">
             @foreach ($classes as $class)
+                @if(in_array($class->id, $assigned_classes->pluck('class_id')->toArray()))
+                    <div class="checkbox">
+                        {{$class->class_number}} already assigned to Exam <b>
+                        @foreach($assigned_classes as $assigned_class)
+                            @if($assigned_class->class_id == $class->id)
+                                {{$assigned_class->exam->exam_name}}
+                                @break
+                            @endif
+                        @endforeach
+                        </b>
+                    </div>
+                @else
                 <div class="checkbox">
                     <label>
                         <input type="checkbox" name="classes[]" value="{{$class->id}}"> {{$class->class_number}}
                     </label>
                 </div>
+                @endif
             @endforeach
 
             @if ($errors->has('classes'))
