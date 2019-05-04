@@ -22,7 +22,7 @@ Thus you permit the user of this software to use your contribution under the ter
 
 ## Testing
 
-- We want testable softwares. So test cases are being written for this app too. You also can contribute by writing test case!
+- We want testable softwares. More than 115 tests with 245 assertions are written till now. You also can contribute by writing test case!
 - To run Feature and Unit Tests use `./vendor/bin/phpunit` and to run Browser Tests set `APP_URL` environment variable in your `.env` file. This value should match the URL you use to access your application in a browser. Then run `php artisan dusk`.
 
 ## License
