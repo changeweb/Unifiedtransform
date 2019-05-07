@@ -70,23 +70,21 @@ class UserService {
     public function promoteSectionStudentsPost($request)
     {   
         if ($request->section_id > 0) {
-            $students = $this->getSectionStudents($request->section_id);
+            $students = $this->getSectionStudentsWithStudentInfo($request->section_id);
             $i = 0;
             foreach ($students as $student) {
                 $this->st[] = [
-                    'id' => $student->id,
+                    'id' => $student->student_id,
                     'section_id' => $request->to_section[$i],
                     'active' => isset($request["left_school$i"])?0:1,
                 ];
 
                 $this->st2[] = [
-                    'student_id' => $student->id,
+                    'student_id' => $student->student_id,
                     'session' => $request->to_session[$i],
                 ];
-
                 ++$i;
             }
-            
             $this->promoteSectionStudentsPostDBTransaction();
             
             return back()->with('status', 'Saved');
@@ -96,9 +94,9 @@ class UserService {
     public function promoteSectionStudentsPostDBTransaction(){
         return $this->db::transaction(function () {
             $table1 = 'users';
-            $this->batch->update($table1, $this->st, 'id');
+            $this->batch->update($table1, (array) $this->st, 'id');
             $table2 = 'student_infos';
-            $this->batch->update($table2, $this->st2, 'student_id');
+            $this->batch->update($table2, (array) $this->st2, 'student_id');
         });
     }
 
@@ -164,9 +162,11 @@ class UserService {
     }
 
     public function getSectionStudentsWithStudentInfo($section_id){
-        return $this->user->with('section', 'studentInfo')
-                ->where('section_id', $section_id)
-                ->where('active', 1)
+        return $this->user->with(['section'])
+                ->join('student_infos', 'users.id', '=', 'student_infos.student_id')
+                ->where('student_infos.session', '<=', now()->year)
+                ->where('users.section_id', $section_id)
+                ->where('users.active', 1)
                 ->get();
     }
 

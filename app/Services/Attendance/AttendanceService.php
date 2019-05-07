@@ -35,7 +35,7 @@ class AttendanceService {
             'updated_at' => date('Y-m-d H:i:s'),
           ];
         }
-        \Batch::update('attendances',$atts,'id');
+        \Batch::update('attendances',(array) $atts,'id');
         return back()->with('status', 'Updated');
       }catch(\Exception $ex){
         return false;

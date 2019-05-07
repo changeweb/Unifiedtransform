@@ -24,7 +24,7 @@ class NotificationController extends Controller
             'updated_at' => date('Y-m-d H:i:s'),
           ];
       }
-      \Batch::update('notifications',$msgs,'id');
+      \Batch::update('notifications',(array) $msgs,'id');
       return view('message.all',['messages'=>$msg]);
     }
 

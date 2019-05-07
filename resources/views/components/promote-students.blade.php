@@ -33,7 +33,14 @@
                         </div>
                     </td>
                     <td>
-                        <small>{{$student->studentInfo['session']}}</small>
+                        <small>
+                            {{$student->session}}
+                            @if($student->session == now()->year || $student->session > now()->year)
+                            <span class="label label-success">Promoted/New</span>
+                            @else
+                            <span class="label label-danger">Not Promoted</span>
+                            @endif
+                        </small>
                     </td>
                     <td>
                         <input class="form-control datepicker" name="to_session[]"
@@ -44,7 +51,7 @@
                             {{$student->section->section_number}}</small>
                     </td>
                     <td>
-                        <select id="to_section" class="form-control" name="to_section[]">
+                        <select id="to_section" class="form-control" name="to_section[]" required>
                             @foreach($classes as $class)
                             @foreach($class->sections as $section)
                             <option value="{{$section->id}}">

@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 $factory->define(StudentInfo::class, function (Faker $faker) {
     return [
       'student_id'           => $faker->randomElement(User::student()->pluck('id')->toArray()),
-      'session'              => '2018',
+      'session'              => now()->year,
       'version'              => $faker->randomElement(['bangla', 'english']),
       'group'                => $faker->randomElement(['', 'science', 'commerce', 'arts']),
       'birthday'             => $faker->dateTimeThisCentury->format('Y-m-d'),

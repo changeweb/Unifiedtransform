@@ -166,7 +166,7 @@ class GradeController extends Controller
       $tbc = $this->gradeService->updateGrade($request);
       try{
           if(count($tbc) > 0)
-            \Batch::update('grades',$tbc,'id');
+            \Batch::update('grades', (array) $tbc,'id');
         }catch(\Exception $e){
             return "OOps, an error occured";
         }
