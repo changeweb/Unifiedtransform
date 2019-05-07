@@ -83,7 +83,16 @@
           @endif --}}
         @endif
         @if (!Session::has('section-attendance'))
-        <td><small>{{$user->studentInfo['session']}}</small></td>
+        <td>
+          <small>
+            {{$user->studentInfo['session']}}
+            @if($user->studentInfo['session'] == now()->year || $user->studentInfo['session'] > now()->year)
+              <span class="label label-success">Promoted/New</span>
+            @else
+              <span class="label label-danger">Not Promoted</span>
+            @endif
+          </small>
+        </td>
         <td><small>{{ucfirst($user->studentInfo['version'])}}</small></td>
         <td><small>{{$user->section->class->class_number}} {{!empty($user->group)? '- '.$user->group:''}}</small></td>
         <td style="white-space: nowrap;"><small>{{$user->section->section_number}}

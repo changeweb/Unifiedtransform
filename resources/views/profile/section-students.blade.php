@@ -27,6 +27,7 @@
                             <th scope="col">Sl.</th>
                             <th scope="col">Student Code</th>
                             <th scope="col">Student Name</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Grade History</th>
                         </tr>
                         </thead>
@@ -36,6 +37,13 @@
                             <td>{{($loop->index+1)}}</td>
                             <td>{{$student->student_code}}</td>
                             <td><a href="{{url('user/'.$student->student_code)}}">{{$student->name}}</a></td>
+                            <td>
+                            @if($student->studentInfo['session'] == now()->year || $student->studentInfo['session'] > now()->year)
+                            <span class="label label-success">Promoted/New</span>
+                            @else
+                            <span class="label label-danger">Not Promoted</span>
+                            @endif
+                            </td>
                             <td><a class="btn btn-xs btn-success" role="button" href="{{url('grades/'.$student->id)}}">View Grade History</a></td>
                         </tr>
                         @endforeach
