@@ -45,7 +45,12 @@
                                             <td>
                                                 <div class="btn-group">
                                                     <a href="{{ route('library.books.show', $book->id) }}" class="btn btn-xs btn-info">
-                                                        details
+                                                        Details
+                                                    </a>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <a href="{{ route('library.books.edit', $book->id) }}" class="btn btn-xs btn-success">
+                                                        Edit
                                                     </a>
                                                 </div>
                                             </td>
