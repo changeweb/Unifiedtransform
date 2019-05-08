@@ -23,9 +23,9 @@ class BookRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'title'     => 'required',
-            'book_code' => 'required|unique:books,book_code',
+            'book_code' => 'required',
             'author'    => 'required',
             'quantity'  => 'required',
             'rackNo'    => 'required',
@@ -36,5 +36,12 @@ class BookRequest extends FormRequest
             'img_path'  => 'required',
             'class_id'  => 'required',
         ];
+
+        /**
+         * Validate 'book_code' only when a new Book is created.
+        */
+        if ($this->getMethod() == 'POST') $rules['book_code'] .= '|unique:books,book_code';
+
+        return $rules;
     }
 }

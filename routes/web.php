@@ -138,9 +138,7 @@ Route::middleware(['auth','teacher'])->group(function (){
 
 Route::middleware(['auth', 'librarian'])->namespace('Library')->group(function () {
     Route::prefix('library')->name('library.')->group(function () {
-        Route::resource('books', 'BookController',
-            ['only' => ['index', 'show', 'create', 'store']]
-        );
+        Route::resource('books', 'BookController');
     });
 });
 
