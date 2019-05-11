@@ -30,10 +30,7 @@ class BookController extends Controller
         return view('library.books.show', compact('book'));
     }
 
-    public function edit($bookId) {
-
-        $book = Book::where('id', $bookId)->first();
-
+    public function edit(Book $book) {
         $classes = Myclass::where('school_id', auth()->user()->school_id)->get();
 
         return view('library.books.edit', compact('book', 'classes'));
