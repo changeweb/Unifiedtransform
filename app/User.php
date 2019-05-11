@@ -5,11 +5,12 @@ namespace App;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Lab404\Impersonate\Models\Impersonate;
+use Laravel\Cashier\Billable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable, Impersonate;
+    use HasApiTokens, Notifiable, Impersonate, Billable;
 
     /**
      * The attributes that are mass assignable.

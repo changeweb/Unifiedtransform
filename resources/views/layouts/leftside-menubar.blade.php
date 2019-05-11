@@ -191,7 +191,10 @@
         class="nav-link-text">My Grade</span></a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#"><i class="material-icons">payment</i> <span class="nav-link-text">Payment History</span></a>
+    <a class="nav-link" href="{{url('stripe/charge')}}"><i class="material-icons">payment</i> <span class="nav-link-text">Payment</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{url('stripe/receipts')}}"><i class="material-icons">receipt</i> <span class="nav-link-text">Receipt</span></a>
   </li>
   @endif
   {{--<div style="text-align:center;">Student</div>--}}

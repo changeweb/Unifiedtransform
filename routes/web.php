@@ -275,3 +275,9 @@ Route::prefix('emails')->group(function () {
       return new App\Mail\SendWelcomeEmailToUser($user, $password);
   });
 });
+
+Route::middleware(['auth','student'])->prefix('stripe')->group(function(){
+  Route::get('charge', 'CashierController@index');
+  Route::post('charge','CashierController@store');
+  Route::get('receipts', 'PaymentController@index');
+});
