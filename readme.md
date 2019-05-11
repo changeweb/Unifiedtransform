@@ -22,7 +22,7 @@ Thus you permit the user of this software to use your contribution under the ter
 
 ## Testing
 
-- We want testable softwares. More than 115 tests with 245 assertions are written till now. You also can contribute by writing test case!
+- We want testable softwares. Most parts of the software are covered by tests. You also can contribute by writing test case!
 - To run Feature and Unit Tests use `./vendor/bin/phpunit` and to run Browser Tests set `APP_URL` environment variable in your `.env` file. This value should match the URL you use to access your application in a browser. Then run `php artisan dusk`.
 
 ## License
@@ -32,18 +32,24 @@ GNU General Public License v3.0
 ## Features
 
 This software has following features:
-- Roles: Master, Admin, Teacher, Student, Librarian, Accountant
+
+* Roles: Master, Admin, Teacher, Student, Librarian, Accountant
 
    **(You can Impersonate User Roles in Development environment)** See how [Impersonation](https://github.com/changeweb/Unifiedtransform/pull/118) works. Cool !!
-- Attendance
-- Mark
-- Registration
-- Notice, Syllabus
-- Library
-- Exam
-- Grade
-- Accounts
-- Messaging (uses CKEditor 5)
+* Payment
+   * **[Stripe](http://stripe.com/)** is used. See configuration below
+   * Students can pay from their accounts.
+   * Student can view payment receipts (history)
+   * View Screenshot below
+* Attendance
+* Mark
+* Registration
+* Notice, Syllabus
+* Library
+* Exam
+* Grade
+* Accounts
+* Messaging (uses CKEditor 5)
 
 ## Framework used
 
@@ -52,7 +58,7 @@ This software has following features:
 
 ## Server Requirements
 
-- PHP >= 7.0.0
+- PHP >= 7.1.0
 - OpenSSL PHP Extension
 - PDO PHP Extension
 - Mbstring PHP Extension
@@ -62,7 +68,7 @@ This software has following features:
 ## How to Start
 ### Using a Container:
 
-[Docker](https://www.docker.com/) is now supported.
+**[Docker](https://www.docker.com/)** is now supported.
 
 You need to change Docker configuration files according to your need.
 
@@ -76,13 +82,13 @@ You need to change Docker configuration files according to your need.
 - Then run `sudo docker container ls --all`. Copy **Nginx** Container ID.
 - Then run `sudo docker exec -it <container id> bash`
 - Run `cp .env.example .env` and change following lines in `.env` file
-
-      DB_HOST=db
-      DB_PORT=3306
-      DB_DATABASE=school
-      DB_USERNAME=root
-      DB_PASSWORD=your password
-
+   ```sh
+   DB_HOST=db
+   DB_PORT=3306
+   DB_DATABASE=school
+   DB_USERNAME=root
+   DB_PASSWORD=your password
+   ```
 - Run `composer install`
 - Run `php artisan key:generate`
 - Run `php artisan migrate:fresh --seed`
@@ -102,7 +108,7 @@ git clone https://github.com/changeweb/Unifiedtransform
 
 - Copy the contents of the `.env.example` file to create `.env` in the same directory
 
-- Run `php composer.phar install` for developer environment and run `php composer.phar install --no-dev` for production environment to install Laravel packages
+- Run `composer install` for `developer` environment and run `composer install --optimize-autoloader --no-dev` for `production` environment to install Laravel packages
 
 - Generate `APP_KEY` using `php artisan key:generate`
 
@@ -119,7 +125,7 @@ DB_PASSWORD=secret
 
 > Note that this is just an example, and the values may vary depending on your database environment.
 
-- Set the APP_ENV variable in your .env file according to your application environment (e.g. local, production) in `.env` file
+- Set the `APP_ENV` variable in your `.env` file according to your application environment (e.g. local, production) in `.env` file
 
 - Migrate your Database with `php artisan migrate`
 
@@ -127,14 +133,14 @@ DB_PASSWORD=secret
 
 - On localhost, serve your application with `php artisan serve`
 
-See [Video Tutorial](https://vimeo.com/334331502).
+> See **[Video Tutorial](https://vimeo.com/334331502)**.
 
 #### (Optional)
 
 - [Laravel Page Speed Package](https://github.com/renatomarinho/laravel-page-speed) is installed but not activated. If you want to use it to optimize your site automatically which results in a 35%+ optimization. You need to uncomment some lines from `Kernel.php` file and may need to run `php artisan vendor:publish --provider="RenatoMarinho\LaravelPageSpeed\ServiceProvider"`.
 
    **app/HTTP/Kernel.php**
-
+   ```php
        //\RenatoMarinho\LaravelPageSpeed\Middleware\InlineCss::class,
        //\RenatoMarinho\LaravelPageSpeed\Middleware\ElideAttributes::class,
        //\RenatoMarinho\LaravelPageSpeed\Middleware\InsertDNSPrefetch::class,
@@ -142,7 +148,7 @@ See [Video Tutorial](https://vimeo.com/334331502).
        //\RenatoMarinho\LaravelPageSpeed\Middleware\TrimUrls::class,
        //\RenatoMarinho\LaravelPageSpeed\Middleware\RemoveQuotes::class,
        //\RenatoMarinho\LaravelPageSpeed\Middleware\CollapseWhitespace::class,
-
+   ```
 - To create a `Master`, go to the `database\seeds\UsersTableSeeder.php` and change the `name`, the `email` and the `password` settings to your likings. Leave the other settings (role, active, verified) unchanged!
 
 - [Laravel Passport](https://laravel.com/docs/5.5/passport) package is included to support API. *Key* for Passport should be automatically generated by `php artisan passport:keys` from `post-install-cmd` script in `composer.json` or you have to run this manually and to remove this package just follow these steps
@@ -166,20 +172,38 @@ See [Video Tutorial](https://vimeo.com/334331502).
    So your files will look something like this:
 
    In `database\seeds\DatabaseSeeder.php`:
-
-      ...
-      //$this->call(SectionsTableSeeder::class);
-      $this->call(UsersTableSeeder::class);
-      //$this->call(AttendancesTableSeeder::class);
-      ...
-
+   ```php
+   ...
+   //$this->call(SectionsTableSeeder::class);
+   $this->call(UsersTableSeeder::class);
+   //$this->call(AttendancesTableSeeder::class);
+   ...
+   ```
    In `database\seeds\UsersTableSeeder.php`:
-
-      ...
-      //factory(App\User::class, 200)->create();
-
+   ```php
+   ...
+   //factory(App\User::class, 200)->create();
+   ```
 
 * [Laravel 5 log viewer](https://github.com/rap2hpoutre/laravel-log-viewer) is used to view Logs using a UI at 'example.com/logs' while in development environment.
+
+## Stripe setup
+
+* Add `STRIPE_KEY` and `STRIPE_SECRET` in `.env` file.
+* For Stripe Test uncomment following test `student_can_pay_amount` in `tests\Feature\PaymentModuleTest` after editing `.env`.
+
+   From
+   ```php
+   //public function student_can_pay_amount(){
+      ...
+   //}
+   ```
+   To
+   ```php
+   public function student_can_pay_amount(){
+      ...
+   }
+   ```
 
 ## Create a school and an admin
 
@@ -202,6 +226,7 @@ See [Video Tutorial](https://vimeo.com/334331502).
 * Remove `Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');` from `routes/web.php` while in Production Environment.
 * `Cache::remember()` generates cache files. To delete expired cache files [LaravelCacheGarbageCollector](https://github.com/jdavidbakr/laravel-cache-garbage-collector) package is used. Run `php artisan cache:gc`.
 * You can switch to and from maintenance mode by running `php artisan up` and `php artisan down`.
+* Optimizing Route Loading `php artisan route:cache`
 * Dashboard page contents(e.g. Student count, Teacher count, Notice, etc.) are cached because these are not frequently changed. If you don't want these to be cached, just remove the cache lines in `index` method in `app\Http\Controller\HomeController.php`like the following example.
 So your edit would be something like this:
 
@@ -230,6 +255,7 @@ You can do similar for other cache lines.
 Auto generated fake data were used.
 
 ![Screenshot_2019-04-11 - Ms Duane Welch(2)](https://user-images.githubusercontent.com/9896315/56895635-841dad00-6aab-11e9-9400-ec79907b0a28.png)
+![Screenshot_2019-05-11 Stripe Payment - Elvis Leffler](https://user-images.githubusercontent.com/9896315/57566209-b2748400-73eb-11e9-94c0-411a8d55e732.png)
 ![Screenshot_2019-04-29 All Examinations - Santino Bergstrom V](https://user-images.githubusercontent.com/9896315/56895608-6ea88300-6aab-11e9-9854-07f553ecb9b8.png)
 ![Screenshot_2019-03-21 Account Sectors - Britney Luettgen](https://user-images.githubusercontent.com/9896315/54765196-45cadd80-4c23-11e9-81d2-c761796678c8.png)
 ![Screenshot_2019-03-12 Add New Book - Arvid Marquardt](https://user-images.githubusercontent.com/9896315/54187727-68991b80-44d8-11e9-972b-370a7b4a89b1.png)
