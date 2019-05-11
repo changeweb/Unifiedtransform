@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\App;
 
+use App\School;
 use App\Myclass;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -40,5 +41,20 @@ class MyclassTest extends TestCase
         $this->assertInstanceOf(
             'Illuminate\Database\Eloquent\Collection', $this->class->books
         );
+    }
+
+    /** @test */
+    public function my_class_are_filter_by_school() {
+        $school = factory(School::class)->create();
+        $klass  = factory(Myclass::class, 2)->create([
+            'school_id' => $school->id
+        ]);
+
+        $other_school = factory(School::class)->create();
+        $other_klass  = factory(Myclass::class, 4)->create([
+            'school_id' => $other_school->id
+        ]);
+
+        $this->assertEquals(Myclass::bySchool($school->id)->count(), $klass->count());
     }
 }

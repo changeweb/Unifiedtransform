@@ -34,13 +34,13 @@ class BookController extends Controller
 
         $book = Book::where('id', $bookId)->first();
 
-        $classes = Myclass::where('school_id', auth()->user()->school_id)->get();
+        $classes = Myclass::bySchool(auth()->user()->school_id)->get();
 
         return view('library.books.edit', compact('book', 'classes'));
     }
 
     public function create() {
-        $classes = Myclass::where('school_id', auth()->user()->school_id)->get();
+        $classes = Myclass::bySchool(auth()->user()->school_id)->get();
 
         return view('library.books.create', compact('classes'));
     }
