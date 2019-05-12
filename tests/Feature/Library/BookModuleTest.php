@@ -109,6 +109,14 @@ class BookModuleTest extends TestCase
     }
 
     /** @test */
+    public function it_loads_the_edit_book_page() {
+        $book = create(Book::class);
+
+        $this->get(route('library.books.edit', $book))
+            ->assertStatus(200);
+    }
+
+    /** @test */
     public function a_book_can_be_edited()
     {
         $book = create(Book::class, ['title' => 'Original title']);
