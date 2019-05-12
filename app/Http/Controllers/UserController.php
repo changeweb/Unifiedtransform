@@ -77,7 +77,7 @@ class UserController extends Controller
     public function redirectToRegisterStudent()
     {
         $classes = Myclass::query()
-            ->where('school_id', Auth::user()->school->id)
+            ->bySchool(\Auth::user()->school->id)
             ->pluck('id');
 
         $sections = Section::with('class')
@@ -112,7 +112,7 @@ class UserController extends Controller
         if($this->userService->hasSectionId($section_id))
             return $this->userService->promoteSectionStudentsView(
                 $this->userService->getSectionStudentsWithStudentInfo($section_id),
-                Myclass::with('sections')->where('school_id', Auth::user()->school_id)->get(),
+                Myclass::with('sections')->bySchool(\Auth::user()->school_id)->get(),
                 $section_id
             );
         else
@@ -305,7 +305,7 @@ class UserController extends Controller
     {
         $user = $this->user->find($id);
         $classes = Myclass::query()
-            ->where('school_id', Auth::user()->school_id)
+            ->bySchool(\Auth::user()->school_id)
             ->pluck('id')
             ->toArray();
 
@@ -314,7 +314,7 @@ class UserController extends Controller
             ->get();
 
         $departments = Department::query()
-            ->where('school_id', Auth::user()->school_id)
+            ->bySchool(\Auth::user()->school_id)
             ->get();
 
         return view('profile.edit', [

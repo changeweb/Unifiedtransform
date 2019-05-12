@@ -45,15 +45,11 @@ class MyclassTest extends TestCase
 
     /** @test */
     public function my_class_are_filter_by_school() {
-        $school = factory(School::class)->create();
-        $klass  = factory(Myclass::class, 2)->create([
-            'school_id' => $school->id
-        ]);
+        $school = create(School::class);
+        $klass  = create(Myclass::class, ['school_id' => $school->id], 2);
 
-        $other_school = factory(School::class)->create();
-        $other_klass  = factory(Myclass::class, 4)->create([
-            'school_id' => $other_school->id
-        ]);
+        $other_school = create(School::class);
+        $other_klass  = create(Myclass::class, ['school_id' => $other_school->id], 4);
 
         $this->assertEquals(Myclass::bySchool($school->id)->count(), $klass->count());
     }

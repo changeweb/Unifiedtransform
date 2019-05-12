@@ -3,6 +3,7 @@
 namespace Tests\Unit\App;
 
 use App\User;
+use App\School;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -53,5 +54,16 @@ class UsersTest extends TestCase
         $this->assertTrue($master->hasRole('master'));
         $this->assertTrue($student->hasRole('student'));
         $this->assertTrue($teacher->hasRole('teacher'));
+    }
+
+    /** @test */
+    public function the_users_are_filter_by_school() {
+        $school = create(School::class);
+        $users  = create(User::class, ['school_id' => $school->id], 2);
+
+        $other_school = create(School::class);
+        $other_users  = create(User::class, ['school_id' => $other_school->id], 4);
+
+        $this->assertEquals(User::bySchool($school->id)->count(), $users->count());
     }
 }

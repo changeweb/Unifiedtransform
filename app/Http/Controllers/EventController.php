@@ -25,7 +25,7 @@ class EventController extends Controller
      */
     public function create()
     {
-      $files = Event::where('school_id',\Auth::user()->school_id)->where('active',1)->get();
+      $files = Event::bySchool(\Auth::user()->school_id)->where('active',1)->get();
       return view('events.create',['files'=>$files]);
     }
 

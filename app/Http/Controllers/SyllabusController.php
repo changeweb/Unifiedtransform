@@ -17,7 +17,7 @@ class SyllabusController extends Controller
      public function index()
      {
         $files = Syllabus::with('myclass')
-                          ->where('school_id',\Auth::user()->school_id)
+                          ->bySchool(\Auth::user()->school_id)
                           ->where('active',1)
                           ->get();
         return view('syllabus.course-syllabus',['files'=>$files,'class_id' => 0]);
@@ -33,7 +33,7 @@ class SyllabusController extends Controller
       try{
         if(Schema::hasColumn('syllabuses','class_id')){
           $files = Syllabus::with('myclass')
-                          ->where('school_id',\Auth::user()->school_id)
+                          ->bySchool(\Auth::user()->school_id)
                           ->where('class_id', $class_id)
                           ->where('active',1)
                           ->get();
@@ -43,7 +43,7 @@ class SyllabusController extends Controller
       } catch(Exception $ex){
         return 'Something went wrong!!';
       }
-      
+
       return view('syllabus.course-syllabus',['files'=>$files,'class_id'=>$class_id]);
     }
 

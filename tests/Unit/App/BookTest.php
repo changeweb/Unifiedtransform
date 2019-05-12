@@ -41,15 +41,11 @@ class BookTest extends TestCase
 
     /** @test */
     public function the_books_are_filter_by_school() {
-        $school = factory(School::class)->create();
-        $books  = factory(Book::class, 2)->create([
-            'school_id' => $school->id
-        ]);
+        $school = create(School::class);
+        $books  = create(Book::class, ['school_id' => $school->id], 2);
 
-        $other_school = factory(School::class)->create();
-        $other_books  = factory(Book::class, 4)->create([
-            'school_id' => $other_school->id
-        ]);
+        $other_school = create(School::class);
+        $other_books  = create(Book::class, ['school_id' => $other_school->id], 4);
 
         $this->assertEquals(Book::bySchool($school->id)->count(), $books->count());
     }
