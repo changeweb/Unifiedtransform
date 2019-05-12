@@ -1,8 +1,9 @@
 <?php
 
+use App\Payment;
 use Faker\Generator as Faker;
 
-$factory->define(App\Payment::class, function (Faker $faker) {
+$factory->define(Payment::class, function (Faker $faker) {
     return [
         //
     ];

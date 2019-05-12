@@ -1,27 +1,31 @@
 <?php
 
+use App\User;
+use App\School;
+use App\Myclass;
+use App\Syllabus;
 use Faker\Generator as Faker;
 
-$factory->define(App\Syllabus::class, function (Faker $faker) {
+$factory->define(Syllabus::class, function (Faker $faker) {
     return [
-    	'file_path' => $faker->url,
-      'description' => $faker->sentences(3, true),
-      'title' => $faker->sentences(1, true),
-      'active' => $faker->randomElement([0, 1]),
-      'school_id' => function () use ($faker) {
-          if(App\School::count() == 0)
-            return factory(App\School::class)->create()->id;
-          else {
-            return $faker->randomElement(App\School::pluck('id')->toArray());
-          }
+        'file_path'   => $faker->url,
+        'description' => $faker->sentences(3, true),
+        'title'       => $faker->sentences(1, true),
+        'active'      => $faker->randomElement([0, 1]),
+        'school_id'   => function () use ($faker) {
+            if (School::count())
+                return $faker->randomElement(School::pluck('id')->toArray());
+            else return factory(School::class)->create()->id;
         },
-      'class_id' => $faker->randomElement(App\Myclass::pluck('id')->toArray()),
-      'user_id' => function () use ($faker) {
-          if(App\User::count() == 0)
-            return factory(App\User::class)->create()->id;
-          else {
-            return $faker->randomElement(App\User::pluck('id')->toArray());
-          }
+        'class_id' => function() use ($faker) {
+            if (Myclass::count())
+                return $faker->randomElement(Myclass::pluck('id')->toArray());
+            else return factory(Myclass::class)->create()->id;
+        },
+        'user_id'  => function() use ($faker) {
+            if (User::count())
+                return $faker->randomElement(User::pluck('id')->toArray());
+            else return factory(User::class)->create()->id;
         },
     ];
 });

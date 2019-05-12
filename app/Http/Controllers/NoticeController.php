@@ -15,7 +15,7 @@ class NoticeController extends Controller
      */
      public function index()
      {
-       //Notice::where('school_id', \Auth::user()->school_id)->get();
+       //Notice::bySchool(\Auth::user()->school_id)->get();
      }
 
     /**
@@ -25,7 +25,7 @@ class NoticeController extends Controller
      */
     public function create()
     {
-      $files = Notice::where('school_id',\Auth::user()->school_id)->where('active',1)->get();
+      $files = Notice::bySchool(\Auth::user()->school_id)->where('active',1)->get();
       return view('notices.create',['files'=>$files]);
     }
 
