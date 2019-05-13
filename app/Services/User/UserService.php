@@ -211,7 +211,7 @@ class UserService {
         $tb->role = 'student';
         $tb->active = 1;
         $tb->school_id = auth()->user()->school_id;
-        $tb->code = auth()->user()->code;
+        $tb->code = auth()->user()->code;// School Code
         $tb->student_code = auth()->user()->school_id.date('y').substr(number_format(time() * mt_rand(), 0, '', ''), 0, 5);
         $tb->gender = $request->gender;
         $tb->blood_group = $request->blood_group;
