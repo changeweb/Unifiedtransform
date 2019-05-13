@@ -10,14 +10,13 @@ $factory->define(Myclass::class, function (Faker $faker) {
     return [
         'class_number' => $class_number++, //$faker->randomDigitNotNull,
         'school_id'    => function() use ($faker) {
-            if (School::count() > 0)
+            if (School::count())
                 return $faker->randomElement(School::pluck('id')->toArray());
             else return factory(School::class)->create()->id;
         },
-        'group'        => function() use ($class_number) {
-            if ($class_number > 8)
-                return $faker->randomElement(['science', 'commerce', 'arts']);
-            else return "";
+        'group'        => function() use ($class_number, $faker) {
+            $element = $faker->randomElement(['science', 'commerce', 'arts']);
+            return ($class_number > 8) ? $element : "";
         }
     ];
 });

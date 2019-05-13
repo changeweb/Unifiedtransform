@@ -1,26 +1,25 @@
 <?php
 
+use App\User;
+use App\School;
+use App\Account;
 use Faker\Generator as Faker;
 
-$factory->define(App\Account::class, function (Faker $faker) {
+$factory->define(Account::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
-        'type' => $faker->randomElement(['income','expense']),
-        'amount' => $faker->randomNumber(4, false),
+        'name'        => $faker->name,
+        'type'        => $faker->randomElement(['income','expense']),
+        'amount'      => $faker->randomNumber(4, false),
         'description' => $faker->sentences(3, true),
-        'school_id' => function () use ($faker) {
-          if(App\School::count() == 0)
-            return factory(App\School::class)->create()->id;
-          else {
-            return $faker->randomElement(App\School::pluck('id')->toArray());
-          }
+        'school_id'   => function() use ($faker) {
+            if (School::count())
+                return $faker->randomElement(School::pluck('id')->toArray());
+            else return factory(School::class)->create()->id;
         },
-        'user_id' => function() use ($faker) {
-            if (App\User::where('role','accountant')->count() > 0) {
-                return $faker->randomElement(App\User::where('role','accountant')->pluck('id')->toArray());
-            } else {
-              return factory(App\User::class)->states('accountant')->create()->id;
-            }
-          },
+        'user_id'     => function() use ($faker) {
+            if (User::where('role', 'accountant')->count())
+                return $faker->randomElement(User::where('role', 'accountant')->pluck('id')->toArray());
+            else return factory(User::class)->states('accountant')->create()->id;
+        }
     ];
 });

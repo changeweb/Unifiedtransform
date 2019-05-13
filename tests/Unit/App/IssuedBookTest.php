@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\App;
 
+use App\School;
 use App\Issuedbook;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -26,5 +27,16 @@ class IssuedBookTest extends TestCase
     /** @test */
     public function an_issuedbook_belongs_to_book() {
         $this->assertInstanceOf('App\Book', $this->issuedbook->book);
+    }
+
+    /** @test */
+    public function the_issued_books_are_filter_by_school() {
+        $school = create(School::class);
+        $issues = create(Issuedbook::class, ['school_id' => $school->id], 2);
+
+        $other_school = create(School::class);
+        $other_issues = create(Issuedbook::class, ['school_id' => $other_school->id], 4);
+
+        $this->assertEquals(Issuedbook::bySchool($school->id)->count(), $issues->count());
     }
 }
