@@ -17,7 +17,7 @@ class RoutineController extends Controller
      public function index()
      {
        $files = Routine::with('section')
-                        ->where('school_id',\Auth::user()->school_id)
+                        ->bySchool(\Auth::user()->school_id)
                         ->where('active',1)
                         ->get();
         return view('routines.create',['files'=>$files,'section_id' => 0]);
@@ -33,7 +33,7 @@ class RoutineController extends Controller
       try{
         if(Schema::hasColumn('routines','section_id')){
           $files = Routine::with('section')
-                          ->where('school_id',\Auth::user()->school_id)
+                          ->bySchool(\Auth::user()->school_id)
                           ->where('section_id', $section_id)
                           ->where('active',1)
                           ->get();

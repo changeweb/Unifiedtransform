@@ -9,7 +9,7 @@ use App\Fee;
 class CashierController extends Controller
 {
     public function index(){
-        $fees_fields = Fee::where('school_id', auth()->user()->school_id)->get();
+        $fees_fields = Fee::bySchool(auth()->user()->school_id)->get();
         return view('stripe.payment', compact('fees_fields'));
     }
 

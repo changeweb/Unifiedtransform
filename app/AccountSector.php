@@ -2,12 +2,12 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Model;
 
 class AccountSector extends Model
 {
     protected $table = 'account_sectors';
-    
+
     public function school()
     {
         return $this->belongsTo('App\School', 'school_id');

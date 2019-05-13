@@ -27,7 +27,7 @@ class SchoolController extends Controller
                             ->orderBy('name','ASC')
                             ->where('active', 1)
                             ->get();
-      $departments = Department::where('school_id',\Auth::user()->school_id)->get();
+      $departments = Department::bySchool(\Auth::user()->school_id)->get();
       return view('school.create-school', compact('schools', 'classes', 'sections', 'teachers', 'departments'));
     }
 
@@ -74,7 +74,7 @@ class SchoolController extends Controller
      */
     public function show($school_id)
     {
-      $admins = User::where('school_id',$school_id)->where('role','admin')->get();
+      $admins = User::bySchool($school_id)->where('role','admin')->get();
       return view('school.admin-list',compact('admins'));
     }
 

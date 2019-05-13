@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Model;
 
 class Book extends Model
 {
@@ -25,9 +25,5 @@ class Book extends Model
 
     public function issuedbook() {
         return $this->hasMany('App\Issuedbook', 'book_id');
-    }
-
-    public function scopeBySchool($query, int $school_id) {
-        return $query->where('school_id', $school_id);
     }
 }
