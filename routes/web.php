@@ -238,6 +238,7 @@ Route::middleware(['auth','master.admin'])->group(function (){
   Route::get('edit/user/{id}','UserController@edit');
   Route::post('edit/user','UserController@update');
   Route::post('upload/file', 'UploadController@upload');
+  Route::post('users/import/user-xlsx','UploadController@import');
 //   Route::get('pdf/profile/{user_id}',function($user_id){
 //     $data = App\User::find($user_id);
 //     PDF::setOptions(['defaultFont' => 'sans-serif', 'isHtml5ParserEnabled' => true]);

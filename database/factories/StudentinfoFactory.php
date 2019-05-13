@@ -19,7 +19,6 @@ $factory->define(StudentInfo::class, function (Faker $faker) {
       'father_designation'   => $faker->jobTitle,
       'father_annual_income' => $faker->randomElement([1000000, 500000, 300000, 700000]),
       'mother_name'          => $faker->name,
-      'mother_name'          => $faker->name,
       'mother_phone_number'  => $faker->randomNumber(7, false),
       'mother_national_id'   => "SA0218IBYZVZJSEC8536V4XC",
       'mother_occupation'    => $faker->jobTitle,

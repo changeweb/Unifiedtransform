@@ -194,9 +194,17 @@
                     <tr>
                       <td>
                           <a class="btn btn-info btn-sm" href="{{url('register/student')}}">+ Add Student</a>
+                          <br>
+                          <h5>Or, Mass upload Excel</h5>
+                          @component('components.excel-upload-form', ['type'=>'student'])
+                          @endcomponent
                         </td>
                         <td>
                           <a class="btn btn-success btn-sm" href="{{url('register/teacher')}}">+ Add Teacher</a>
+                          <br>
+                          <h5>Or, Mass upload Excel</h5>
+                          @component('components.excel-upload-form', ['type'=>'teacher'])
+                          @endcomponent
                         </td>
                         <td>
                           <a class="btn btn-default btn-sm" href="{{url('register/accountant')}}">+ Add Accountant</a>

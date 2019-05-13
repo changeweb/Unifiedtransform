@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 // ini_set('display_errors', 1);
 //use App\Http\Controllers\UploadHandler;
 use Illuminate\Http\Request;
+use App\Imports\StudentsImport;
+use Maatwebsite\Excel\Facades\Excel;
 /*
  * jQuery File Upload Plugin PHP Class
  * https://github.com/blueimp/jQuery-File-Upload
@@ -89,4 +91,33 @@ class UploadController extends Controller {
     // $options = ['upload_dir'=>'','upload_url'=>''];
     // new UploadHandler($options);
   }
+
+  public function import(Request $request) 
+    {
+        $request->validate([
+            'file' => 'required|max:10000|mimes:xlsx,xls',
+        ]);
+
+        $path = $request->file('file')->getRealPath();
+
+        try{
+
+          if($request->type == 'student')
+            Excel::import(new StudentsImport, $path);
+          else if($request->type == 'teacher')
+            Excel::import(new TeachersImport, $path);
+            
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            
+            foreach ($failures as $failure) {
+                $failure->row(); // row that went wrong
+                $failure->attribute(); // either heading key (if using heading row concern) or column index
+                $failure->errors(); // Actual error messages from Laravel validator
+                $failure->values(); // The values of the row that has failed.
+            }
+        }
+        
+        return back()->with('status', 'Students are added successfully!');
+    }
 }
