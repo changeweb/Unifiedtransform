@@ -27,7 +27,9 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
+                    @component('components.users-export',['type'=>'student'])
+                        
+                    @endcomponent
                     @component('components.users-list',['users'=>$users,'current_page'=>$current_page,'per_page'=>$per_page])
                     @endcomponent
                 </div>

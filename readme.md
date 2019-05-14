@@ -36,11 +36,13 @@ This software has following features:
 * Roles: Master, Admin, Teacher, Student, Librarian, Accountant
 
    **(You can Impersonate User Roles in Development environment)** See how [Impersonation](https://github.com/changeweb/Unifiedtransform/pull/118) works. Cool !!
-* Payment
+* `Payment`
    * **[Stripe](http://stripe.com/)** is used. See configuration below
    * Students can pay from their accounts.
    * Student can view payment receipts (history)
    * View Screenshot below
+* `Export/Import` Users (Students, Teachers) from/to **Excel**
+   * [Laravel Excel](https://github.com/maatwebsite/Laravel-Excel) package is used.
 * Attendance
 * Mark
 * Registration
@@ -92,7 +94,7 @@ You need to change Docker configuration files according to your need.
 - Run `composer install`
 - Run `php artisan key:generate`
 - Run `php artisan migrate:fresh --seed`
-- Visit `http:\\localhost:80`.
+- Visit `http://localhost:80`.
 
 ### Not using a Container:
 
@@ -210,14 +212,14 @@ DB_PASSWORD=secret
 ## Create a school and an admin
 
 * Important: only a `master` can create a new school and its admins!
-* Login at `example.com\login` using your `Master` account credentials
+* Login at `example.com/login` using your `Master` account credentials
 * Create a new `school`
 * Create a new `admin` for the newly created school
 
 ## Manage a school
 
 * Important: A `master` CANNOT manage a school's data!
-* Login as `admin` at `example.com\login`
+* Login as `admin` at `example.com/login`
 * Now add data to the school as required.
 
 ## Good to know
@@ -233,22 +235,23 @@ DB_PASSWORD=secret
 So your edit would be something like this:
 
 From:
-
-    ...
-    $classes = \Cache::remember('classes-'.$school_id, $minutes, function () use($school_id) {
-       return \App\Myclass::where('school_id', $school_id)
-                            ->pluck('id')
-                            ->toArray();
-    });
-    ...
-    
+```php
+...
+$classes = \Cache::remember('classes-'.$school_id, $minutes, function () use($school_id) {
+   return \App\Myclass::where('school_id', $school_id)
+                        ->pluck('id')
+                        ->toArray();
+});
+...
+```
 To:
-
-    ...
-    $classes = \App\Myclass::where('school_id', $school_id)
-                            ->pluck('id')
-                            ->toArray();
-    ...
+```php
+...
+$classes = \App\Myclass::where('school_id', $school_id)
+                        ->pluck('id')
+                        ->toArray();
+...
+```
 
 You can do similar for other cache lines.
 
