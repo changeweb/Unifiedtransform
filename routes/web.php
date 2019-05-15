@@ -142,10 +142,10 @@ Route::middleware(['auth', 'librarian'])->namespace('Library')->group(function (
     });
 });
 
-Route::middleware(['auth','librarian'])->prefix('library')->name('library.')->group(function () {
-  Route::get('issue-books', 'IssuedbookController@create');
-  Route::post('issue-books', 'IssuedbookController@store');
-  Route::get('issued-books', 'IssuedbookController@index');
+Route::middleware(['auth','librarian'])->prefix('library')->name('library.issued-books.')->group(function () {
+  Route::get('issue-books', 'IssuedbookController@create')->name('create');
+  Route::post('issue-books', 'IssuedbookController@store')->name('store');
+  Route::get('issued-books', 'IssuedbookController@index')->name('index');
   Route::post('save_as_returned', 'IssuedbookController@update');
 });
 
