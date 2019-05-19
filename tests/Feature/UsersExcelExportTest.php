@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UsersExcelExportTest extends TestCase
@@ -40,5 +39,16 @@ class UsersExcelExportTest extends TestCase
 
         $this->get('users/export/students-xlsx',['year'=>$year,'type'=>'teacher'])
             ->assertStatus(200);
+    }
+
+    /**
+     * @test
+     */
+    public function non_admin_users_can_not_see_export_users_forms(){
+        $librarian = factory(User::class)->states('librarian')->create();
+        $this->actingAs($librarian);
+
+        $response = $this->get(url('/users', [$librarian->school_id, '1/0']));
+        $response->assertDontSee('Export in Excel by Year');
     }
 }
