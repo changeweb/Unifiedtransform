@@ -226,6 +226,35 @@ DB_PASSWORD=secret
 * Login as `admin` at `example.com/login`
 * Now add data to the school as required.
 
+## Basic Steps by Serial
+
+* Create Classes
+* Create Sections
+* Create Exam
+* Add Students
+* Add Teachers
+* Add Courses
+* Then teacher can take attendance, give marks
+
+## Manage Exam (In exam manage page) by Admin
+
+1. Check Notice published checkbox for an Exam after uploading Exam Notice.
+2. Check Result published checkbox for an Exam after all teachers updated their courses' marks.
+
+   * Checking result as published sets the Exam as completed.
+3. Exam is set as Active by default while created. You can deactivate the exam by checking related checkbox.
+
+## Manage GPA and Grade
+
+1. Admin adds GPAs for respective mark ranges.
+2. For giving marks, Teacher clicks on Submit Grade button and do the following:
+
+   1. Select a GPA by name from dropdown
+   2. Configure Class Test, Quiz, ...etc. count, percentage (Optional)
+   3. Give marks
+   4. To get Grade of students of a course for given marks, Teacher clicks the Get Total Marks button.
+      (Usually this is done at the end of the semester)
+
 ## Good to know
 
 * Setup your Mail configuration in `.env` file if you want to send email. Currently registered users are notified by invitation mail if Mail is configured properly.
