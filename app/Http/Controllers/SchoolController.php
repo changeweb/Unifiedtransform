@@ -84,9 +84,19 @@ class SchoolController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $school_id)
     {
-        //
+      $school = School::find($school_id);
+      if (!$school) {
+        abort(404);
+      }
+      if ($request->isMethod('post')) {
+        $school->name = $request->name;
+        $school->about = $request->about;
+        $school->theme = $request->school_theme;
+        $school->save();
+      }
+      return view('school.edit-school',compact('school'));
     }
 
     public function addDepartment(Request $request){

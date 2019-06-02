@@ -189,6 +189,8 @@ Route::middleware(['auth','master'])->group(function (){
   Route::get('master/deactivate-admin/{id}','UserController@deactivateAdmin');
   Route::post('create-school', 'SchoolController@store');
   Route::get('school/admin-list/{school_id}','SchoolController@show');
+  Route::get('school/{school_id}','SchoolController@edit');
+  Route::post('school/{school_id}','SchoolController@edit');
 });
 
 Route::middleware(['auth','admin'])->group(function (){
