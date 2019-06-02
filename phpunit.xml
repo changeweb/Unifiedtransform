@@ -29,5 +29,6 @@
         <env name="QUEUE_DRIVER" value="sync"/>
         <env name="DB_CONNECTION" value="sqlite"/>
         <env name="DB_DATABASE" value=":memory:"/>
+        <env name="LARAVEL_PAGE_SPEED_ENABLE" value="false"/>
     </php>
 </phpunit>
