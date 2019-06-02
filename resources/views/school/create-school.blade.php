@@ -49,6 +49,7 @@
                         <th scope="col">Teachers</th> --}}
                       @endif
                       @if(\Auth::user()->role == 'master')
+                        <th scope="col">Edit</th>
                         <th scope="col">+Admin</th>
                         <th scope="col">View Admins</th>
                       @endif
@@ -115,6 +116,9 @@
                       </td> --}}
                       @endif
                       @if(\Auth::user()->role == 'master')
+                        <td>
+                          <a class="btn btn-success btn-sm" role="button" href="{{url('school/'.$school->id)}}"><small>Edit School</small></a>
+                        </td>
                         <td>
                           <a class="btn btn-danger btn-sm" role="button" href="{{url('register/admin/'.$school->id.'/'.$school->code)}}"><small>+ Create Admin</small></a>
                         </td>

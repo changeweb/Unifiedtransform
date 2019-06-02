@@ -231,6 +231,10 @@ Route::middleware(['auth','admin'])->group(function (){
   Route::post('edit/course/{id}','CourseController@updateNameAndTime');
 });
 
+Route::middleware(['auth', 'master'])->group(function () {
+  Route::get('school/{school_id}','SchoolController@edit');
+  Route::post('school/{school_id}','SchoolController@edit');
+});
 
 
 //use PDF;
