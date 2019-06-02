@@ -33,6 +33,15 @@ class SchoolModuleTest extends TestCase
             ->assertViewHas('schools');
     }
     /** @test */
+    public function it_shows_edit_school() {
+        $master = factory(User::class)->states('master')->create();
+        $this->actingAs($master);
+        $this->followingRedirects()
+            ->get('school/1')
+            ->assertStatus(200)
+            ->assertViewHas('school');
+    }
+    /** @test */
     public function it_shows_the_teachers_list() {
         $this->get('create-school')
             ->assertStatus(200)
