@@ -59,7 +59,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="form-group{{ $errors->has('school_theme') ? ' has-error' : '' }}">
+                        {{-- <div class="form-group{{ $errors->has('school_theme') ? ' has-error' : '' }}">
                             <label for="school_theme" class="col-md-4 control-label">Choose Theme</label>
   
                             <div class="col-md-6">
@@ -71,7 +71,7 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
+                        </div> --}}
                         
                         <div class="form-group">
                           <div class="col-sm-offset-4 col-sm-8">
