@@ -18,9 +18,11 @@
               <select class="form-control" id="teacherDepartment{{$section->id}}" name="teacher_department">
                 <option value="0" selected disabled>Select Department</option>
                 @if(count($departments) > 0)
-                  {{$departments_of_this_school = $departments->filter(function ($department) use ($school){
-                    return $department->school_id == $school->id;
-                  })}}
+                  @php
+                    $departments_of_this_school = $departments->filter(function ($department) use ($school){
+                      return $department->school_id == $school->id;
+                    });
+                  @endphp
                   @foreach ($departments_of_this_school as $d)
                     <option value="{{$d->department_name}}">{{$d->department_name}}</option>
                   @endforeach
@@ -34,9 +36,11 @@
               <select class="form-control" id="assignTeacher{{$section->id}}" name="teacher_id">
                 <option value="0" selected disabled>Select Department First</option>
                 @if(count($teachers) > 0)
-                  {{$teachers_of_this_school = $teachers->filter(function ($teacher) use ($school){
-                    return $teacher->school_id == $school->id;
-                  })}}
+                  @php
+                    $teachers_of_this_school = $teachers->filter(function ($teacher) use ($school){
+                      return $teacher->school_id == $school->id;
+                    });
+                  @endphp
                   @foreach($teachers_of_this_school as $teacher)
                     <option value="{{$teacher->id}}" data-department="{{$teacher->department_name}}">{{$teacher->name}} {{$teacher->department_name}}</option>
                   @endforeach

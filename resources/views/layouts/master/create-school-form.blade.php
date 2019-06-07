@@ -30,6 +30,10 @@
                 <select id="school_medium" class="form-control" name="school_medium">
                   <option selected="selected">Bangla</option>
                   <option>English</option>
+                  <option>Hindi</option>
+                  <option>Spanish</option>
+                  <option>Chinese</option>
+                  <option>Arabic</option>
                 </select>
 
                   @if ($errors->has('school_medium'))
