@@ -1,15 +1,27 @@
 let mix = require('laravel-mix');
 
-/*
- |--------------------------------------------------------------------------
- | Mix Asset Management
- |--------------------------------------------------------------------------
- |
- | Mix provides a clean, fluent API for defining some Webpack build steps
- | for your Laravel application. By default, we are compiling the Sass
- | file for the application as well as bundling up all the JS files.
- |
- */
+mix.scripts([
+    'resources/assets/theme/vendors/js/jquery-2.1.3.min.js',
+    'resources/assets/theme/vendors/js/bootstrap-3.3.7.min.js',
+    'resources/assets/theme/vendors/js/dataTables-1.10.16.min.js',
+    'resources/assets/theme/vendors/js/dataTables-1.10.16.bootstrap.min.js',
+    'resources/assets/theme/vendors/js/chosen.jquery.min.js',
+    'resources/assets/theme/vendors/js/bootstrap-datepicker.min.js',
+], 'public/js/vendors.js')
 
-mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+mix.styles([
+    'resources/assets/theme/vendors/css/bootstrap.min.css',
+    'resources/assets/theme/vendors/css/dataTables-1.10.16.bootstrap.min.css',
+    'resources/assets/theme/vendors/css/chosen.bootstrap.min.css',
+    'resources/assets/theme/vendors/css/bootstrap-datepicker.min.css',
+], 'public/css/vendors.css')
+
+mix.scripts([
+    'resources/assets/theme/application/js/initializer.js',
+], 'public/js/application.js')
+
+mix.styles([
+    'resources/assets/theme/application/css/app-layout.css',
+    'resources/assets/theme/application/css/font.css',
+    'resources/assets/theme/application/css/loader.css',
+], 'public/css/application.css')

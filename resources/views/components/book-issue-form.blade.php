@@ -1,10 +1,3 @@
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet">
-<!-- CSS -->
-<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.min.css">
-<link rel="stylesheet" href="{{ url('css/chosen.bootstrap.min.css') }}">
-
-<!-- JS -->
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.jquery.min.js"></script>
 <form class="form-horizontal" action="{{url('library/issue-books')}}" method="post">
     {{ csrf_field() }}
     <div class="form-group{{ $errors->has('student_code') ? ' has-error' : '' }}">
@@ -68,16 +61,12 @@
     </div>
 </form>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 <script>
     $(function () {
         $('#book_code').chosen({
             max_selected_options: 10,
             display_selected_options: true,
             width: "100%"
-        });
-        $('.datepicker').datepicker({
-            format: 'yyyy-mm-dd'
         });
     })
 </script>

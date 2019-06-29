@@ -1,7 +1,4 @@
 @if(Auth::user()->role == 'admin')
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css"
-    rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 <div class="well">
     <form class="form-inline" action="{{url('users/export/students-xlsx')}}" method="get">
         <div class="form-group">
