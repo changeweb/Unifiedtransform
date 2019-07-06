@@ -124,7 +124,16 @@ git clone https://github.com/changeweb/Unifiedtransform
 
 - Copy the contents of the `.env.example` file to create `.env` in the same directory
 
-- Run `composer install` for `developer` environment and run `composer install --optimize-autoloader --no-dev` for `production` environment to install Laravel packages
+- Run `composer install` for `developer` environment and run `composer install --optimize-autoloader --no-dev` for `production` environment to install Laravel packages (Remove **Laravel Debugbar**, **Laravel Log viewer** packages from **composer.json** and 
+
+```php
+   //Provider
+   Barryvdh\Debugbar\ServiceProvider,
+   Logviewer Service provider,
+   //Alias
+   Debugbar' => Barryvdh...
+```
+ from `config/app.php` before running **`composer install`** in **Production Environment**)
 
 - Generate `APP_KEY` using `php artisan key:generate`
 
@@ -183,7 +192,7 @@ DB_PASSWORD=secret
   - If you don't want to use **Passport** package then remove the **Passport Migrations** in database `migrations` table and run command `artisan migrate:refresh`
 - To seed the tables with fake data, use `php artisan db:seed`.
 - If you want to run the migration and the seeding together, use `php artisan migrate:refresh --seed`
-- You must seed `database\seeds\UsersTableSeeder.php` at least once in order to create the **Master** account. To do so, follow these steps:
+- You must seed `database\seeds\UsersTableSeeder.php` at least once in order to create the **Master** account (**For Production:** Run the seed in **Development** environment and then switch to **production**). To do so, follow these steps:
   - comment all the seeders except `$this->call(UsersTableSeeder::class);` in `database\seeds\DatabaseSeeder.php`;
   - then comment `factory(App\User::class, 200)->create();` in `UsersTableSeeder.php`.
 
