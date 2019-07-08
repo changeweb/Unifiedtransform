@@ -209,7 +209,11 @@ DB_PASSWORD=secret
    In `database\seeds\UsersTableSeeder.php`:
    ```php
    ...
-   //factory(App\User::class, 200)->create();
+   //factory(User::class, 10)->states('admin')->create();
+   //factory(User::class, 10)->states('accountant')->create();
+   //factory(User::class, 10)->states('librarian')->create();
+   //factory(User::class, 30)->states('teacher')->create();
+   //factory(User::class, 200)->states('student')->create();
    ```
 
 * [Laravel 5 log viewer](https://github.com/rap2hpoutre/laravel-log-viewer) is used to view Logs using a UI at 'example.com/logs' while in development environment.
