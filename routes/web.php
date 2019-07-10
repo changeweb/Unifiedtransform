@@ -38,6 +38,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::middleware(['auth', 'master'])->group(function () {
+    Route::get('/masters', 'MasterController@index')->name('masters.index');
+});
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware(['auth'])->group(function (){

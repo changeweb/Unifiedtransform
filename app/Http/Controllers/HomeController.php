@@ -23,9 +23,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-     if(\Auth::user()->role == 'master') {
-        return view('master-home');
-      } else {
         $minutes = 1440;// 24 hours = 1440 minutes
         $school_id = \Auth::user()->school->id;
         $classes = \Cache::remember('classes-'.$school_id, $minutes, function () use($school_id) {
@@ -96,6 +93,5 @@ class HomeController extends Controller
           'exams'=>$exams,
           //'messageCount'=>$messageCount,
         ]);
-      }
     }
 }
