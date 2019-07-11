@@ -13,7 +13,10 @@
         || Auth::user()->role == 'admin' || Auth::user()->role == 'accountant' || Auth::user()->role ==
         'librarian'))?Auth::user()->school->name:config('app.name') }}</title>
 
+    <link rel="stylesheet" href="{{ url('css/loader.css') }}">
+
     <script src="{{ url('js/vendors.js') }}"></script>
+
     <script type="text/javascript">
         $.ajaxSetup({
             headers: {
@@ -32,6 +35,8 @@
         @yield('content')
     </div>
 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons&style=normal&weight=400"
+      rel="stylesheet">
     <link rel="stylesheet" href="{{ url('css/vendors.css') }}" id="bootswatch-print-id">
     <link rel="stylesheet" href="{{ url('css/application.css') }}">
 </body>

@@ -36,15 +36,7 @@ class LoginController extends Controller
     {
         $role = Auth::user()->role;
 
-        switch ($role) {
-            case 'master':
-                return '/masters';
-                break;
-
-            default:
-                return '/home';
-                break;
-        }
+        return ($role == 'master')?'/masters':'/home';
     }
 
     public function username()

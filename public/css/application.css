@@ -208,26 +208,3 @@ a:focus {
     padding-bottom: 0px !important;
     line-height: 60px !important;
 }
-
-@font-face {
-    font-family: 'Material Icons';
-    font-style: normal;
-    font-weight: 400;
-    src: url('flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2') format('woff2');
-}
-.loader {
-    position: fixed;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-    z-index: 999999;
-    background-color: #fff;
-    text-align: center;
-}
-
-.loader-gif {
-    width: 20%;
-    position: relative;
-    top: 30%;
-}
