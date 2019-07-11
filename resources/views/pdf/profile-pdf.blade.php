@@ -24,8 +24,8 @@
           <div style="font-size: 10px;">{{$user->section->class->school->about}}</div>
         </div>
         <div class="col-xs-4">
-          <h3>Student Profile</h3>
-          <div style="font-size: 10px;">Printing Date: {{Carbon\Carbon::now()->format('d/m/Y')}}</div>
+          <h3>@lang('Student Profile')</h3>
+          <div style="font-size: 10px;">@lang('Printing Date'): {{Carbon\Carbon::now()->format('d/m/Y')}}</div>
         </div>
       </div>
     </div>
@@ -33,30 +33,30 @@
     <div class="row">
       <div class="col-md-12">
         <p class="bg-primary" style="text-align:center;">
-          Academic Information
+          @lang('Academic Information')
         </p>
         <div class="col-xs-9">
           <table class="table table-condensed">
             <tr>
-              <td>Student ID:</td>
+              <td>@lang('Student ID'):</td>
               <td>{{$user->student_code}}</td>
-              <td>Student's Name:</td>
+              <td>@lang('Student's Name'):</td>
               <td>{{$user->name}}</td>
             </tr>
             <tr>
-              <td>Class:</td>
+              <td>@lang('Class'):</td>
               <td>{{$user->section->class->class_number}}</td>
-              <td>Section:</td>
+              <td>@lang('Section'):</td>
               <td>{{$user->section->section_number}}</td>
             </tr>
             <tr>
-              <td>Session:</td>
+              <td>@lang('Session'):</td>
               <td>{{$user->session}}</td>
-              <td>Version:</td>
+              <td>@lang('Version'):</td>
               <td>{{$user->version}}</td>
             </tr>
             <tr>
-              <td>Group:</td>
+              <td>@lang('Group'):</td>
               <td>{{$user->group}}</td>
               <td colspan="2"></td>
             </tr>
@@ -70,74 +70,74 @@
     <div class="row">
       <div class="col-md-12">
         <p class="bg-primary" style="text-align:center;">
-          Personal details
+          @lang('Personal details')
         </p>
         <div class="col-xs-12">
           <table class="table table-condensed">
             <tr>
-              <td>Email:</td>
+              <td>@lang('Email'):</td>
               <td>{{$user->email}}</td>
-              <td>Contact Number</td>
+              <td>@lang('Contact Number')</td>
               <td>{{$user->phone_number}}</td>
             </tr>
             <tr>
-              <td>Gender:</td>
+              <td>@lang('Gender'):</td>
               <td>{{$user->gender}}</td>
-              <td>Blood Group:</td>
+              <td>@lang('Blood Group'):</td>
               <td>{{$user->blood_group}}</td>
             </tr>
             <tr>
-              <td>Nationality:</td>
+              <td>@lang('Nationality'):</td>
               <td>{{$user->nationality}}</td>
-              <td>Birthday:</td>
+              <td>@lang('Birthday'):</td>
               <td>{{Carbon\Carbon::parse($user->birthday)->format('d/m/Y')}}</td>
             </tr>
             <tr>
-              <td>Religion:</td>
+              <td>@lang('Religion'):</td>
               <td>{{$user->religion}}</td>
-              <td>Father Name:</td>
+              <td>@lang('Father Name'):</td>
               <td>{{$user->father_name}}</td>
             </tr>
             <tr>
-              <td>Mother Name:</td>
+              <td>@lang('Mother Name'):</td>
               <td>{{$user->mother_name}}</td>
-              <td>Address:</td>
+              <td>@lang('Address'):</td>
               <td>{{$user->address}}</td>
             </tr>
             <tr>
-              <td>Phone Number:</td>
+              <td>@lang('Phone Number'):</td>
               <td>{{$user->phone_number}}</td>
-              <td>Father's Phone Number:</td>
+              <td>@lang('Father's Phone Number'):</td>
               <td>{{$user->father_phone_number}}</td>
             </tr>
             <tr>
-              <td>Father's National ID:</td>
+              <td>@lang('Father's National ID'):</td>
               <td>{{$user->father_national_id}}</td>
-              <td>Father's Occupation:</td>
+              <td>@lang('Father's Occupation'):</td>
               <td>{{$user->father_occupation}}</td>
             </tr>
             <tr>
-              <td>Father's Designation:</td>
+              <td>@lang('Father's Designation'):</td>
               <td>{{$user->father_designation}}</td>
-              <td>Father's Annual Income:</td>
+              <td>@lang('Father's Annual Income'):</td>
               <td>{{$user->father_annual_income}}</td>
             </tr>
             <tr>
-              <td>Mother's Phone Number:</td>
+              <td>@lang('Mother's Phone Number'):</td>
               <td>{{$user->mother_phone_number}}</td>
-              <td>Mother's National ID:</td>
+              <td>@lang('Mother's National ID'):</td>
               <td>{{$user->mother_national_id}}</td>
             </tr>
             <tr>
-              <td>Mother's Occupation:</td>
+              <td>@lang('Mother's Occupation'):</td>
               <td>{{$user->mother_occupation}}</td>
-              <td>Mother's Designation:</td>
+              <td>@lang('Mother's Designation'):</td>
               <td>{{$user->mother_designation}}</td>
             </tr>
             <tr>
-              <td>Mother's Annual Income:</td>
+              <td>@lang('Mother's Annual Income'):</td>
               <td>{{$user->mother_annual_income}}</td>
-              <td>About:</td>
+              <td>@lang('About'):</td>
               <td>{{$user->about}}</td>
             </tr>
           </table>

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'All Active Examinations')
+@section('title', __('All Active Examinations'))
 @section('content')
 <div class="container-fluid">
     <div class="row">
@@ -8,7 +8,7 @@
         </div>
         <div class="col-md-10" id="main-container">
             <div class="panel panel-default">
-                <div class="page-panel-title">All Active Examinations</div>
+                <div class="page-panel-title">@lang('All Active Examinations')</div>
 
                 <div class="panel-body">
                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">

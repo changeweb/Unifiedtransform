@@ -3,28 +3,28 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">Student Code</th>
-      <th scope="col">Student Name</th>
-      <th scope="col">Attendance</th>
+      <th scope="col">@lang('Student Code')</th>
+      <th scope="col">@lang('Student Name')</th>
+      <th scope="col">@lang('Attendance')</th>
         @for($i=1;$i<=5;$i++)
-          <th scope="col">Quiz {{$i}}</th>
+          <th scope="col">@lang('Quiz') {{$i}}</th>
         @endfor
         @for($i=1;$i<=3;$i++)
-          <th scope="col">Assignment {{$i}}</th>
+          <th scope="col">@lang('Assignment') {{$i}}</th>
         @endfor
         @for($i=1;$i<=5;$i++)
-          <th scope="col">CT {{$i}}</th>
+          <th scope="col">@lang('CT') {{$i}}</th>
         @endfor
         @if($grade->course->final_exam_percent > 0)
-          <th scope="col">Written</th>
-          <th scope="col">Mcq</th>
+          <th scope="col">@lang('Written')</th>
+          <th scope="col">@lang('Mcq')</th>
         @endif
         @if($grade->course->practical_percent > 0)
-          <th scope="col">Practical</th>
+          <th scope="col">@lang('Practical')</th>
         @endif
-      <th scope="col">Total Marks</th>
-      <th scope="col">GPA</th>
-      <th scope="col">Grade</th>
+      <th scope="col">@lang('Total Marks')</th>
+      <th scope="col">@lang('GPA')</th>
+      <th scope="col">@lang('Grade')</th>
     </tr>
   </thead>
   <tbody>

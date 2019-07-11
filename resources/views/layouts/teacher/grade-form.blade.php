@@ -1,4 +1,4 @@
-{{--<div class="well" style="font-size: 15px;">Choose Field to Display</div>--}}
+{{--<div class="well" style="font-size: 15px;">@lang('Choose Field to Display')</div>--}}
 <style>
   #grade-labels > .label{
     margin-right: 1%;
@@ -6,55 +6,55 @@
 </style>
 <div class="col-md-12" id="grade-labels">
   <span class="label label-danger checkbox-inline">
-    <input type="checkbox" name="attendance" value="4" checked> Attendance
+    <input type="checkbox" name="attendance" value="4" checked> @lang('Attendance')
   </span>
   <span class="label label-primary checkbox-inline">
-    <input type="checkbox" name="quiz[]" value="5" checked> Quiz 1
+    <input type="checkbox" name="quiz[]" value="5" checked> @lang('Quiz') 1
   </span>
   <span class="label label-primary checkbox-inline">
-    <input type="checkbox" name="quiz[]" value="6"> Quiz 2
+    <input type="checkbox" name="quiz[]" value="6"> @lang('Quiz') 2
   </span>
   <span class="label label-primary checkbox-inline">
-    <input type="checkbox" name="quiz[]" value="7"> Quiz 3
+    <input type="checkbox" name="quiz[]" value="7"> @lang('Quiz') 3
   </span>
   <span class="label label-primary checkbox-inline">
-    <input type="checkbox" name="quiz[]" value="8"> Quiz 4
+    <input type="checkbox" name="quiz[]" value="8"> @lang('Quiz') 4
   </span>
   <span class="label label-primary checkbox-inline">
-    <input type="checkbox" name="quiz[]" value="9"> Quiz 5
+    <input type="checkbox" name="quiz[]" value="9"> @lang('Quiz') 5
   </span>
   <span class="label label-success checkbox-inline">
-    <input type="checkbox" name="assignment[]" value="10" checked> Assignment 1
+    <input type="checkbox" name="assignment[]" value="10" checked> @lang('Assignment') 1
   </span>
   <span class="label label-success checkbox-inline">
-    <input type="checkbox" name="assignment[]" value="11"> Assignment 2
+    <input type="checkbox" name="assignment[]" value="11"> @lang('Assignment') 2
   </span>
   <span class="label label-success checkbox-inline">
-    <input type="checkbox" name="assignment[]" value="12"> Assignment 3
+    <input type="checkbox" name="assignment[]" value="12"> @lang('Assignment') 3
   </span>
   <span class="label label-info checkbox-inline">
-    <input type="checkbox" name="ct[]" value="13" checked> Class Test 1
+    <input type="checkbox" name="ct[]" value="13" checked> @lang('Class Test') 1
   </span>
   <span class="label label-info checkbox-inline">
-    <input type="checkbox" name="ct[]" value="14"> Class Test 2
+    <input type="checkbox" name="ct[]" value="14"> @lang('Class Test') 2
   </span>
   <span class="label label-info checkbox-inline">
-    <input type="checkbox" name="ct[]" value="15"> Class Test 3
+    <input type="checkbox" name="ct[]" value="15"> @lang('Class Test') 3
   </span>
   <span class="label label-info checkbox-inline">
-    <input type="checkbox" name="ct[]" value="16"> Class Test 4
+    <input type="checkbox" name="ct[]" value="16"> @lang('Class Test') 4
   </span>
   <span class="label label-info checkbox-inline">
-    <input type="checkbox" name="ct[]" value="17"> Class Test 5
+    <input type="checkbox" name="ct[]" value="17"> @lang('Class Test') 5
   </span>
   <span class="label label-default checkbox-inline">
-    <input type="checkbox" name="few" value="18">Final Exam Written
+    <input type="checkbox" name="few" value="18">@lang('Final Exam Written')
   </span>
   <span class="label label-default checkbox-inline">
-    <input type="checkbox" name="fem" value="19">Final Exam MCQ
+    <input type="checkbox" name="fem" value="19">@lang('Final Exam MCQ')
   </span>
   <span class="label label-warning checkbox-inline">
-    <input type="checkbox" name="practical" value="20">Practical
+    <input type="checkbox" name="practical" value="20">@lang('Practical')
   </span>
 </div>
 <br />
@@ -70,25 +70,25 @@
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Code</th>
-          <th scope="col">Name</th>
-          <th scope="col">Attendance</th>
-          <th scope="col">Quiz 1</th>
-          <th scope="col">Quiz 2</th>
-          <th scope="col">Quiz 3</th>
-          <th scope="col">Quiz 4</th>
-          <th scope="col">Quiz 5</th>
-          <th scope="col">Assignment 1</th>
-          <th scope="col">Assignment 2</th>
-          <th scope="col">Assignment 3</th>
-          <th scope="col">CT 1</th>
-          <th scope="col">CT 2</th>
-          <th scope="col">CT 3</th>
-          <th scope="col">CT 4</th>
-          <th scope="col">CT 5</th>
-          <th scope="col">Written</th>
-          <th scope="col">MCQ</th>
-          <th scope="col">Practical</th>
+          <th scope="col">@lang('Code')</th>
+          <th scope="col">@lang('Name')</th>
+          <th scope="col">@lang('Attendance')</th>
+          <th scope="col">@lang('Quiz') 1</th>
+          <th scope="col">@lang('Quiz') 2</th>
+          <th scope="col">@lang('Quiz') 3</th>
+          <th scope="col">@lang('Quiz') 4</th>
+          <th scope="col">@lang('Quiz') 5</th>
+          <th scope="col">@lang('Assignment') 1</th>
+          <th scope="col">@lang('Assignment') 2</th>
+          <th scope="col">@lang('Assignment') 3</th>
+          <th scope="col">@lang('CT') 1</th>
+          <th scope="col">@lang('CT') 2</th>
+          <th scope="col">@lang('CT') 3</th>
+          <th scope="col">@lang('CT') 4</th>
+          <th scope="col">@lang('CT') 5</th>
+          <th scope="col">@lang('Written')</th>
+          <th scope="col">@lang('MCQ')</th>
+          <th scope="col">@lang('Practical')</th>
         </tr>
       </thead>
       <tbody>

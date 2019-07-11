@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Course Students')
+@section('title', __('Course Students'))
 
 @section('content')
 <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>
@@ -17,11 +17,11 @@
         <div class="col-md-10" id="main-container">
             @if(count($students) > 0)
             @foreach ($students as $student)
-            <h3>Course Students of Class: {{$student->student->section->class->class_number}} Section:
+            <h3>@lang('Course Students of Class'): {{$student->student->section->class->class_number}} @lang('Section'):
                 {{$student->student->section->section_number}}</h3>
             @break
             @endforeach
-            <h4>Select Students to send message</h4>
+            <h4>@lang('Select Students to send message')</h4>
             @endif
             <div class="panel panel-default">
                 @if(count($students) > 0)
@@ -32,12 +32,12 @@
                                 <th>
                                     <div class="checkbox">
                                         <label style="font-weight:bold;">
-                                            <input type="checkbox" id="selectAll"> All
+                                            <input type="checkbox" id="selectAll"> @lang('All')
                                         </label>
                                     </div>
                                 </th>
-                                <th>Student Code</th>
-                                <th>Student Name</th>
+                                <th>@lang('Student Code')</th>
+                                <th>@lang('Student Name')</th>
                             </tr>
                             @foreach ($students as $student)
                             <tr>
@@ -77,11 +77,10 @@
                             <input type="hidden" name="teacher_id" value="{{$teacher_id}}">
                             <input type="hidden" name="section_id" value="{{$section_id}}">
                             <div class="form-group">
-                                <label for="msg">Write Message: </label>
+                                <label for="msg">@lang('Write Message'): </label>
                                 <textarea name="msg" class="form-control" id="msg" cols="30" rows="10"></textarea>
                             </div>
-                            <button type="submit" class="btn btn-danger btn-sm"><i class="material-icons">send</i> Send
-                                Message</button>
+                            <button type="submit" class="btn btn-danger btn-sm"><i class="material-icons">send</i> @lang('Send Message')</button>
                         </form>
                     </div>
                 </div>
@@ -107,7 +106,7 @@
                 </script>
                 @else
                 <div class="panel-body">
-                    No Related Data Found.
+                    @lang('No Related Data Found.')
                 </div>
                 @endif
             </div>

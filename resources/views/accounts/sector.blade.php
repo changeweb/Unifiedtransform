@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Account Sectors')
+@section('title', __('Account Sectors'))
 @section('content')
 <div class="container-fluid">
     <div class="row">
@@ -7,6 +7,7 @@
             @include('layouts.leftside-menubar')
         </div>
         <div class="col-md-10" id="main-container">
+
             <div class="row">
                 <div class="col-md-6">
                     <br>

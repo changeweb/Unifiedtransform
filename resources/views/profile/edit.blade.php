@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit')
+@section('title', __('Edit'))
 
 @section('content')
 <div class="container{{ (\Auth::user()->role == 'master')? '' : '-fluid' }}">
@@ -26,7 +26,7 @@
             </div>
             @endif
             <div class="panel panel-default">
-                <div class="page-panel-title">Edit</div>
+                <div class="page-panel-title">@lang('Edit')</div>
 
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ url('edit/user') }}">
@@ -34,7 +34,7 @@
                         <input type="hidden" name="user_id" value="{{$user->id}}">
                         <input type="hidden" name="user_role" value="{{$user->role}}">
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Full Name</label>
+                            <label for="name" class="col-md-4 control-label">@lang('Full Name')</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control" name="name" value="{{ $user->name }}"
@@ -49,7 +49,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                            <label for="email" class="col-md-4 control-label">@lang('E-Mail Address')</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email"
@@ -64,7 +64,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('phone_number') ? ' has-error' : '' }}">
-                            <label for="phone_number" class="col-md-4 control-label">Phone Number</label>
+                            <label for="phone_number" class="col-md-4 control-label">@lang('Phone Number')</label>
 
                             <div class="col-md-6">
                                 <input id="phone_number" type="text" class="form-control" name="phone_number"
@@ -80,7 +80,7 @@
 
                         @if($user->role == 'teacher')
                         <div class="form-group{{ $errors->has('department') ? ' has-error' : '' }}">
-                            <label for="department" class="col-md-4 control-label">Department</label>
+                            <label for="department" class="col-md-4 control-label">@lang('Department')</label>
 
                             <div class="col-md-6">
                                 <select id="department" class="form-control" name="department_id">
@@ -99,15 +99,15 @@
                             </div>
                         </div>
                         <div class="form-group{{ $errors->has('class_teacher') ? ' has-error' : '' }}">
-                            <label for="class_teacher" class="col-md-4 control-label">Class Teacher</label>
+                            <label for="class_teacher" class="col-md-4 control-label">@lang('Class Teacher')</label>
 
                             <div class="col-md-6">
                                 <select id="class_teacher" class="form-control" name="class_teacher_section_id">
-                                    <option selected="selected" value="{{$user->section->id}}">Section:
-                                        {{$user->section->section_number}} Class:
+                                    <option selected="selected" value="{{$user->section->id}}">@lang('Section'):
+                                        {{$user->section->section_number}} @lang('Class'):
                                         {{$user->section->class->class_number}}</option>
                                     @foreach ($sections as $section)
-                                    <option value="{{$section->id}}">Section: {{$section->section_number}} Class:
+                                    <option value="{{$section->id}}">@lang('Section'): {{$section->section_number}} @lang('Class'):
                                         {{$section->class->class_number}}</option>
                                     @endforeach
                                 </select>
@@ -122,7 +122,7 @@
                         @endif
 
                         <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
-                            <label for="address" class="col-md-4 control-label">address</label>
+                            <label for="address" class="col-md-4 control-label">@lang('address')</label>
 
                             <div class="col-md-6">
                                 <input id="address" type="text" class="form-control" name="address"
@@ -137,7 +137,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('about') ? ' has-error' : '' }}">
-                            <label for="about" class="col-md-4 control-label">About</label>
+                            <label for="about" class="col-md-4 control-label">@lang('About')</label>
 
                             <div class="col-md-6">
                                 <textarea id="about" class="form-control" name="about">{{ $user->about }}</textarea>
@@ -153,7 +153,7 @@
                         @if($user->role == 'student')
 
                         <div class="form-group{{ $errors->has('birthday') ? ' has-error' : '' }}">
-                            <label for="birthday" class="col-md-4 control-label">Birthday</label>
+                            <label for="birthday" class="col-md-4 control-label">@lang('Birthday')</label>
 
                             <div class="col-md-6">
                                 <input id="birthday" type="text" class="form-control" name="birthday" required>
@@ -166,7 +166,7 @@
                             </div>
                         </div>
                         <div class="form-group{{ $errors->has('session') ? ' has-error' : '' }}">
-                            <label for="session" class="col-md-4 control-label">Session</label>
+                            <label for="session" class="col-md-4 control-label">@lang('Session')</label>
 
                             <div class="col-md-6">
                                 <input id="session" type="text" class="form-control" name="session" required>
@@ -180,7 +180,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('group') ? ' has-error' : '' }}">
-                            <label for="group" class="col-md-4 control-label">Group</label>
+                            <label for="group" class="col-md-4 control-label">@lang('Group')</label>
 
                             <div class="col-md-6">
                                 <input id="group" type="text" class="form-control" name="group"
@@ -196,7 +196,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('father_name') ? ' has-error' : '' }}">
-                            <label for="father_name" class="col-md-4 control-label">Father's Name</label>
+                            <label for="father_name" class="col-md-4 control-label">@lang('Father\'s Name')</label>
 
                             <div class="col-md-6">
                                 <input id="father_name" type="text" class="form-control" name="father_name"
@@ -211,8 +211,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('father_phone_number') ? ' has-error' : '' }}">
-                            <label for="father_phone_number" class="col-md-4 control-label">Father's Phone
-                                Number</label>
+                            <label for="father_phone_number" class="col-md-4 control-label">@lang('Father\'s Phone Number')</label>
 
                             <div class="col-md-6">
                                 <input id="father_phone_number" type="text" class="form-control"
@@ -227,7 +226,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('father_national_id') ? ' has-error' : '' }}">
-                            <label for="father_national_id" class="col-md-4 control-label">Father's National ID</label>
+                            <label for="father_national_id" class="col-md-4 control-label">@lang('Father\'s National ID')</label>
 
                             <div class="col-md-6">
                                 <input id="father_national_id" type="text" class="form-control"
@@ -242,7 +241,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('father_occupation') ? ' has-error' : '' }}">
-                            <label for="father_occupation" class="col-md-4 control-label">Father's Occupation</label>
+                            <label for="father_occupation" class="col-md-4 control-label">@lang('Father\'s Occupation')</label>
 
                             <div class="col-md-6">
                                 <input id="father_occupation" type="text" class="form-control" name="father_occupation"
@@ -257,7 +256,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('father_designation') ? ' has-error' : '' }}">
-                            <label for="father_designation" class="col-md-4 control-label">Father's Designation</label>
+                            <label for="father_designation" class="col-md-4 control-label">@lang('Father\'s Designation')</label>
 
                             <div class="col-md-6">
                                 <input id="father_designation" type="text" class="form-control"
@@ -272,8 +271,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('father_annual_income') ? ' has-error' : '' }}">
-                            <label for="father_annual_income" class="col-md-4 control-label">Father's Annual
-                                Income</label>
+                            <label for="father_annual_income" class="col-md-4 control-label">@lang('Father\'s Annual Income')</label>
 
                             <div class="col-md-6">
                                 <input id="father_annual_income" type="text" class="form-control"
@@ -289,7 +287,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('mother_name') ? ' has-error' : '' }}">
-                            <label for="mother_name" class="col-md-4 control-label">Mother's Name</label>
+                            <label for="mother_name" class="col-md-4 control-label">@lang('Mother\'s Name')</label>
 
                             <div class="col-md-6">
                                 <input id="mother_name" type="text" class="form-control" name="mother_name"
@@ -304,8 +302,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('mother_phone_number') ? ' has-error' : '' }}">
-                            <label for="mother_phone_number" class="col-md-4 control-label">Mother's Phone
-                                Number</label>
+                            <label for="mother_phone_number" class="col-md-4 control-label">@lang('Mother\'s Phone Number')</label>
 
                             <div class="col-md-6">
                                 <input id="mother_phone_number" type="text" class="form-control"
@@ -320,7 +317,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('mother_national_id') ? ' has-error' : '' }}">
-                            <label for="mother_national_id" class="col-md-4 control-label">Mother's National ID</label>
+                            <label for="mother_national_id" class="col-md-4 control-label">@lang('Mother\'s National ID')</label>
 
                             <div class="col-md-6">
                                 <input id="mother_national_id" type="text" class="form-control"
@@ -335,7 +332,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('mother_occupation') ? ' has-error' : '' }}">
-                            <label for="mother_occupation" class="col-md-4 control-label">Mother's Occupation</label>
+                            <label for="mother_occupation" class="col-md-4 control-label">@lang('Mother\'s Occupation')</label>
 
                             <div class="col-md-6">
                                 <input id="mother_occupation" type="text" class="form-control" name="mother_occupation"
@@ -350,7 +347,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('mother_designation') ? ' has-error' : '' }}">
-                            <label for="mother_designation" class="col-md-4 control-label">Mother's Designation</label>
+                            <label for="mother_designation" class="col-md-4 control-label">@lang('Mother\'s Designation')</label>
 
                             <div class="col-md-6">
                                 <input id="mother_designation" type="text" class="form-control"
@@ -365,8 +362,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('mother_annual_income') ? ' has-error' : '' }}">
-                            <label for="mother_annual_income" class="col-md-4 control-label">Mother's Annual
-                                Income</label>
+                            <label for="mother_annual_income" class="col-md-4 control-label">@lang('Mother\'s Annual Income')</label>
 
                             <div class="col-md-6">
                                 <input id="mother_annual_income" type="text" class="form-control"
@@ -385,7 +381,7 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <a href="javascript:history.back()" class="btn btn-danger" style="margin-right: 2%;"
-                                    role="button">Cancel</a>
+                                    role="button">@lang('Cancel')</a>
                                 <input type="submit" role="button" class="btn btn-success" value="Save">
                             </div>
                         </div>

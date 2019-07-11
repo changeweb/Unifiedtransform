@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Add New Expense')
+@section('title', __('Add New Expense'))
 @section('content')
 <div class="container-fluid">
     <div class="row">
@@ -8,7 +8,7 @@
         </div>
         <div class="col-md-8" id="main-container">
             <div class="panel panel-default">
-                <div class="page-panel-title">Add New Expense</div>
+                <div class="page-panel-title">@lang('Add New Expense')</div>
 
                 <div class="panel-body">
                     @if (session('status'))
@@ -19,7 +19,7 @@
                     <form class="form-horizontal" action="{{url('accounts/create-expense')}}" method="post">
                       {{ csrf_field() }}
                       <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                          <label for="name" class="col-md-4 control-label">Sector Name</label>
+                          <label for="name" class="col-md-4 control-label">@lang('Sector Name')</label>
 
                           <div class="col-md-6">
                               <select  class="form-control" name="name">
@@ -36,7 +36,7 @@
                           </div>
                       </div>
                       <div class="form-group{{ $errors->has('amount') ? ' has-error' : '' }}">
-                          <label for="amount" class="col-md-4 control-label">Amount</label>
+                          <label for="amount" class="col-md-4 control-label">@lang('Amount')</label>
 
                           <div class="col-md-6">
                               <input id="amount" type="number" class="form-control" name="amount" value="{{ old('amount') }}" placeholder="Amount" required>
@@ -49,7 +49,7 @@
                           </div>
                       </div>
                       <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-                          <label for="description" class="col-md-4 control-label">Description</label>
+                          <label for="description" class="col-md-4 control-label">@lang('Description')</label>
 
                           <div class="col-md-6">
                               <textarea rows="3" id="description" class="form-control" name="description" placeholder="Description" required>{{ old('description') }}</textarea>
@@ -63,7 +63,7 @@
                       </div>
                       <div class="form-group">
                         <div class="col-sm-offset-4 col-sm-8">
-                          <button type="submit" class="btn btn-danger">Save</button>
+                          <button type="submit" class="btn btn-danger">@lang('Save')</button>
                         </div>
                       </div>
                     </form>

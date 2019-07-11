@@ -4,16 +4,16 @@
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Book Title</th>
-        <th scope="col">Book Code</th>
-        <th scope="col">Author</th>
-        <th scope="col">Type</th>
-        <th scope="col">Quantity</th>
-        <th scope="col">About Book</th>
-        <th scope="col">For Class</th>
-        <th scope="col">Price</th>
-        <th scope="col">Rack No.</th>
-        <th scope="col">Row No.</th>
+        <th scope="col">@lang('Book Title')</th>
+        <th scope="col">@lang('Book Code')</th>
+        <th scope="col">@lang('Author')</th>
+        <th scope="col">@lang('Type')</th>
+        <th scope="col">@lang('Quantity')</th>
+        <th scope="col">@lang('About Book')</th>
+        <th scope="col">@lang('For Class')</th>
+        <th scope="col">@lang('Price')</th>
+        <th scope="col">@lang('Rack No.')</th>
+        <th scope="col">@lang('Row No.')</th>
       </tr>
     </thead>
     <tbody>

@@ -1,7 +1,7 @@
 <div class="card text-white bg-primary mb-3">
     <div class="card-header">Information</div>
     <div class="card-body">
-      An Examination represents a Semester. All Courses of a Semester belong to an Examination. So, all Quiz, Class Test, Assignment, Attendance, Written, Practical, etc. in a Course are subjected to that specific Examination.
+      @lang('An Examination represents a Semester. All Courses of a Semester belong to an Examination. So, all Quiz, Class Test, Assignment, Attendance, Written, Practical, etc. in a Course are subjected to that specific Examination.')
     </div>
 </div>
 {{$exams->links()}}
@@ -15,11 +15,11 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">Examination Name</th>
-      <th scope="col">Notice Published</th>
-      <th scope="col">Result Published</th>
-      <th scope="col">Created At</th>
-      <th scope="col">Set Active</th>
+      <th scope="col">@lang('Examination Name')</th>
+      <th scope="col">@lang('Notice Published')</th>
+      <th scope="col">@lang('Result Published')</th>
+      <th scope="col">@lang('Created At')</th>
+      <th scope="col">@lang('Set Active')</th>
     </tr>
   </thead>
   <tbody>
@@ -29,10 +29,10 @@
       <td scope="row">{{$exam->exam_name}}</td>
       <td scope="row">
         @if($exam->notice_published === 1)
-          Yes
+          @lang('Yes')
         @else
           @if($exam->result_published === 1)
-            No
+            @lang('No')
           @else
             <label class="checkbox-label"> Yes
               <input type="checkbox" name="notice_published" form="form{{$exam->id}}" />
@@ -43,7 +43,7 @@
       </td>
       <td scope="row">
         @if($exam->result_published === 1)
-          Yes
+          @lang('Yes')
         @else
           <label class="checkbox-label"> Yes
             <input type="checkbox" name="result_published" form="form{{$exam->id}}" />
@@ -62,7 +62,7 @@
           </label>
         @else
           @if($exam->result_published === 1)
-            Completed
+            @lang('Completed')
           @else
             <label class="checkbox-label">
               Not Active

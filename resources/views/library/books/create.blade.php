@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Add New Book')
+@section('title', __('Add New Book'))
 
 @section('content')
     <div class="container-fluid">
@@ -10,7 +10,7 @@
             </div>
             <div class="col-md-8" id="main-container">
                 <div class="panel panel-default">
-                    <div class="page-panel-title">Add New Book</div>
+                    <div class="page-panel-title">@lang('Add New Book')</div>
 
                     <div class="panel-body">
                         @if (session('status'))
@@ -25,7 +25,7 @@
 
                             <div class="form-group">
                                 <div class="col-sm-offset-4 col-sm-8">
-                                    <button type="submit" class="btn btn-danger">Save</button>
+                                    <button type="submit" class="btn btn-danger">@lang('Save')</button>
                                 </div>
                             </div>
                         </form>

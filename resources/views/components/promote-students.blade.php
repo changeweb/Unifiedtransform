@@ -6,13 +6,13 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Code</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Left School</th>
-                    <th scope="col">From Session</th>
-                    <th scope="col">To Session</th>
-                    <th scope="col">From Section</th>
-                    <th scope="col">To Section</th>
+                    <th scope="col">@lang('Code')</th>
+                    <th scope="col">@lang('Name')</th>
+                    <th scope="col">@lang('Left School')</th>
+                    <th scope="col">@lang('From Session')</th>
+                    <th scope="col">@lang('To Session')</th>
+                    <th scope="col">@lang('From Section')</th>
+                    <th scope="col">@lang('To Section')</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,7 +26,7 @@
                     <td>
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" name="left_school{{$loop->index}}"> Left
+                                <input type="checkbox" name="left_school{{$loop->index}}"> @lang('Left')
                             </label>
                         </div>
                     </td>
@@ -45,7 +45,7 @@
                             value="{{date('Y', strtotime('+1 year'))}}">
                     </td>
                     <td style="text-align: center;">
-                        <small>Class: {{$student->section->class->class_number}} - Section:
+                        <small>@lang('Class'): {{$student->section->class->class_number}} - @lang('Section'):
                             {{$student->section->section_number}}</small>
                     </td>
                     <td>
@@ -53,8 +53,8 @@
                             @foreach($classes as $class)
                             @foreach($class->sections as $section)
                             <option value="{{$section->id}}">
-                                Class: {{$class->class_number}} -
-                                Section: {{$section->section_number}}
+                                @lang('Class'): {{$class->class_number}} -
+                                @lang('Section'): {{$section->section_number}}
                             </option>
                             @endforeach
                             @endforeach

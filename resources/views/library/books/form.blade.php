@@ -1,5 +1,5 @@
 <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
-    <label for="title" class="col-md-4 control-label">Book Title</label>
+    <label for="title" class="col-md-4 control-label">@lang('Book Title')</label>
 
     <div class="col-md-6">
         <input id="title" type="text" class="form-control" name="title" value="{{ $book->title Or old('title') }}" placeholder="Book Title" required>
@@ -13,7 +13,7 @@
 </div>
 
 <div class="form-group{{ $errors->has('about') ? ' has-error' : '' }}">
-    <label for="about" class="col-md-4 control-label">About Book</label>
+    <label for="about" class="col-md-4 control-label">@lang('About Book')</label>
 
     <div class="col-md-6">
         <textarea rows="3" id="about" type="text" class="form-control" name="about" placeholder="About Book" required>{{ $book->about Or old('about') }}</textarea>
@@ -27,7 +27,7 @@
 </div>
 
 <div class="form-group{{ $errors->has('book_code') ? ' has-error' : '' }}">
-    <label for="book_code" class="col-md-4 control-label">Book Code</label>
+    <label for="book_code" class="col-md-4 control-label">@lang('Book Code')</label>
 
     <div class="col-md-6">
         <input id="book_code" type="text" class="form-control" name="book_code" value="{{ $book->book_code Or old('book_code') }}" placeholder="Book Code" required>
@@ -41,7 +41,7 @@
 </div>
 
 <div class="form-group{{ $errors->has('author') ? ' has-error' : '' }}">
-    <label for="author" class="col-md-4 control-label">Book Author</label>
+    <label for="author" class="col-md-4 control-label">@lang('Book Author')</label>
 
     <div class="col-md-6">
         <input id="author" type="text" class="form-control" name="author" value="{{ $book->author Or old('author') }}" placeholder="Book Author" required>
@@ -55,7 +55,7 @@
 </div>
 
 <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
-    <label for="price" class="col-md-4 control-label">Book Price</label>
+    <label for="price" class="col-md-4 control-label">@lang('Book Price')</label>
 
     <div class="col-md-6">
         <input id="price" type="number" class="form-control" name="price" value="{{ $book->price Or old('price') }}" placeholder="Book Price" required>
@@ -69,7 +69,7 @@
 </div>
 
 <div class="form-group{{ $errors->has('quantity') ? ' has-error' : '' }}">
-    <label for="quantity" class="col-md-4 control-label">Book Quantity</label>
+    <label for="quantity" class="col-md-4 control-label">@lang('Book Quantity')</label>
 
     <div class="col-md-6">
         <input id="quantity" type="number" class="form-control" name="quantity" value="{{ $book->quantity Or old('quantity') }}" placeholder="Book Quantity" required>
@@ -83,7 +83,7 @@
 </div>
 
 <div class="form-group{{ $errors->has('rackNo') ? ' has-error' : '' }}">
-    <label for="rackNo" class="col-md-4 control-label">Book Rack Number</label>
+    <label for="rackNo" class="col-md-4 control-label">@lang('Book Rack Number')</label>
 
     <div class="col-md-6">
         <input id="rackNo" type="number" class="form-control" name="rackNo" value="{{ $book->rackNo Or old('rackNo') }}" placeholder="Book Rack Number" required>
@@ -97,7 +97,7 @@
 </div>
 
 <div class="form-group{{ $errors->has('rowNo') ? ' has-error' : '' }}">
-    <label for="rowNo" class="col-md-4 control-label">Book Row Number</label>
+    <label for="rowNo" class="col-md-4 control-label">@lang('Book Row Number')</label>
 
     <div class="col-md-6">
         <input id="rowNo" type="number" class="form-control" name="rowNo" value="{{ $book->rowNo Or old('rowNo') }}" placeholder="Book Row Number" required>
@@ -111,7 +111,7 @@
 </div>
 
 <div class="form-group{{ $errors->has('img_path') ? ' has-error' : '' }}">
-    <label for="img_path" class="col-md-4 control-label">Book Image Url</label>
+    <label for="img_path" class="col-md-4 control-label">@lang('Book Image Url')</label>
 
     <div class="col-md-6">
         <input id="img_path" type="text" class="form-control" name="img_path" value="{{ $book->img_path Or old('img_path') }}" placeholder="Book Image Url" required>
@@ -125,7 +125,7 @@
 </div>
 
 <div class="form-group{{ $errors->has('type') ? ' has-error' : '' }}">
-    <label for="type" class="col-md-4 control-label">Book Type</label>
+    <label for="type" class="col-md-4 control-label">@lang('Book Type')</label>
 
     <div class="col-md-6">
         <select id="type" class="form-control" name="type">
@@ -145,7 +145,7 @@
 </div>
 
 <div class="form-group{{ $errors->has('class_id') ? ' has-error' : '' }}">
-    <label for="class_id" class="col-md-4 control-label">For Class</label>
+    <label for="class_id" class="col-md-4 control-label">@lang('For Class')</label>
 
     <div class="col-md-6">
         <select id="class_id" class="form-control" name="class_id">

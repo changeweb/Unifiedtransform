@@ -25,7 +25,7 @@
                 </div>
               @else
                 <div class="panel-body">
-                    No Related Data Found.
+                    @lang('No Related Data Found.')
                 </div>
               @endif
             </div>

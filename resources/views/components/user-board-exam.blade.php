@@ -11,35 +11,35 @@
         <table class="table table-bordered table-striped">
           <tbody>
             <tr>
-              <td>Group:</td>
+              <td>@lang('Group'):</td>
               <td>{{$group}}</td>
             </tr>
             <tr>
-              <td>Roll:</td>
+              <td>@lang('Roll'):</td>
               <td>{{$roll}}</td>
             </tr>
             <tr>
-              <td>Registration:</td>
+              <td>@lang('Registration'):</td>
               <td>{{$registration}}</td>
             </tr>
             <tr>
-              <td>Session:</td>
+              <td>@lang('Session'):</td>
               <td>{{$session}}</td>
             </tr>
             <tr>
-              <td>Board:</td>
+              <td>@lang('Board'):</td>
               <td>{{$board}}</td>
             </tr>
             <tr>
-              <td>Passing Year:</td>
+              <td>@lang('Passing Year'):</td>
               <td>{{$passing_year}}</td>
             </tr>
             <tr>
-              <td>Institution Name:</td>
+              <td>@lang('Institution Name'):</td>
               <td>{{$institution_name}}</td>
             </tr>
             <tr>
-              <td>GPA:</td>
+              <td>@lang('GPA'):</td>
               <td>{{$gpa}}</td>
             </tr>
           </tbody>

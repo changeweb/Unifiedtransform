@@ -17,13 +17,13 @@
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Student_Code</th>
-        <th scope="col">Name</th>
-        <th scope="col">Present</th>
-        <th scope="col">Total Attended</th>
-        <th scope="col">Total Missed</th>
-        <th scope="col">Total Escaped</th>
-        <th scope="col">Adjust Missed Attendance</th>
+        <th scope="col">@lang('Student_Code')</th>
+        <th scope="col">@lang('Name')</th>
+        <th scope="col">@lang('Present')</th>
+        <th scope="col">@lang('Total Attended')</th>
+        <th scope="col">@lang('Total Missed')</th>
+        <th scope="col">@lang('Total Escaped')</th>
+        <th scope="col">@lang('Adjust Missed Attendance')</th>
       </tr>
     </thead>
     <tbody>
@@ -39,11 +39,11 @@
           <td>{{$attendance->student->student_code}}</td>
           <td>
             @if($attendance->present === 1)
-              <span class="label label-success attdState">Present</span>
+              <span class="label label-success attdState">@lang('Present')</span>
             @elseif($attendance->present === 2)
-              <span class="label label-warning attdState">Escaped</span>
+              <span class="label label-warning attdState">@lang('Escaped')</span>
             @else
-              <span class="label label-danger attdState">Absent</span>
+              <span class="label label-danger attdState">@lang('Absent')</span>
             @endif
             <a href="{{url('user/'.$attendance->student->student_code)}}">{{$attendance->student->name}}</a>
           </td>
@@ -74,7 +74,7 @@
             <td>0</td>
             <td>0</td>
           @endif
-          <td><a href="{{url('attendance/adjust/'.$attendance->student->id)}}" role="button" class="btn btn-danger btn-sm">Adjust Missing Attendances</a></td>
+          <td><a href="{{url('attendance/adjust/'.$attendance->student->id)}}" role="button" class="btn btn-danger btn-sm">@lang('Adjust Missing Attendances')</a></td>
         </tr>
         @endforeach
       @else
@@ -85,7 +85,7 @@
         <tr>
           <th scope="row">{{($loop->index + 1)}}</th>
           <td>{{$student->student_code}}</td>
-          <td><span class="label label-success attdState">Present</span> {{$student->name}}</td>
+          <td><span class="label label-success attdState">@lang('Present')</span> {{$student->name}}</td>
           <td>
             <div class="form-check">
               <input class="form-check-input position-static" type="checkbox" name="isPresent{{$loop->index}}" aria-label="Present" checked>
@@ -106,7 +106,7 @@
             <td>0</td>
             <td>0</td>
           @endif
-          <td><a href="{{url('attendance/adjust/'.$student->id)}}" role="button" class="btn btn-danger btn-sm">Adjust Missing Attendances</a></td>
+          <td><a href="{{url('attendance/adjust/'.$student->id)}}" role="button" class="btn btn-danger btn-sm">@lang('Adjust Missing Attendances')</a></td>
         </tr>
         @endforeach
       @endif
@@ -114,11 +114,11 @@
   </table>
   </div>
   <div style="text-align:center;">
-    <a href="javascript:history.back()" class="btn btn-danger" style="margin-right: 2%;" role="button">Cancel</a>
+    <a href="javascript:history.back()" class="btn btn-danger" style="margin-right: 2%;" role="button">@lang('Cancel')</a>
     @if (count($attendances) > 0)
-      <button type="submit" class="btn btn-primary">Update</button>
+      <button type="submit" class="btn btn-primary">@lang('Update')</button>
     @else
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary">@lang('Submit')</button>
     @endif
   </div>
 </form>
@@ -126,9 +126,9 @@
   $('input[type="checkbox"]').change(function() {
       var attdState = $(this).parent().parent().parent().find('.attdState').removeClass('label-danger label-success');
       if($(this).is(':checked')){
-        attdState.addClass('label-success').text('Present');
+        attdState.addClass('label-success').text(@json( __('Present')));
       } else {
-        attdState.addClass('label-danger').text('Absent');
+        attdState.addClass('label-danger').text(@json( __('Absent')));
       }
   });
 </script>

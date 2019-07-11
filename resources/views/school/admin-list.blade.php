@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Admins')
+@section('title', __('Admins'))
 
 @section('content')
 <div class="container-fluid">
@@ -13,8 +13,7 @@
             @endif
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url('create-school')}}"><i class="material-icons">gamepad</i> Manage
-                        School</a>
+                    <a class="nav-link" href="{{url('create-school')}}"><i class="material-icons">gamepad</i> @lang('Manage School')</a>
                 </li>
             </ul>
         </div>
@@ -25,14 +24,14 @@
                 <div class="panel-body">
                     <table class="table">
                         <tr>
-                            <th>Action</th>
-                            <th>Action</th>
-                            <th>Name</th>
-                            <th>Code</th>
-                            <th>Email</th>
-                            <th>Phone Number</th>
-                            <th>Address</th>
-                            <th>About</th>
+                            <th>@lang('Action')</th>
+                            <th>@lang('Action')</th>
+                            <th>@lang('Name')</th>
+                            <th>@lang('Code')</th>
+                            <th>@lang('Email')</th>
+                            <th>@lang('Phone Number')</th>
+                            <th>@lang('Address')</th>
+                            <th>@lang('About')</th>
                         </tr>
                         @foreach ($admins as $admin)
                         <tr>
@@ -41,19 +40,19 @@
                                 <a href="{{url('master/activate-admin/'.$admin->id)}}" class="btn btn-xs btn-success"
                                     role="button"><i class="material-icons">
                                         done
-                                    </i>Activate</a>
+                                    </i>@lang('Activate')</a>
                                 @else
                                 <a href="{{url('master/deactivate-admin/'.$admin->id)}}" class="btn btn-xs btn-danger"
                                     role="button"><i class="material-icons">
                                         clear
-                                    </i>Deactivate</a>
+                                    </i>@lang('Deactivate')</a>
                                 @endif
                             </td>
                             <td>
                                 <a href="{{url('edit/user/'.$admin->id)}}" class="btn btn-xs btn-info"
                                     role="button"><i class="material-icons">
                                         edit
-                                    </i> Edit</a>
+                                    </i> @lang('Edit')</a>
                             </td>
                             <td>
                                 {{$admin->name}}
@@ -69,7 +68,7 @@
                 </div>
                 @else
                 <div class="panel-body">
-                    No Related Data Found.
+                    @lang('No Related Data Found.')
                 </div>
                 @endif
             </div>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Grade')
+@section('title', __('Grade'))
 
 @section('content')
 <div class="container-fluid">
@@ -19,14 +19,14 @@
                     @endif
                 @foreach ($grades as $grade)
                     <h4>
-                        Marks Given by
+                        @lang('Marks Given by')
                         @if(count($grades) > 0)
                             @foreach ($grades as $grade)
-                                <b>Teacher Code</b> - {{$grade->teacher->student_code}} &nbsp;<b>Name</b> - {{$grade->teacher->name}}
+                                <b>@lang('Teacher Code')</b> - {{$grade->teacher->student_code}} &nbsp;<b>@lang('Name')</b> - {{$grade->teacher->name}}
                                 @break($loop->first)
                             @endforeach
                         @else
-                            No Related Data Found.
+                            @lang('No Related Data Found.')
                         @endif
                     </h4>
                     <br>
@@ -42,7 +42,7 @@
                     <div class="col-md-4">
                       <div class="alert alert-info" role="alert">
                         <ul>
-                          <li>Quiz Counted Best <span class="label label-success">{{$grade->course->quiz_count}}</span></li>
+                          <li>@lang('Quiz Counted Best') <span class="label label-success">{{$grade->course->quiz_count}}</span></li>
                         </ul>
                         </div>
                       </div>
@@ -51,7 +51,7 @@
                       <div class="col-md-4">
                         <div class="alert alert-info" role="alert">
                         <ul>
-                          <li>Assignment Counted Best <span class="label label-success">{{$grade->course->assignment_count}}</span></li>
+                          <li>@lang('Assignment Counted Best ')<span class="label label-success">{{$grade->course->assignment_count}}</span></li>
                         </ul>
                         </div>
                       </div>
@@ -60,7 +60,7 @@
                       <div class="col-md-4">
                         <div class="alert alert-info" role="alert">
                         <ul>
-                          <li>Class Test Counted Best <span class="label label-success">{{$grade->course->ct_count}}</span></li>
+                          <li>@lang('Class Test Counted Best') <span class="label label-success">{{$grade->course->ct_count}}</span></li>
                         </ul>
                         </div>
                       </div>
@@ -71,14 +71,14 @@
                 </div>
               @else
                 <div class="panel-body">
-                    No Related Data Found.
+                    @lang('No Related Data Found.')
                 </div>
               @endif
             </div>
             @if(count($grades) > 0)
               @include('layouts.teacher.grade-table')
             @else
-              No Related Data Found.
+              @lang('No Related Data Found.')
             @endif
             </div>
         </div>

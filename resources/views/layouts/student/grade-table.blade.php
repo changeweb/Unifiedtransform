@@ -6,27 +6,27 @@
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Course</th>
-        <th scope="col">Attendance</th>
+        <th scope="col">@lang('Course')</th>
+        <th scope="col">@lang('Attendance')</th>
         @for($i=1;$i<=5;$i++)
-          <th scope="col">Quiz {{$i}}</th>
+          <th scope="col">@lang('Quiz') {{$i}}</th>
         @endfor
         @for($i=1;$i<=3;$i++)
-          <th scope="col">Assignment {{$i}}</th>
+          <th scope="col">@lang('Assignment') {{$i}}</th>
         @endfor
         @for($i=1;$i<=5;$i++)
-          <th scope="col">CT {{$i}}</th>
+          <th scope="col">@lang('CT') {{$i}}</th>
         @endfor
         @if($grade->course->final_exam_percent > 0)
-          <th scope="col">Written</th>
-          <th scope="col">Mcq</th>
+          <th scope="col">@lang('Written')</th>
+          <th scope="col">@lang('Mcq')</th>
         @endif
         @if($grade->course->practical_percent > 0)
-          <th scope="col">Practical</th>
+          <th scope="col">@lang('Practical')</th>
         @endif
-        <th scope="col">Total Marks</th>
-        <th scope="col">Grade</th>
-        <th scope="col">Course Teacher</th>
+        <th scope="col">@lang('Total Marks')</th>
+        <th scope="col">@lang('Grade')</th>
+        <th scope="col">@lang('Course Teacher')</th>
       </tr>
     </thead>
     <tbody>
@@ -71,11 +71,11 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">Course</th>
-      <th scope="col">Total Marks</th>
-      <th scope="col">Grade</th>
+      <th scope="col">@lang('Course')</th>
+      <th scope="col">@lang('Total Marks')</th>
+      <th scope="col">@lang('Grade')</th>
       <!--<th scope="col">GPA</th>-->
-      <th scope="col">Course Teacher</th>
+      <th scope="col">@lang('Course Teacher')</th>
     </tr>
   </thead>
   <tbody>
@@ -85,7 +85,7 @@
       <th scope="row">{{($loop->index + 1)}}</th>
       <td>{{$grade->course->course_name}}</td>
       <td><b>{{$grade->marks}}</b>
-        <a class="btn btn-xs btn-danger pull-right" href="#collapse{{($loop->index + 1)}}" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapse{{($loop->index + 1)}}"> View Details</a>
+        <a class="btn btn-xs btn-danger pull-right" href="#collapse{{($loop->index + 1)}}" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapse{{($loop->index + 1)}}"> @lang('View Details')</a>
       </td>
       <td>
         @foreach($gradesystems as $gs)
@@ -105,22 +105,22 @@
         <table class="table table-bordered table-condensed table-hover">
           <thead>
             <tr>
-              <th scope="col">Attendance</th>
+              <th scope="col">@lang('Attendance')</th>
               @for($i=1;$i<=5;$i++)
-                <th scope="col">Quiz {{$i}}</th>
+                <th scope="col">@lang('Quiz') {{$i}}</th>
               @endfor
               @for($i=1;$i<=3;$i++)
-                <th scope="col">Assignment {{$i}}</th>
+                <th scope="col">@lang('Assignment') {{$i}}</th>
               @endfor
               @for($i=1;$i<=5;$i++)
-                <th scope="col">CT {{$i}}</th>
+                <th scope="col">@lang('CT') {{$i}}</th>
               @endfor
               @if($grade->course->final_exam_percent > 0)
-                <th scope="col">Written</th>
-                <th scope="col">Mcq</th>
+                <th scope="col">@lang('Written')</th>
+                <th scope="col">@lang('Mcq')</th>
               @endif
               @if($grade->course->practical_percent > 0)
-                <th scope="col">Practical</th>
+                <th scope="col">@lang('Practical')</th>
               @endif
             </tr>
           </thead>
@@ -173,5 +173,5 @@
     </script>
 @endforeach
 @else
-  No related data
+  @lang('No related data')
 @endif

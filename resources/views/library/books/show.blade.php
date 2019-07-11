@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'All Books')
+@section('title', __('All Books'))
 
 @section('content')
     <div class="container-fluid">
@@ -10,7 +10,7 @@
             </div>
             <div class="col-md-10" id="main-container">
                 <div class="panel panel-default">
-                    <div class="page-panel-title">Book Details</div>
+                    <div class="page-panel-title">@lang('Book Details')</div>
 
                     <div class="panel-body">
                         @if (session('status'))
@@ -22,43 +22,43 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Book Code</th>
+                                    <th>@lang('Book Code')</th>
                                     <td>{{ $book->book_code }}</td>
-                                    <th>Book Title</th>
+                                    <th>@lang('Book Title')</th>
                                     <td>{{ $book->title }}</td>
-                                    <th>Author</th>
+                                    <th>@lang('Author')</th>
                                     <td>{{ $book->author }}</td>
-                                    <th>About</th>
+                                    <th>@lang('About')</th>
                                     <td>{{ $book->about }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Quantity</th>
+                                    <th>@lang('Quantity')</th>
                                     <td>{{ $book->quantity }}</td>
-                                    <th>Rack No</th>
+                                    <th>@lang('Rack No')</th>
                                     <td>{{ $book->rackNo }}</td>
-                                    <th>row No</th>
+                                    <th>@lang('row No')</th>
                                     <td>{{ $book->rowNo }}</td>
-                                    <th>Type</th>
+                                    <th>@lang('Type')</th>
                                     <td>{{ $book->type }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Image</th>
+                                    <th>@lang('Image')</th>
                                     <td>
                                         <img src="{{ $book->img_path }}" alt="{{ $book->title }}" />
                                     </td>
-                                    <th>Price</th>
+                                    <th>@lang('Price')</th>
                                     <td>{{ $book->price }}</td>
-                                    <th>Class</th>
+                                    <th>@lang('Class')</th>
                                     <td>{{ $book->class->class_number }}</td>
-                                    <th>School</th>
+                                    <th>@lang('School')</th>
                                     <td>{{ $book->school->name }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Created At</th>
+                                    <th>@lang('Created At')</th>
                                     <td>{{ $book->created_at }}</td>
-                                    <th>Updated At</th>
+                                    <th>@lang('Updated At')</th>
                                     <td>{{ $book->updated_at }}</td>
-                                    <th>Registered By</th>
+                                    <th>@lang('Registered By')</th>
                                     <td>{{ $book->user->name }}</td>
                                 </tr>
                             </thead>
@@ -66,7 +66,7 @@
 
                     </div>
                     <div class="row">
-                        <a href="{{ route('library.books.index') }}" class="btn btn-xs btn-primary">all books</a>
+                        <a href="{{ route('library.books.index') }}" class="btn btn-xs btn-primary">@lang('all books')</a>
                     </div>
                 </div>
             </div>

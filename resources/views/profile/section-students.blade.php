@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Course Students')
+@section('title', __('Course Students'))
 
 @section('content')
 <div class="container-fluid">
@@ -11,13 +11,13 @@
         <div class="col-md-10" id="main-container">
             <ol class="breadcrumb" style="margin-top: 3%;">
                 @if(isset($_GET['grade']) && $_GET['grade'] == 1)
-                    <li><a href="{{url('grades/all-exams-grade')}}" style="color:#3b80ef;">Grades</a></li>
+                    <li><a href="{{url('grades/all-exams-grade')}}" style="color:#3b80ef;">@lang('Grades')</a></li>
                 @else
-                    <li><a href="{{url('school/sections?course=1')}}" style="color:#3b80ef;">Section</a></li>
+                    <li><a href="{{url('school/sections?course=1')}}" style="color:#3b80ef;">@lang('Section')</a></li>
                 @endif
-                <li class="active">Students</li>
+                <li class="active">@lang('Students')</li>
             </ol>
-            <h2>Section Students</h2>
+            <h2>@lang('Section Students')</h2>
             <div class="panel panel-default">
               @if(count($students) > 0)
                 <div class="panel-body">
@@ -52,7 +52,7 @@
                 </div>
               @else
                 <div class="panel-body">
-                    No Related Data Found.
+                    @lang('No Related Data Found.')
                 </div>
               @endif
             </div>
