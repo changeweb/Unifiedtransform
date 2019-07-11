@@ -65,14 +65,14 @@ This software has following features:
       * For Teachers: `department`, (`class, section`) if assigned as class teacher.
       * For Students: `class, section, session, version, group, birthday, religion, father_name, father_phone_number, father_national_id, father_occupation, father_designation, father_annual_income, mother_name, mother_phone_number, mother_national_id, mother_occupation, mother_designation, mother_annual_income`
    * For any number(e.g: phone_number) starts with zero, put (') before zero.
-   * Supported Languages (**English, Spanish**)
+* Supported Languages (**English, Spanish**)
 
-      * To set default Language and Timezone, Edit as following in `config/app.php`:
+   * To set default Language and Timezone, Edit as following in `config/app.php`:
 
-         ```php
-         'timezone' => 'Asia/Dhaka',//'UTC',
-         'locale' => 'en',//'es-MX' for Spanish
-         ```
+      ```php
+      'timezone' => 'Asia/Dhaka',//'UTC',
+      'locale' => 'en',//'es-MX' for Spanish
+      ```
 
 
 ## Framework used
