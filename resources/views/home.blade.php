@@ -24,7 +24,7 @@
                     </div>
                     @endif
                     <div class="row">
-                        <div class="page-panel-title">Dashboard</div>
+                        <div class="page-panel-title">@lang('Dashboard')</div>
                         <div class="col-sm-2">
                             <div class="card text-white bg-primary mb-3">
                                 <div class="card-header">Students - <b>{{$totalStudents}}</b></div>
@@ -56,38 +56,37 @@
                         <div class="col-sm-8">
                             <div class="panel panel-default" style="background-color: rgba(242,245,245,0.8);">
                                 <div class="panel-body">
-                                    <h3>Welcome to {{Auth::user()->school->name}}</h3>
-                                    Your presence and cooperation will help us to improve the education system of our
-                                    organization.
+                                    <h3>@lang('Welcome to') {{Auth::user()->school->name}}</h3>
+                                    @lang('Your presence and cooperation will help us to improve the education system of our organization.')
                                 </div>
                             </div>
                             <div class="panel panel-default">
-                                <div class="page-panel-title">Active Exams</div>
+                                <div class="page-panel-title">@lang('Active Exams')</div>
                                 <div class="panel-body">
                                     @if(count($exams) > 0)
                                     <table class="table">
                                         <tr>
-                                            <th>Exam Name</th>
-                                            <th>Notice Published</th>
-                                            <th>Result Published</th>
+                                            <th>@lang('Exam Name')</th>
+                                            <th>@lang('Notice Published')</th>
+                                            <th>@lang('Result Published')</th>
                                         </tr>
                                         @foreach($exams as $exam)
                                         <tr>
                                             <td>{{$exam->exam_name}}</td>
-                                            <td>{{($exam->notice_published === 1)?'Yes':'No'}}</td>
-                                            <td>{{($exam->result_published === 1)?'Yes':'No'}}</td>
+                                            <td>{{($exam->notice_published === 1)?__('Yes'):__('No')}}</td>
+                                            <td>{{($exam->result_published === 1)?__('Yes'):__('No')}}</td>
                                         </tr>
                                         @endforeach
                                     </table>
                                     @else
-                                    No Active Examination
+                                    @lang('No Active Examination')
                                     @endif
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="panel panel-default">
-                                <div class="page-panel-title">Notices</div>
+                                <div class="page-panel-title">@lang('Notices')</div>
                                 <div class="panel-body pre-scrollable">
                                     @if(count($notices) > 0)
                                     <div class="list-group">
@@ -97,13 +96,13 @@
                                                 get_app
                                             </i>
                                             <h5 class="list-group-item-heading">{{$notice->title}}</h5>
-                                            <p class="list-group-item-text">Published at:
+                                            <p class="list-group-item-text">@lang('Published at'):
                                                 {{$notice->created_at->format('M d Y h:i:sa')}}</p>
                                         </a>
                                         @endforeach
                                     </div>
                                     @else
-                                    No New Notice
+                                    @lang('No New Notice')
                                     @endif
                                 </div>
                             </div>
@@ -112,7 +111,7 @@
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="panel panel-default">
-                                <div class="page-panel-title">Events</div>
+                                <div class="page-panel-title">@lang('Events')</div>
                                 <div class="panel-body pre-scrollable">
                                     @if(count($events) > 0)
                                     <div class="list-group">
@@ -122,20 +121,20 @@
                                                 get_app
                                             </i>
                                             <h5 class="list-group-item-heading">{{$event->title}}</h5>
-                                            <p class="list-group-item-text">Published at:
+                                            <p class="list-group-item-text">@lang('Published at'):
                                                 {{$event->created_at->format('M d Y')}}</p>
                                         </a>
                                         @endforeach
                                     </div>
                                     @else
-                                    No New Event
+                                    @lang('No New Event')
                                     @endif
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="panel panel-default">
-                                <div class="page-panel-title">Routines</div>
+                                <div class="page-panel-title">@lang('Routines')</div>
                                 <div class="panel-body pre-scrollable">
                                     @if(count($routines) > 0)
                                     <div class="list-group">
@@ -145,20 +144,20 @@
                                                 get_app
                                             </i>
                                             <h5 class="list-group-item-heading">{{$routine->title}}</h5>
-                                            <p class="list-group-item-text">Published at:
+                                            <p class="list-group-item-text">@lang('Published at'):
                                                 {{$routine->created_at->format('M d Y')}}</p>
                                         </a>
                                         @endforeach
                                     </div>
                                     @else
-                                    No New Routine
+                                    @lang('No New Routine')
                                     @endif
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="panel panel-default">
-                                <div class="page-panel-title">Syllabus</div>
+                                <div class="page-panel-title">@lang('Syllabus')</div>
                                 <div class="panel-body pre-scrollable">
                                     @if(count($syllabuses) > 0)
                                     <div class="list-group">
@@ -168,13 +167,13 @@
                                                 get_app
                                             </i>
                                             <h5 class="list-group-item-heading">{{$syllabus->title}}</h5>
-                                            <p class="list-group-item-text">Published at:
+                                            <p class="list-group-item-text">@lang('Published at'):
                                                 {{$syllabus->created_at->format('M d Y')}}</p>
                                         </a>
                                         @endforeach
                                     </div>
                                     @else
-                                    No New Syllabus
+                                    @lang('No New Syllabus')
                                     @endif
                                 </div>
                             </div>

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Expense List')
+@section('title', __('Expense List'))
 @section('content')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet">
 <div class="container-fluid">
@@ -12,8 +12,8 @@
           <div class="row">
             <div class="col-md-6">
               <div class="panel panel-default">
-              <div class="page-panel-title">View List of  Expense
-                <button class="btn btn-xs btn-success pull-right" role="button" id="btnPrint" ><i class="material-icons">print</i> Print This Expense List</button></div>
+              <div class="page-panel-title">@lang('View List of  Expense')
+                <button class="btn btn-xs btn-success pull-right" role="button" id="btnPrint" ><i class="material-icons">print</i> @lant('Print This Expense List')</button></div>
 
                 <div class="panel-body">
                     @if (session('status'))
@@ -24,7 +24,7 @@
                     <form class="form-horizontal" action="{{url('/accounts/list-expense')}}" method="post">
                       {{ csrf_field() }}
                       <div class="form-group{{ $errors->has('year') ? ' has-error' : '' }}">
-                          <label for="year" class="col-md-4 control-label">Year</label>
+                          <label for="year" class="col-md-4 control-label">@lang('Year')</label>
 
                           <div class="col-md-6">
                               <input id="date" type="text" class="form-control datepicker" name="year" value="{{ old('year') }}" placeholder="Year" required>
@@ -38,7 +38,7 @@
                       </div>
                       <div class="form-group">
                         <div class="col-sm-offset-4 col-sm-8">
-                          <button type="submit" class="btn btn-danger">Get Expense List</button>
+                          <button type="submit" class="btn btn-danger">@lang('Get Expense List')</button>
                         </div>
                       </div>
                     </form>
@@ -59,11 +59,11 @@
                         <thead>
                           <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Sector Name</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Year</th>
-                            <th scope="col">Action</th>
+                            <th scope="col">@lang('Sector Name')</th>
+                            <th scope="col">@lang('Amount')</th>
+                            <th scope="col">@lang('Description')</th>
+                            <th scope="col">@lang('Year')</th>
+                            <th scope="col">@lang('Action')</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -74,22 +74,22 @@
                             <td>{{$expense->amount}}</td>
                             <td>{{$expense->description}}</td>
                             <td>{{Carbon\Carbon::parse($expense->created_at)->format('Y')}}</td>
-                            <td><a title='Edit' class='btn btn-info btn-sm' href='{{url("accounts/edit-expense")}}/{{$expense->id}}'>Edit</a></td>
+                            <td><a title='Edit' class='btn btn-info btn-sm' href='{{url("accounts/edit-expense")}}/{{$expense->id}}'>@lang('Edit')</a></td>
                           </tr>
                           @endforeach
                         </tbody>
                       </table>
                       <div id="printDiv"  class="visible-print">
                       <h2 style="text-align:center;">{{Auth::user()->school->name}}</h2>
-                      <h4 style="text-align:center;">Expense List</h4>
+                      <h4 style="text-align:center;">@lang('Expense List')</h4>
                       <table style="border: 1px solid #888888;border-collapse: collapse;background-color: #f5f5f5;" cellpadding="5">
                         <thead>
                           <tr>
                             <th style="border: 1px solid #888888;">#</th>
-                            <th style="border: 1px solid #888888;">Sector Name</th>
-                            <th style="border: 1px solid #888888;">Amount</th>
-                            <th style="border: 1px solid #888888;">Description</th>
-                            <th style="border: 1px solid #888888;">Year</th>
+                            <th style="border: 1px solid #888888;">@lang('Sector Name')</th>
+                            <th style="border: 1px solid #888888;">@lang('Amount')</th>
+                            <th style="border: 1px solid #888888;">@lang('Description')</th>
+                            <th style="border: 1px solid #888888;">@lang('Year')</th>
                           </tr>
                         </thead>
                         <tbody>

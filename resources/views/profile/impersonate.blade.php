@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Impersonate')
+@section('title', __('Impersonate'))
 
 @section('content')
 <div class="container">
@@ -8,9 +8,9 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Role</th>
+                    <th>@lang('ID')</th>
+                    <th>@lang('Name')</th>
+                    <th>@lang('Role')</th>
                     <th></th>
                 </tr>
             </thead>
@@ -24,7 +24,7 @@
                         <td>{{ $other_user->role }}</td>
                         <td>
                             <input type="hidden" name="id" value="{{$other_user->id}}" />
-                            <button class="btn btn-default">Impersonate</button>
+                            <button class="btn btn-default">@lang('Impersonate')</button>
                         </td>
                     </tr>
                 </form>

@@ -3,8 +3,8 @@
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Fee Name</th>
-        <th scope="col">Select</th>
+        <th scope="col">@lang('Fee Name')</th>
+        <th scope="col">@lang('Select')</th>
       </tr>
     </thead>
     <tbody>

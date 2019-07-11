@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Messages')
+@section('title', __('Messages'))
 @section('content')
 <style>
 /*!
@@ -16,7 +16,7 @@
         </div>
         <div class="col-md-8" id="main-container">
             <div class="panel panel-default">
-                <div class="page-panel-title">Messages</div>
+                <div class="page-panel-title">@lang('Messages')</div>
                 <div class="panel-body">
                     @if (session('status'))
                         <div class="alert alert-success">
@@ -42,7 +42,7 @@
                                             @if(!empty($message->teacher->pic_path))
                                                 <img src="{{asset('01-progress.gif')}}" data-src="{{url($message->teacher->pic_path)}}" style="border-radius: 50%;" width="50px" height="50px">
                                             @else
-                                                @if(strtolower($message->teacher->gender) == 'male')
+                                                @if(strtolower($message->teacher->gender) == trans('male'))
                                                 <img src="{{asset('01-progress.gif')}}" data-src="https://png.icons8.com/dusk/50/000000/user.png" style="border-radius: 50%;" width="50px" height="50px">
                                                 @else
                                                 <img src="{{asset('01-progress.gif')}}" data-src="https://png.icons8.com/dusk/50/000000/user-female.png" style="border-radius: 50%;" width="50px" height="50px">
@@ -53,9 +53,9 @@
                                         <div class="media-body">
                                         <strong class="notification-title"><a href="#">{{$message->teacher->name}}</a> . {{$message->teacher->department->department_name ?? null}}
                                             @if($message->active == 1)
-                                                <span class="label label-danger">New</span></strong>
+                                                <span class="label label-danger">@lang('New')</span></strong>
                                             @else
-                                                <span class="label label-default">Seen</span></strong>
+                                                <span class="label label-default">@lang('Seen')</span></strong>
                                             @endif
                                         <p class="notification-desc">{!!$message->message!!}</p>
 
@@ -69,7 +69,7 @@
                         </ul>
                         {{$messages->links()}}
                     @else
-                        No message found
+                        @lang('No message found')
                     @endif
                 </div>
             </div>

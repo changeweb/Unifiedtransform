@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Manage Schools')
+@section('title', __('Manage Schools'))
 
 @section('content')
 <div class="container-fluid">
@@ -29,24 +29,24 @@
               <div class="panel-body table-responsive">
                 @if(\Auth::user()->role == 'master')
                   @include('layouts.master.create-school-form')
-                  <h2>School List</h2>
+                  <h2>@lang('School List')</h2>
                 @endif
-                <h4>Manage Departments, Classs, Sections, Student Promotion, Course</h4>
+                <h4>@lang('Manage Departments, Classs, Sections, Student Promotion, Course')</h4>
                 <table class="table table-condensed" style="{{(\Auth::user()->role == 'master')?'':'width:800px'}}">
                   <thead>
                     <tr>
                       @if(\Auth::user()->role == 'master')
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Code</th>
-                        <th scope="col">About</th>
+                        <th scope="col">@lang('Name')</th>
+                        <th scope="col">@lang('Code')</th>
+                        <th scope="col">@lang('About')</th>
                       @endif
                       @if(\Auth::user()->role == 'admin')
-                        {{--<th scope="col">Theme</th>--}}
-                        <th scope="col">Department</th>
-                        <th scope="col">Classes</th>
-                        {{-- <th scope="col">Students</th>
-                        <th scope="col">Teachers</th> --}}
+                        {{--<th scope="col">@lang('Theme')</th>--}}
+                        <th scope="col">@lang('Department')</th>
+                        <th scope="col">@lang('Classes')</th>
+                        {{-- <th scope="col">@lang('Students')</th>
+                        <th scope="col">@lang('Teachers')</th> --}}
                       @endif
                       @if(\Auth::user()->role == 'master')
                         <th scope="col">Edit</th>
@@ -70,7 +70,7 @@
                           @include('layouts.master.theme-form')
                         </td>--}}
                       <td>
-                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#departmentModal">+ Create Department</button>
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#departmentModal">+ @lang('Create Department')</button>
                         <!-- Modal -->
                                   <div class="modal fade" id="departmentModal" tabindex="-1" role="dialog" aria-labelledby="departmentModalLabel">
                                     <div class="modal-dialog" role="document">
@@ -79,40 +79,40 @@
                                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                           </button>
-                                          <h4 class="modal-title" id="departmentModalLabel">Create Department</h4>
+                                          <h4 class="modal-title" id="departmentModalLabel">@lang('Create Department')</h4>
                                         </div>
                                         <div class="modal-body">
                                           <form class="form-horizontal" action="{{url('school/add-department')}}" method="post">
                                             {{csrf_field()}}
                                             <div class="form-group">
-                                              <label for="department_name" class="col-sm-2 control-label">Department Name</label>
+                                              <label for="department_name" class="col-sm-2 control-label">@lang('Department Name')</label>
                                               <div class="col-sm-10">
                                                 <input type="text" class="form-control" id="department_name" name="department_name" placeholder="English, Mathematics,...">
                                               </div>
                                             </div>
                                             <div class="form-group">
                                               <div class="col-sm-offset-2 col-sm-10">
-                                                <button type="submit" class="btn btn-danger btn-sm">Submit</button>
+                                                <button type="submit" class="btn btn-danger btn-sm">@lang('Submit')</button>
                                               </div>
                                             </div>
                                           </form>
                                         </div>
                                         <div class="modal-footer">
-                                          <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
+                                          <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">@lang('Close')</button>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
                       </td>
                       <td>
-                        <a href="#collapse{{($loop->index + 1)}}" role="button" class="btn btn-danger btn-sm" data-toggle="collapse" aria-expanded="false" aria-controls="collapse{{($loop->index + 1)}}"><i class="material-icons">class</i> Manage Class, Section
+                        <a href="#collapse{{($loop->index + 1)}}" role="button" class="btn btn-danger btn-sm" data-toggle="collapse" aria-expanded="false" aria-controls="collapse{{($loop->index + 1)}}"><i class="material-icons">class</i> @lang('Manage Class, Section')
                         </a>
                       </td>
                       {{-- <td>
-                        <a href="{{url('users/'.$school->code.'/1/0')}}"><small>View All Students</small></a>
+                        <a href="{{url('users/'.$school->code.'/1/0')}}"><small>@lang('View All Students')</small></a>
                       </td>
                       <td>
-                        <a href="{{url('users/'.$school->code.'/0/1')}}"><small>View All Teachers</small></a>
+                        <a href="{{url('users/'.$school->code.'/0/1')}}"><small>@lang('View All Teachers')</small></a>
                       </td> --}}
                       @endif
                       @if(\Auth::user()->role == 'master')
@@ -123,7 +123,7 @@
                           <a class="btn btn-danger btn-sm" role="button" href="{{url('register/admin/'.$school->id.'/'.$school->code)}}"><small>+ Create Admin</small></a>
                         </td>
                         <td>
-                          <a class="btn btn-success btn-sm" role="button" href="{{url('school/admin-list/'.$school->id)}}"><small>View Admins</small></a>
+                          <a class="btn btn-success btn-sm" role="button" href="{{url('school/admin-list/'.$school->id)}}"><small>@lang('View Admins')</small></a>
                         </td>
                       @endif
                     </tr>
@@ -131,12 +131,12 @@
                     <tr class="collapse" id="collapse{{($loop->index + 1)}}" aria-labelledby="heading{{($loop->index + 1)}}" aria-expanded="false">
                       <td colspan="12">
                         @include('layouts.master.add-class-form')
-                          <div><small>Click Class to View All Sections</small></div>
+                          <div><small>@lang('Click Class to View All Sections')</small></div>
                             <div class="row">
                               @foreach($classes as $class)
                                 @if($class->school_id == $school->id)
                                 <div class="col-sm-3">
-                                  <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal{{$class->id}}" style="margin-top: 5%;">Manage {{$class->class_number}} {{!empty($class->group)? '- '.$class->group:''}}</button>
+                                  <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal{{$class->id}}" style="margin-top: 5%;">@lang('Manage') {{$class->class_number}} {{!empty($class->group)? '- '.$class->group:''}}</button>
                                   <!-- Modal -->
                                   <div class="modal fade" id="myModal{{$class->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                     <div class="modal-dialog modal-lg" role="document">
@@ -145,17 +145,17 @@
                                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                           </button>
-                                          <h4 class="modal-title" id="myModalLabel">All Sections of Class {{$class->class_number}}</h4>
+                                          <h4 class="modal-title" id="myModalLabel">@lang('All Sections of Class') {{$class->class_number}}</h4>
                                         </div>
                                         <div class="modal-body">
                                           <ul class="list-group">
                                             @foreach($sections as $section)
                                               @if($section->class_id == $class->id)
                                               <li class="list-group-item">Section {{$section->section_number}} &nbsp;
-                                                <a class="btn btn-xs btn-warning" href="{{url('courses/0/'.$section->id)}}">View All Assigned Courses</a>
+                                                <a class="btn btn-xs btn-warning" href="{{url('courses/0/'.$section->id)}}">@lang('View All Assigned Courses')</a>
                                                 <span class="pull-right"> &nbsp;&nbsp;
-                                                  <a  class="btn btn-xs btn-success" href="{{url('school/promote-students/'.$section->id)}}">+ Promote Students</a>
-                                                  {{-- &nbsp;<a class="btn btn-xs btn-primary" href="{{url('register/student/'.$section->id)}}">+ Register Student</a> --}}
+                                                  <a  class="btn btn-xs btn-success" href="{{url('school/promote-students/'.$section->id)}}">+ @lang('Promote Students')</a>
+                                                  {{-- &nbsp;<a class="btn btn-xs btn-primary" href="{{url('register/student/'.$section->id)}}">+ @lang('Register Student')</a> --}}
                                                 </span>
                                                 @include('layouts.master.add-course-form')
                                               </li>
@@ -165,7 +165,7 @@
                                           @include('layouts.master.create-section-form')
                                         </div>
                                         <div class="modal-footer">
-                                          <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
+                                          <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">@lang('Close')</button>
                                         </div>
                                       </div>
                                     </div>
@@ -188,15 +188,16 @@
                 <table class="table table-condensed" style="width:600px">
                   <thead>
                     <tr>
-                        <th scope="col">+Student</th>
-                        <th scope="col">+Teacher</th>
-                        <th scope="col">+Accountant</th>
-                        <th scope="col">+Librarian</th>
+                        <th scope="col">+@lang('Student')</th>
+                        <th scope="col">+@lang('Teacher')</th>
+                        <th scope="col">+@lang('Accountant')</th>
+                        <th scope="col">+@lang('Librarian')</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>
+                    
+                        <td>
                           <a class="btn btn-info btn-sm" href="{{url('register/student')}}">+ Add Student</a>
                           <br>
                           <h5>Or, Mass upload Excel</h5>
@@ -211,30 +212,30 @@
                           @endcomponent
                         </td>
                         <td>
-                          <a class="btn btn-default btn-sm" href="{{url('register/accountant')}}">+ Add Accountant</a>
+                          <a class="btn btn-default btn-sm" href="{{url('register/accountant')}}">+ @lang('Add Accountant')</a>
                         </td>
                         <td>
-                          <a class="btn btn-warning btn-sm" href="{{url('register/librarian')}}">+ Add Librarian</a>
+                          <a class="btn btn-warning btn-sm" href="{{url('register/librarian')}}">+ @lang('Add Librarian')</a>
                         </td>
                     </tr>
                   </tbody>
                 </table>
                 <br>
-                <h4>Upload</h4>
+                <h4>@lang('Upload')</h4>
                 <table class="table table-condensed" style="width:400px">
                   <thead>
                     <tr>
-                      <th scope="col">+Notice</th>
-                      <th scope="col">+Event</th>
+                      <th scope="col">+@lang('Notice')</th>
+                      <th scope="col">+@lang('Event')</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td>
-                          <a class="btn btn-info btn-sm" href="{{ url('academic/notice') }}"><i class="material-icons">developer_board</i> Upload Notice</a>
+                          <a class="btn btn-info btn-sm" href="{{ url('academic/notice') }}"><i class="material-icons">developer_board</i> @lang('Upload Notice')</a>
                         </td>
                         <td>
-                          <a class="btn btn-info btn-sm" href="{{ url('academic/event') }}"><i class="material-icons">developer_board</i> Upload Event</a>
+                          <a class="btn btn-info btn-sm" href="{{ url('academic/event') }}"><i class="material-icons">developer_board</i> @lang('Upload Event')</a>
                         </td>
                     </tr>
                   </tbody>

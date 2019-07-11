@@ -3,14 +3,14 @@
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">File Name</th>
+        <th scope="col">@lang('File Name')</th>
         @if($upload_type == 'syllabus' && $parent == 'class')
-          <th scope="col">Class</th>
+          <th scope="col">@lang('Class')</th>
         @elseif($upload_type == 'routine' && $parent == 'section')
-          <th scope="col">section</th>
+          <th scope="col">@lang('section')</th>
         @endif
-        <th scope="col">Is Active</th>
-        <th scope="col">Action</th>
+        <th scope="col">@lang('Is Active')</th>
+        <th scope="col">@lang('Action')</th>
       </tr>
     </thead>
     <tbody>
@@ -25,7 +25,7 @@
         @endif
         <td>{{($file->active === 1)?'Yes':'No'}}</td>
         <td>
-          <a href="{{url('academic/remove/'.$upload_type.'/'.$file->id)}}" class="btn btn-danger btn-sm" role="button"><i class="material-icons">delete</i> Remove</a>
+          <a href="{{url('academic/remove/'.$upload_type.'/'.$file->id)}}" class="btn btn-danger btn-sm" role="button"><i class="material-icons">delete</i> @lang('Remove')</a>
         </td>
       </tr>
       @endforeach

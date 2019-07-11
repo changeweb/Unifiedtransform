@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'All GPA Systems')
+@section('title', __('All GPA Systems'))
 @section('content')
 <div class="container-fluid">
     <div class="row">
@@ -8,7 +8,7 @@
         </div>
         <div class="col-md-8" id="main-container">
             <div class="panel panel-default">
-                <div class="page-panel-title">All GPA Systems</div>
+                <div class="page-panel-title">@lang('All GPA Systems')</div>
 
                 <div class="panel-body">
                   @if (session('status'))
@@ -33,10 +33,10 @@
                         <thead>
                           <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Grade</th>
-                            <th scope="col">Point</th>
-                            <th scope="col">From Mark</th>
-                            <th scope="col">To Mark</th>
+                            <th scope="col">@lang('Grade')</th>
+                            <th scope="col">@lang('Point')</th>
+                            <th scope="col">@lang('From Mark')</th>
+                            <th scope="col">@lang('To Mark')</th>
                           </tr>
                         </thead>
                         <tbody>

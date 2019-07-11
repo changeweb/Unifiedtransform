@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Course')
+@section('title', __('Course'))
 
 @section('content')
 <div class="container-fluid">
@@ -11,15 +11,15 @@
         <div class="col-md-10" id="main-container">
             @if(Auth::user()->role != 'student')
             <ol class="breadcrumb" style="margin-top: 3%;">
-                <li><a href="{{url('school/sections?course=1')}}" style="color:#3b80ef;">All Classes &amp; Sections</a></li>
-                <li class="active">Courses</li>
+                <li><a href="{{url('school/sections?course=1')}}" style="color:#3b80ef;">@lang('All Classes') &amp; @lang('Sections')</a></li>
+                <li class="active">@lang('Courses')</li>
             </ol>
             @endif
-            <h2>Courses Related to Section</h2>
+            <h2>@lang('Courses Related to Section')</h2>
             <div class="panel panel-default">
               @if(count($courses) > 0)
                 @foreach ($courses as $course)
-                    <div class="page-panel-title"><b>Section</b> -   {{$course->section->section_number}} &nbsp;<b>Class</b> -  {{$course->section->class->class_number}}</div>
+                    <div class="page-panel-title"><b>@lang('Section')</b> -   {{$course->section->section_number}} &nbsp;<b>@lang('Class')</b> -  {{$course->section->class->class_number}}</div>
                     @break($loop->first)
                 @endforeach
                 <div class="panel-body">
@@ -34,7 +34,7 @@
                 </div>
               @else
                 <div class="panel-body">
-                    No Related Data Found.
+                    @lang('No Related Data Found.')
                 </div>
               @endif
             </div>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Grade')
+@section('title', __('Grade'))
 
 @section('content')
 <div class="container-fluid">
@@ -29,9 +29,9 @@
             <div class="panel panel-default" id="main-container">
               @if(count($grades) > 0)
               @foreach ($grades as $grade)
-                <div class="page-panel-title" style="font-size: 15px;"><b>Course</b> - {{$grade->course->course_name}} &nbsp; <b>Class</b> - {{$grade->course->section->class->class_number}} &nbsp;<b>Section</b> - {{$grade->course->section->section_number}}
+                <div class="page-panel-title" style="font-size: 15px;"><b>@lang('Course')</b> - {{$grade->course->course_name}} &nbsp; <b>@lang('Class')</b> - {{$grade->course->section->class->class_number}} &nbsp;<b>@lang('Section')</b> - {{$grade->course->section->section_number}}
                   <button type="submit" class="btn btn-success btn-xs pull-right">
-                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Save
+                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> @lang('Save')
                   </button>
                 </div>
                 @break($loop->first)
@@ -41,30 +41,30 @@
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <ul>
                       <li>
-                        Select which Grade System you want to use.
+                        @lang('Select which Grade System you want to use.')
                       </li>
                       <li>
-                        <b>Count Example:</b> If you take 3 Quizes and want to count best 2, then Quiz Count is 2.
+                        <b>@lang('Count Example'):</b> @lang('If you take 3 Quizes and want to count best 2, then Quiz Count is 2.')
                       </li>
                       <li>
-                        <b>Percentage Example:</b> Total percentage must be 100%. You can put 100% to a field or distribute it according to your need. Full mark is also needed for Percentage to work.
+                        <b>@lang('Percentage Example'):</b> @lang('Total percentage must be 100%. You can put 100% to a field or distribute it according to your need. Full mark is also needed for Percentage to work').
                       </li>
                       <li>
-                        <b>Full Mark Example:</b> If you take a Class Test where full mark is 15, then Full mark for Class Test is 15.
+                        <b>@lang('Full Mark Example'):</b> @lang('If you take a Class Test where full mark is 15, then Full mark for Class Test is 15').
                       </li>
                     </ul>
                   </div>
                       <table class="table table-condensed table-hover">
                         <thead>
                           <tr>
-                            <th scope="col" style="width:10%;">Select Grade System</th>
-                            <th scope="col" style="width:10%;">Quiz Count</th>
-                            <th scope="col" style="width:10%;">Assignment Count</th>
-                            <th scope="col" style="width:10%;">Class Test Count</th>
-                            <th scope="col" style="width:10%;">Attendance %</th>
-                            <th scope="col" style="width:10%;">Assignment %</th>
-                            <th scope="col" style="width:10%;">Quiz %</th>
-                            <th scope="col" style="width:10%;">Class Test %</th>
+                            <th scope="col" style="width:10%;">@lang('Select Grade System')</th>
+                            <th scope="col" style="width:10%;">@lang('Quiz Count')</th>
+                            <th scope="col" style="width:10%;">@lang('Assignment Count')</th>
+                            <th scope="col" style="width:10%;">@lang('Class Test Count')</th>
+                            <th scope="col" style="width:10%;">@lang('Attendance %')</th>
+                            <th scope="col" style="width:10%;">@lang('Assignment ')%</th>
+                            <th scope="col" style="width:10%;">@lang('Quiz %')</th>
+                            <th scope="col" style="width:10%;">@lang('Class Test %')</th>
                           </tr>
                         </thead>
                         <?php
@@ -104,25 +104,25 @@
                             </td>
                           </tr>
                           <tr>
-                            <th scope="col" style="width:10%;">Final Exam %</th>
-                            <th scope="col" style="width:10%;">Practical %</th>
+                            <th scope="col" style="width:10%;">@lang('Final Exam %')</th>
+                            <th scope="col" style="width:10%;">@lang('Practical %')</th>
                             <th scope="col" style="width:10%;">
-                              Quiz Full Marks
+                              @lang('Quiz Full Marks')
                             </th>
                             <th scope="col" style="width:10%;">
-                              Assignment Full Marks
+                              @lang('Assignment Full Marks')
                             </th>
                             <th scope="col" style="width:10%;">
-                              CT Full Marks
+                              @lang('CT Full Marks')
                             </th>
                             <th scope="col" style="width:10%;">
-                              Final Exam Full Marks
+                              @lang('Final Exam Full Marks')
                             </th>
                             <th scope="col" style="width:10%;">
-                              Practical Full Marks
+                              @lang('Practical Full Marks')
                             </th>
                             <th scope="col" style="width:10%;">
-                              Attendance Full Marks
+                              @lang('Attendance Full Marks')
                             </th>
                           </tr>
                           <tr>
@@ -161,7 +161,7 @@
                 </div>
               @else
                 <div class="panel-body">
-                  No Related Data Found.
+                  @lang('No Related Data Found.')
                 </div>
               @endif
             </div>
@@ -171,7 +171,7 @@
               <div class="page-panel-title" style="font-size: 15px;">
                 <form action="{{url('grades/calculate-marks')}}" method="POST">
                   {{csrf_field()}}
-                  Give Marks to Students
+                  @lang('Give Marks to Students')
                   <input type="hidden" name="course_id" value="{{$course_id}}">
                   <input type="hidden" name="section_id" value="{{$section_id}}">
                   
@@ -181,7 +181,7 @@
                   <input type="hidden" name="exam_id" value="{{$exam_id}}">
                   <input type="hidden" name="teacher_id" value="{{$teacher_id}}">
                   <button type="submit" class="btn btn-info btn-xs pull-right">
-                    <span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span> Get Total Marks
+                    <span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span> @lang('Get Total Marks')
                   </button>
                 </form>
               </div>
@@ -190,7 +190,7 @@
               </div>
               @else
                 <div class="panel-body">
-                  No Related Data Found.
+                  @lang('No Related Data Found.')
                 </div>
               @endif
             </div>

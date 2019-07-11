@@ -17,7 +17,7 @@
   <body>
     <div class="row">
       <div class="col-xs-12" style="text-align:center;">
-          <h2>{{$user->section->class->school->name}} School</h2>
+          <h2>{{$user->section->class->school->name}} @lang('School')</h2>
           <div style="font-size: 11px;">{{$user->section->class->school->about}}</div>
       </div>
     </div>
@@ -25,30 +25,30 @@
     <div class="row">
       <div class="col-md-12">
         <p class="bg-primary" style="text-align: center;">
-          REPORT CARD
+          @lang('REPORT CARD')
         </p>
         <div class="col-xs-5">
           <table class="table-bordered" style="width:100%;">
             <tbody>
             <tr>
-              <td style="padding-left:5px;">Student ID</td>
+              <td style="padding-left:5px;">@lang('Student ID')</td>
               <td style="padding-left:5px;">{{$user->student_code}}</td>
             </tr>
             <tr>
-              <td style="padding-left:5px;">Student's Name</td>
+              <td style="padding-left:5px;">@lang('Student's Name')</td>
               <td style="padding-left:5px;">{{$user->name}}</td>
             </tr>
             <tr>
-              <td style="padding-left:5px;">Class</td>
+              <td style="padding-left:5px;">@lang('Class')</td>
               <td style="padding-left:5px;">{{$user->section->class->class_number}}</td>
             </tr>
             <tr>
-              <td style="padding-left:5px;">Section</td>
+              <td style="padding-left:5px;">@lang('Section')</td>
               <td style="padding-left:5px;">{{$user->section->section_number}}</td>
             </tr>
             <tr>
-              <td style="padding-left:5px;">Session</td>
-              <td style="padding-left:5px;">2017-18</td>
+              <td style="padding-left:5px;">@lang('Session')</td>
+              <td style="padding-left:5px;">2019-20</td>
             </tr>
           </tbody>
           </table>
@@ -60,9 +60,9 @@
           <table id="table2">
             <thead>
             <tr>
-              <td style="padding-right: 5px;">Letter Grade</td>
-              <td style="padding-right: 5px;">Marks Interval</td>
-              <td style="padding-right: 5px;">Grade Point</td>
+              <td style="padding-right: 5px;">@lang('Letter Grade')</td>
+              <td style="padding-right: 5px;">@lang('Marks Interval')</td>
+              <td style="padding-right: 5px;">@lang('Grade Point')</td>
             </tr>
           </thead>
           <tbody>
@@ -118,21 +118,21 @@
         <div class="col-xs-12">
           <table class="table-bordered" style="width:100%;text-align:center;">
             <tr>
-              <td rowspan="2"><b>Srl.</b></td>
-              <td rowspan="2" style="width: 30%;text-align:none;padding-left:5px;"><b>Subjects</b></td>
-              <td rowspan="2">Full Marks</td>
-              <td rowspan="2">AT</td>
-              <td rowspan="2">CT+Q</td>
-              <td colspan="4">Examination</td>
-              <td rowspan="2"><b>Total Marks</b></td>
-              <td rowspan="2">Highest Marks</td>
-              <td rowspan="2">Letter Grade</td>
-              <td rowspan="2">Grade Point</td>
+              <td rowspan="2"><b>@lang('Srl.')</b></td>
+              <td rowspan="2" style="width: 30%;text-align:none;padding-left:5px;"><b>@lang('Subjects')</b></td>
+              <td rowspan="2">@lang('Full Marks')</td>
+              <td rowspan="2">@lang('AT')</td>
+              <td rowspan="2">@lang('CT+Q')</td>
+              <td colspan="4">@lang('Examination')</td>
+              <td rowspan="2"><b>@lang('Total Marks')</b></td>
+              <td rowspan="2">@lang('Highest Marks')</td>
+              <td rowspan="2">@lang('Letter Grade')</td>
+              <td rowspan="2">@lang('Grade Point')</td>
             </tr>
             <tr>
-              <td>OB</td>
-              <td>SB</td>
-              <td>Total</td>
+              <td>@lang('OB')</td>
+              <td>@lang('SB')</td>
+              <td>@lang('Total')</td>
               <td>75%</td>
             </tr>
             <tr>
@@ -256,7 +256,7 @@
               <td>3.5</td>
             </tr>
             <tr>
-              <td colspan="2"><b>Total Marks &amp; Total GP</b></td>
+              <td colspan="2"><b>@lang('Total Marks &amp; Total GP')</b></td>
               <td colspan="7"></td>
               <td colspan="2" style="text-align:left;padding-left:5px;">353</td>
               <td colspan="2" style="text-align:right;padding-right:5px;">15.50</td>
@@ -265,19 +265,19 @@
               <td colspan="2">
                 <table class="table-bordered" style="width:100%;">
                   <tr>
-                    <td style="padding-left:5px;">Grade Point Average</td>
+                    <td style="padding-left:5px;">@lang('Grade Point Average')</td>
                     <td style="padding-left:5px;"><b>2.58</b></td>
                   </tr>
                 </table>
               </td>
-              <td colspan="7" style="padding-left:5px;">Point in Merit List</td>
-              <td colspan="4" style="text-align:center;">Attendance</td>
+              <td colspan="7" style="padding-left:5px;">@lang('Point in Merit List')</td>
+              <td colspan="4" style="text-align:center;">@lang('Attendance')</td>
             </tr>
             <tr>
               <td colspan="2">
                 <table class="table-bordered" style="width:100%;">
                   <tr>
-                    <td style="padding-left:5px;">Letter Grade</td>
+                    <td style="padding-left:5px;">@lang('Letter Grade')</td>
                     <td style="padding-left:5px;"><b>C</b></td>
                   </tr>
                 </table>
@@ -285,24 +285,24 @@
               <td colspan="7">
                 <table class="table-bordered" style="width:100%;">
                   <tr>
-                    <td style="padding-left:5px;">Section</td>
-                    <td style="text-align:center;">36 out of 99</td>
+                    <td style="padding-left:5px;">@lang('Section')</td>
+                    <td style="text-align:center;">36 @lang('out of') 99</td>
                   </tr>
                 </table>
               </td>
               <td colspan="4">
                 <table class="table-bordered" style="width:100%;">
                   <tr>
-                    <td style="padding-left:5px;">Present Days</td>
+                    <td style="padding-left:5px;">@lang('Present Days')</td>
                     <td style="text-align:center;">70</td>
-                    <td style="padding-left:5px;">Missing</td>
+                    <td style="padding-left:5px;">@lang('Missing')</td>
                     <td style="text-align:center;">2</td>
                   </tr>
                 </table>
               </td>
             </tr>
             <tr>
-              <td colspan="13"  style="text-align:left;padding-left:5px;height:50px;">Remarks:</td>
+              <td colspan="13"  style="text-align:left;padding-left:5px;height:50px;">@lang('Remarks'):</td>
             </tr>
           </table>
           <br/>
@@ -310,9 +310,9 @@
           <br/>
           <table style="width:100%;">
             <tr>
-              <td style="padding:5px;"><b>Signature</b></td>
-              <td style="padding:5px;">Parents/Guardian</td>
-              <td style="padding:5px;">Principal</td>
+              <td style="padding:5px;"><b>@lang('Signature')</b></td>
+              <td style="padding:5px;">@lang('Parents/Guardian')</td>
+              <td style="padding:5px;">@lang('Principal')</td>
               <td style="padding:5px;"></td>
               <td style="padding:5px;"></td>
             </tr>

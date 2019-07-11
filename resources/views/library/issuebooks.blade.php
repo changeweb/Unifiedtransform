@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Issue Book')
+@section('title', __('Issue Book'))
 @section('content')
 <div class="container-fluid">
     <div class="row">
@@ -8,7 +8,7 @@
         </div>
         <div class="col-md-8" id="main-container">
             <div class="panel panel-default">
-                <div class="page-panel-title">Issue books</div>
+                <div class="page-panel-title">@lang('Issue books')</div>
 
                 <div class="panel-body">
                     @if (session('status'))

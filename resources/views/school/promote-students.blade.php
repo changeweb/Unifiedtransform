@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Promote Section Students')
+@section('title', __('Promote Section Students'))
 
 @section('content')
 <div class="container-fluid">
@@ -9,13 +9,13 @@
             @include('layouts.leftside-menubar')
         </div>
         <div class="col-md-10" id="main-container">
-            <h2>Promote Students of</h2>
+            <h2>@lang('Promote Students of')</h2>
             <div class="panel panel-default">
               @if(count($students) > 0)
                 @foreach ($students as $student)
                   <div class="page-panel-title">
-                    <b>Section</b> - {{ $student->section->section_number}} &nbsp; <b>Class</b> - {{$student->section->class->class_number}}
-                    <span class="pull-right"><b>Current Date Time:</b> &nbsp;{{ Carbon\Carbon::now()->format('h:i A d/m/Y')}}</span>
+                    <b>@lang('Section')</b> - {{ $student->section->section_number}} &nbsp; <b>@lang('Class')</b> - {{$student->section->class->class_number}}
+                    <span class="pull-right"><b>@lang('Current Date Time'):</b> &nbsp;{{ Carbon\Carbon::now()->format('h:i A d/m/Y')}}</span>
                   </div>
                    @break($loop->first)
                 @endforeach
@@ -30,7 +30,7 @@
                 </div>
               @else
                 <div class="panel-body">
-                    No Related Data Found.
+                    @lang('No Related Data Found.')
                 </div>
               @endif
             </div>

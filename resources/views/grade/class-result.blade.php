@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Grade')
+@section('title', __('Grade'))
 
 @section('content')
 <div class="container-fluid">
@@ -11,11 +11,11 @@
         <div class="col-md-8" id="main-container">
             @if(Auth::user()->role != 'student')
             <ol class="breadcrumb" style="margin-top: 3%;">
-                <li><a href="{{url('grades/all-exams-grade')}}" style="color:#3b80ef;">Grades</a></li>
-                <li class="active">Section Grade</li>
+                <li><a href="{{url('grades/all-exams-grade')}}" style="color:#3b80ef;">@lang('Grades')</a></li>
+                <li class="active">@lang('Section Grade')</li>
             </ol>
             @endif
-            <h2>Marks and Grades</h2>
+            <h2>@lang('Marks and Grades')</h2>
             <div class="panel panel-default">
               @if(count($grades) > 0)
                 <div class="panel-body">
@@ -25,19 +25,19 @@
                         </div>
                     @endif
                     @foreach($grades as $grade)
-                        <b>Class:</b> {{$grade->course->class->class_number}} &nbsp;
-                        <b>Section:</b> {{$grade->student->section->section_number}}
+                        <b>@lang('Class'):</b> {{$grade->course->class->class_number}} &nbsp;
+                        <b>@lang('Section'):</b> {{$grade->student->section->section_number}}
                         @break
                     @endforeach
                     <table class="table table-data-div table-bordered table-striped">
                         <thead>
                         <tr>
-                            <th scope="row">Exam Name</th>
-                            <th scope="row">Course Name</th>
-                            <th scope="row">Student Code</th>
-                            <th scope="row">Student Name</th>
-                            <th scope="row">Total Mark</th>
-                            <th scope="row">GPA</th>
+                            <th scope="row">@lang('Exam Name')</th>
+                            <th scope="row">@lang('Course Name')</th>
+                            <th scope="row">@lang('Student Code')</th>
+                            <th scope="row">@lang('Student Name')</th>
+                            <th scope="row">@lang('Total Mark')</th>
+                            <th scope="row">@lang('GPA')</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -56,7 +56,7 @@
                 </div>
               @else
                 <div class="panel-body">
-                    No Related Data Found.
+                    @lang('No Related Data Found.')
                 </div>
               @endif
             </div>

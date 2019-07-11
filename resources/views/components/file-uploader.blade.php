@@ -1,7 +1,7 @@
 <div id="my_upload">
     @if($upload_type != 'profile')
         <h3>{{ucfirst($upload_type)}}</h3>
-        <label for="upload-title">File Title: </label>
+        <label for="upload-title">@lang('File Title'): </label>
         <input type="text" class="form-control" name="upload-title" id="upload-title" placeholder="File title here..." required>
         <br/>
     @endif
@@ -9,7 +9,7 @@
   <br/>
   <div class="progress">
     <div class="progress-bar progress-bar-striped active" id="up-prog-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-      <div class="text-xs-center" id="up-prog-info">0% uploaded</div>
+      <div class="text-xs-center" id="up-prog-info">0% @lang('uploaded')</div>
     </div>
   </div>
   <div id="errorAlert"></div>
@@ -29,7 +29,7 @@ $(function () {
                 @if($upload_type != 'profile')
                     if(!$('#upload-title').val()){
                         swal({
-                            title:'File needs a Title',
+                            title:@json( __('File needs a Title')),
                             type:'info',
                             showCloseButton: true,
                         });
@@ -46,19 +46,19 @@ $(function () {
 
                     if(file['type'].length && !acceptFileTypes.test(file['type'])) {
                         $('#fileupload').show();
-                        swal('Not an accepted file type');
+                        swal(@json( __('Not an accepted file type')));
                         $this.remove();
                         return false;
                     } else if(file.size > filesSize) {
-                        swal('Filesize is too big \n Should not exceed ' + filesSize + 'MB');
+                        swal(@json( __('Filesize is too big \n Should not exceed ')) + filesSize + 'MB');
                         $this.remove();
                         return false;
                     }else {
-                        $('#up-prog-info').text("Uploading");
-                        $this.off('click').text('Abort').on('click', function () {
+                        $('#up-prog-info').text(@json( __('Uploading')));
+                        $this.off('click').text(@json( __('Abort'))).on('click', function () {
                             $this.remove();
                             data.abort();
-                            data.context.text('File Upload has been canceled');
+                            data.context.text(@json( __('File Upload has been canceled')));
                         });
                         @if($upload_type != 'profile')
                             data.formData = {upload_type: '{{$upload_type}}',title: $('#upload-title').val()};
@@ -92,7 +92,7 @@ $(function () {
                     'aria-valuenow',
                     progress
                 ).css('width', progress + '%');
-                $('#up-prog-info').text(progress + "% uploaded");
+                $('#up-prog-info').text(progress + "% " + @json( __('uploaded')));
         }
     })
     .on('fileuploaddone', function (e, data) {
@@ -102,7 +102,7 @@ $(function () {
         if(error) {
             $('#errorAlert').text(error);
         } else {
-            data.context.html('<div>Upload finished.</div>');
+            data.context.html('<div>' + @json( __('Upload finished.')) + '</div>');
             $('button.cancelBtn').hide();
             $('#errorAlert').empty();
             @if($upload_type == 'profile')
@@ -112,7 +112,7 @@ $(function () {
         }
     })
     .on('fileuploadfail', function (e, data) {
-            data.context.text('File Upload has been cancelled');
+            data.context.text(@json( __('File Upload has been cancelled')));
             var error = data['jqXHR']['responseJSON']['error'];
             $('#errorAlert').text(error);
             console.log(data['jqXHR']['responseJSON']);
