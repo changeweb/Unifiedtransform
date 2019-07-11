@@ -1,5 +1,3 @@
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css"
-    rel="stylesheet">
 <div class="table-responsive">
     <form action="{{url('school/promote-students')}}" method="post">
         {{ csrf_field() }}
@@ -71,7 +69,7 @@
         </div>
     </form>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+
 <script>
     $(function () {
         $('.datepicker').datepicker({
