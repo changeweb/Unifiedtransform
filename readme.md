@@ -27,7 +27,8 @@ Thus you permit the user of this software to use your contribution under the ter
 ## Testing
 
 - We want testable softwares. Most parts of the software are covered by tests. You also can contribute by writing test case!
-- To run Feature and Unit Tests use `./vendor/bin/phpunit` and to run Browser Tests set `APP_URL` environment variable in your `.env` file. This value should match the URL you use to access your application in a browser. Then run `php artisan dusk`.
+- To run Feature and Unit Tests use `./vendor/bin/phpunit`.
+- To run Browser Tests copy `.env.dusk.example` to `.env.dusk.local` and set `APP_KEY` with same token to environment variable in your `.env` file and run `php artisan serve --env=dusk.local` for execute the server then run `php artisan dusk`.
 
 ## License
 

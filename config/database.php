@@ -78,6 +78,12 @@ return [
             'prefix' => '',
         ],
 
+        'dusk_testing' => [
+            'driver' => 'sqlite',
+            'database' => database_path('database.sqlite'),
+            'prefix' => '',
+        ],
+
     ],
 
     /*
