@@ -14,6 +14,7 @@ mix.styles([
     'resources/assets/theme/vendors/css/dataTables-1.10.16.bootstrap.min.css',
     'resources/assets/theme/vendors/css/chosen.bootstrap.min.css',
     'resources/assets/theme/vendors/css/bootstrap-datepicker.min.css',
+    'resources/assets/theme/vendors/css/flatly.bootstrap-3.3.7.min.css',
 ], 'public/css/vendors.css')
 
 mix.scripts([
@@ -22,6 +23,8 @@ mix.scripts([
 
 mix.styles([
     'resources/assets/theme/application/css/app-layout.css',
-    'resources/assets/theme/application/css/font.css',
-    'resources/assets/theme/application/css/loader.css',
 ], 'public/css/application.css')
+
+mix.styles([
+    'resources/assets/theme/application/css/loader.css',
+], 'public/css/loader.css')

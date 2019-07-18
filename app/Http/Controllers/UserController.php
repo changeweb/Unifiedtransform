@@ -160,7 +160,7 @@ class UserController extends Controller
     {
         if (app('impersonate')->isImpersonating()) {
             Auth::user()->leaveImpersonation();
-            return redirect('/home');
+            return (Auth::user()->role == 'master')?redirect('/masters') : redirect('/home');
         }
         else {
             return view('profile.impersonate', [
