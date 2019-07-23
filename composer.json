@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
+        "doctrine/dbal": "^2.9",
         "fideloper/proxy": "~3.3",
         "jdavidbakr/laravel-cache-garbage-collector": "^1.0",
         "lab404/laravel-impersonate": "1.2",
@@ -48,6 +49,7 @@
     "extra": {
         "laravel": {
             "dont-discover": [
+              "laravel/dusk"
             ]
         }
     },
