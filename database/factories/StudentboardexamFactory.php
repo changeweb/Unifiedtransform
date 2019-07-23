@@ -5,8 +5,10 @@ use App\StudentBoardExam;
 use Faker\Generator as Faker;
 
 $factory->define(StudentBoardExam::class, function (Faker $faker) {
+    $student_id =$faker->randomElement(User::student()->pluck('id')->toArray());
     return [
-      'student_id'       => $faker->randomElement(User::student()->pluck('id')->toArray()),
+      'student_id'       => $student_id,
+      'user_id'          => $student_id,
       'exam_name'        => $faker->randomElement(['JSC','SSC','O Level', 'A Level']),
       'group'            => $faker->randomElement(['science','commerce','arts']),
       'roll'             => $faker->randomNumber(7, false),

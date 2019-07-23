@@ -33,7 +33,7 @@ class CreateStudentInfosTable extends Migration
           $table->string('mother_occupation');
           $table->string('mother_designation');
           $table->integer('mother_annual_income');
-          $table->integer('user_id')->unsigned();
+          $table->integer('user_id')->unsigned()->nullable();
           $table->timestamps();
         });
     }
