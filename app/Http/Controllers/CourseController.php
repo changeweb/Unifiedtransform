@@ -79,7 +79,7 @@ class CourseController extends Controller
       } catch (\Exception $ex){
         return 'Could not add course.';
       }
-      return back()->with('status', 'Created');
+      return back()->with('status', __('Created'));
     }
 
     /**
@@ -92,7 +92,7 @@ class CourseController extends Controller
       } catch (\Exception $ex){
         return 'Could not save configuration.';
       }
-      return back()->with('status', 'Saved');
+      return back()->with('status', __('Saved'));
     }
 
     /**
@@ -132,7 +132,7 @@ class CourseController extends Controller
         'course_time' => 'required|string',
       ]);
       $this->courseService->updateCourseInfo($id);
-      return back()->with('status', 'Saved');
+      return back()->with('status', __('Saved'));
     }
 
     /**

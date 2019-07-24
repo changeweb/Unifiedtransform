@@ -13,10 +13,10 @@ class BookController extends Controller
     public function __construct()
     {
         view()->share('types', [
-           'Academic',
-           'Magazine',
-           'Story',
-           'Other'
+           __('Academic'),
+           __('Magazine'),
+           __('Story'),
+           __('Other')
         ]);
     }
 
@@ -66,6 +66,6 @@ class BookController extends Controller
     {
         Book::where('id', $book)->update($request->except('_method', '_token'));
 
-        return redirect()->route('library.books.index')->with('status', 'Book has been updated correctly');
+        return redirect()->route('library.books.index')->with('status', __('Book has been updated correctly'));
     }
 }

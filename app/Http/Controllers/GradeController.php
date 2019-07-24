@@ -168,10 +168,10 @@ class GradeController extends Controller
           if(count($tbc) > 0)
             \Batch::update('grades', (array) $tbc,'id');
         }catch(\Exception $e){
-            return "OOps, an error occured";
+            return __("Ops, an error occured");
         }
 
-      return back()->with('status', 'Saved');
+      return back()->with('status', __('Saved'));
     }
 
     /**

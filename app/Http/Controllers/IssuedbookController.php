@@ -44,9 +44,9 @@ class IssuedbookController extends Controller
       if($studentExists){
         $this->issuedBookService->request = $request;
         $this->issuedBookService->storeIssuedBooks();
-        return back()->with('status', 'Saved');
+        return back()->with('status', __('Saved'));
       } else {
-        return back()->with('status', 'Student Does Not Exist!');
+        return back()->with('status', __('Student Does Not Exist!'));
       }
     }
 
@@ -69,6 +69,6 @@ class IssuedbookController extends Controller
         $book->save();
       }, 5);
 
-      return back()->with('status', 'Saved');
+      return back()->with('status', __('Saved'));
     }
 }

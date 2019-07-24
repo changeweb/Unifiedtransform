@@ -44,7 +44,7 @@ class NoticeController extends Controller
       $tb->school_id = \Auth::user()->school_id;
       $tb->user_id = \Auth::user()->id;
       $tb->save();
-      return back()->with('status', 'Uploaded');
+      return back()->with('status', __('Uploaded'));
     }
 
     /**
@@ -81,7 +81,7 @@ class NoticeController extends Controller
       $tb = Notice::find($id);
       $tb->active = 0;
       $tb->save();
-      return back()->with('status','File removed');
+      return back()->with('status',__('File removed'));
     }
 
     /**

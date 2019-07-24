@@ -32,9 +32,9 @@ class CashierController extends Controller
             $payment->charge_for = $chargeField;
             $payment->save();
         } catch (\Exception $e) {
-            return back()->with(['error'=>true,'status'=>'Payment Unsuccessful']);
+            return back()->with(['error'=>true,'status'=>__('Payment Unsuccessful')]);
         }
         // Return back
-        return back()->with('status','Payment Successful');
+        return back()->with('status',__('Payment Successful'));
     }
 }

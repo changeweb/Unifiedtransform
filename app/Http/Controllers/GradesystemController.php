@@ -47,7 +47,7 @@ class GradesystemController extends Controller
       $gpa->school_id = \Auth::user()->school_id;
       $gpa->user_id = \Auth::user()->id;
       $gpa->save();
-      return back()->with('status', 'Saved');
+      return back()->with('status', __('Saved'));
     }
     /**
      * Display the specified resource.
@@ -80,6 +80,6 @@ class GradesystemController extends Controller
     public function destroy(Request $request){
       $gpa = Gradesystem::find($request->gpa_id);
       $gpa->delete();
-      return back()->with('status', 'Deleted!');
+      return back()->with('status', __('Deleted!'));
     }
 }

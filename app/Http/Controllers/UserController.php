@@ -147,10 +147,10 @@ class UserController extends Controller
               'password' => Hash::make($request->new_password),
             ])->save();
 
-            return back()->with('status', 'Saved');
+            return back()->with('status', __('Saved'));
         }
 
-        return back()->with('error-status', 'Passwords do not match.');
+        return back()->with('error-status', __('Passwords do not match.'));
     }
 
     /**
@@ -204,7 +204,7 @@ class UserController extends Controller
             }
         });
 
-        return back()->with('status', 'Saved');
+        return back()->with('status', __('Saved'));
     }
 
     /**
@@ -223,7 +223,7 @@ class UserController extends Controller
             Log::info('Email failed to send to this address: '.$tb->email);
         }
 
-        return back()->with('status', 'Saved');
+        return back()->with('status', __('Saved'));
     }
 
     /**
@@ -241,7 +241,7 @@ class UserController extends Controller
             Log::info('Email failed to send to this address: '.$tb->email);
         }
 
-        return back()->with('status', 'Saved');
+        return back()->with('status', __('Saved'));
     }
 
     /**
@@ -259,7 +259,7 @@ class UserController extends Controller
             Log::info('Email failed to send to this address: '.$tb->email);
         }
 
-        return back()->with('status', 'Saved');
+        return back()->with('status', __('Saved'));
     }
 
     /**
@@ -277,7 +277,7 @@ class UserController extends Controller
             Log::info('Email failed to send to this address: '.$tb->email);
         }
 
-        return back()->with('status', 'Saved');
+        return back()->with('status', __('Saved'));
     }
 
     /**
@@ -365,7 +365,7 @@ class UserController extends Controller
             }
         });
 
-        return back()->with('status', 'Saved');
+        return back()->with('status', __('Saved'));
     }
 
     /**
@@ -385,7 +385,7 @@ class UserController extends Controller
 
         $admin->save();
 
-        return back()->with('status', 'Saved');
+        return back()->with('status', __('Saved'));
     }
 
     /**
@@ -405,7 +405,7 @@ class UserController extends Controller
 
         $admin->save();
 
-        return back()->with('status', 'Saved');
+        return back()->with('status', __('Saved'));
     }
 
     /**
