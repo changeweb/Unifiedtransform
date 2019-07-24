@@ -108,7 +108,7 @@
                             <div class="col-md-6">
                                 <select id="section" class="form-control" name="section" required>
                                     @foreach (session('register_sections') as $section)
-                                    <option value="{{$section->id}}">Section: {{$section->section_number}} Class:
+                                    <option value="{{$section->id}}">@lang('Section'): {{$section->section_number}} @lang('Class'):
                                         {{$section->class->class_number}}</option>
                                     @endforeach
                                 </select>
@@ -267,7 +267,7 @@
 
                             <div class="col-md-6">
                                 <input id="group" type="text" class="form-control" name="group" value="{{ old('group') }}"
-                                    placeholder="Science, Arts, Commerce,etc.">
+                                    placeholder="@lang('Science, Arts, Commerce,etc.')">
 
                                 @if ($errors->has('group'))
                                 <span class="help-block">

@@ -23,7 +23,7 @@
                           <label for="name" class="col-md-4 control-label">@lang('Sector Name')</label>
 
                           <div class="col-md-6">
-                              <input id="name" type="text" class="form-control" name="name" value="{{$expense->name}}" placeholder="Sector Name" required>
+                              <input id="name" type="text" class="form-control" name="name" value="{{$expense->name}}" placeholder="@lang('Sector Name')" required>
 
                               @if ($errors->has('name'))
                                   <span class="help-block">
@@ -36,7 +36,7 @@
                           <label for="amount" class="col-md-4 control-label">@lang('Amount')</label>
 
                           <div class="col-md-6">
-                              <input id="amount" type="text" class="form-control" name="amount" value="{{$expense->amount}}" placeholder="Amount" required>
+                              <input id="amount" type="text" class="form-control" name="amount" value="{{$expense->amount}}" placeholder="@lang('Amount')" required>
 
                               @if ($errors->has('amount'))
                                   <span class="help-block">
@@ -51,7 +51,7 @@
                           <div class="col-md-6">
                               <textarea id="description" class="form-control"
                                 rows="3"
-                               name="description" placeholder="Description" required>{{$expense->description}}</textarea>
+                               name="description" placeholder="@lang('Description')" required>{{$expense->description}}</textarea>
 
                               @if ($errors->has('description'))
                                   <span class="help-block">

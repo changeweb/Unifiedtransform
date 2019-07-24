@@ -21,7 +21,7 @@
         <label for="exam_name" class="col-md-4 control-label">@lang('Examination Name')</label>
 
         <div class="col-md-6">
-            <input id="exam_name" type="text" class="form-control" name="exam_name" value="{{ old('exam_name') }}" placeholder="Semester 1 Exam 2018, Final Exam 2019, ..." required>
+            <input id="exam_name" type="text" class="form-control" name="exam_name" value="{{ old('exam_name') }}" placeholder="@lang('Semester 1 Exam 2018, Final Exam 2019, ...')" required>
 
             @if ($errors->has('exam_name'))
                 <span class="help-block">
@@ -34,7 +34,7 @@
         <label for="start_date" class="col-md-4 control-label">@lang('Start Date')</label>
 
         <div class="col-md-6">
-            <input id="start_date" type="text" class="form-control" name="start_date" value="{{ old('start_date') }}" placeholder="5th April..." required>
+            <input id="start_date" type="text" class="form-control" name="start_date" value="{{ old('start_date') }}" placeholder="@lang('5th April...')" required>
 
             @if ($errors->has('start_date'))
                 <span class="help-block">
@@ -47,7 +47,7 @@
         <label for="end_date" class="col-md-4 control-label">@lang('End Date')</label>
 
         <div class="col-md-6">
-            <input id="end_date" type="text" class="form-control" name="end_date" value="{{ old('end_date') }}" placeholder="20th April..." required>
+            <input id="end_date" type="text" class="form-control" name="end_date" value="{{ old('end_date') }}" placeholder="@lang('20th April...')" required>
 
             @if ($errors->has('end_date'))
                 <span class="help-block">
@@ -63,7 +63,7 @@
             @foreach ($classes as $class)
                 @if(in_array($class->id, $assigned_classes->pluck('class_id')->toArray()))
                     <div class="checkbox">
-                        {{$class->class_number}} already assigned to Exam <b>
+                        {{$class->class_number}} @lang('already assigned to Exam') <b>
                         @foreach($assigned_classes as $assigned_class)
                             @if($assigned_class->class_id == $class->id)
                                 {{$assigned_class->exam->exam_name}}

@@ -123,7 +123,7 @@ class UploadController extends Controller {
             }
         }
         
-        return back()->with('status', 'Students are added successfully!');
+        return back()->with('status', __('Students are added successfully!'));
     }
 
     public function export(Request $request){

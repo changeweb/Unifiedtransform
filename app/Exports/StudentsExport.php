@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App;
 use App\User;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -18,7 +19,19 @@ class StudentsExport implements FromQuery,ShouldAutoSize,WithHeadings
         'Blood Group',
         'Section',
         'Class',
-        'Address',
+        'Address'
+    ];
+
+    private $headingsES = [ //for spanish
+        'Nombre', 
+        'Correo',
+        'Tefelono',
+        'Genero',
+        'Matricula',
+        'Grupo sanguineo',
+        'Seccion',
+        'Clase',
+        'Dirección'
     ];
 
     public function __construct(int $year){
@@ -38,6 +51,11 @@ class StudentsExport implements FromQuery,ShouldAutoSize,WithHeadings
 
     public function headings() : array
     {
-        return $this->headings;
+		$myLocale = App::getLocale(); 
+		if ($myLocale == "es-MX") {
+			return $this->headingsES; //spanish
+		} else {
+			return $this->headings;	//english
+		}
     }
 }

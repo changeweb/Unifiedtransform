@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit School')
+@section('title', __('Edit School'))
 
 @section('content')
 <div class="container-fluid">
@@ -33,10 +33,10 @@
                     <form class="form-horizontal" action="{{url('school/' . $school->id)}}" method="post">
                         {{ csrf_field() }}
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">School Name</label>
+                            <label for="name" class="col-md-4 control-label">@lang('School Name')</label>
   
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ $school->name }}" placeholder="Form Field Name" required>
+                                <input id="name" type="text" class="form-control" name="name" value="{{ $school->name }}" placeholder="@lang('Form Field Name')" required>
   
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -46,11 +46,11 @@
                             </div>
                         </div>
                         <div class="form-group{{ $errors->has('about') ? ' has-error' : '' }}">
-                            <label for="about" class="col-md-4 control-label">About School</label>
+                            <label for="about" class="col-md-4 control-label">@lang('About School')</label>
   
                             <div class="col-md-6">
                                 <textarea id="about" type="text" class="form-control" name="about" 
-                                    placeholder="Form Field Name" required>{{ $school->about }}</textarea>
+                                    placeholder="@lang('Form Field Name')" required>{{ $school->about }}</textarea>
   
                                 @if ($errors->has('about'))
                                     <span class="help-block">
@@ -60,7 +60,7 @@
                             </div>
                         </div>
                         {{-- <div class="form-group{{ $errors->has('school_theme') ? ' has-error' : '' }}">
-                            <label for="school_theme" class="col-md-4 control-label">Choose Theme</label>
+                            <label for="school_theme" class="col-md-4 control-label">@lang('Choose Theme')</label>
   
                             <div class="col-md-6">
                                 @include('layouts.master.theme-select')
@@ -75,7 +75,7 @@
                         
                         <div class="form-group">
                           <div class="col-sm-offset-4 col-sm-8">
-                            <button type="submit" class="btn btn-danger">Save</button>
+                            <button type="submit" class="btn btn-danger">@lang('Save')</button>
                           </div>
                         </div>
                     </form>

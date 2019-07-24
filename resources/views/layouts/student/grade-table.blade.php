@@ -1,6 +1,6 @@
 @if(count($exams) > 0)
 @foreach($exams as $exam)
-<h3>{{$exam->exam_name}}<span class="pull-right"><button class="btn btn-xs btn-success" role="button" id="btnPrint{{$exam->id}}"><i class="material-icons">print</i> Print Result</button></span></h3>
+<h3>{{$exam->exam_name}}<span class="pull-right"><button class="btn btn-xs btn-success" role="button" id="btnPrint{{$exam->id}}"><i class="material-icons">print</i> @lang('Print Result')</button></span></h3>
 <div class="visible-print-block" id="table-content{{$exam->id}}">
   <table class="table table-bordered" style="font-size: 10px;">
     <thead>
@@ -158,13 +158,13 @@
     $("#btnPrint{{$exam->id}}").on("click", function () {
         var tableContent = $('#table-content{{$exam->id}}').html();
         var printWindow = window.open('', '', 'height=720,width=1280');
-        printWindow.document.write('<html><head><title>Result Card</title>');
+        printWindow.document.write("<html><head><title>@lang('Result Card')</title>");
         printWindow.document.write('<link href="{{url('css/app.css')}}" rel="stylesheet">');
         printWindow.document.write('</head><body>');
-        printWindow.document.write('<div class="container-fluid"><div class="col-md-12"><h2 style="text-align:center;">{{Auth::user()->school->name}}</h2><h4 style="text-align:center;">Result Card</h4>');
-        printWindow.document.write('<h4>Student Name: {{$studentName}}</h4>');
-        printWindow.document.write('<h4>Class: {{$classNumber}} <span>Section: {{$sectionNumber}}</span></h4>');
-        printWindow.document.write('<h3>Exam Name: {{$exam->exam_name}}</h3>');
+        printWindow.document.write('<div class="container-fluid"><div class="col-md-12"><h2 style="text-align:center;">{{Auth::user()->school->name}}</h2><h4 style="text-align:center;">@lang("Result Card")</h4>');
+        printWindow.document.write('<h4>@lang("Student Name"): {{$studentName}}</h4>');
+        printWindow.document.write('<h4>@lang("Class"): {{$classNumber}} <span>@lang("Section"): {{$sectionNumber}}</span></h4>');
+        printWindow.document.write('<h3>@lang("Exam Name"): {{$exam->exam_name}}</h3>');
         printWindow.document.write(tableContent);
         printWindow.document.write('</div></div></body></html>');
         printWindow.document.close();

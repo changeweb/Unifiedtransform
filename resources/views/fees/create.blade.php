@@ -24,7 +24,7 @@
                           <label for="fee_name" class="col-md-4 control-label">@lang('Form Field Name')</label>
 
                           <div class="col-md-6">
-                              <input id="fee_name" type="text" class="form-control" name="fee_name" value="{{ old('fee_name') }}" placeholder="Form Field Name" required>
+                              <input id="fee_name" type="text" class="form-control" name="fee_name" value="{{ old('fee_name') }}" placeholder="@lang('Form Field Name')" required>
 
                               @if ($errors->has('fee_name'))
                                   <span class="help-block">

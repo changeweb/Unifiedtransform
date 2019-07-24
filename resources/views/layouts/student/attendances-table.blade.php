@@ -18,15 +18,15 @@
         $calendar = \Calendar::addEvents($events);
   ?>
   <div class="col-md-8">
-    <h5>Attendance List of Full Semester</h5>
+    <h5>@lang('Attendance List of Full Semester')</h5>
     {!! $calendar->calendar() !!}
   </div>
     {!! $calendar->script() !!}
 <?php
   } else {
-    echo "No Related Data Found!";
+    echo @json( __('No Related Data Found!'));
   }
 } else {
-  echo "No Related Data Found!";
+  echo @json( __('No Related Data Found!'));
 }
 ?>

@@ -34,9 +34,9 @@
                         <small>
                             {{$student->session}}
                             @if($student->session == now()->year || $student->session > now()->year)
-                            <span class="label label-success">Promoted/New</span>
+                            <span class="label label-success">@lang('Promoted/New')</span>
                             @else
-                            <span class="label label-danger">Not Promoted</span>
+                            <span class="label label-danger">@lang('Not Promoted')</span>
                             @endif
                         </small>
                     </td>
@@ -65,7 +65,7 @@
             </tbody>
         </table>
         <div style="text-align:center;">
-            <input type="submit" class="btn btn-primary" value="Submit">
+            <input type="submit" class="btn btn-primary" value="@lang('Submit')">
         </div>
     </form>
 </div>

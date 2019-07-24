@@ -8,13 +8,13 @@
       <div class="form-group">
         <label for="section_number{{$class->class_number}}" class="col-sm-2 control-label">@lang('Section Name')</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="section_number{{$class->class_number}}" name="section_number" placeholder="A, B, C, etc..">
+          <input type="text" class="form-control" id="section_number{{$class->class_number}}" name="section_number" placeholder="@lang('A, B, C, etc..')">
         </div>
       </div>
       <div class="form-group">
         <label for="room_number{{$class->class_number}}" class="col-sm-2 control-label">@lang('Room Number')</label>
         <div class="col-sm-10">
-          <input type="number" class="form-control" id="room_number{{$class->class_number}}" name="room_number" placeholder="Room Number">
+          <input type="number" class="form-control" id="room_number{{$class->class_number}}" name="room_number" placeholder="@lang('Room Number')">
         </div>
       </div>
       <div class="form-group">

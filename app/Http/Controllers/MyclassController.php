@@ -47,7 +47,7 @@ class MyclassController extends Controller
       $tb->school_id = \Auth::user()->school_id;
       $tb->group = (!empty($request->group))?$request->group:'';
       $tb->save();
-      return back()->with('status', 'Created');
+      return back()->with('status', __('Created'));
     }
 
     /**

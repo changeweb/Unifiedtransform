@@ -137,7 +137,7 @@
             </tr>
             <tr>
               <td>1</td>
-              <td style="text-align:none;padding-left:5px;">Bangla 1st Paper</td>
+              <td style="text-align:none;padding-left:5px;">@lang('Bangla 1st Paper')</td>
               <td>100</td>
               <td>5</td>
               <td>11.89</td>
@@ -152,7 +152,7 @@
             </tr>
             <tr>
               <td>2</td>
-              <td style="text-align:none;padding-left:5px;">Bangla 2nd Paper</td>
+              <td style="text-align:none;padding-left:5px;">@lang('Bangla 2nd Paper')</td>
               <td>100</td>
               <td>5</td>
               <td>11.89</td>
@@ -167,7 +167,7 @@
             </tr>
             <tr>
               <td>3</td>
-              <td style="text-align:none;padding-left:5px;">English 1st Paper</td>
+              <td style="text-align:none;padding-left:5px;">@lang('English 1st Paper')</td>
               <td>100</td>
               <td>5</td>
               <td>11.89</td>
@@ -182,7 +182,7 @@
             </tr>
             <tr>
               <td>4</td>
-              <td style="text-align:none;padding-left:5px;">English 2nd Paper</td>
+              <td style="text-align:none;padding-left:5px;">@lang('English 2nd Paper')</td>
               <td>100</td>
               <td>5</td>
               <td>11.89</td>
@@ -197,7 +197,7 @@
             </tr>
             <tr>
               <td>5</td>
-              <td style="text-align:none;padding-left:5px;">Math</td>
+              <td style="text-align:none;padding-left:5px;">@lang('Math')</td>
               <td>100</td>
               <td>5</td>
               <td>11.89</td>
@@ -212,7 +212,7 @@
             </tr>
             <tr>
               <td>6</td>
-              <td style="text-align:none;padding-left:5px;">Physics</td>
+              <td style="text-align:none;padding-left:5px;">@lang('Physics')</td>
               <td>100</td>
               <td>5</td>
               <td>11.89</td>
@@ -227,7 +227,7 @@
             </tr>
             <tr>
               <td>7</td>
-              <td style="text-align:none;padding-left:5px;">Chemistry</td>
+              <td style="text-align:none;padding-left:5px;">@lang('Chemistry')</td>
               <td>100</td>
               <td>5</td>
               <td>11.89</td>
@@ -242,7 +242,7 @@
             </tr>
             <tr>
               <td>8</td>
-              <td style="text-align:none;padding-left:5px;">Biology</td>
+              <td style="text-align:none;padding-left:5px;">@lang('Biology')</td>
               <td>100</td>
               <td>5</td>
               <td>11.89</td>

@@ -87,9 +87,9 @@
           <small>
             {{$user->studentInfo['session']}}
             @if($user->studentInfo['session'] == now()->year || $user->studentInfo['session'] > now()->year)
-              <span class="label label-success">Promoted/New</span>
+              <span class="label label-success">@lang('Promoted/New')</span>
             @else
-              <span class="label label-danger">Not Promoted</span>
+              <span class="label label-danger">@lang('Not Promoted')</span>
             @endif
           </small>
         </td>

@@ -34,9 +34,9 @@
   $('input[type="checkbox"]').change(function() {
       var attdState = $(this).parent().parent().parent().find('.attdState').removeClass('label-danger label-success');
       if($(this).is(':checked')){
-        attdState.addClass('label-success').text('Present');
+        attdState.addClass('label-success').text(@json( __('Present')));
       } else {
-        attdState.addClass('label-danger').text('Absent');
+        attdState.addClass('label-danger').text(@json( __('Absent')));
       }
   });
 </script>

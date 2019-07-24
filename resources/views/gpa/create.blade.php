@@ -23,7 +23,7 @@
                           <label for="grade_system_name" class="col-md-4 control-label">@lang('Grade System Name')</label>
 
                           <div class="col-md-6">
-                              <input id="grade_system_name" type="text" class="form-control" name="grade_system_name" value="{{ old('grade_system_name') }}" placeholder="Grade System Name" required>
+                              <input id="grade_system_name" type="text" class="form-control" name="grade_system_name" value="{{ old('grade_system_name') }}" placeholder="@lang('Grade System Name')" required>
 
                               @if ($errors->has('grade_system_name'))
                                   <span class="help-block">
@@ -62,7 +62,7 @@
                           <label for="from_mark" class="col-md-4 control-label">@lang('From Mark')</label>
 
                           <div class="col-md-6">
-                              <input id="from_mark" type="text" class="form-control" name="from_mark" value="{{ old('from_mark') }}" placeholder="Example: 80" required>
+                              <input id="from_mark" type="text" class="form-control" name="from_mark" value="{{ old('from_mark') }}" placeholder="@lang('Example: 80')" required>
 
                               @if ($errors->has('from_mark'))
                                   <span class="help-block">
@@ -75,7 +75,7 @@
                           <label for="to_mark" class="col-md-4 control-label">@lang('To Mark')</label>
 
                           <div class="col-md-6">
-                              <input id="to_mark" type="text" class="form-control" name="to_mark" value="{{ old('to_mark') }}" placeholder="Example: 90" required>
+                              <input id="to_mark" type="text" class="form-control" name="to_mark" value="{{ old('to_mark') }}" placeholder="@lang('Example: 90')" required>
 
                               @if ($errors->has('to_mark'))
                                   <span class="help-block">

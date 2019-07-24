@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Stripe Payment')
+@section('title', __('Stripe Payment'))
 @section('content')
 <style>
 /**
@@ -41,7 +41,7 @@
         </div>
         <div class="col-md-6" id="main-container">
             <div class="panel panel-default">
-                <div class="page-panel-title">Payment
+                <div class="page-panel-title">@lang('Payment')
               </div>
                 <div class="panel-body">
                     @if (session('status'))
@@ -54,11 +54,11 @@
                         <input type="hidden" id="stripe_key" name="stripe_key" value="{{env('STRIPE_KEY')}}">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Enter your credit card information</h3>
+                                <h3 class="panel-title">@lang('Enter your credit card information')</h3>
                             </div>
                             <div class="panel-body">
                               <div class="form-group">
-                                <label for="amount">Pay Fee For</label>
+                                <label for="amount">@lang('Pay Fee For')</label>
                                 <select class="form-control" name="charge_field" required>
                                   @foreach ($fees_fields as $fees_field)
                                     <option>{{$fees_field->fee_name}}</option>
@@ -66,19 +66,19 @@
                                 </select>
                               </div>
                                 <div class="form-group">
-                                  <label for="amount">Amount</label>
+                                  <label for="amount">@lang('Amount')</label>
                                   <div class="input-group">
                                     <div class="input-group-addon">$</div>
-                                    <input type=number step="any" class="form-control" id="amount" name="amount" placeholder="Amount" required>
+                                    <input type=number step="any" class="form-control" id="amount" name="amount" placeholder="@lang('Amount')" required>
                                 </div>
                                 <br>
-                                <label for="card-element">Card Number</label>
+                                <label for="card-element">@lang('Card Number')</label>
                                 <div id="card-element">
                                 <!-- A Stripe Element will be inserted here. -->
                                 </div>
                             </div>
                             <div class="panel-footer">
-                                <button class="btn btn-sm btn-success" type="submit">Pay</button>
+                                <button class="btn btn-sm btn-success" type="submit">@lang('Pay')</button>
                             </div>
                         </div>
                     </form>

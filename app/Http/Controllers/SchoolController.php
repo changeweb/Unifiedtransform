@@ -63,7 +63,7 @@ class SchoolController extends Controller
       $tb->code = date("y").substr(number_format(time() * mt_rand(),0,'',''),0,6);
       $tb->theme = 'flatly';
       $tb->save();
-      return back()->with('status', 'Created');
+      return back()->with('status', __('Created'));
     }
 
     /**
@@ -107,7 +107,7 @@ class SchoolController extends Controller
       $s->school_id = \Auth::user()->school_id;
       $s->department_name = $request->department_name;
       $s->save();
-      return back()->with('status', 'Created');
+      return back()->with('status', __('Created'));
     }
 
     public function changeTheme(Request $request){

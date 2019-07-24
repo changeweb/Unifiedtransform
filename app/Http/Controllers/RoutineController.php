@@ -41,7 +41,7 @@ class RoutineController extends Controller
           return '<code>section_id</code> column missing. Run <code>php artisan migrate</code>';
         }
       } catch(Exception $ex){
-        return 'Something went wrong!!';
+        return __('Something went wrong!!');
       }
       return view('routines.create',['files'=>$files,'section_id'=>$section_id]);
     }
@@ -65,7 +65,7 @@ class RoutineController extends Controller
       $tb->school_id = \Auth::user()->school_id;
       $tb->user_id = \Auth::user()->id;
       $tb->save();
-      return back()->with('status', 'Uploaded');
+      return back()->with('status', __('Uploaded'));
     }
 
     /**
@@ -102,7 +102,7 @@ class RoutineController extends Controller
       $tb = Routine::find($id);
       $tb->active = 0;
       $tb->save();
-      return back()->with('status','File removed');
+      return back()->with('status',__('File removed'));
     }
 
     /**

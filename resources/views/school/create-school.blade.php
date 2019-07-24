@@ -49,9 +49,9 @@
                         <th scope="col">@lang('Teachers')</th> --}}
                       @endif
                       @if(\Auth::user()->role == 'master')
-                        <th scope="col">Edit</th>
-                        <th scope="col">+Admin</th>
-                        <th scope="col">View Admins</th>
+                        <th scope="col">@lang('Edit')</th>
+                        <th scope="col">+@lang('Admin')</th>
+                        <th scope="col">@lang('View Admins')</th>
                       @endif
                     </tr>
                   </thead>
@@ -87,7 +87,7 @@
                                             <div class="form-group">
                                               <label for="department_name" class="col-sm-2 control-label">@lang('Department Name')</label>
                                               <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="department_name" name="department_name" placeholder="English, Mathematics,...">
+                                                <input type="text" class="form-control" id="department_name" name="department_name" placeholder="@lang('English, Mathematics,...')">
                                               </div>
                                             </div>
                                             <div class="form-group">
@@ -117,10 +117,10 @@
                       @endif
                       @if(\Auth::user()->role == 'master')
                         <td>
-                          <a class="btn btn-success btn-sm" role="button" href="{{url('school/'.$school->id)}}"><small>Edit School</small></a>
+                          <a class="btn btn-success btn-sm" role="button" href="{{url('school/'.$school->id)}}"><small>@lang('Edit School')</small></a>
                         </td>
                         <td>
-                          <a class="btn btn-danger btn-sm" role="button" href="{{url('register/admin/'.$school->id.'/'.$school->code)}}"><small>+ Create Admin</small></a>
+                          <a class="btn btn-danger btn-sm" role="button" href="{{url('register/admin/'.$school->id.'/'.$school->code)}}"><small>+ @lang('Create Admin')</small></a>
                         </td>
                         <td>
                           <a class="btn btn-success btn-sm" role="button" href="{{url('school/admin-list/'.$school->id)}}"><small>@lang('View Admins')</small></a>
@@ -184,7 +184,7 @@
                 <br>
                 @foreach($schools as $school)
                 @if(\Auth::user()->role == 'admin' && \Auth::user()->school_id == $school->id)
-                <h4>Add Users</h4>
+                <h4>@lang('Add Users')</h4>
                 <table class="table table-condensed" style="width:600px">
                   <thead>
                     <tr>
@@ -198,16 +198,16 @@
                     <tr>
                     
                         <td>
-                          <a class="btn btn-info btn-sm" href="{{url('register/student')}}">+ Add Student</a>
+                          <a class="btn btn-info btn-sm" href="{{url('register/student')}}">+ @lang('Add Student')</a>
                           <br>
-                          <h5>Or, Mass upload Excel</h5>
+                          <h5>@lang('Or, Mass upload Excel')</h5>
                           @component('components.excel-upload-form', ['type'=>'student'])
                           @endcomponent
                         </td>
                         <td>
-                          <a class="btn btn-success btn-sm" href="{{url('register/teacher')}}">+ Add Teacher</a>
+                          <a class="btn btn-success btn-sm" href="{{url('register/teacher')}}">+ @lang('Add Teacher')</a>
                           <br>
-                          <h5>Or, Mass upload Excel</h5>
+                          <h5>@lang('Or, Mass upload Excel')</h5>
                           @component('components.excel-upload-form', ['type'=>'teacher'])
                           @endcomponent
                         </td>

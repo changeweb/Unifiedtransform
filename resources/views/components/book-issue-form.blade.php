@@ -5,7 +5,7 @@
 
         <div class="col-md-6">
             <input id="student_code" type="text" class="form-control" name="student_code" value="{{ old('student_code') }}"
-                placeholder="Student Code" required>
+                placeholder="@lang('Student Code')" required>
 
             @if ($errors->has('student_code'))
             <span class="help-block">
@@ -31,7 +31,7 @@
 
         <div class="col-md-6">
             <input id="issue_date" class="form-control datepicker" name="issue_date" value="{{ old('issue_date') }}"
-                placeholder="Issue Date" required>
+                placeholder="@lang('Issue Date')" required>
 
             @if ($errors->has('issue_date'))
             <span class="help-block">
@@ -45,7 +45,7 @@
 
         <div class="col-md-6">
             <input id="return_date" class="form-control datepicker" name="return_date" value="{{ old('return_date') }}"
-                placeholder="Return Date" required>
+                placeholder="@lang('Return Date')" required>
 
             @if ($errors->has('return_date'))
             <span class="help-block">
