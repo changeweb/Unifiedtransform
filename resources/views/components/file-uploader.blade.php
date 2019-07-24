@@ -1,8 +1,8 @@
 <div id="my_upload">
     @if($upload_type != 'profile')
-        <h3>{{ucfirst($upload_type)}}</h3>
+        <h3>{{__(ucfirst($upload_type))}}</h3>
         <label for="upload-title">@lang('File Title'): </label>
-        <input type="text" class="form-control" name="upload-title" id="upload-title" placeholder="File title here..." required>
+        <input type="text" class="form-control" name="upload-title" id="upload-title" placeholder="@lang('File title here...')" required>
         <br/>
     @endif
   <input class="form-control-sm" id="fileupload" type="file"  accept=".xlsx,.xls,.doc,.docx,.ppt,.pptx,.txt,.pdf,image/png,image/jpeg" name="file" data-url="{{url('upload/file')}}">
@@ -24,7 +24,7 @@ $(function () {
     var jqXHR = null;
     var uploadButton = $('<button/>')
             .addClass('btn btn-primary btn-sm')
-            .text('Upload')
+            .text(@json( __('Upload')))
             .on('click', function () {
                 @if($upload_type != 'profile')
                     if(!$('#upload-title').val()){
@@ -112,7 +112,7 @@ $(function () {
         }
     })
     .on('fileuploadfail', function (e, data) {
-            data.context.text(@json( __('File Upload has been cancelled')));
+            data.context.text(@json( __('File Upload has been canceled')));
             var error = data['jqXHR']['responseJSON']['error'];
             $('#errorAlert').text(error);
             console.log(data['jqXHR']['responseJSON']);

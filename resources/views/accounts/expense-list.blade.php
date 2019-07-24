@@ -13,7 +13,7 @@
             <div class="col-md-6">
               <div class="panel panel-default">
               <div class="page-panel-title">@lang('View List of  Expense')
-                <button class="btn btn-xs btn-success pull-right" role="button" id="btnPrint" ><i class="material-icons">print</i> @lant('Print This Expense List')</button></div>
+                <button class="btn btn-xs btn-success pull-right" role="button" id="btnPrint" ><i class="material-icons">print</i> @lang('Print This Expense List')</button></div>
 
                 <div class="panel-body">
                     @if (session('status'))
@@ -27,7 +27,7 @@
                           <label for="year" class="col-md-4 control-label">@lang('Year')</label>
 
                           <div class="col-md-6">
-                              <input id="date" type="text" class="form-control datepicker" name="year" value="{{ old('year') }}" placeholder="Year" required>
+                              <input id="date" type="text" class="form-control datepicker" name="year" value="{{ old('year') }}" placeholder="@lang('Year')" required>
 
                               @if ($errors->has('year'))
                                   <span class="help-block">
@@ -123,7 +123,7 @@ $('.datepicker').datepicker({
 $("#btnPrint").on("click", function () {
             var divContents = $("#printDiv").html();
             var printWindow = window.open('', '', 'height=400,width=800');
-            printWindow.document.write('<html><head><title>Expense List</title>');
+            printWindow.document.write('<html><head><title>@lang('Expense List')</title>');
             printWindow.document.write('</head><body>');
             printWindow.document.write('</body></html>');
             printWindow.document.close();
@@ -158,7 +158,7 @@ $("#btnPrint").on("click", function () {
 			type: 'bar',
 			data: {
 				datasets: [{
-                    label: 'Expense',
+                    label: @json( __('Expense')),
 					backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
 					borderColor: window.chartColors.red,
 					fill: false,
@@ -173,25 +173,25 @@ $("#btnPrint").on("click", function () {
 			options: {
 				title: {
                     display: true,
-					text: 'Expense (In Dollar) in Time Scale'
+					text: @json( __('Expense (In Dollar) in Time Scale'))
 				},
         maintainAspectRatio: false,
 				scales: {
 					xAxes: [{
-						type: 'time',
+						type: @json( __('time')),
 						time: {
 							parser: 'YYYY-DD-MM',
 							tooltipFormat: 'll HH:mm'
 						},
 						scaleLabel: {
 							display: true,
-							labelString: 'Date'
+							labelString: @json( __('Date'))
 						}
 					}],
 					yAxes: [{
 						scaleLabel: {
 							display: true,
-							labelString: 'Money'
+							labelString: @json( __('Money'))
 						}
 					}]
 				},

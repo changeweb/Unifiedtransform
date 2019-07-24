@@ -27,7 +27,7 @@
 <ul class="nav flex-column">
   <li class="nav-item">
     <a class="nav-link" href="{{url('user/'.Auth::user()->student_code)}}"><i class="material-icons">face</i> <span
-        class="nav-link-text">Profile</span></a>
+        class="nav-link-text">@lang('Profile')</span></a>
   </li>
 </ul>
 @endif--}}
@@ -143,10 +143,11 @@
       <!-- Dropdown menu links -->
       <li>
         <a class="dropdown-item" href="{{url('users/'.Auth::user()->school->code.'/accountant')}}"><i class="material-icons">account_balance_wallet</i>
-          <span class="nav-link-text">Accountant List</span></a>
+          <span class="nav-link-text">@lang('Accountant List')</span></a>
       </li>
       <li>
         <a class="dropdown-item" href="{{ url('accounts/sectors') }}"><i class="material-icons">developer_board</i>
+		<span class="nav-link-text">@lang('Add Account Sector')</span></a>
       </li>
       <li>
         <a class="dropdown-item" href="{{ url('accounts/expense') }}"><i class="material-icons">note_add</i> <span
@@ -180,14 +181,14 @@
         class="nav-link-text">@lang('My Grade')</span></a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="{{url('stripe/charge')}}"><i class="material-icons">payment</i> <span class="nav-link-text">Payment</span></a>
+    <a class="nav-link" href="{{url('stripe/charge')}}"><i class="material-icons">payment</i> <span class="nav-link-text">@lang('Payment')</span></a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="{{url('stripe/receipts')}}"><i class="material-icons">receipt</i> <span class="nav-link-text">Receipt</span></a>
+    <a class="nav-link" href="{{url('stripe/receipts')}}"><i class="material-icons">receipt</i> <span class="nav-link-text">@lang('Receipt')</span></a>
   </li>
   @endif
-  {{--<div style="text-align:center;">Student</div>--}}
-  {{--<div style="text-align:center;">Teacher</div>--}}
+  {{--<div style="text-align:center;">@lang('Student')</div>--}}
+  {{--<div style="text-align:center;">@lang('Teacher')</div>--}}
   @if(Auth::user()->role == 'admin' || Auth::user()->role == 'librarian')
   <li class="nav-item dropdown">
     <a role="button" href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
@@ -196,7 +197,7 @@
       <!-- Dropdown menu links -->
       <li>
         <a class="dropdown-item" href="{{url('users/'.Auth::user()->school->code.'/librarian')}}"><i class="material-icons">local_library</i>
-          <span class="nav-link-text">Librarian List</span></a>
+          <span class="nav-link-text">@lang('Librarian List')</span></a>
       </li>
       <li>
         <a class="dropdown-item" href="{{ route('library.books.index') }}"><i class="material-icons">developer_board</i>

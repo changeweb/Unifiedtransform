@@ -27,7 +27,7 @@
                           <label for="year" class="col-md-4 control-label">@lang('Year')</label>
 
                           <div class="col-md-6">
-                              <input id="date" type="text" class="form-control datepicker" name="year" value="{{ old('year') }}" placeholder="Year" required>
+                              <input id="date" type="text" class="form-control datepicker" name="year" value="{{ old('year') }}" placeholder="@lang('Year')" required>
 
                               @if ($errors->has('year'))
                                   <span class="help-block">
@@ -123,7 +123,7 @@ $('.datepicker').datepicker({
 $("#btnPrint").on("click", function () {
             var divContents = $("#printDiv").html();
             var printWindow = window.open('', '', 'height=400,width=800');
-            printWindow.document.write('<html><head><title>Income List</title>');
+            printWindow.document.write('<html><head><title>@lang('Income List')</title>');
             printWindow.document.write('</head><body>');
             printWindow.document.write('</body></html>');
             printWindow.document.close();
@@ -158,7 +158,7 @@ $("#btnPrint").on("click", function () {
 			type: 'bar',
 			data: {
 				datasets: [{
-                    label: 'Income',
+                    label: @json( __('Income')),
 					backgroundColor: color(window.chartColors.green).alpha(0.5).rgbString(),
 					borderColor: window.chartColors.green,
 					fill: false,
@@ -173,7 +173,7 @@ $("#btnPrint").on("click", function () {
 			options: {
 				title: {
                     display: true,
-					text: 'Income (In Dollar) in Time Scale'
+					text: @json( __('Income (In Dollar) in Time Scale'))
 				},
         maintainAspectRatio: false,
 				scales: {
@@ -185,13 +185,13 @@ $("#btnPrint").on("click", function () {
 						},
 						scaleLabel: {
 							display: true,
-							labelString: 'Date'
+							labelString: @json( __('Date'))
 						}
 					}],
 					yAxes: [{
 						scaleLabel: {
 							display: true,
-							labelString: 'Money'
+							labelString: @json( __('Money'))
 						}
 					}]
 				},

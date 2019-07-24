@@ -11,9 +11,9 @@
         <div class="col-md-10" id="main-container">
             <ol class="breadcrumb" style="margin-top: 3%;">
                 <li><a href="{{url('school/sections?att=1')}}" style="color:#3b80ef;">@lang('All Classes') &amp; @lang('Sections')</a></li>
-                <li class="active">Attendance</li>
+                <li class="active">@lang('Attendance')</li>
             </ol>
-            <h2>Take Attendance</h2>
+            <h2>@lang('Take Attendance')</h2>
             <div class="panel panel-default">
                 @if(count($students) > 0)
                 @foreach ($students as $student)

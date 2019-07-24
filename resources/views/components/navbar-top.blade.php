@@ -5,7 +5,7 @@
             <!-- Collapsed Hamburger -->
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse"
                 aria-expanded="false">
-                <span class="sr-only">Toggle Navigation</span>
+                <span class="sr-only">@lang('Toggle Navigation')</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -26,13 +26,13 @@
             <ul class="nav navbar-nav navbar-right">
                 <!-- Authentication Links -->
                 @guest
-                <li><a href="{{ route('login') }}" style="color: #000;">Login</a></li>
+                <li><a href="{{ route('login') }}" style="color: #000;">@lang('Login')</a></li>
                 @else
                 @if(\Auth::user()->role == 'student')
                 <li class="nav-item">
                     <a href="{{url('user/'.\Auth::user()->id.'/notifications')}}" class="nav-link nav-link-align-btn"
                         role="button">
-                        <i class="material-icons text-muted">email</i>
+                        <i class="material-icons text-muted">@lang('email')</i>
                         <?php
                             $mc = \App\Notification::where('student_id',\Auth::user()->id)->where('active',1)->count();
                         ?>
@@ -66,23 +66,23 @@
                     <ul class="dropdown-menu">
                         @if(Auth::user()->role != 'master')
                         <li>
-                            <a href="{{url('user/'.Auth::user()->student_code)}}">Profile</a>
+                            <a href="{{url('user/'.Auth::user()->student_code)}}">@lang('Profile')</a>
                         </li>
                         @endif
                         <li>
-                            <a href="{{url('user/config/change_password')}}">Change Password</a>
+                            <a href="{{url('user/config/change_password')}}">@lang('Change Password')</a>
                         </li>
                         @if(env('APP_ENV') != 'production')
                         <li>
                             <a href="{{url('user/config/impersonate')}}">
-                                {{ app('impersonate')->isImpersonating() ? 'Leave Impersonation' : 'Impersonate' }}
+                                {{ app('impersonate')->isImpersonating() ? __('Leave Impersonation') : __('Impersonate') }}
                             </a>                                
                         </li>
                         @endif
                         <li>
                             <a href="{{ route('logout') }}" onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">
-                                Logout
+                                @lang('Logout')
                             </a>
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

@@ -185,7 +185,7 @@
                             <div class="col-md-6">
                                 <input id="group" type="text" class="form-control" name="group"
                                     value="{{ $user->studentInfo['group'] }}"
-                                    placeholder="Science, Arts, Commerce,etc.">
+                                    placeholder="@lang('Science, Arts, Commerce,etc.')">
 
                                 @if ($errors->has('group'))
                                 <span class="help-block">
@@ -382,7 +382,7 @@
                             <div class="col-md-6 col-md-offset-4">
                                 <a href="javascript:history.back()" class="btn btn-danger" style="margin-right: 2%;"
                                     role="button">@lang('Cancel')</a>
-                                <input type="submit" role="button" class="btn btn-success" value="Save">
+                                <input type="submit" role="button" class="btn btn-success" value="@lang('Save')">
                             </div>
                         </div>
                     </form>

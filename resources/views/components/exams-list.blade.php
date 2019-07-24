@@ -1,5 +1,5 @@
 <div class="card text-white bg-primary mb-3">
-    <div class="card-header">Information</div>
+    <div class="card-header">@lang('Information')</div>
     <div class="card-body">
       @lang('An Examination represents a Semester. All Courses of a Semester belong to an Examination. So, all Quiz, Class Test, Assignment, Attendance, Written, Practical, etc. in a Course are subjected to that specific Examination.')
     </div>
@@ -34,7 +34,7 @@
           @if($exam->result_published === 1)
             @lang('No')
           @else
-            <label class="checkbox-label"> Yes
+            <label class="checkbox-label"> @lang('Yes')
               <input type="checkbox" name="notice_published" form="form{{$exam->id}}" />
               <span class="checkmark"></span>
             </label>
@@ -45,7 +45,7 @@
         @if($exam->result_published === 1)
           @lang('Yes')
         @else
-          <label class="checkbox-label"> Yes
+          <label class="checkbox-label"> @lang('Yes')
             <input type="checkbox" name="result_published" form="form{{$exam->id}}" />
             <span class="checkmark"></span>
           </label>
@@ -56,7 +56,7 @@
         <input type="hidden" name="exam_id" value="{{$exam->id}}" form="form{{$exam->id}}"/>
         @if($exam->active === 1)
           <label class="checkbox-label">
-              Active
+              @lang('Active')
             <input type="checkbox" name="active" form="form{{$exam->id}}" checked />
             <span class="checkmark"></span>
           </label>
@@ -65,7 +65,7 @@
             @lang('Completed')
           @else
             <label class="checkbox-label">
-              Not Active
+              @lang('Not Active')
               <input type="checkbox" name="active" form="form{{$exam->id}}" />
               <span class="checkmark"></span>
             </label>
@@ -73,7 +73,7 @@
         @endif
         @if($exam->result_published != 1)
         <span>
-          <input type="submit" class="btn btn-info btn-xs pull-right" style="margin-left: 1%;" value="Save" form="form{{$exam->id}}"/>
+          <input type="submit" class="btn btn-info btn-xs pull-right" style="margin-left: 1%;" value="@lang('Save')" form="form{{$exam->id}}"/>
         </span>
         @endif
       </td>

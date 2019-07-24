@@ -14,7 +14,7 @@
               <label for="school_name" class="col-md-4 control-label">@lang('School Name')</label>
 
               <div class="col-md-6">
-                  <input id="school_name" type="text" class="form-control" name="school_name" value="{{ old('school_name') }}" placeholder="School Name" required>
+                  <input id="school_name" type="text" class="form-control" name="school_name" value="{{ old('school_name') }}" placeholder="@lang('School Name')" required>
 
                   @if ($errors->has('school_name'))
                       <span class="help-block">
@@ -28,12 +28,12 @@
 
               <div class="col-md-6">
                 <select id="school_medium" class="form-control" name="school_medium">
-                  <option selected="selected">Bangla</option>
-                  <option>English</option>
-                  <option>Hindi</option>
-                  <option>Spanish</option>
-                  <option>Chinese</option>
-                  <option>Arabic</option>
+                  <option selected="selected">@lang('Bangla')</option>
+                  <option>@lang('English')</option>
+                  <option>@lang('Hindi')</option>
+                  <option>@lang('Spanish')</option>
+                  <option>@lang('Chinese')</option>
+                  <option>@lang('Arabic')</option>
                 </select>
 
                   @if ($errors->has('school_medium'))
@@ -47,7 +47,7 @@
               <label for="school_established" class="col-md-4 control-label">@lang('School Established')</label>
 
               <div class="col-md-6">
-                  <input id="school_established" type="text" class="form-control" name="school_established" value="{{ old('school_established') }}" placeholder="School Established" required>
+                  <input id="school_established" type="text" class="form-control" name="school_established" value="{{ old('school_established') }}" placeholder="@lang('School Established')" required>
 
                   @if ($errors->has('school_established'))
                       <span class="help-block">
