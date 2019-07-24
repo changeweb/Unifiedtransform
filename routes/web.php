@@ -40,6 +40,7 @@ Auth::routes();
 
 Route::middleware(['auth', 'master'])->group(function () {
     Route::get('/masters', 'MasterController@index')->name('masters.index');
+    Route::resource('/schools', 'SchoolController')->only(['index', 'edit', 'store', 'update']);
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -177,8 +178,6 @@ Route::middleware(['auth','accountant'])->prefix('accounts')->name('accounts.')-
   Route::get('delete-expense/{id}','AccountController@deleteExpense');
 });
 
-Route::get('create-school', 'SchoolController@index')->middleware('master.admin');
-
 Route::middleware(['auth','master'])->group(function (){
   Route::get('register/admin/{id}/{code}', function($id, $code){
       session([
@@ -191,7 +190,6 @@ Route::middleware(['auth','master'])->group(function (){
   Route::post('register/admin', 'UserController@storeAdmin');
   Route::get('master/activate-admin/{id}','UserController@activateAdmin');
   Route::get('master/deactivate-admin/{id}','UserController@deactivateAdmin');
-  Route::post('create-school', 'SchoolController@store');
   Route::get('school/admin-list/{school_id}','SchoolController@show');
 });
 
@@ -234,12 +232,6 @@ Route::middleware(['auth','admin'])->group(function (){
   Route::get('edit/course/{id}','CourseController@edit');
   Route::post('edit/course/{id}','CourseController@updateNameAndTime');
 });
-
-Route::middleware(['auth', 'master'])->group(function () {
-  Route::get('school/{school_id}','SchoolController@edit');
-  Route::post('school/{school_id}','SchoolController@edit');
-});
-
 
 //use PDF;
 Route::middleware(['auth','master.admin'])->group(function (){
