@@ -37,8 +37,8 @@ class SectionModuleTest extends TestCase
             ->assertStatus(200);
 
         $this->assertDatabaseHas('sections', $section->toArray());
-        
-        $this->get('create-school')
+
+        $this->get('settings')
             ->assertSee('Section '.$section['section_number']);
     }
 }

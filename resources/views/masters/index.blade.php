@@ -8,7 +8,9 @@
                 <div class="page-panel-title">@lang('Dashboard')</div>
 
                 <div class="panel-body">
-                    <a class="btn btn-danger btn-lg btn-block" href="{{url('create-school')}}" role="button">@lang('Manage Schools')</a>
+                    <a class="btn btn-danger btn-lg btn-block" href="{{ route('schools.index') }}" role="button">
+                        @lang('Manage Schools')
+                    </a>
                 </div>
             </div>
         </div>

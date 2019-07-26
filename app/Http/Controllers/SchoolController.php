@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\School;
 use App\Myclass;
 use App\Section;
-use App\User;
 use App\Department;
-//use App\Http\Resources\SchoolResource;
 use Illuminate\Http\Request;
+use App\Http\Requests\SchoolRequest;
 
 class SchoolController extends Controller
 {
@@ -17,28 +17,10 @@ class SchoolController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-      $schools = School::all();
-      $classes = Myclass::all();
-      $sections = Section::all();
-      $teachers = User::join('departments', 'departments.id', '=', 'users.department_id')
-                            ->where('role', 'teacher')
-                            ->orderBy('name','ASC')
-                            ->where('active', 1)
-                            ->get();
-      $departments = Department::bySchool(\Auth::user()->school_id)->get();
-      return view('school.create-school', compact('schools', 'classes', 'sections', 'teachers', 'departments'));
-    }
+    public function index() {
+      $schools = School::orderBy('created_at', 'desc')->paginate();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+      return view('schools.index', compact('schools'));
     }
 
     /**
@@ -47,23 +29,18 @@ class SchoolController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SchoolRequest $request)
     {
-      $request->validate([
-        'school_name' => 'required|string|max:255',
-        'school_medium' => 'required',
-        'school_about' => 'required',
-        'school_established' => 'required',
-      ]);
-      $tb = new School;
-      $tb->name = $request->school_name;
-      $tb->established = $request->school_established;
-      $tb->about = $request->school_about;
-      $tb->medium = $request->school_medium;
-      $tb->code = date("y").substr(number_format(time() * mt_rand(),0,'',''),0,6);
-      $tb->theme = 'flatly';
-      $tb->save();
-      return back()->with('status', __('Created'));
+        School::create([
+            'name'        => $request->name,
+            'established' => $request->established,
+            'about'       => $request->about,
+            'medium'      => $request->medium,
+            'code'        => date("y").substr(number_format(time() * mt_rand(), 0, '', ''), 0, 6),
+            'theme'       => 'flatly'
+        ]);
+
+        return redirect()->route('schools.index')->with('status', __('Created'));
     }
 
     /**
@@ -78,25 +55,16 @@ class SchoolController extends Controller
       return view('school.admin-list',compact('admins'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Request $request, $school_id)
-    {
-      $school = School::find($school_id);
-      if (!$school) {
-        abort(404);
-      }
-      if ($request->isMethod('post')) {
+    public function edit(School $school) {
+        return view('schools.edit', compact('school'));
+    }
+
+    public function update(Request $request, School $school) {
         $school->name = $request->name;
         $school->about = $request->about;
-        $school->theme = $request->school_theme;
         $school->save();
-      }
-      return view('school.edit-school',compact('school'));
+
+        return redirect()->route('schools.index');
     }
 
     public function addDepartment(Request $request){
@@ -115,25 +83,6 @@ class SchoolController extends Controller
       $tb->theme = $request->school_theme;
       $tb->save();
       return back();
-    }
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-      $tb = School::find($id);
-      $tb->name = $request->name;
-      $tb->about = $request->about;
-      //$tb->code = $request->code;
-      return ($tb->save())?response()->json([
-        'status' => 'success'
-      ]):response()->json([
-        'status' => 'error'
-      ]);
     }
 
     /**
