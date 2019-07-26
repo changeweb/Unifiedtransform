@@ -14,7 +14,7 @@ $factory->define(Exam::class, function (Faker $faker) {
                 return $faker->randomElement(School::pluck('id')->toArray());
             else return factory(School::class)->create()->id;
         },
-        'term'             => $faker->sentence,
+        'term'             => $faker->text(20),
         'active'           => $faker->randomElement([0,1]),
         'start_date'       => $faker->dateTime()->format('Y-m-d H:i:s'),
         'end_date'         => $faker->dateTime()->format('Y-m-d H:i:s'),
