@@ -43,7 +43,7 @@ class FeeController extends Controller
         $fee->school_id = \Auth::user()->school_id;
         $fee->user_id = \Auth::user()->id;
         $fee->save();
-        return back()->with('status', 'Saved');
+        return back()->with('status', __('Saved'));
     }
 
     /**

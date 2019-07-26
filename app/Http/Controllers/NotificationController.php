@@ -66,7 +66,7 @@ class NotificationController extends Controller
       }
       Notification::insert($n);
       //});
-      return back()->with('status','Message Sent');
+      return back()->with('status',__('Message Sent'));
     }
 
     /**

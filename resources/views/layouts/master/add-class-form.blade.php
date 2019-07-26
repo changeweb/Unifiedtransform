@@ -16,20 +16,20 @@
           <div class="form-group">
             <label for="classNumber{{$school->id}}" class="col-sm-4 control-label">@lang('Class Number/Name')</label>
             <div class="col-sm-8">
-              <input type="text" name="class_number" class="form-control" id="classNumber{{$school->id}}" placeholder="Class Number/Name" required>
+              <input type="text" name="class_number" class="form-control" id="classNumber{{$school->id}}" placeholder="@lang('Class Number/Name')" required>
             </div>
           </div>
           {{--<div class="form-group">
             <label for="classRoomNumber{{$school->id}}" class="col-sm-4 control-label">@lang('Class Room Number')</label>
             <div class="col-sm-8">
-              <input type="number" class="form-control" id="classRoomNumber{{$school->id}}" placeholder="Class Room Number">
+              <input type="number" class="form-control" id="classRoomNumber{{$school->id}}" placeholder="@lang('Class Room Number')">
             </div>
           </div>
           --}}
           <div class="form-group">
             <label for="classRoomNumber{{$school->id}}" class="col-sm-4 control-label">@lang('Class Group (If Any)')</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" name="group" id="classRoomNumber{{$school->id}}" placeholder="Science, Commerce, Arts, etc.">
+              <input type="text" class="form-control" name="group" id="classRoomNumber{{$school->id}}" placeholder="@lang('Science, Commerce, Arts, etc.')">
               <span id="helpBlock" class="help-block">@lang('Leave Empty if this Class belongs to no Group')</span>
             </div>
           </div>

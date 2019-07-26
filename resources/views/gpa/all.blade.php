@@ -55,7 +55,7 @@
                               <form action="{{url('gpa/delete')}}" method="post">
                                 {{csrf_field()}}
                                 <input type="hidden" name="gpa_id" value="{{$gpa->id}}">
-                                <button class="btn btn-xs btn-success">Delete</button>
+                                <button class="btn btn-xs btn-success">@lang('Delete')</button>
                               </form>
                             </td>--}}
                           </tr>

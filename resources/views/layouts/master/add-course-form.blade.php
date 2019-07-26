@@ -1,4 +1,4 @@
-<a class="btn btn-xs btn-info pull-right" data-toggle="collapse" href="#collapseForNewCourse{{$section->id}}" aria-expanded="false" aria-controls="collapseForNewCourse{{$section->id}}">+ Add New Course</a>
+<a class="btn btn-xs btn-info pull-right" data-toggle="collapse" href="#collapseForNewCourse{{$section->id}}" aria-expanded="false" aria-controls="collapseForNewCourse{{$section->id}}">+ @lang('Add New Course')</a>
   <div class="collapse" id="collapseForNewCourse{{$section->id}}" style="margin-top:1%;">
     <div class="panel panel-default">
       <div class="panel-body">
@@ -9,7 +9,7 @@
           <div class="form-group">
             <label for="courseName{{$section->id}}" class="col-sm-2 control-label">@lang('Course Name')</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="courseName{{$section->id}}" name="course_name" placeholder="Course Name">
+              <input type="text" class="form-control" id="courseName{{$section->id}}" name="course_name" placeholder="@lang('Course Name')">
             </div>
           </div>
           <div class="form-group">
@@ -61,7 +61,7 @@
         <div class="form-group">
           <label for="courseTime{{$section->id}}" class="col-sm-2 control-label">@lang('Course Time')</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="courseTime{{$section->id}}" name="course_time" placeholder="Course Time">
+            <input type="text" class="form-control" id="courseTime{{$section->id}}" name="course_time" placeholder="@lang('Course Time')">
             <span id="helpBlock" class="help-block">@lang('Example: 12:50PM-01:40PM Sunday')</span>
           </div>
         </div>

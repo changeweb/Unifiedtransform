@@ -62,7 +62,7 @@ class SectionController extends Controller
       $tb->room_number = $request->room_number;
       $tb->class_id = $request->class_id;
       $tb->save();
-      return back()->with('status', 'Created');
+      return back()->with('status', __('Created'));
     }
 
     /**

@@ -99,56 +99,56 @@
           <td>{{$grade->student->student_code}}</td>
           <td>{{$grade->student->name}}</td>
           <td>
-            <input type="number" name="attendance[]" class="form-control input-sm" placeholder="Attendance" value="{{$grade->attendance}}">
+            <input type="number" name="attendance[]" class="form-control input-sm" placeholder="@lang('Attendance')" value="{{$grade->attendance}}">
           </td>
           <td>
             <input type="number" name="quiz1[]" class="form-control input-sm input-sm" value="{{$grade->quiz1}}"
-              placeholder="Qz 1" max="20">
+              placeholder="@lang('Qz 1')" max="20">
           </td>
           <td>
-            <input type="number" name="quiz2[]" class="form-control input-sm" value="{{$grade->quiz2}}" placeholder="Qz 2">
+            <input type="number" name="quiz2[]" class="form-control input-sm" value="{{$grade->quiz2}}" placeholder="@lang('Qz 2')">
           </td>
           <td>
-            <input type="number" name="quiz3[]" class="form-control input-sm" value="{{$grade->quiz3}}" placeholder="Qz 3">
+            <input type="number" name="quiz3[]" class="form-control input-sm" value="{{$grade->quiz3}}" placeholder="@lang('Qz 3')">
           </td>
           <td>
-            <input type="number" name="quiz4[]" class="form-control input-sm" value="{{$grade->quiz4}}" placeholder="Qz 4">
+            <input type="number" name="quiz4[]" class="form-control input-sm" value="{{$grade->quiz4}}" placeholder="@lang('Qz 4')">
           </td>
           <td>
-            <input type="number" name="quiz5[]" class="form-control input-sm" value="{{$grade->quiz5}}" placeholder="Qz 5">
+            <input type="number" name="quiz5[]" class="form-control input-sm" value="{{$grade->quiz5}}" placeholder="@lang('Qz 5')">
           </td>
           <td>
-            <input type="number" name="assign1[]" class="form-control input-sm" placeholder="Assignment 1" value="{{$grade->assignment1}}">
+            <input type="number" name="assign1[]" class="form-control input-sm" placeholder="@lang('Assignment 1')" value="{{$grade->assignment1}}">
           </td>
           <td>
-            <input type="number" name="assign2[]" class="form-control input-sm" placeholder="Assignment 2" value="{{$grade->assignment2}}">
+            <input type="number" name="assign2[]" class="form-control input-sm" placeholder="@lang('Assignment 2')" value="{{$grade->assignment2}}">
           </td>
           <td>
-            <input type="number" name="assign3[]" class="form-control input-sm" placeholder="Assignment 3" value="{{$grade->assignment3}}">
+            <input type="number" name="assign3[]" class="form-control input-sm" placeholder="@lang('Assignment 3')" value="{{$grade->assignment3}}">
           </td>
           <td>
-            <input type="number" name="ct1[]" class="form-control input-sm" placeholder="CT 1" value="{{$grade->ct1}}">
+            <input type="number" name="ct1[]" class="form-control input-sm" placeholder="@lang('CT 1')" value="{{$grade->ct1}}">
           </td>
           <td>
-            <input type="number" name="ct2[]" class="form-control input-sm" placeholder="CT 2" value="{{$grade->ct2}}">
+            <input type="number" name="ct2[]" class="form-control input-sm" placeholder="@lang('CT 2')" value="{{$grade->ct2}}">
           </td>
           <td>
-            <input type="number" name="ct3[]" class="form-control input-sm" placeholder="CT 3" value="{{$grade->ct3}}">
+            <input type="number" name="ct3[]" class="form-control input-sm" placeholder="@lang('CT 3')" value="{{$grade->ct3}}">
           </td>
           <td>
-            <input type="number" name="ct4[]" class="form-control input-sm" placeholder="CT 4" value="{{$grade->ct4}}">
+            <input type="number" name="ct4[]" class="form-control input-sm" placeholder="@lang('CT 4')" value="{{$grade->ct4}}">
           </td>
           <td>
-            <input type="number" name="ct5[]" class="form-control input-sm" placeholder="CT 5" value="{{$grade->ct5}}">
+            <input type="number" name="ct5[]" class="form-control input-sm" placeholder="@lang('CT 5')" value="{{$grade->ct5}}">
           </td>
           <td>
-            <input type="number" name="written[]" class="form-control input-sm" placeholder="Written" value="{{$grade->written}}">
+            <input type="number" name="written[]" class="form-control input-sm" placeholder="@lang('Written')" value="{{$grade->written}}">
           </td>
           <td>
-            <input type="number" name="mcq[]" class="form-control input-sm" placeholder="Mcq" value="{{$grade->mcq}}">
+            <input type="number" name="mcq[]" class="form-control input-sm" placeholder="@lang('Mcq')" value="{{$grade->mcq}}">
           </td>
           <td>
-            <input type="number" name="practical[]" class="form-control input-sm" placeholder="Practical" value="{{$grade->practical}}">
+            <input type="number" name="practical[]" class="form-control input-sm" placeholder="@lang('Practical')" value="{{$grade->practical}}">
           </td>
         </tr>
         @endforeach

@@ -40,7 +40,7 @@ class SchoolController extends Controller
             'theme'       => 'flatly'
         ]);
 
-        return redirect()->route('schools.index');
+        return redirect()->route('schools.index')->with('status', __('Created'));
     }
 
     /**
@@ -75,7 +75,7 @@ class SchoolController extends Controller
       $s->school_id = \Auth::user()->school_id;
       $s->department_name = $request->department_name;
       $s->save();
-      return back()->with('status', 'Created');
+      return back()->with('status', __('Created'));
     }
 
     public function changeTheme(Request $request){

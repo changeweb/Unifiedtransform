@@ -24,11 +24,11 @@
                     <table class="table table-data-div table-bordered">
                         <thead>
                         <tr>
-                            <th scope="col">Sl.</th>
-                            <th scope="col">Student Code</th>
-                            <th scope="col">Student Name</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Grade History</th>
+                            <th scope="col">@lang('Sl.')</th>
+                            <th scope="col">@lang('Student Code')</th>
+                            <th scope="col">@lang('Student Name')</th>
+                            <th scope="col">@lang('Status')</th>
+                            <th scope="col">@lang('Grade History')</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -39,12 +39,12 @@
                             <td><a href="{{url('user/'.$student->student_code)}}">{{$student->name}}</a></td>
                             <td>
                             @if($student->studentInfo['session'] == now()->year || $student->studentInfo['session'] > now()->year)
-                            <span class="label label-success">Promoted/New</span>
+                            <span class="label label-success">@lang('Promoted/New')</span>
                             @else
-                            <span class="label label-danger">Not Promoted</span>
+                            <span class="label label-danger">@lang('Not Promoted')</span>
                             @endif
                             </td>
-                            <td><a class="btn btn-xs btn-success" role="button" href="{{url('grades/'.$student->id)}}">View Grade History</a></td>
+                            <td><a class="btn btn-xs btn-success" role="button" href="{{url('grades/'.$student->id)}}">@lang('View Grade History')</a></td>
                         </tr>
                         @endforeach
                         </tbody>

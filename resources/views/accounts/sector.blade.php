@@ -12,7 +12,7 @@
                 <div class="col-md-6">
                     <br>
                     <div class="panel panel-default">
-                        <div class="page-panel-title">Account Sectors</div>
+                        <div class="page-panel-title">@lang('Account Sectors')</div>
 
                         <div class="panel-body">
                             @if (session('status'))
@@ -23,10 +23,10 @@
                             <form class="form-horizontal" action="{{url('/accounts/create-sector')}}" method="post">
                             {{ csrf_field() }}
                             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                                <label for="name" class="col-md-4 control-label">Sector Name</label>
+                                <label for="name" class="col-md-4 control-label">@lang('Sector Name')</label>
 
                                 <div class="col-md-6">
-                                    <input id="name" type="text" class="form-control" name="name" value="{{ (!empty($sector->name))?$sector->name:old('name') }}" placeholder="Sector Name" required>
+                                    <input id="name" type="text" class="form-control" name="name" value="{{ (!empty($sector->name))?$sector->name:old('name') }}" placeholder="@lang('Sector Name')" required>
 
                                     @if ($errors->has('name'))
                                         <span class="help-block">
@@ -36,12 +36,12 @@
                                 </div>
                             </div>
                             <div class="form-group{{ $errors->has('type') ? ' has-error' : '' }}">
-                                <label for="type" class="col-md-4 control-label">Sector Type</label>
+                                <label for="type" class="col-md-4 control-label">@lang('Sector Type')</label>
 
                                 <div class="col-md-6">
                                     <select  class="form-control" name="type">
-                                        <option value="income">Income</option>
-                                        <option value="expense">Expense</option>
+                                        <option value="income">@lang('Income')</option>
+                                        <option value="expense">@lang('Expense')</option>
                                     </select>
 
                                     @if ($errors->has('type'))
@@ -53,7 +53,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-4 col-sm-8">
-                                <button type="submit" class="btn btn-danger">Save</button>
+                                <button type="submit" class="btn btn-danger">@lang('Save')</button>
                                 </div>
                             </div>
                             </form>
@@ -70,13 +70,13 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <h3>All Created Sectors</h3>
+                    <h3>@lang('All Created Sectors')</h3>
                     <table class="table table-striped table-data-div">
                         <thead>
                             <tr>
-                                <th>Sector Name</th>
-                                <th>Type</th>
-                                <th>Action</th>
+                                <th>@lang('Sector Name')</th>
+                                <th>@lang('Type')</th>
+                                <th>@lang('Action')</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -85,7 +85,7 @@
                                 <td>{{$sector->name}}</td>
                                 <td>{{$sector->type}}</td>
                                 <td>
-                                    <a href="{{url('accounts/edit-sector/'.$sector->id)}}" class="btn btn-danger btn-xs" role="button">Edit</a>
+                                    <a href="{{url('accounts/edit-sector/'.$sector->id)}}" class="btn btn-danger btn-xs" role="button">@lang('Edit')</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -123,7 +123,7 @@
 			type: 'bar',
 			data: {
 				datasets: [{
-                    label: 'Income',
+                    label: @json( __('Income')),
 					backgroundColor: color(window.chartColors.green).alpha(0.5).rgbString(),
 					borderColor: window.chartColors.green,
 					fill: false,
@@ -134,7 +134,7 @@
                         },
                         @endforeach]
                 },{
-                    label: 'Expense',
+                    label: @json( __('Expense')),
 					backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
 					borderColor: window.chartColors.red,
 					fill: false,
@@ -149,7 +149,7 @@
 			options: {
 				title: {
                     display: true,
-					text: 'Income and Expense (In Dollar) in Time Scale'
+					text: @json( __('Income and Expense (In Dollar) in Time Scale'))
 				},
 				scales: {
 					xAxes: [{
@@ -160,13 +160,13 @@
 						},
 						scaleLabel: {
 							display: true,
-							labelString: 'Date'
+							labelString: @json( __('Date'))
 						}
 					}],
 					yAxes: [{
 						scaleLabel: {
 							display: true,
-							labelString: 'Money'
+							labelString: @json( __('Money'))
 						}
 					}]
 				},

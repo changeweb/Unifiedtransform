@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Receipts')
+@section('title', __('Receipts'))
 
 @section('content')
 <div class="container-fluid">
@@ -10,7 +10,7 @@
         </div>
         <div class="col-md-10" id="main-container">
             <div class="panel panel-default">
-                <div class="page-panel-title">Invoices
+                <div class="page-panel-title">@lang('Invoices')
               </div>
                 <div class="panel-body">
                     @if (session('status'))
@@ -20,10 +20,10 @@
                     @endif
                     <table class="table">
                         <tr>
-                            <th>Charged For</th>
-                            <th>Payment Date</th>
-                            <th>Amount</th>
-                            <th>Payment Status</th>
+                            <th>@lang('Charged For')</th>
+                            <th>@lang('Payment Date')</th>
+                            <th>@lang('Amount')</th>
+                            <th>@lang('Payment Status')</th>
                         </tr>
                         @foreach ($receipts as $receipt)
                             <tr>

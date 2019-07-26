@@ -61,7 +61,7 @@ class ExamController extends Controller
         }
         
         //return $this->cindex($course_id, $exam_id, $teacher_id);
-        return back()->with('status', 'Created');
+        return back()->with('status', __('Created'));
     }
 
     /**
@@ -104,7 +104,7 @@ class ExamController extends Controller
         } catch (\Exception $e){
             return 'Error: '. $e->getMessage();
         }
-        return back()->with('status', 'Saved');
+        return back()->with('status', __('Saved'));
     }
 
     /**
