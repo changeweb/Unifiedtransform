@@ -21,15 +21,6 @@ class SchoolController extends Controller
       $schools = School::orderBy('created_at', 'desc')->paginate();
 
       return view('schools.index', compact('schools'));
-      //$classes = Myclass::all();
-      //$sections = Section::all();
-      //$teachers = User::join('departments', 'departments.id', '=', 'users.department_id')
-                            //->where('role', 'teacher')
-                            //->orderBy('name','ASC')
-                            //->where('active', 1)
-                            //->get();
-      //$departments = Department::bySchool(\Auth::user()->school_id)->get();
-      //return view('school.create-school', compact('schools', 'classes', 'sections', 'teachers', 'departments'));
     }
 
     /**

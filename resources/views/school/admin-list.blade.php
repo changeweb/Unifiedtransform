@@ -13,7 +13,7 @@
             @endif
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url('create-school')}}"><i class="material-icons">gamepad</i> @lang('Manage School')</a>
+                    <a class="nav-link" href="{{ route('schools.index') }}"><i class="material-icons">gamepad</i> @lang('Manage School')</a>
                 </li>
             </ul>
         </div>

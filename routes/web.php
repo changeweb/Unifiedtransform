@@ -79,9 +79,10 @@ Route::middleware(['auth','accountant'])->prefix('fees')->name('fees.')->group(f
 });
 
 Route::middleware(['auth','admin'])->group(function (){
-  Route::get('gpa/create-gpa', 'GradesystemController@create');
-  Route::post('create-gpa', 'GradesystemController@store');
-  Route::post('gpa/delete', 'GradesystemController@destroy');
+    Route::get('/settings', 'SettingController@index')->name('settings.index');
+    Route::get('gpa/create-gpa', 'GradesystemController@create');
+    Route::post('create-gpa', 'GradesystemController@store');
+    Route::post('gpa/delete', 'GradesystemController@destroy');
 });
 
 Route::middleware(['auth','teacher'])->group(function (){

@@ -14,7 +14,7 @@
         <div class="col-md-3" id="side-navbar">
             <ul class="nav flex-column">
                 <li class="nav-item active">
-                    <a class="nav-link" href="{{ url('create-school') }}"><i class="material-icons">gamepad</i> <span class="nav-link-text">@lang('Back to Manage School')</span></a>
+                    <a class="nav-link" href="{{ route('schools.index') }}"><i class="material-icons">gamepad</i> <span class="nav-link-text">@lang('Back to Manage School')</span></a>
                 </li>
             </ul>
         </div>
