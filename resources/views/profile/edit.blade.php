@@ -86,7 +86,10 @@
                                 <select id="department" class="form-control" name="department_id">
                                     @if (count($departments)) > 0)
                                     @foreach ($departments as $d)
-                                    <option value="{{$d->id}}">{{$d->department_name}}</option>
+                                    <option value="{{$d->id}}" @if ($d->id == old('department_id', $user->department_id))
+											selected="selected"
+										@endif
+										>{{$d->department_name}}</option>
                                     @endforeach
                                     @endif
                                 </select>
@@ -103,11 +106,11 @@
 
                             <div class="col-md-6">
                                 <select id="class_teacher" class="form-control" name="class_teacher_section_id">
-                                    <option selected="selected" value="{{$user->section->id}}">@lang('Section'):
-                                        {{$user->section->section_number}} @lang('Class'):
-                                        {{$user->section->class->class_number}}</option>
                                     @foreach ($sections as $section)
-                                    <option value="{{$section->id}}">@lang('Section'): {{$section->section_number}} @lang('Class'):
+                                    <option value="{{$section->id}}" @if ($section->id == old('class_teacher_section_id', $user->section_id))
+											selected="selected"
+										@endif
+										>@lang('Section'): {{$section->section_number}} @lang('Class'):
                                         {{$section->class->class_number}}</option>
                                     @endforeach
                                 </select>
