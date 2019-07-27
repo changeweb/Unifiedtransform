@@ -131,7 +131,7 @@ class CourseController extends Controller
         'course_name' => 'required|string',
         'course_time' => 'required|string',
       ]);
-      $this->courseService->updateCourseInfo($id);
+      $this->courseService->updateCourseInfo($id, $request);
       return back()->with('status', __('Saved'));
     }
 
