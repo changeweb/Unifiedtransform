@@ -10,7 +10,7 @@
             </div>
             <div class="col-md-10" id="main-container">
                 <div class="panel panel-default">
-                    <div class="page-panel-title">Academic Settings</div>
+                    <div class="page-panel-title">@lang('Academic Settings')</div>
                     <div class="panel-body table-responsive">
                         <table class="table table-condensed">
                             <thead>
@@ -132,16 +132,16 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <a class="btn btn-info btn-sm" href="{{url('register/student')}}">+ Add Student</a>
+                                        <a class="btn btn-info btn-sm" href="{{url('register/student')}}">+ @lang('Add Student')</a>
                                         <br>
-                                        <h5>Or, Mass upload Excel</h5>
+                                        <h5>@lang('Or, Mass upload Excel')</h5>
                                         @component('components.excel-upload-form', ['type'=>'student'])
                                         @endcomponent
                                     </td>
                                     <td>
-                                        <a class="btn btn-success btn-sm" href="{{url('register/teacher')}}">+ Add Teacher</a>
+                                        <a class="btn btn-success btn-sm" href="{{url('register/teacher')}}">+ @lang('Add Teacher')</a>
                                         <br>
-                                        <h5>Or, Mass upload Excel</h5>
+                                        <h5>@lang('Or, Mass upload Excel')</h5>
                                         @component('components.excel-upload-form', ['type'=>'teacher'])
                                         @endcomponent
                                     </td>
