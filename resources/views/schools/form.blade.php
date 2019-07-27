@@ -17,7 +17,7 @@
                         <label for="name" class="col-md-4 control-label">@lang('School Name')</label>
 
                         <div class="col-md-6">
-                            <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="School Name" required>
+                            <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="@lang('School Name')" required>
 
                             @if ($errors->has('name'))
                                 <span class="help-block">
@@ -32,12 +32,12 @@
 
                         <div class="col-md-6">
                             <select id="medium" class="form-control" name="medium">
-                                <option selected="selected">Bangla</option>
-                                <option>English</option>
-                                <option>Hindi</option>
-                                <option>Spanish</option>
-                                <option>Chinese</option>
-                                <option>Arabic</option>
+                                <option selected="selected">@lang('Bangla')</option>
+                                <option>@lang('English')</option>
+                                <option>@lang('Hindi')</option>
+                                <option>@lang('Spanish')</option>
+                                <option>@lang('Chinese')</option>
+                                <option>@lang('Arabic')</option>
                             </select>
 
                             @if ($errors->has('medium'))
@@ -52,7 +52,7 @@
                         <label for="established" class="col-md-4 control-label">@lang('School Established')</label>
 
                         <div class="col-md-6">
-                            <input id="established" type="text" class="form-control" name="established" value="{{ old('established') }}" placeholder="School Established" required>
+                            <input id="established" type="text" class="form-control" name="established" value="{{ old('established') }}" placeholder="@lang('School Established')" required>
 
                             @if ($errors->has('established'))
                                 <span class="help-block">
@@ -66,7 +66,7 @@
                         <label for="about" class="col-md-4 control-label">@lang('About')</label>
 
                         <div class="col-md-6">
-                            <textarea id="about" class="form-control" rows="3" name="about" placeholder="About School" required>{{ old('about') }}</textarea>
+                            <textarea id="about" class="form-control" rows="3" name="about" placeholder="@lang('About School')" required>{{ old('about') }}</textarea>
 
                             @if ($errors->has('about'))
                                 <span class="help-block">

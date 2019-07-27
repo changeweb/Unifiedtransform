@@ -17,9 +17,9 @@
                                 <th scope="col">@lang('Name')</th>
                                 <th scope="col">@lang('Code')</th>
                                 <th scope="col">@lang('About')</th>
-                                <th scope="col">Edit</th>
-                                <th scope="col">+Admin</th>
-                                <th scope="col">View Admins</th>
+                                <th scope="col">@lang('Edit')</th>
+                                <th scope="col">+@lang('Admin')</th>
+                                <th scope="col">@lang('View Admins')</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -31,12 +31,12 @@
                                     <td><small>{{$school->about}}</small></td>
                                     <td>
                                         <a class="btn btn-success btn-sm" role="button" href="{{ route('schools.edit', $school) }}" dusk="edit-school-link">
-                                            <small>Edit School</small>
+                                            <small>@lang('Edit School')</small>
                                         </a>
                                     </td>
                                     <td>
                                         <a class="btn btn-danger btn-sm" role="button" href="{{url('register/admin/'.$school->id.'/'.$school->code)}}">
-                                            <small>+ Create Admin</small>
+                                            <small>+ @lang('Create Admin')</small>
                                         </a>
                                     </td>
                                     <td>
