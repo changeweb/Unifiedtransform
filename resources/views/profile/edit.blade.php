@@ -34,7 +34,7 @@
                         <input type="hidden" name="user_id" value="{{$user->id}}">
                         <input type="hidden" name="user_role" value="{{$user->role}}">
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">@lang('Full Name')</label>
+                            <label for="name" class="col-md-4 control-label">* @lang('Full Name')</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control" name="name" value="{{ $user->name }}"
@@ -156,7 +156,7 @@
                         @if($user->role == 'student')
 
                         <div class="form-group{{ $errors->has('birthday') ? ' has-error' : '' }}">
-                            <label for="birthday" class="col-md-4 control-label">@lang('Birthday')</label>
+                            <label for="birthday" class="col-md-4 control-label">* @lang('Birthday')</label>
 
                             <div class="col-md-6">
                                 <input id="birthday" type="text" class="form-control" name="birthday" required>
@@ -169,7 +169,7 @@
                             </div>
                         </div>
                         <div class="form-group{{ $errors->has('session') ? ' has-error' : '' }}">
-                            <label for="session" class="col-md-4 control-label">@lang('Session')</label>
+                            <label for="session" class="col-md-4 control-label">* @lang('Session')</label>
 
                             <div class="col-md-6">
                                 <input id="session" type="text" class="form-control" name="session" required>
@@ -199,7 +199,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('father_name') ? ' has-error' : '' }}">
-                            <label for="father_name" class="col-md-4 control-label">@lang('Father\'s Name')</label>
+                            <label for="father_name" class="col-md-4 control-label">* @lang('Father\'s Name')</label>
 
                             <div class="col-md-6">
                                 <input id="father_name" type="text" class="form-control" name="father_name"
@@ -290,7 +290,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('mother_name') ? ' has-error' : '' }}">
-                            <label for="mother_name" class="col-md-4 control-label">@lang('Mother\'s Name')</label>
+                            <label for="mother_name" class="col-md-4 control-label">* @lang('Mother\'s Name')</label>
 
                             <div class="col-md-6">
                                 <input id="mother_name" type="text" class="form-control" name="mother_name"
