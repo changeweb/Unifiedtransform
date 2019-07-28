@@ -45,7 +45,7 @@
                                                             <div class="form-group">
                                                                 <label for="department_name" class="col-sm-2 control-label">@lang('Department Name')</label>
                                                                 <div class="col-sm-10">
-                                                                    <input type="text" class="form-control" id="department_name" name="department_name" placeholder="English, Mathematics,...">
+                                                                    <input type="text" class="form-control" id="department_name" name="department_name" placeholder="@lang('English, Mathematics,...')">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
@@ -91,7 +91,7 @@
                                                                         <ul class="list-group">
                                                                             @foreach($sections as $section)
                                                                                 @if($section->class_id == $class->id)
-                                                                                    <li class="list-group-item">Section {{$section->section_number}} &nbsp;
+                                                                                    <li class="list-group-item">@lang('Section') {{$section->section_number}} &nbsp;
                                                                                         <a class="btn btn-xs btn-warning" href="{{url('courses/0/'.$section->id)}}">@lang('View All Assigned Courses')</a>
                                                                                         <span class="pull-right"> &nbsp;&nbsp;
                                                                                             <a  class="btn btn-xs btn-success" href="{{url('school/promote-students/'.$section->id)}}">+ @lang('Promote Students')</a>
@@ -119,7 +119,7 @@
                             </thead>
                         </table>
 
-                        <h4>Add Users</h4>
+                        <h4>@lang('Add Users')</h4>
                         <table class="table table-condensed" style="width:600px">
                             <thead>
                                 <tr>
