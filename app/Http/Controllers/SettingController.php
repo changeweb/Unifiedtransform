@@ -16,7 +16,8 @@ class SettingController extends Controller
         $classes     = Myclass::all();
         $sections    = Section::all();
         $departments = Department::bySchool(\Auth::user()->school_id)->get();
-        $teachers = User::join('departments', 'departments.id', '=', 'users.department_id')
+        $teachers = User::select('departments.*', 'users.*')
+			->join('departments', 'departments.id', '=', 'users.department_id')
             ->where('role', 'teacher')
             ->orderBy('name', 'ASC')
             ->where('active', 1)

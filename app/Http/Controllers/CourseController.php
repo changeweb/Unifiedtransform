@@ -77,7 +77,7 @@ class CourseController extends Controller
       try{
         $this->courseService->addCourse($request);
       } catch (\Exception $ex){
-        return 'Could not add course.';
+        return __('Could not add course.');
       }
       return back()->with('status', __('Created'));
     }
@@ -90,7 +90,7 @@ class CourseController extends Controller
       try{
         $this->courseService->saveConfiguration($request);
       } catch (\Exception $ex){
-        return 'Could not save configuration.';
+        return __('Could not save configuration.');
       }
       return back()->with('status', __('Saved'));
     }

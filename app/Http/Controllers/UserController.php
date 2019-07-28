@@ -332,6 +332,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request)
     {
+		 
         DB::transaction(function () use ($request) {
             $tb = $this->user->find($request->user_id);
             $tb->name = $request->name;
@@ -340,7 +341,9 @@ class UserController extends Controller
             $tb->phone_number = $request->phone_number;
             $tb->address = (!empty($request->address)) ? $request->address : '';
             $tb->about = (!empty($request->about)) ? $request->about : '';
-            $tb->pic_path = (!empty($request->pic_path)) ? $request->pic_path : '';
+			if (!empty($request->pic_path)) {
+				$tb->pic_path = $request->pic_path;
+			}
             if ($request->user_role == 'teacher') {
                 $tb->department_id = $request->department_id;
                 $tb->section_id = $request->class_teacher_section_id;

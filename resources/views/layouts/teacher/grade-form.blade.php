@@ -156,7 +156,7 @@
     </table>
   </div>
   <div style="text-align:center;">
-    <input type="submit" name="save" class="btn btn-primary" value="Submit">
+    <input type="submit" name="save" class="btn btn-primary" value="@lang('Submit')">
   </div>
 </form>
 
