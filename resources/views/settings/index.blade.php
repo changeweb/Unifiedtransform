@@ -88,6 +88,13 @@
                                                                         <h4 class="modal-title" id="myModalLabel">@lang('All Sections of Class') {{$class->class_number}}</h4>
                                                                     </div>
                                                                     <div class="modal-body">
+																		<div class="form-check">
+																			<?php 
+																				$checked = Session::has('ignoreSessions') ? (Session::get('ignoreSessions') == "true" ? "checked='checked'" : "") : "";
+																			?>
+																			<input class="form-check-input position-static" type="checkbox" name="ignoreSessionsCheck" id="ignoreSessionsId" <?php echo $checked ?>>
+																			@lang("Ignore Sessions when listing students for promoting")
+																		</div>
                                                                         <ul class="list-group">
                                                                             @foreach($sections as $section)
                                                                                 @if($section->class_id == $class->id)
@@ -183,4 +190,23 @@
             </div>
         </div>
     </div>
+	<script>
+		$(document).ready(function(){
+		  $("#ignoreSessionsId").change(function() {
+			var ignoreSessions = $("#ignoreSessionsId").is(":checked");
+
+			$.ajax({
+					type:'POST',
+					url:'/school/set-ignore-sessions',
+					headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+					data: { "ignoreSessions" : ignoreSessions },
+					success: function(data){
+					  if(data.data.success){
+						  console.log("Result = " + data.data.success);
+					  }
+					}
+				});
+			});
+		});	
+	</script>
 @endsection

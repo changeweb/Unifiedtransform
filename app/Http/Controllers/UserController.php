@@ -107,11 +107,11 @@ class UserController extends Controller
      * @param $section_id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function promoteSectionStudents($section_id)
+    public function promoteSectionStudents(Request $request, $section_id)
     {
         if($this->userService->hasSectionId($section_id))
             return $this->userService->promoteSectionStudentsView(
-                $this->userService->getSectionStudentsWithStudentInfo($section_id),
+                $this->userService->getSectionStudentsWithStudentInfo($request, $section_id),
                 Myclass::with('sections')->bySchool(\Auth::user()->school_id)->get(),
                 $section_id
             );

@@ -85,6 +85,15 @@ class SchoolController extends Controller
       return back();
     }
 
+	public function setIgnoreSessions(Request $request){
+		$request->session()->put('ignoreSessions', $request->ignoreSessions);
+		return response()->json([
+		  'data' => [
+			'success' => "Setting saved"
+		  ]
+		]);
+	}
+
     /**
      * Remove the specified resource from storage.
      *
