@@ -8,6 +8,7 @@ use App\Course;
 use App\Section;
 use App\Myclass;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class GradeService {
 
@@ -68,15 +69,16 @@ class GradeService {
     return ($grade_system_name)?Gradesystem::where('school_id', auth()->user()->school_id)
                         ->where('grade_system_name', $grade_system_name)
                         //->groupBy('grade_system_name')
-                        ->get() : [];
-    
+                        ->get() : Gradesystem::select('grade_system_name')
+                        ->where('school_id', auth()->user()->school_id)
+                        ->distinct()
+                        ->get();
   }
 
   public function getGradeSystemByname($grade_system_name){
     return Gradesystem::where('school_id', auth()->user()->school_id)
                         ->where('grade_system_name', $grade_system_name)
                         ->get();
-    
   }
 
   public function gradeIndexView($view){
@@ -89,10 +91,14 @@ class GradeService {
 
   public function getGradeSystemBySchoolIdGroupByName($grades){
     $grade_system_name = isset($grades[0]->course->grade_system_name) ? $grades[0]->course->grade_system_name : false;
+    
     return ($grade_system_name)?Gradesystem::where('school_id', auth()->user()->school_id)
                         ->where('grade_system_name', $grade_system_name)
-                        ->groupBy('grade_system_name')
-                        ->get() : [];
+                        //->groupBy('grade_system_name')
+                        ->get() : Gradesystem::select('grade_system_name')
+                        ->where('school_id', auth()->user()->school_id)
+                        ->distinct()
+                        ->get();
   }
 
   public function gradeTeacherIndexView($view){
@@ -208,19 +214,19 @@ class GradeService {
         // Quiz
         $this->full_field_mark = $course->quiz_fullmark;
         $this->field_percentage = $course->quiz_percent;
-        $this->avg_field_sum = $this->quizSum/$this->quizCount;
+        $this->avg_field_sum = $this->quizCount > 0 ? $this->quizSum/$this->quizCount : 0;
         $this->final_default_value = $this->quizSum;
         $this->final_quiz_mark = $this->getFieldFinalMark();
         // Assignment
         $this->full_field_mark = $course->a_fullmark;
         $this->field_percentage = $course->assignment_percent;
-        $this->avg_field_sum = $this->assignmentSum/$this->assignmentCount;
+        $this->avg_field_sum = $this->assignmentCount > 0 ? $this->assignmentSum/$this->assignmentCount : 0;
         $this->final_default_value = $this->assignmentSum;
         $this->final_assignment_mark = $this->getFieldFinalMark();
         // Class Test
         $this->full_field_mark = $course->ct_fullmark;
         $this->field_percentage = $course->ct_percent;
-        $this->avg_field_sum = $this->ctSum/$this->ctCount;
+        $this->avg_field_sum = $this->ctCount > 0 ? $this->ctSum/$this->ctCount : 0;
         $this->final_default_value = $this->ctSum;
         $this->final_ct_mark = $this->getFieldFinalMark();
         // Final Exam
@@ -257,7 +263,8 @@ class GradeService {
           }
         } else {
           for($i=1; $i<=5; ++$i){
-            $fieldSum += $this->grade["{$this->field}{$i}"];
+            if (isset($this->grade["{$this->field}{$i}"]))
+              $fieldSum += $this->grade["{$this->field}{$i}"];
           }
         }
       return $fieldSum;

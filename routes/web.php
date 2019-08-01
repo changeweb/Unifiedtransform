@@ -202,6 +202,7 @@ Route::middleware(['auth','admin'])->group(function (){
     Route::get('promote-students/{section_id}','UserController@promoteSectionStudents');
     Route::post('promote-students','UserController@promoteSectionStudentsPost');
     Route::post('theme','SchoolController@changeTheme');
+	Route::post('set-ignore-sessions','SchoolController@setIgnoreSessions');
   });
 
   Route::prefix('register')->name('register.')->group(function (){

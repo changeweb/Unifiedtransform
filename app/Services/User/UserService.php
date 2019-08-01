@@ -5,6 +5,7 @@ use App\User;
 use App\StudentInfo;
 use Illuminate\Support\Facades\DB;
 use Mavinoo\LaravelBatch\Batch;
+use Illuminate\Support\Facades\Log;
 
 class UserService {
     
@@ -70,7 +71,7 @@ class UserService {
     public function promoteSectionStudentsPost($request)
     {   
         if ($request->section_id > 0) {
-            $students = $this->getSectionStudentsWithStudentInfo($request->section_id);
+            $students = $this->getSectionStudentsWithStudentInfo($request, $request->section_id);
             $i = 0;
             foreach ($students as $student) {
                 $this->st[] = [
@@ -161,13 +162,24 @@ class UserService {
             ->get();
     }
 
-    public function getSectionStudentsWithStudentInfo($section_id){
-        return $this->user->with(['section'])
+    public function getSectionStudentsWithStudentInfo($request, $section_id){
+		$ignoreSessions = $request->session()->get('ignoreSessions');
+		
+        if (isset($ignoreSessions) && $ignoreSessions == "true") {
+			return $this->user->with(['section'])
+                ->join('student_infos', 'users.id', '=', 'student_infos.student_id')
+                //->where('student_infos.session', '<=', now()->year)
+                ->where('users.section_id', $section_id)
+                ->where('users.active', 1)
+                ->get();
+		} else {
+			return $this->user->with(['section'])
                 ->join('student_infos', 'users.id', '=', 'student_infos.student_id')
                 ->where('student_infos.session', '<=', now()->year)
                 ->where('users.section_id', $section_id)
                 ->where('users.active', 1)
                 ->get();
+		}
     }
 
     public function getSectionStudents($section_id){
