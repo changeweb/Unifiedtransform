@@ -49,7 +49,9 @@
     "extra": {
         "laravel": {
             "dont-discover": [
-              "laravel/dusk"
+                "laravel/dusk",
+                "barryvdh/laravel-debugbar",
+                "rap2hpoutre/laravel-log-viewer"
             ]
         }
     },

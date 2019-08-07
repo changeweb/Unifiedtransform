@@ -1,4 +1,8 @@
 <?php
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -9,28 +13,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-//in controller :- return (new ResultOutput())->output($data);
-/*
-class ResultOutput()
-{
-    private $type;
-    public __construct(Request $request) {
-        $this->output = 'view';
-        if ($request->wantsJson()) {
-            $this->output = 'json';
-        }
-    }
-    public method output($data) {
-        if ($this->type =='view') {
-            // return the view with data
-        } else {
-            // return the json output
-        }
-    }
-}
-*/
 
-\Debugbar::disable();
 
 Route::get('/', function () {
     return view('welcome');
