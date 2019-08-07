@@ -32,9 +32,9 @@
                     <br>
                     <div class="row" style="margin-bottom: 2%;">
                       <div class="col-md-10">
-                        <b>Course - </b> <small>{{$grade->course->course_name}}</small>
-                        <b>Class - </b> <small>{{$grade->course->section->class->class_number}}</small> <b>Section - </b> <small>{{$grade->course->section->section_number}}</small> 
-                        <b>Exam - </b> <small>{{$grade->exam->exam_name}}</small>
+                        <b>@lang('Course') - </b> <small>{{$grade->course->course_name}}</small>
+                        <b>@lang('Class') - </b> <small>{{$grade->course->section->class->class_number}}</small> <b>@lang('Section') - </b> <small>{{$grade->course->section->section_number}}</small> 
+                        <b>@lang('Exam') - </b> <small>{{$grade->exam->exam_name}}</small>
                       </div>
                     </div>
                     <div class="row">
