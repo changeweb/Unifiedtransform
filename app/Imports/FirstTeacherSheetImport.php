@@ -22,28 +22,28 @@ class FirstTeacherSheetImport implements ToModel, WithHeadingRow, WithBatchInser
     */
     public function model(array $row)
     {
-        $this->class = (string) $row['class'];
-        $this->section = (string) $row['section'];
-        $this->department = $row['department'];
+        $this->class = (string) $row[__('class')];
+        $this->section = (string) $row[__('section')];
+        $this->department = $row[__('department')];
 
         return new User([
-                'name'           => $row['name'],
-                'email'          => $row['email'],
-                'password'       => Hash::make($row['password']),
+                'name'           => $row[__('name')],
+                'email'          => $row[__('email')],
+                'password'       => Hash::make($row[__('password')]),
                 'active'         => 1,
                 'role'           => 'teacher',
                 'school_id'      => auth()->user()->school_id,
                 'code'           => auth()->user()->code,
                 'student_code'   => auth()->user()->school_id.date('y').substr(number_format(time() * mt_rand(), 0, '', ''), 0, 5),
-                'address'        => $row['address'],
-                'about'          => $row['about'],
+                'address'        => $row[__('address')],
+                'about'          => $row[__('about')],
                 'pic_path'       => '',
-                'phone_number'   => $row['phone_number'],
+                'phone_number'   => $row[__('phone_number')],
                 'verified'       => 1,
                 'section_id'     => $this->getSectionId(),// For assigning as class teacher
-                'blood_group'    => $row['blood_group'] ?? '',
-                'nationality'    => $row['nationality'] ?? '',
-                'gender'         => $row['gender'],
+                'blood_group'    => $row[__('blood_group')] ?? '',
+                'nationality'    => $row[__('nationality')] ?? '',
+                'gender'         => $row[__('gender')],
                 'department_id'  => $this->getDepartmentId(),
         ]);
     }
