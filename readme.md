@@ -94,6 +94,8 @@ This software has following features:
 ## How to Start
 ### Using a Container:
 
+**Anyone having trouble related to `mysql-client`, PHP 7.3 needs mariadb instead of mysql.** See issue [#192](https://github.com/changeweb/Unifiedtransform/issues/192)
+
 **[Docker](https://www.docker.com/)** is now supported.
 
 You need to change Docker configuration files according to your need.
