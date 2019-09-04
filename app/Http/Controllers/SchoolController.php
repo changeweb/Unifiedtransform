@@ -19,7 +19,6 @@ class SchoolController extends Controller
      */
     public function index() {
       $schools = School::orderBy('created_at', 'desc')->paginate();
-
       return view('schools.index', compact('schools'));
     }
 
