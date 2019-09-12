@@ -305,7 +305,7 @@ class UserController extends Controller
     {
         $user = $this->user->find($id);
         $classes = Myclass::query()
-            ->bySchool(\Auth::user()->school_id)
+            ->bySchool($user->school_id)
             ->pluck('id')
             ->toArray();
 
@@ -314,7 +314,7 @@ class UserController extends Controller
             ->get();
 
         $departments = Department::query()
-            ->bySchool(\Auth::user()->school_id)
+            ->bySchool($user->school_id)
             ->get();
 
         return view('profile.edit', [
