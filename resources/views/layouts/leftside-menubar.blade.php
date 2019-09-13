@@ -55,6 +55,9 @@
   <li class="nav-item">
     <a class="nav-link" href="{{ url('school/sections?course=1') }}"><i class="material-icons">class</i> <span class="nav-link-text">@lang('Classes &amp; Sections')</span></a>
   </li>
+  <li class="nav-item">
+      <a class="nav-link" href="{{ route('department.index') }}"><i class="material-icons">class</i><span class="nav-link-text">@lang('Departments')</span>
+  </li>
   @endif
   @if(Auth::user()->role != 'student')
   <li class="nav-item">

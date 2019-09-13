@@ -25,6 +25,7 @@ use App\Events\UserRegistered;
 use App\Events\StudentInfoUpdateRequested;
 use Illuminate\Support\Facades\Log;
 use App\Services\User\UserService;
+
 /**
  * Class UserController
  * @package App\Http\Controllers
@@ -34,7 +35,8 @@ class UserController extends Controller
     protected $userService;
     protected $user;
 
-    public function __construct(UserService $userService, User $user){
+    public function __construct(UserService $userService, User $user)
+    {
         $this->userService = $userService;
         $this->user = $user;
     }
@@ -46,13 +48,13 @@ class UserController extends Controller
      * @param $teacher_code
      * @return \Illuminate\Http\Response
      */
-    public function index($school_code, $student_code, $teacher_code){
+    public function index($school_code, $student_code, $teacher_code)
+    {
         session()->forget('section-attendance');
-        
-        if($this->userService->isListOfStudents($school_code, $student_code))
+        if ($this->userService->isListOfStudents($school_code, $student_code))
             return $this->userService->indexView('list.student-list', $this->userService->getStudents());
-        else if($this->userService->isListOfTeachers($school_code, $teacher_code))
-            return $this->userService->indexView('list.teacher-list',$this->userService->getTeachers());
+        else if ($this->userService->isListOfTeachers($school_code, $teacher_code))
+            return $this->userService->indexView('list.teacher-list', $this->userService->getTeachers());
         else
             return view('home');
     }
@@ -62,10 +64,11 @@ class UserController extends Controller
      * @param $role
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function indexOther($school_code, $role){
-        if($this->userService->isAccountant($role))
+    public function indexOther($school_code, $role)
+    {
+        if ($this->userService->isAccountant($role))
             return $this->userService->indexOtherView('accounts.accountant-list', $this->userService->getAccountants());
-        else if($this->userService->isLibrarian($role))
+        else if ($this->userService->isLibrarian($role))
             return $this->userService->indexOtherView('library.librarian-list', $this->userService->getLibrarians());
         else
             return view('home');
@@ -109,7 +112,7 @@ class UserController extends Controller
      */
     public function promoteSectionStudents(Request $request, $section_id)
     {
-        if($this->userService->hasSectionId($section_id))
+        if ($this->userService->hasSectionId($section_id))
             return $this->userService->promoteSectionStudentsView(
                 $this->userService->getSectionStudentsWithStudentInfo($request, $section_id),
                 Myclass::with('sections')->bySchool(\Auth::user()->school_id)->get(),
@@ -124,7 +127,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function promoteSectionStudentsPost(Request $request)
-    {   
+    {
         return $this->userService->promoteSectionStudentsPost($request);
     }
 
@@ -144,7 +147,7 @@ class UserController extends Controller
     {
         if (Hash::check($request->old_password, Auth::user()->password)) {
             $request->user()->fill([
-              'password' => Hash::make($request->new_password),
+                'password' => Hash::make($request->new_password),
             ])->save();
 
             return back()->with('status', __('Saved'));
@@ -160,11 +163,10 @@ class UserController extends Controller
     {
         if (app('impersonate')->isImpersonating()) {
             Auth::user()->leaveImpersonation();
-            return (Auth::user()->role == 'master')?redirect('/masters') : redirect('/home');
-        }
-        else {
+            return (Auth::user()->role == 'master') ? redirect('/masters') : redirect('/home');
+        } else {
             return view('profile.impersonate', [
-                'other_users' => $this->user->where('id', '!=', auth()->id())->get([ 'id', 'name', 'role' ])
+                'other_users' => $this->user->where('id', '!=', auth()->id())->get(['id', 'name', 'role'])
             ]);
         }
     }
@@ -193,14 +195,14 @@ class UserController extends Controller
             $tb = $this->userService->storeStudent($request);
             try {
                 // Fire event to store Student information
-                if(event(new StudentInfoUpdateRequested($request,$tb->id))){
+                if (event(new StudentInfoUpdateRequested($request, $tb->id))) {
                     // Fire event to send welcome email
                     event(new UserRegistered($tb, $password));
                 } else {
                     throw new \Exeception('Event returned false');
                 }
-            } catch(\Exception $ex) {
-                Log::info('Email failed to send to this address: '.$tb->email.'\n'.$ex->getMessage());
+            } catch (\Exception $ex) {
+                Log::info('Email failed to send to this address: ' . $tb->email . '\n' . $ex->getMessage());
             }
         });
 
@@ -219,8 +221,8 @@ class UserController extends Controller
             // Fire event to send welcome email
             // event(new userRegistered($userObject, $plain_password)); // $plain_password(optional)
             event(new UserRegistered($tb, $password));
-        } catch(\Exception $ex) {
-            Log::info('Email failed to send to this address: '.$tb->email);
+        } catch (\Exception $ex) {
+            Log::info('Email failed to send to this address: ' . $tb->email);
         }
 
         return back()->with('status', __('Saved'));
@@ -237,8 +239,8 @@ class UserController extends Controller
         try {
             // Fire event to send welcome email
             event(new UserRegistered($tb, $password));
-        } catch(\Exception $ex) {
-            Log::info('Email failed to send to this address: '.$tb->email);
+        } catch (\Exception $ex) {
+            Log::info('Email failed to send to this address: ' . $tb->email);
         }
 
         return back()->with('status', __('Saved'));
@@ -255,8 +257,8 @@ class UserController extends Controller
         try {
             // Fire event to send welcome email
             event(new UserRegistered($tb, $password));
-        } catch(\Exception $ex) {
-            Log::info('Email failed to send to this address: '.$tb->email);
+        } catch (\Exception $ex) {
+            Log::info('Email failed to send to this address: ' . $tb->email);
         }
 
         return back()->with('status', __('Saved'));
@@ -273,8 +275,8 @@ class UserController extends Controller
         try {
             // Fire event to send welcome email
             event(new UserRegistered($tb, $password));
-        } catch(\Exception $ex) {
-            Log::info('Email failed to send to this address: '.$tb->email);
+        } catch (\Exception $ex) {
+            Log::info('Email failed to send to this address: ' . $tb->email);
         }
 
         return back()->with('status', __('Saved'));
@@ -332,7 +334,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request)
     {
-		 
+
         DB::transaction(function () use ($request) {
             $tb = $this->user->find($request->user_id);
             $tb->name = $request->name;
@@ -341,9 +343,9 @@ class UserController extends Controller
             $tb->phone_number = $request->phone_number;
             $tb->address = (!empty($request->address)) ? $request->address : '';
             $tb->about = (!empty($request->about)) ? $request->about : '';
-			if (!empty($request->pic_path)) {
-				$tb->pic_path = $request->pic_path;
-			}
+            if (!empty($request->pic_path)) {
+                $tb->pic_path = $request->pic_path;
+            }
             if ($request->user_role == 'teacher') {
                 $tb->department_id = $request->department_id;
                 $tb->section_id = $request->class_teacher_section_id;
@@ -358,11 +360,11 @@ class UserController extends Controller
                     //   'father_name' => 'required',
                     //   'mother_name' => 'required',
                     // ]);
-                    try{
+                    try {
                         // Fire event to store Student information
-                        event(new StudentInfoUpdateRequested($request,$tb->id));
-                    } catch(\Exception $ex) {
-                        Log::info('Failed to update Student information, Id: '.$tb->id. 'err:'.$ex->getMessage());
+                        event(new StudentInfoUpdateRequested($request, $tb->id));
+                    } catch (\Exception $ex) {
+                        Log::info('Failed to update Student information, Id: ' . $tb->id . 'err:' . $ex->getMessage());
                     }
                 }
             }
@@ -398,7 +400,7 @@ class UserController extends Controller
      */
     public function deactivateAdmin($id)
     {
-       $admin = $this->user->find($id);
+        $admin = $this->user->find($id);
 
         if ($admin->active !== 1) {
             $admin->active = 1;
@@ -421,9 +423,9 @@ class UserController extends Controller
     public function destroy($id)
     {
         // return ($this->user->destroy($id))?response()->json([
-      //   'status' => 'success'
-      // ]):response()->json([
-      //   'status' => 'error'
-      // ]);
+        //   'status' => 'success'
+        // ]):response()->json([
+        //   'status' => 'error'
+        // ]);
     }
 }

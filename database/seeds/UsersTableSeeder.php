@@ -19,6 +19,7 @@ class UsersTableSeeder extends Seeder
             'role'     => 'master',
             'active'   => 1,
             'verified' => 1,
+            'school_id' => 1,
         ]);
 
         factory(User::class, 10)->states('admin')->create();

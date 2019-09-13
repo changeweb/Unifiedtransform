@@ -6,7 +6,15 @@ use App\Model;
 
 class Department extends Model
 {
-    public function teachers(){
-        return $this->hasMany('App\User','department_id');
+    protected $guarded = [];
+
+    public function teachers()
+    {
+        return $this->hasMany('App\User', 'department_id');
+    }
+
+    public function school()
+    {
+        return $this->belongsTo('App\School', 'school_id');
     }
 }
