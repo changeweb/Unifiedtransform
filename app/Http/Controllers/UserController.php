@@ -7,13 +7,16 @@ use App\Myclass;
 use App\Section;
 use App\StudentInfo;
 use App\User;
+use App\House;
+use App\Regrecord;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\User\CreateUserRequest;
-use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Requests\User\TCTCreateUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;   
 use App\Http\Requests\User\CreateAdminRequest;
 use App\Http\Requests\User\CreateTeacherRequest;
 use App\Http\Requests\User\ChangePasswordRequest;
@@ -23,6 +26,7 @@ use App\Http\Requests\User\CreateAccountantRequest;
 use Mavinoo\LaravelBatch\Batch;
 use App\Events\UserRegistered;
 use App\Events\StudentInfoUpdateRequested;
+use App\Events\TCTStudentInfoUpdateRequested;
 use Illuminate\Support\Facades\Log;
 use App\Services\User\UserService;
 /**
@@ -57,6 +61,19 @@ class UserController extends Controller
             return view('home');
     }
 
+    public function tct_index($school_code, $student_code, $teacher_code){
+        session()->forget('section-attendance');
+        
+        if($this->userService->isListOfStudents($school_code, $student_code))
+            return $this->userService->indexTCTView('list.tct-student-list', $this->userService->getTCTStudents(), 'registered');
+        else
+            return view('home');
+    }
+
+    public function tct_list_archive(){
+        return $this->userService->indexTCTView('list.tct-student-list', $this->userService->getTCTArchive(), 'archived');
+    }
+
     /**
      * @param $school_code
      * @param $role
@@ -88,8 +105,39 @@ class UserController extends Controller
             'register_role' => 'student',
             'register_sections' => $sections,
         ]);
-
         return redirect()->route('register');
+    }
+
+     /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    // Update controller to redirect to TCT version of Registration Form
+    public function redirectToRegisterTCTStudent()
+    {
+        $classes = Myclass::with('sections')->where('school_id',\Auth::user()->school->id)->get();
+        $classes_id = Myclass::with('sections')->where('school_id',\Auth::user()->school->id)->pluck('id');
+        $sections = Section::with('class')
+        ->whereIn('class_id',$classes_id)
+        ->get();
+        $form_nums = $this->userService->getFormNumbersArray($sections);
+        $houses = House::all();
+
+        session([
+            'register_role' => 'student',
+            'register_role_action' => 'tct_student',
+            'register_sections' => $sections,
+            'register_forms' => $classes,
+            'register_class' => $classes_id,
+            'register_house' => $houses,
+            'register_numbers' => $form_nums,
+            'tct_id' => $this->userService->getTCTID(),
+        ]);
+        return redirect()->route('tct_register');
+    }
+
+    public function showTCTRegistrationForm()
+    {
+        return view('auth.tct_register');
     }
 
     /**
@@ -101,6 +149,30 @@ class UserController extends Controller
         $students = $this->userService->getSectionStudentsWithSchool($section_id);
 
         return view('profile.section-students', compact('students'));
+    }
+
+    public function sectionTCTStudents($section_id)
+    {
+        $students = $this->userService->getTCTSectionStudentsWithSchool($section_id);
+        $section = Section::find($section_id);
+        $max_form = DB::table('student_infos')->where(['form_id'=> $section_id, 'session'=>date('Y')])->max('form_num');
+        $max_loop = ($max_form == 0)? 1 : $max_form;
+
+        return view('profile.section-tct-students', compact('students', 'section', 'max_loop'));
+    }
+
+    public function houseTCTStudents($house_id)
+    {
+        $students = \App\StudentInfo::where(
+            [
+                'session' => now()->year,
+                'house_id'=> $house_id
+            ])
+        ->orderBy('group', 'asc')
+        ->get();
+        $house = House::find($house_id);
+
+        return view('profile.house-tct-students', compact('students', 'house'));
     }
 
     /**
@@ -208,6 +280,21 @@ class UserController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param TCTCreateUserRequest $request
+     *
+     * 
+     */
+    public function tct_store(TCTCreateUserRequest $request)
+    {
+        // print($request);
+        $tb = $this->userService->storeTCTStudent($request);
+        event(new TCTStudentInfoUpdateRequested($request, $tb->id));
+        return back()->with('status', __('Saved'));        
+    }
+
+    /**
      * @param CreateAdminRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -291,6 +378,7 @@ class UserController extends Controller
     {
         $user = $this->userService->getUserByUserCode($user_code);
 
+
         return view('profile.user', compact('user'));
     }
 
@@ -369,6 +457,89 @@ class UserController extends Controller
         });
 
         return back()->with('status', __('Saved'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param UpdateUserRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function tct_administration_update(Request $request){
+        // print($request);
+        $tb = User::find($request->user_id)->studentInfo;
+        $tb2 = User::find($request->user_id);
+
+        if($tb->form_id != $request->section){
+            $tb2 = User::find($request->user_id);
+            $tb->form_id = $request->section;
+            $tb->form_num = $this->userService->getMaxFormNumber($request->section);
+            $tb2->section_id = $request->section;
+            $tb2->save();
+
+        }
+        $tb->house_id = $request->house;
+        $tb->group = $request->status;
+        $tb->session = $request->session;
+        $tb->reg_notes = $request->notes;
+        $tb->save();
+
+        return redirect("/user/$tb2->student_code");
+    }
+
+    public function tct_other_update(Request $request){
+        // print($request);
+        $tb = User::find($request->user_id)->studentInfo;
+        $tb2 = User::find($request->user_id);
+
+        $tb2->lst_name = $request->lst_name;
+        $tb2->given_name = $request->given_name;
+        $tb->birthday = $request->birthday;
+        $tb->category_id = $request->category;
+        $tb->church = $request->church;
+        $tb2->village= $request->village;
+        $tb2->nationality = $request->nationality;
+        $tb2->blood_group = $request->blood_group;
+        $tb->father_name = $request->father_name;
+        $tb->father_phone_number = $request->father_phone_number;
+        $tb->father_occupation = $request->father_occupation;
+        $tb->mother_name = $request->mother_name;
+        $tb->mother_phone_number = $request->mother_phone_number;
+        $tb->mother_occupation = $request->mother_occupation;
+        $tb->save();
+        $tb2->save();
+
+        return redirect("/user/$tb2->student_code");
+    }
+
+    public function promote_tct_student(Request $request){
+        // print($request);
+
+        // Insert into Regrecord
+        $user = User::find($request->user_id);
+
+        $tb = Regrecord::firstOrCreate(['user_id' => $request->user_id]);
+        $tb->user_id = $user->id;
+        $tb->session = $user->studentInfo->session;
+        $tb->form_id = $user->studentInfo->form_id;
+        $tb->form_num = $user->studentInfo->form_num;
+        $tb->house_id = $user->studentInfo->house_id;
+        $tb->status = $user->studentInfo->group;
+        // $tb->reg_date = $user->studentInfo->updated
+        $tb->notes = $user->StudentInfo->reg_notes;
+        $tb->save();
+
+        // Update StudentInfo Table
+        $tb2 = $user->studentInfo;
+        $tb2->form_id = $request->section;
+        $tb2->form_num = $this->userService->getMaxFormNumber($request->section);
+        $tb2->session = $request->session;
+        $tb2->reg_notes = $request->notes;
+        $tb2->section_id = $request->section;
+        $tb2->group = $request->status;
+        $tb2->save();
+
+        return redirect("/user/$user->student_code");
     }
 
     /**

@@ -15,4 +15,14 @@ class StudentInfo extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public function house()
+    {
+        return $this->belongsTo('App\House');
+    }
+
+    public function section()
+    {
+        return $this->belongsTo('App\Section', 'form_id');
+    }
 }

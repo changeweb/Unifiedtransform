@@ -19,6 +19,10 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\StudentInfoUpdateRequested' => [
             'App\Listeners\UpdateStudentInfo',
         ],
+        // Added event for TCT Registration
+        'App\Events\TCTStudentInfoUpdateRequested' => [
+            'App\Listeners\UpdateTCTStudentInfo',
+        ]
     ];
 
     /**

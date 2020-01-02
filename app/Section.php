@@ -21,4 +21,9 @@ class Section extends Model
     {
         return $this->belongsTo('App\Myclass');
     }
+
+    public function users()
+    {
+        return $this->hasMany('App\User', 'section_id');
+    }
 }

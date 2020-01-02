@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('gender')->default('');
             $table->string('blood_group')->default('');
             $table->string('nationality')->default('');
-            $table->string('phone_number')->unique()->default('');
+            $table->string('phone_number')->default('');
             $table->string('address')->default('');
             $table->text('about')->default('');
             $table->string('pic_path')->default('');

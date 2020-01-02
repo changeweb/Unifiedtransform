@@ -63,6 +63,18 @@ class User extends Model implements
         return $this->hasOne('App\StudentInfo','student_id');
     }
 
+    public function inactive(){
+        return $this->hasMany('App\Inactive', 'user_id');
+    }
+
+    public function reinstate(){
+        return $this->hasMany('App\Reinstate', 'user_id');
+    }
+
+    public function regrecord(){
+        return $this->hasMany('App\Regrecord', 'user_id');
+    }
+
     public function studentBoardExam(){
         return $this->hasMany('App\StudentBoardExam','student_id');
     }

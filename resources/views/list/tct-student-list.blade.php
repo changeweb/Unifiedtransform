@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@if(count(array($user)) > 0)
-  @section('title', $user->name)
-@endif
+@section('title', __('Students'))
 
 @section('content')
 <div class="container-fluid">
@@ -12,14 +10,17 @@
         </div>
         <div class="col-md-10" id="main-container">
             <div class="panel panel-default">
-              @if(count(array($user)) > 0)
+              @if(count($users) > 0)
+              <div class="page-panel-title">{{ucfirst($type)}} Students in {{date("Y")}}</div>
                 <div class="panel-body">
+                   
                     @if (session('status'))
                         <div class="alert alert-success">
                             {{ session('status') }}
                         </div>
                     @endif
-                    @component('components.tct-user-profile',['user'=>$user])
+                    {{-- @component('components.tct-users-list',['users'=>$users,'current_page'=>$current_page,'per_page'=>$per_page]) --}}
+                    @component('components.tct-users-list',['users'=>$users, 'type'=>$type])
                     @endcomponent
                 </div>
               @else
@@ -28,7 +29,13 @@
                 </div>
               @endif
             </div>
+
         </div>
+    </div>
+    <div class="row">
+        {{-- @foreach($users as $user) --}}
+            {{-- {{$user}}<hr> --}}
+        {{-- @endforeach --}}
     </div>
 </div>
 @endsection

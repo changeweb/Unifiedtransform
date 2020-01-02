@@ -15,23 +15,36 @@ class SectionController extends Controller
      */
      public function index()
      {
-      $classes = \App\Myclass::bySchool(\Auth::user()->school->id)
-                  ->get();
-      $classeIds = \App\Myclass::bySchool(\Auth::user()->school->id)
-                    ->pluck('id')
-                    ->toArray();
-      $sections = \App\Section::whereIn('class_id',$classeIds)
-                  ->orderBy('section_number')
-                  ->get();
-      $exams = \App\ExamForClass::whereIn('class_id',$classeIds)
-                  ->where('active', 1)
-                  ->groupBy('class_id')
-                  ->get();
-      return view('school.sections',[
-        'classes'=>$classes,
-        'sections'=>$sections,
-        'exams'=>$exams
-      ]);
+        $school = \Auth::user()->school;
+        $classes = \App\Myclass::bySchool(\Auth::user()->school->id)
+                    ->get();
+        $classeIds = \App\Myclass::bySchool(\Auth::user()->school->id)
+                        ->pluck('id')
+                        ->toArray();
+        $sections = \App\Section::whereIn('class_id',$classeIds)
+                    ->orderBy('class_id')
+                    ->get();
+        $exams = \App\ExamForClass::whereIn('class_id',$classeIds)
+                    ->where('active', 1)
+                    ->groupBy('class_id')
+                    ->get();
+        // $departments = Department::bySchool(\Auth::user()->school_id)->get();
+        // $teachers = User::select('departments.*', 'users.*')
+        //     ->join('departments', 'departments.id', '=', 'users.department_id')
+        //     ->where('role', 'teacher')
+        //     ->orderBy('name', 'ASC')
+        //     ->where('active', 1)
+        //     ->get();
+
+        return view('school.sections',[
+            'classes'=>$classes,
+            'sections'=>$sections,
+            'exams'=>$exams,
+            'school'=>$school,
+            // 'departments'=>$departments,
+            // 'teachers'=>$tecahers,
+
+        ]);
      }
 
     /**
@@ -105,6 +118,30 @@ class SectionController extends Controller
       ]):response()->json([
         'status' => 'error'
       ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function tct_update(Request $request, $id)
+    {
+        $tb = Section::find($id);
+        $tb->section_number = $request->section_number;
+        $tb->room_number = $request->room_number;
+        $tb->class_id = $request->class_number;
+        $tb->active = $request->section_active;
+        $tb->save();
+        return redirect('school/sections?course=1');
+    
+    //   return ($tb->save())?response()->json([
+    //     'status' => 'success'
+    //   ]):response()->json([
+    //     'status' => 'error'
+    //   ]);
     }
 
     /**

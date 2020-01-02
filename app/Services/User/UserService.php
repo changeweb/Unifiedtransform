@@ -3,6 +3,7 @@ namespace App\Services\User;
 
 use App\User;
 use App\StudentInfo;
+use App\Inactive;
 use Illuminate\Support\Facades\DB;
 use Mavinoo\LaravelBatch\Batch;
 use Illuminate\Support\Facades\Log;
@@ -36,6 +37,13 @@ class UserService {
         ]);
     }
 
+    public function indexTCTView($view, $users, $type){
+        return view($view, [
+            'users' => $users,
+            'type' => $type,
+        ]);
+    }
+
     public function hasSectionId($section_id){
         return $section_id > 0;
     }
@@ -62,6 +70,115 @@ class UserService {
         $info->mother_annual_income = (!empty($request->mother_annual_income)) ? $request->mother_annual_income : '';
         $info->user_id = auth()->user()->id;
         $info->save();
+    }
+
+    // Update Student Info TCT Registration
+    public function updateTCTStudentInfo($request, $id){
+        $info = StudentInfo::firstOrCreate(['student_id' => $id]);
+        $info->student_id = $id;
+        $info->session = (!empty($request->session)) ? $request->session : '';
+        // $info->version = (!empty($request->version)) ? $request->version : '';
+        $info->group = 'new';
+        $info->birthday = (!empty($request->birthday)) ? $request->birthday : '';
+        $info->religion = (!empty($request->religion)) ? $request->religion : '';
+        $info->father_name = (!empty($request->father_name)) ? $request->father_name : '';
+        $info->father_phone_number = (!empty($request->father_phone_number)) ? $request->father_phone_number : '';
+        // $info->father_national_id = (!empty($request->father_national_id)) ? $request->father_national_id : '';
+        $info->father_occupation = (!empty($request->father_occupation)) ? $request->father_occupation : '';
+        // $info->father_designation = (!empty($request->father_designation)) ? $request->father_designation : '';
+        // $info->father_annual_income = (!empty($request->father_annual_income)) ? $request->father_annual_income : '';
+        $info->mother_name = (!empty($request->mother_name)) ? $request->mother_name : '';
+        $info->mother_phone_number = (!empty($request->mother_phone_number)) ? $request->mother_phone_number : '';
+        // $info->mother_national_id = (!empty($request->mother_national_id)) ? $request->mother_national_id : '';
+        $info->mother_occupation = (!empty($request->mother_occupation)) ? $request->mother_occupation : '';
+        // $info->mother_designation = (!empty($request->mother_designation)) ? $request->mother_designation : '';
+        // $info->mother_annual_income = (!empty($request->mother_annual_income)) ? $request->mother_annual_income : '';
+        $info->user_id = auth()->user()->id;
+        // NEW COLUMNS
+        $info->category_id = $request->category;
+        $info->tct_id = $request->tct_id  ;
+        $info->form_id = $request->section;
+        $info->form_num = $this->getMaxFormNumber($request->section);
+        $info->house_id = $request->house;
+        $info->church = $request->church;
+        $info->previous_form = $request->previous_form;
+        $info->previous_school = $request->previous_school;
+        $info->reg_notes = $request->notes;
+        $info->save();
+        // print($info);
+    }
+
+    public function getTCTID(){
+        $year = date("Y");
+        // $year = $session[0]->session_year;
+        $subyr = substr($year, 2, 4);
+        // Extract current tct_id batch
+        $lastID = DB::table('student_infos')->orderBy('tct_id', 'desc')->take(1)->get();
+        $lastIdsubyr = substr($lastID[0]->tct_id, 0, 2);
+        $lastIdCount = substr($lastID[0]->tct_id, 2, 6);
+        // Check if current batch is NEW and whether a new student has been entered into this new batch
+        if($subyr === $lastIdsubyr){
+            $new_id = $lastID[0]->tct_id + 1;
+        }
+        else{
+            $new_id = $subyr.'0001';
+            $new_id = (int)$new_id;
+        }
+        return $new_id;
+    }
+
+    public function getFormNumbersArray($sections){
+        $form_nums = [];
+        foreach($sections as $section){
+            $section_id = $section->id;
+            $session = date("Y");
+            $max_form = DB::table('student_infos')->where(['session' => $session, 'form_id'=> $section_id])->max('form_num');
+            $max_form_num = ($max_form == NULL) ? 1 : $max_form + 1;
+            $form_nums[$section_id] = $max_form_num;
+        }
+        return $form_nums;
+    }
+
+    public function getMaxFormNumber($section_id){
+        $max_form = DB::table('student_infos')->where(['form_id'=> $section_id, 'session'=>date('Y')])->max('form_num');
+        return ($max_form == NULL) ? 1 : $max_form + 1;
+    }
+
+    public function getInactiveRequest($user){
+        // $inactive = $user->inactive->sortBy('created_at','desc')->first();
+        $inactive = DB::table('inactives')->where('user_id', $user->id)->orderBy('created_at', 'desc')->first();
+        return $inactive;
+    }
+
+    public function checkReinstate($user){
+        $inactive_id = $this->getInactiveRequest($user)->id;
+        return (count(DB::table('reinstates')->where('inactive_id', $inactive_id)->get())>0)? true:false;
+    }
+
+    public function getReinstateRequest($user){
+        if($this->checkReinstate($user)){
+            $inactive_id = $this->getInactiveRequest($user)->id;
+            return DB::table('reinstates')->where('inactive_id', $inactive_id)->first();
+        }
+    }
+    
+    public function getAdminDetails()
+    {
+        $classes = \App\Myclass::with('sections')->where('school_id',\Auth::user()->school->id)->get();
+        $classes_id = \App\Myclass::with('sections')->where('school_id',\Auth::user()->school->id)->pluck('id');
+        $sections = \App\Section::with('class')
+        ->whereIn('class_id',$classes_id)
+        ->where('active', 1)
+        ->get();
+        $form_nums = $this->getFormNumbersArray($sections);
+        $houses = \App\House::all();
+        return array(
+            'classes' => $classes,
+            'classes_id' => $classes_id,
+            'sections' => $sections,
+            'form_nums' => $form_nums,
+            'houses' => $houses,
+        );
     }
 
     public function promoteSectionStudentsView($students, $classes, $section_id){
@@ -126,6 +243,22 @@ class UserService {
                 ->paginate(50);
     }
 
+    public function getTCTStudents(){
+        return User::whereHas("studentInfo", function($q){
+                $q->where("session",date("Y"));
+             })->where(['code' => auth()->user()->school->code], [])
+             ->student()
+             ->get();  
+    }
+
+    public function getTCTArchive(){
+        return User::whereHas("studentInfo", function($q){
+            $q->where("session", "!=", date("Y"));
+            })->where(['code' => auth()->user()->school->code], [])
+            ->student()
+            ->get();
+    }
+
     public function getTeachers(){
         return $this->user->with(['section', 'school'])
                 ->where('code', auth()->user()->school->code)
@@ -162,6 +295,19 @@ class UserService {
             ->get();
     }
 
+    public function getTCTSectionStudentsWithSchool($section_id){
+        return $this->user->with('school')
+            ->student()
+            ->whereHas("studentInfo", function($q){
+                $q->where('session', now()->year)
+                ->orderBy('form_num', 'asc');
+                })
+            ->where('section_id', $section_id)
+            ->where('active', 1)
+            // ->orderBy('name', 'asc')
+            ->get();
+    }
+
     public function getSectionStudentsWithStudentInfo($request, $section_id){
 		$ignoreSessions = $request->session()->get('ignoreSessions');
 		
@@ -191,7 +337,7 @@ class UserService {
     public function getUserByUserCode($user_code){
         return $this->user->with('section', 'studentInfo')
               ->where('student_code', $user_code)
-              ->where('active', 1)
+            //   ->where('active', 1)
               ->first();
     }
 
@@ -214,7 +360,33 @@ class UserService {
         $tb->save();
         return $tb;
     }
-
+    // TCT Registration for new students
+    public function storeTCTStudent($request){
+        $tb = new $this->user;
+        $tb->lst_name = $request->lst_name; // LAST NAME
+        $tb->given_name = $request->given_name; // GIVEN ANME
+        $tb->name = $request->lst_name.' '.$request->given_name; // FULL NAME
+        // $tb->email = (!empty($request->email)) ? $request->email : ''; 
+        // $tb->password = bcrypt($request->password); 
+        $tb->role = 'student';
+        $tb->active = 1;
+        $tb->school_id = auth()->user()->school_id;
+        $tb->code = auth()->user()->code;// School Code
+        $tb->student_code = $request->tct_id;
+        $tb->gender = 'male';
+        $tb->blood_group = $request->blood_group;
+        $tb->nationality = (!empty($request->nationality)) ? $request->nationality : '';
+        // $tb->phone_number = $request->phone_number;
+        $tb->village = (!empty($request->village)) ? $request->village : '';
+        $tb->notes = (!empty($request->notes)) ? $request->notes : '';
+        $tb->pic_path = (!empty($request->pic_path)) ? $request->pic_path : '';
+        $tb->verified = 1;
+        $tb->section_id = $request->section;
+        $tb->health_conditions = ($request->health_condition)? $request->health_condition : '';
+        $tb->save();
+        return $tb;
+    }
+    // Original query - registration for student
     public function storeStudent($request){
         $tb = new $this->user;
         $tb->name = $request->name;

@@ -80,10 +80,16 @@ Route::middleware(['auth'])->group(function (){
 
   Route::get('users/{school_code}/{student_code}/{teacher_code}', 'UserController@index');
   Route::get('users/{school_code}/{role}', 'UserController@indexOther');
+  Route::get('tct_users/{school_code}/{student_code}/{teacher_code}', 'UserController@tct_index');
+  Route::get('tct_users_archive', 'UserController@tct_list_archive');
   Route::get('user/{user_code}', 'UserController@show');
   Route::get('user/config/change_password', 'UserController@changePasswordGet');
   Route::post('user/config/change_password', 'UserController@changePasswordPost');
   Route::get('section/students/{section_id}', 'UserController@sectionStudents');
+  Route::get('section/tct_students/{section_id}', 'UserController@sectionTCTStudents');
+  Route::get('house/tct_students/{house_id}', 'UserController@houseTCTStudents');
+
+
   
   Route::get('courses/{teacher_id}/{section_id}', 'CourseController@index');
 });
@@ -123,6 +129,7 @@ Route::middleware(['auth','admin'])->prefix('exams')->name('exams.')->group(func
 Route::middleware(['auth','teacher'])->group(function (){
   Route::get('exams/active', 'ExamController@indexActive');
   Route::get('school/sections','SectionController@index');
+  Route::get('school/houses', 'HouseController@index');
 });
 
 Route::middleware(['auth', 'librarian'])->namespace('Library')->group(function () {
@@ -180,16 +187,31 @@ Route::middleware(['auth','master'])->group(function (){
 Route::middleware(['auth','admin'])->group(function (){
   Route::prefix('school')->name('school.')->group(function (){
     Route::post('add-class','MyclassController@store');
+    Route::put('edit-tct-class/{id}','MyclassController@tct_update'); // UPDATE CLASS
     Route::post('add-section','SectionController@store');
+    Route::put('edit-tct-section/{id}','SectionController@tct_update'); // UPDATE SECTION
+    Route::post('add-house', 'Housecontroller@store'); // STORE HOUSE
+    Route::put('edit-tct-house/{id}', 'HouseController@update'); // UPDATE HOUSE
     Route::post('add-department','SchoolController@addDepartment');
     Route::get('promote-students/{section_id}','UserController@promoteSectionStudents');
     Route::post('promote-students','UserController@promoteSectionStudentsPost');
     Route::post('theme','SchoolController@changeTheme');
-	Route::post('set-ignore-sessions','SchoolController@setIgnoreSessions');
+    Route::post('set-ignore-sessions','SchoolController@setIgnoreSessions');
+    Route::resource('inactive', 'InactiveController')->only(['index', 'edit', 'store', 'update']);
+    Route::resource('reinstate', 'ReinstateController')->only(['index', 'edit', 'store', 'update']);
+    Route::post('reinstate_approval', 'ReinstateController@approval');
+    Route::post('promote-tct-student', 'UserController@promote_tct_student');
   });
+  // Redirect to TCT Registration Form
+  Route::get('tct_register', 'UserController@showTCTRegistrationForm')->name('tct_register');
+  Route::post('tct_edit_administration', 'UserController@tct_administration_update');
+  Route::post('tct_edit_other', 'UserController@tct_other_update');
+  Route::post('tct_edit_inactive', 'InactiveController@tct_update');
+
 
   Route::prefix('register')->name('register.')->group(function (){
     Route::get('student', 'UserController@redirectToRegisterStudent');
+    Route::get('tct_student', 'UserController@redirectToRegisterTCTStudent'); //Redirect from current page to controller
     Route::get('teacher', function(){
       $departments = \App\Department::where('school_id',\Auth::user()->school_id)->get();
       $classes = \App\Myclass::where('school_id',\Auth::user()->school->id)->pluck('id');
@@ -210,6 +232,7 @@ Route::middleware(['auth','admin'])->group(function (){
       return redirect()->route('register');
     });
     Route::post('student', 'UserController@store');
+    Route::post('tct_student', 'UserController@tct_store');
     Route::post('teacher',  'UserController@storeTeacher');
     Route::post('accountant',  'UserController@storeAccountant');
     Route::post('librarian',  'UserController@storeLibrarian');
@@ -225,31 +248,12 @@ Route::middleware(['auth','master.admin'])->group(function (){
   Route::post('upload/file', 'UploadController@upload');
   Route::post('users/import/user-xlsx','UploadController@import');
   Route::get('users/export/students-xlsx', 'UploadController@export');
-//   Route::get('pdf/profile/{user_id}',function($user_id){
-//     $data = App\User::find($user_id);
-//     PDF::setOptions(['defaultFont' => 'sans-serif', 'isHtml5ParserEnabled' => true]);
-//     $pdf = PDF::loadView('pdf.profile-pdf', ['user' => $data]);
-// 		return $pdf->stream('profile.pdf');
-//   });
-//   Route::get('pdf/result/{user_id}/{exam_id}',function($user_id, $exam_id){
-//     $data = App\User::find($user_id);
-//     $grades = App\Grade::with('exam')->where('student_id', $user_id)->where('exam_id',$exam_id)->latest()->get();
-//     PDF::setOptions(['defaultFont' => 'sans-serif', 'isHtml5ParserEnabled' => true]);
-//     $pdf = PDF::loadView('pdf.result-pdf', ['grades' => $grades, 'user'=>$data]);
-// 		return $pdf->stream('result.pdf');
-//   });
+  Route::get('students/export/tct', 'UploadController@export_tctFormsList'); // TCT all forms export
 });
 Route::middleware(['auth','teacher'])->group(function (){
   Route::post('calculate-marks','GradeController@calculateMarks');
   Route::post('message/students', 'NotificationController@store');
 });
-// Route::middleware(['auth'])->group(function (){
-//   Route::get('download/pdf', function(){
-//     $pathToFile = public_path('storage/Bano-EducationandAspiration.pdf');
-//     return response()->download($pathToFile);
-//   });
-// });
-
 
 // View Emails - in browser
 Route::prefix('emails')->group(function () {

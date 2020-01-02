@@ -25,7 +25,12 @@ class Myclass extends Model
 
 	public function sections()
     {
-        return $this->hasMany('App\Section','class_id');
+        return $this->hasMany('App\Section','class_id')->orderBy('section_number');
+    }
+
+    public function active_sections()
+    {
+        return $this->hasMany('App\Section','class_id')->where('active', 1)->orderBy('section_number');
     }
 
     // public function exam()

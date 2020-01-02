@@ -92,6 +92,28 @@ class MyclassController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function tct_update(Request $request, $id)
+    {
+        $tb = Myclass::find($id);
+        $tb->class_number = $request->class_number;
+        //   $tb->school_id = $request->school_id;
+        $tb->group = $request->group;
+        $tb->save();
+        return redirect('school/sections?course=1');
+        // return ($tb->save())?response()->json([
+        //     'status' => 'success'
+        // ]):response()->json([
+        //     'status' => 'error'
+        // ]);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id

@@ -33,16 +33,11 @@
               <span id="helpBlock" class="help-block">@lang('Leave Empty if this Class belongs to no Group')</span>
             </div>
           </div>
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <button type="submit" class="btn btn-danger btn-sm">@lang('Submit')</button>
-            </div>
-          </div>
-        </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">@lang('Close')</button>
+        <button type="submit" class="btn btn-danger btn-sm">@lang('Submit')</button>
       </div>
+    </form>
     </div>
   </div>
 </div>
