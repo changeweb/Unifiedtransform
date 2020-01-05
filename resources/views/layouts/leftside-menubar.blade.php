@@ -53,16 +53,50 @@
                 <a class="dropdown-item" href="{{url('tct_users_archive')}}"><i class="material-icons">group</i><span class="nav-link-text">@lang('Archived')</span></a>
             </li>
         </ul>
-        {{-- <a class="nav-link" href="{{url('users/'.Auth::user()->school->code.'/1/0')}}"><i class="material-icons">contacts</i>
-          <span class="nav-link-text">@lang('Students')</span></a>  --}}
+
       </li>
       <!-- END OF STUDENT SECTION -->
-    @if(Auth::user()->role == 'admin')
+    @if(Auth::user()->role != 'student')
     <li class="nav-item">
       <a class="nav-link" href="{{ url('school/sections?course=1') }}"><i class="material-icons">class</i> <span class="nav-link-text">@lang('Classes &amp; Sections')</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ url('school/houses') }}"><i class="material-icons">house</i> <span class="nav-link-text">@lang('Houses')</span></a>
+    </li>
+    <li class="nav-item" style="border-bottom: 1px solid #dbd8d8;"></li>
+    <li class="nav-item dropdown">
+        <a role="button" href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+            class="material-icons">monetization_on</i> <span class="nav-link-text">@lang('Fees')</span> <i class="material-icons pull-right">keyboard_arrow_down</i></a>
+        <ul class="dropdown-menu" style="width: 100%;">
+            <li class="nav-item">
+            <a class="nav-link" href="{{ url('fees/fee_type') }}"><i class="material-icons">dynamic_feed</i> <span class="nav-link-text">@lang('Fee Type')</span></a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="{{ url('fees/fee_channel') }}"><i class="material-icons">toc</i> <span class="nav-link-text">@lang('Fee Channel')</span></a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="{{ url('fees/tct_all') }}"><i class="material-icons">attach_money</i> <span class="nav-link-text">@lang('All Fees')</span></a>
+            </li>
+        </ul>
+    </li>
+    @endif
+
+    @if(Auth::user()->role == 'admin')
+  
+    <li class="nav-item">
+        @php 
+            $count = \App\StudentInfo::where('session', now()->year)->where('assigned', 0)->count('id');
+        @endphp
+        <a class="nav-link" href="{{ url('fees/unassign') }}"><i class="material-icons">assignment_late</i> <span class="nav-link-text">@lang('Unassigned')</span>  <span class="badge"> {{$count}}</span></a></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url('#') }}"><i class="material-icons">monetization_on</i> <span class="nav-link-text">@lang('Assigned')</span></a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="{{ url('#') }}"><i class="material-icons">monetization_on</i> <span class="nav-link-text">@lang('Payments')</span></a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="{{ url('#') }}"><i class="material-icons">monetization_on</i> <span class="nav-link-text">@lang('Remaining')</span></a>
     </li>
     <li class="nav-item" style="border-bottom: 1px solid #dbd8d8;"></li>
     <li class="nav-item dropdown">

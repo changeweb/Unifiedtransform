@@ -5,15 +5,15 @@
 @if ($errors->any())
 @foreach ($errors->all() as $error)
     <div class="bg-danger text-white">{{$error}}</div>
-    {{-- <span class="error">{{ $error}}</span> --}}
 @endforeach
 <br>
 @endif
 
-{{-- <div class="row"> --}}
+
     <div class="col-md-2" text-center>
         <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar">
         <hr>
+        <!-- INACTIVE / REINSTATE BUTTONS -->
         <div class="row text-center">
             @if ($user->active)
                 @include('layouts.master.set-inactive')
@@ -28,29 +28,88 @@
                     @include('layouts.master.reinstate-form')
                 @endif
             @endif
-        
+
         </div>
-        {{-- <br>
-        <div class="row text-center">
-            <a role="button" class="btn btn-info btn-xs" ><i class="material-icons">edit</i> @lang('Edit Profile')</a>
-        </div> --}}
         <br>
+        <!-- PROMOTE BUTTON -->
         <div class="row text-center">
             @if($user->active & $user->studentInfo->session != date('Y'))
                 @include('layouts.master.promote-tct-student')
+                <br>
             @endif
         </div>
+        <br>
+        <!-- ASSIGN BUTTON -->
+        <div class="row text-center">
+            @component('components.fee-type-form', [
+                'buttonTitle' => ($user->studentInfo->assigned)?'Reassign Fees':'Assign Fees',
+                'modal_name' => 'assignModal',
+                'title' => 'Assign Fees',
+                'put_method' => '',
+                'url' => url('fees/assign'),
+            ])
+                @slot('buttonType')
+                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#assignModal"><i class="material-icons">assignment_returned</i>  
+                @endslot
+                @slot('form_content')
+                    <input type="hidden" value="{{$user->id}}" name="user_id">
+                    <div class="row form-group">
+                        <label for="channel" class="col-sm-4 control-label">@lang('Fee Channel')</label>
+                        <div class="col-sm-8">
+                            <select id="channel" class="form-control" name="channel">
+                                @php
+                                    $channels = \App\FeeChannel::where('active', 1)->where('session', now()->year)->get();
+                                @endphp
+                                    <option value="">Select Channel</option>
+                                @foreach ($channels as $channel)
+                                    <option value="{{$channel->id}}">{{ucfirst($channel->name)}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <hr>    
+                    <div class="row" id="feeToAssign">
+
+                    </div>
+                @endslot
+            @endcomponent
+        </div>
+        <br>
+        <!-- PAYMENT BUTTON -->
+        <div class="row text-center">
+            @component('components.fee-type-form', [
+                'buttonTitle' => 'Make Payment',
+                'modal_name' => 'paymentModal',
+                'title' => 'Set Payment',
+                'put_method' => '',
+                'url' => '#'
+            ])
+                @slot('buttonType')
+                    <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#paymentModal"><i class="material-icons">attach_money</i>  
+                @endslot
+                @slot('form_content')
+                    <input type="hidden" value="{{$user->id}}" name="user_id">
+                    <div class="row form-group">
+                        <label for="channel" class="col-sm-4 control-label">@lang('Fee Channel')</label>
+                        <div class="col-sm-8">
+                            <select id="channel" class="form-control" name="channel">
+                            </select>
+                        </div>
+                    </div>
+                @endslot
+            @endcomponent
+        </div>
         <hr>
+        <!-- EDIT BUTTONS -->
         <div class="row text-center">
             @include('layouts.master.edit-details-form')
         </div>
-        
-
     </div>
     <div class="col-md-10" id="main-container">
-
+        <!-- STUDENT SUMMARY -->
         @component('components.tct-student-summary',['user'=>$user])
         @endcomponent
+        <!-- NAV TABS -->
 
         <ul class="nav nav-tabs">
             <li class="nav-item">
@@ -61,7 +120,10 @@
             </li>
         </ul>
 
+        <!-- NAV TABS CONTENT -->
         <div class="tab-content">
+            <!-- Admin Details-->
+
             <div class="tab-pane active" id="general">
                 {{-- <button class="btn btn-xs btn-success pull-right" role="button" id="btnPrint"><i class="material-icons">print</i> @lang('Print Profile')</button> --}}
                 {{-- <div class="" id="profile-content">
@@ -198,6 +260,7 @@
                 </div>
                
             </div>
+            <!-- Finance Details -->
             <div class="tab-pane" id="finance">
                 <br/>
                 <div class="row">
@@ -205,16 +268,64 @@
                         <div class="col-xs-12">
                             <table class="table">
                                 <tr>
-                                    <td colspan="4" class="bg-dark text-white text-center">Financial Information</td>
+                                    <td  class="bg-dark text-white text-center">Financial Information</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    </td>
                                 </tr>
                             </table>
+                            <h4>Finance Profile</h4>
+                            @php
+                                $fees_assigned = \App\Assign::with(['fees'])
+                                    ->where('user_id', $user->id)
+                                    ->where('session', now()->year)
+                                    ->get();
+
+                                $sessions = \App\StudentInfo::orderBy('session', 'desc')->groupBy('session')->pluck('session')->toArray();
+                                // print($fees_assigned);
+                                $feeList = [];
+                                foreach ($sessions as $session) {
+                                    $feeList[$session]['year'] = $session;
+                                    $feeTypeIDs = \App\Fee::where('session', $session)->groupBy('fee_type_id')->pluck('fee_type_id')->toArray();
+                                    $feeType = \App\FeeType::find($feeTypeIDs)->pluck('name')->toArray();
+                                    $feeList[$session]['types'] = $feeType;
+                                }
+                                
+                                print json_encode($feeList);
+                                
+
+                            @endphp
+                            @foreach ($sessions as $session)
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <th><h4>{{$feeList[$session]['year']}}</h4></th>
+
+                                        @foreach($feeList[$session]['types'] as $fee_type)
+                                            <th class="text-center">{{$fee_type}}</th>
+                                        @endforeach
+                                        <th class="text-center">Action</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Assigned @if($user)
+                                </table>
+                            @endforeach
+
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-{{-- </div> --}}
+</div>
+
+@section('jsFiles')
+{{-- <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script> --}}
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 <script>
     $(function () {
@@ -251,3 +362,24 @@
     printWindow.print();
     });
 </script>
+<script>
+    $(document).ready(function(){
+        $('#channel').on('change', function(){
+        if($(this).val() != 0){
+            $.ajax({
+            url: '{{url("/fees/assignListAction")}}',
+            type: "GET",
+            data: {
+                "_token": "{{ csrf_token() }}",
+                fee_id: $(this).val(),
+            },
+            success: function(data){
+                    $('#feeToAssign').html(data);
+            }
+        });
+        }
+        
+    });
+    });
+</script>
+

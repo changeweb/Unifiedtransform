@@ -59,6 +59,17 @@ Route::middleware(['auth','accountant'])->prefix('fees')->name('fees.')->group(f
   Route::get('all', 'FeeController@index');
   Route::get('create', 'FeeController@create');
   Route::post('create', 'FeeController@store');
+  // Created for TCT fees
+    Route::resource('fee_type', 'FeeTypeController');
+    Route::resource('fee_channel', 'FeeChannelController');
+    Route::get('tct_all', 'FeeController@tct_index');
+    Route::post('tct_create', 'FeeController@tct_store');
+    Route::put('tct_create/{id}', 'FeeController@update');
+    Route::get('unassign', 'AssignController@showUnassigned');
+    Route::resource('assign', 'AssignController');
+    // Finance AJAX
+    Route::get('/assignListAction', 'AjaxController@getFeeAssignList');
+
 });
 
 Route::middleware(['auth','admin'])->group(function (){
@@ -207,7 +218,6 @@ Route::middleware(['auth','admin'])->group(function (){
   Route::post('tct_edit_administration', 'UserController@tct_administration_update');
   Route::post('tct_edit_other', 'UserController@tct_other_update');
   Route::post('tct_edit_inactive', 'InactiveController@tct_update');
-
 
   Route::prefix('register')->name('register.')->group(function (){
     Route::get('student', 'UserController@redirectToRegisterStudent');

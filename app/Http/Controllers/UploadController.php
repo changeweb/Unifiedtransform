@@ -9,6 +9,7 @@ use App\Imports\StudentsImport;
 use App\Imports\TeachersImport;
 use App\Exports\StudentsExport;
 use App\Exports\TeachersExport;
+use App\Exports\allformsListExport;
 use Maatwebsite\Excel\Facades\Excel;
 /*
  * jQuery File Upload Plugin PHP Class
@@ -131,5 +132,10 @@ class UploadController extends Controller {
         return Excel::download(new StudentsExport($request->year), date('Y').'-students.xlsx');
       else if($request->type == 'teacher')
         return Excel::download(new TeachersExport($request->year), date('Y').'-teachers.xlsx');
+    }
+    // Controller to export TCT Form Files
+    public function export_tctFormsList(){
+        $year = date("Y");
+        return Excel::download(new allformsListExport, 'Form List '.date("Y").'.xlsx');
     }
 }

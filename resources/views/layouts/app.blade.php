@@ -39,6 +39,7 @@
       rel="stylesheet">
     <link rel="stylesheet" href="{{ url('css/vendors.css') }}" id="bootswatch-print-id">
     <link rel="stylesheet" href="{{ url('css/application.css') }}">
+    @yield('jsFiles')
 </body>
 
 </html>

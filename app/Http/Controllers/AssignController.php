@@ -1,0 +1,118 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Assign;
+use Illuminate\Http\Request;
+
+class AssignController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+    }
+
+    public function showUnassigned()
+    {
+        $unassigned = \App\StudentInfo::where(
+            [
+                'session' => now()->year,
+                'assigned' => 0
+            ]
+        )->get();
+        return view('finance.unassigned', [
+            'unassigned' => $unassigned,
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        // return $request;
+        $channel_id = $request->channel;
+        if(count($request['type'])){
+            foreach($request['type'] as $fee_type_id => $toAssign){
+                $fee = \App\Fee::where('fee_channel_id', $channel_id)
+                    ->where('fee_type_id', $fee_type_id)
+                    ->first();
+                $assign = new \App\Assign;
+                $assign->user_id = $request->user_id;
+                $assign->fee_id = $fee->id;
+                $assign->session = ($request->session)?$request->session:now()->year;
+                // $assign->save();
+            }
+
+            $student = \App\User::find($request->user_id)->studentInfo;
+            $student->assigned = 1;
+            $student->channel_id = $request->channel;
+            // $student->save();
+        }
+
+        return redirect('/user/'.\App\User::find($request->user_id)->student_code);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Assign  $assign
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Assign $assign)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Assign  $assign
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Assign $assign)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Assign  $assign
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Assign $assign)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Assign  $assign
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Assign $assign)
+    {
+        //
+    }
+}
