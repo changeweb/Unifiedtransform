@@ -117,7 +117,9 @@ class UserController extends Controller
         $classes = Myclass::with('sections')->where('school_id',\Auth::user()->school->id)->get();
         $classes_id = Myclass::with('sections')->where('school_id',\Auth::user()->school->id)->pluck('id');
         $sections = Section::with('class')
+        ->where('active', 1)
         ->whereIn('class_id',$classes_id)
+        // ->where('active', 1)
         ->get();
         $form_nums = $this->userService->getFormNumbersArray($sections);
         $houses = House::all();
@@ -377,10 +379,56 @@ class UserController extends Controller
     public function show($user_code)
     {
         $user = $this->userService->getUserByUserCode($user_code);
+        $assigned = $user->studentInfo->assigned;
+        $sessions = \App\Assign::where('user_id', $user->id)->orderBy('session', 'desc')->groupBy('session')->pluck('session')->toArray();
+            // print($fees_assigned);
+        $feeList = [];
+        if($assigned){ 
+            foreach($sessions as $session){
+                $fees_assigned = \App\Assign::with(['fees'])
+                    ->where('user_id', $user->id)
+                    ->where('session', $session)
+                    ->get();
+                if($fees_assigned->first()){
+                    $feeList[$session]['year'] = $session;
+                    $feeIDs = $fees_assigned->pluck('fee_id')->toArray();
+                    $feeTypeIDs = \App\Fee::find($feeIDs)->pluck('fee_type_id')->toArray();
+                    $feeType = \App\FeeType::find($feeTypeIDs)->pluck('name')->toArray();
 
+                    $feeList[$session]['types'] = $feeType;
+                    $feeList[$session]['fee_id'] = $fees_assigned->pluck('fee_id')->toArray();
 
-        return view('profile.user', compact('user'));
+                    $payments = \App\Payment::where('user_id', $user->id)
+                        ->where('session', $session)
+                        ->orderby('receipt', 'asc')
+                        ->get();
+                }
+               
+                
+            }
+
+        } else{
+            $fees_assigned = "";
+        }
+        return view('profile.user', compact('user', 'assigned', 'feeList', 'sessions', 'fees_assigned', 'payments'));
     }
+
+    public function migrationTest(){
+
+
+        $toMigrate = DB::table('assignMigrate')->get();
+        $types = [
+            'term1' => 1,
+            'term2' => 2,
+            'term3' => 3,
+            'term4' => 4,
+            'late' => 5,
+            'pta' => 6,
+            'magazine' => 7,
+            'bazaar' => 9,
+        ];
+    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -535,9 +583,14 @@ class UserController extends Controller
         $tb2->form_num = $this->userService->getMaxFormNumber($request->section);
         $tb2->session = $request->session;
         $tb2->reg_notes = $request->notes;
-        $tb2->section_id = $request->section;
+        // $tb2->form_id = $request->section;
         $tb2->group = $request->status;
+
+        $tb2->assigned = 0;
+        $tb2->channel_id = '';
         $tb2->save();
+
+
 
         return redirect("/user/$user->student_code");
     }

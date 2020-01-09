@@ -25,4 +25,9 @@ class StudentInfo extends Model
     {
         return $this->belongsTo('App\Section', 'form_id');
     }
+
+    public function channel()
+    {
+        return $this->belongsTo('App\FeeChannel', 'channel_id');
+    }
 }

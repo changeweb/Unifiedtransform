@@ -23,8 +23,8 @@ class CreateUsersTable extends Migration
             $table->integer('school_id')->nullable();
             $table->integer('code')->nullable();//school code Auto generated
             $table->integer('student_code')->unique()->nullable();//Auto generated
-            $table->string('gender')->default('');
-            $table->string('blood_group')->default('');
+            $table->string('gender')->nullable();
+            $table->string('blood_group')->nullable();
             $table->string('nationality')->default('');
             $table->string('phone_number')->default('');
             $table->string('address')->default('');

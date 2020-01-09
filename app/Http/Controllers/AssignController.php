@@ -50,25 +50,41 @@ class AssignController extends Controller
     {
         // return $request;
         $channel_id = $request->channel;
-        if(count($request['type'])){
+        if(isset($request['type'])){
             foreach($request['type'] as $fee_type_id => $toAssign){
-                $fee = \App\Fee::where('fee_channel_id', $channel_id)
-                    ->where('fee_type_id', $fee_type_id)
-                    ->first();
-                $assign = new \App\Assign;
-                $assign->user_id = $request->user_id;
-                $assign->fee_id = $fee->id;
-                $assign->session = ($request->session)?$request->session:now()->year;
-                // $assign->save();
+                if($toAssign){
+                    $fee = \App\Fee::where('fee_channel_id', $channel_id)
+                        ->where('fee_type_id', $fee_type_id)
+                        ->first();
+                    $assign = new \App\Assign;
+                    $assign->user_id = $request->user_id;
+                    $assign->fee_id = $fee->id;
+                    $assign->session = ($request->session)?$request->session:now()->year;
+                    $assign->save();
+                }
             }
-
             $student = \App\User::find($request->user_id)->studentInfo;
             $student->assigned = 1;
             $student->channel_id = $request->channel;
-            // $student->save();
+            $student->save();
+            return redirect('/user/'.\App\User::find($request->user_id)->student_code);
+        } else{
+            return back()->with('error2', __('Please select a Fee Channel'));
         }
 
-        return redirect('/user/'.\App\User::find($request->user_id)->student_code);
+    }
+
+    public function reassign(Request $request)
+    {
+        // return $request;
+        if(isset($request['type'])){
+            $firstRows = \App\Assign::where('user_id', $request->user_id)
+                ->where('session', $request->session)
+                ->delete();
+            return $this->store($request);
+        } else{
+            return back()->with('errors2', __('Please select a Fee Channel'));
+        }
     }
 
     /**

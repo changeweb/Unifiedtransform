@@ -13,7 +13,7 @@
                 <form class="form-horizontal" action="{{url('/school/promote-tct-student')}}" method="post">
                     {{csrf_field()}}
                     <input type="hidden" value="{{$user->id}}" name="user_id">
-                    <input type="hidden" value="{{$userSer->getInactiveRequest($user)->id}}" name="inactive_id">
+                    {{-- <input type="hidden" value="{{$userSer->getInactiveRequest($user)->id}}" name="inactive_id"> --}}
                     <!-- Form & Sections -->
                     <div class="row form-group">
                         <label for="section" class="col-sm-4 control-label">@lang('Select Form')</label>

@@ -45,7 +45,7 @@ class MyclassController extends Controller
       $tb = new Myclass;
       $tb->class_number = $request->class_number;
       $tb->school_id = \Auth::user()->school_id;
-      $tb->group = (!empty($request->group))?$request->group:'';
+      $tb->groupClass = (!empty($request->group))?$request->group:'';
       $tb->save();
       return back()->with('status', __('Created'));
     }
@@ -103,7 +103,7 @@ class MyclassController extends Controller
         $tb = Myclass::find($id);
         $tb->class_number = $request->class_number;
         //   $tb->school_id = $request->school_id;
-        $tb->group = $request->group;
+        $tb->groupClass = $request->group;
         $tb->save();
         return redirect('school/sections?course=1');
         // return ($tb->save())?response()->json([

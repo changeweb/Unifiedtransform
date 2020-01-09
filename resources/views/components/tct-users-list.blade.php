@@ -1,4 +1,4 @@
-{{-- {{$users->links()}} --}}
+{{$users->links()}}
 <div class="table-responsive">
 <table class="table table-bordered table-data-div table-condensed table-striped table-hover">
   <thead>
@@ -21,9 +21,9 @@
         <td class="text-center"><small>{{$user->student_code}}</small></td>
         <td>
             @if($type == 'registered')
-                {{($user->active)?'Active / '.ucfirst($user->studentInfo->group):'Inactive'.ucfirst($user->inactive->type)}}
+                {{($user->active)?'Active / '.ucfirst($user->studentInfo->group):'Inactive'}}
             @elseif($type == 'archived')
-                {{($user->active)?'Graduated / '.ucfirst($user->studentInfo->group):'Inactive'.ucfirst($user->inactive->type)}}
+                {{($user->active)?'Graduated / '.ucfirst($user->studentInfo->group):'Inactive'}}
             @endif
             </td>
         <td><small><a href="{{url('user/'.$user->student_code)}}">{{$user->name}}</a></small></td>
@@ -42,4 +42,4 @@
   </tbody>
 </table>
 </div>
-{{-- {{$users->links()}} --}}
+{{$users->links()}}

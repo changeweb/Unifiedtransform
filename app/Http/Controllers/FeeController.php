@@ -19,7 +19,7 @@ class FeeController extends Controller
 
     public function tct_index()
     {
-      $fees = \App\Fee::bySchool(\Auth::user()->school_id)->get();
+      $fees = \App\Fee::where('session', now()->year)->simplepaginate(50);
       return view('fees.tct_all',['fees'=>$fees]);
     }
 

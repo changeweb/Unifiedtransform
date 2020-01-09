@@ -29,8 +29,11 @@
                         @endforeach
                         <br>
                      @endif
+                     {{$fees->links()}}
+                     <br>
                     @component('components.tct-fees-list',['fees'=>$fees])
                     @endcomponent
+                    {{$fees->links()}}
                 </div>
             </div>
         </div>

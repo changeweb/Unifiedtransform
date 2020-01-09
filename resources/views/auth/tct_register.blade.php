@@ -269,8 +269,8 @@
                                     <select id="section" class="form-control" name="section" required>
 
                                         @foreach( session('register_forms') as $class)  
-                                            @foreach ($class->sections as $section)
-                                                <option value="{{$section->id}}">{{$class->class_number}}{{$section->section_number}} 
+                                            @foreach ($class->active_sections as $section)
+                                                <option value="{{$section->id}}">{{$class->class_number}}{{ucfirst($section->section_number)}} 
                                                     (#{{session('register_numbers')[$section->id]}})
                                                 </option>
                                             @endforeach

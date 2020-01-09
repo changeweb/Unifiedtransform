@@ -19,7 +19,16 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    @component('components.tct-user-profile',['user'=>$user])
+                    @component('components.tct-user-profile',[
+                        'user'=>$user,
+                        'assigned'=>$assigned,
+                        'feeList' => $feeList,
+                        'sessions' => $sessions,
+                        // 'fees_assigned' => $fees_assigned,
+                        // 'payments' => $payments,
+                    ]
+                        
+                        )
                     @endcomponent
                 </div>
               @else
