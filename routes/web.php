@@ -67,6 +67,8 @@ Route::middleware(['auth','accountant'])->prefix('fees')->name('fees.')->group(f
     Route::put('tct_create/{id}', 'FeeController@update');
     Route::get('unassign', 'AssignController@showUnassigned');
     Route::resource('assign', 'AssignController');
+    Route::post('reassign', 'AssignController@reassign');
+    Route::resource('tct_payment', 'PaymentController');
     // Finance AJAX
     Route::get('/assignListAction', 'AjaxController@getFeeAssignList');
 
@@ -280,3 +282,6 @@ Route::middleware(['auth','student'])->prefix('stripe')->group(function(){
   Route::post('charge','CashierController@store');
   Route::get('receipts', 'PaymentController@index');
 });
+
+
+Route::get('test', 'UserController@migrationTest');

@@ -23,14 +23,6 @@
       padding: 8px 15px;
     }
   </style>
-  {{--@if(Auth::user()->role != 'master')
-  <ul class="nav flex-column">
-    <li class="nav-item">
-      <a class="nav-link" href="{{url('user/'.Auth::user()->student_code)}}"><i class="material-icons">face</i> <span
-          class="nav-link-text">@lang('Profile')</span></a>
-    </li>
-  </ul>
-  @endif--}}
   <ul class="nav flex-column">
     <li class="nav-item active">
       <a class="nav-link" href="{{ url('home') }}"><i class="material-icons">dashboard</i> <span class="nav-link-text">@lang('Dashboard')</span></a>
@@ -55,6 +47,7 @@
         </ul>
 
       </li>
+      
       <!-- END OF STUDENT SECTION -->
     @if(Auth::user()->role != 'student')
     <li class="nav-item">
@@ -63,7 +56,7 @@
     <li class="nav-item">
         <a class="nav-link" href="{{ url('school/houses') }}"><i class="material-icons">house</i> <span class="nav-link-text">@lang('Houses')</span></a>
     </li>
-    <li class="nav-item" style="border-bottom: 1px solid #dbd8d8;"></li>
+    <li class="nav-item" style="border-bottom: 2px solid #dbd8d8;"></li>
     <li class="nav-item dropdown">
         <a role="button" href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
             class="material-icons">monetization_on</i> <span class="nav-link-text">@lang('Fees')</span> <i class="material-icons pull-right">keyboard_arrow_down</i></a>
@@ -82,7 +75,6 @@
     @endif
 
     @if(Auth::user()->role == 'admin')
-  
     <li class="nav-item">
         @php 
             $count = \App\StudentInfo::where('session', now()->year)->where('assigned', 0)->count('id');

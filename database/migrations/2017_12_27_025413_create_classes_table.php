@@ -17,7 +17,7 @@ class CreateClassesTable extends Migration
             $table->increments('id');
             $table->string('class_number');
             $table->integer('school_id')->unsigned();
-            $table->string('group');
+            $table->string('groupClass')->nullable();
             $table->timestamps();
         });
     }

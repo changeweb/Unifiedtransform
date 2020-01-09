@@ -15,9 +15,9 @@ class CreateFeeChannelsTable extends Migration
     {
         Schema::create('fee_channels', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->boolean('active');
-            $table->text('notes');
+            $table->text('notes')->nullable();
             $table->string('session');
             $table->timestamps();
         });

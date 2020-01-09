@@ -107,18 +107,22 @@ class UserService {
         $info->save();
         // print($info);
     }
-
+    // Check if current batch is NEW and whether a new student has been entered into this new batch
     public function getTCTID(){
         $year = date("Y");
         // $year = $session[0]->session_year;
         $subyr = substr($year, 2, 4);
         // Extract current tct_id batch
-        $lastID = DB::table('student_infos')->orderBy('tct_id', 'desc')->take(1)->get();
-        $lastIdsubyr = substr($lastID[0]->tct_id, 0, 2);
-        $lastIdCount = substr($lastID[0]->tct_id, 2, 6);
-        // Check if current batch is NEW and whether a new student has been entered into this new batch
-        if($subyr === $lastIdsubyr){
-            $new_id = $lastID[0]->tct_id + 1;
+        if(DB::table('student_infos')->orderBy('tct_id', 'desc')->first()){
+            $lastID = DB::table('student_infos')->max('tct_id');
+            $lastIdsubyr = substr($lastID, 0, 2);
+            $lastIdCount = substr($lastID, 2, 6);
+            if($subyr === $lastIdsubyr){
+                $new_id = $lastID + 1;
+            } else{
+                $new_id = $subyr.'0001';
+                $new_id = (int)$new_id;
+            }
         }
         else{
             $new_id = $subyr.'0001';
@@ -161,7 +165,33 @@ class UserService {
             return DB::table('reinstates')->where('inactive_id', $inactive_id)->first();
         }
     }
+
+    public function getRemainFromID($payments, $id, $curr=0){
+        $assign = \App\Fee::find($id);
+        $paid = $payments->where('fee_id', $id)->sum('amount');
+        $remain = $assign->amount - $paid;
+        return ($curr)? $this->numberformat($remain) : $remain;
+    }
+
+    public function getPayment($user_id, $session, $fee_id, $curr=0){
+        $payments = \App\Payment::where('user_id', $user_id)
+                        ->where('session', $session)
+                        ->orderby('receipt', 'asc')
+                        ->get();
+        $payAmount = $payments->where('fee_id', $fee_id)->sum('amount');
+        return ($curr)? $this->numberformat($payAmount):$payAmount;
+    }
     
+    public function numberformat($amount){
+        return ($amount == 0.00)?'-':number_format($amount,2);
+    }
+
+    public function paymentExists($fee_id, $session){
+        return \App\Payment::where([
+            'fee_id' => $fee_id,
+            'session' => $session,
+        ])->get();
+    }
     public function getAdminDetails()
     {
         $classes = \App\Myclass::with('sections')->where('school_id',\Auth::user()->school->id)->get();
@@ -254,9 +284,8 @@ class UserService {
     public function getTCTArchive(){
         return User::whereHas("studentInfo", function($q){
             $q->where("session", "!=", date("Y"));
-            })->where(['code' => auth()->user()->school->code], [])
-            ->student()
-            ->get();
+            })->student()
+            ->paginate(50);
     }
 
     public function getTeachers(){
