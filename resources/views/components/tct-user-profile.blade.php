@@ -99,7 +99,7 @@
                                     </tr>
                                     <tr>
                                         <td>@lang('Form'):</td>
-                                        <td>{{$user->section->class->class_number}}{{$user->section->section_number}}</td>
+                                        <td>{{$user->studentInfo->section->class->class_number}}{{$user->studentInfo->section->section_number}}</td>
                                         <td>@lang('Form #'):</td>
                                         <td>{{$user->studentInfo['form_num']}}</td>
                                     </tr>

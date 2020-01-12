@@ -79,6 +79,10 @@ Route::middleware(['auth','admin'])->group(function (){
     Route::get('gpa/create-gpa', 'GradesystemController@create');
     Route::post('create-gpa', 'GradesystemController@store');
     Route::post('gpa/delete', 'GradesystemController@destroy');
+
+    Route::get('search', 'SearchDataController@index')->name('search');
+    Route::get('autocomplete', 'SearchDataController@autocomplete')->name('autocomplete');
+    Route::get('find', 'SearchDataController@find');
 });
 
 Route::middleware(['auth','teacher'])->group(function (){

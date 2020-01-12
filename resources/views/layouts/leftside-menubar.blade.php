@@ -24,6 +24,12 @@
     }
   </style>
   <ul class="nav flex-column">
+
+    <li class="nav-item active">
+      <div class="md-form mb-3 mt-0">
+          <input id="search-input" class="search-input typeahead form-control" type="text" placeholder="Search" aria-label="Search">
+        </div>
+    </li>
     <li class="nav-item active">
       <a class="nav-link" href="{{ url('home') }}"><i class="material-icons">dashboard</i> <span class="nav-link-text">@lang('Dashboard')</span></a>
     </li>

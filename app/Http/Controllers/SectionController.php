@@ -22,6 +22,7 @@ class SectionController extends Controller
                         ->pluck('id')
                         ->toArray();
         $sections = \App\Section::whereIn('class_id',$classeIds)
+                    ->where('active', 1)
                     ->orderBy('class_id')
                     ->get();
         $exams = \App\ExamForClass::whereIn('class_id',$classeIds)

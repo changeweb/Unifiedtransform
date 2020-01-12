@@ -16,7 +16,8 @@
     <link rel="stylesheet" href="{{ url('css/loader.css') }}">
 
     <script src="{{ url('js/vendors.js') }}"></script>
-
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
     <script type="text/javascript">
         $.ajaxSetup({
             headers: {
@@ -39,7 +40,59 @@
       rel="stylesheet">
     <link rel="stylesheet" href="{{ url('css/vendors.css') }}" id="bootswatch-print-id">
     <link rel="stylesheet" href="{{ url('css/application.css') }}">
-    @yield('jsFiles')
+    <script src="{{asset('js/typeahead.js')}}"></script>
+
+
+
+    {{-- <script type="text/javascript">
+        var path = "{{ route('autocomplete') }}";
+        $('input.typeahead').typeahead({
+            source:  function (query, process) {
+            return $.get(path, { query: query }, function (data) {
+                    return process(data);
+                });
+            }
+        }); 
+    </script>--}}
+    <script>
+        $(document).ready(function($){
+            // Set the Options for the 'Bloodhound' suggestion engine
+            var engine = new Bloodhound({
+                remote: {
+                    url: "{{url('/find?q=%QUERY%')}}",
+                    wildcard: '%QUERY%'
+                },
+                datumTokenizer: Bloodhound.tokenizers.whitespace('q'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace
+            });
+            $(".search-input").typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1,
+                limit: 20,
+            }, {
+                source: engine.ttAdapter(),
+                // This will be appended to "tt-dataset-" to form the class name of the suggestion menu.
+                name: 'studentsList',
+
+                // the key from the array we want to display (name,id,email,etc...)
+                templates: {
+                    empty: [
+                        '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
+                    ],
+                    header: [
+                        '<div class="list-group search-results-dropdown">'
+                    ],
+                    suggestion: function (data) {
+                        // return '<a href= "/lsapp/public/allStudent/'+ data.tct_id +'" class="list-group-item">
+                        return '<a href= "{{url("/user/")}}/' + data.student_code +'" class="list-group-item"><b><small>'+ data.student_code + "<p></small></b>" + data.given_name + ' ' + data.lst_name + '</p></a>'
+                    }
+                }
+            });
+        });  
+
+    </script>
+        @yield('jsFiles')
 </body>
 
 </html>
