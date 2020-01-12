@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Payment;
+use App\PaymentMigrate;
 use Illuminate\Http\Request;
 
-class PaymentController extends Controller
+class PaymentMigrateController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,10 +14,9 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        $receipts = Payment::where('custormer_id', auth()->user()->id)->get();
-        return view('stripe.receipts',compact('receipts'));
+        //
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -41,37 +40,31 @@ class PaymentController extends Controller
             'receipt' => 'required',
             'payment_date' => 'required',
         ]);
-
-        
         if(count($request->payment)){
             foreach($request->payment as $fee_id => $amount){
-                if($amount>0){
-                    $tb = new Payment;
-                    $tb->fee_id = $fee_id;
-                    $tb->amount = $amount;
-                    $tb->user_id = $request->user_id;
-                    $tb->receipt = $request->receipt;
-                    $tb->session = $request->session;
-                    $tb->notes = $request->notes[$fee_id];
-                    $tb->pay_date = $request->payment_date;
-                    $tb->save();
-                }
-                
+                $tb = new PaymentMigrate;
+                $tb->tct_id = $request->user_id;
+                $tb->amount = $amount;
+                $tb->receipt_num = $request->receipt;
+                $tb->year = $request->session;
+                $tb->pay_notes = $request->notes[$fee_id];
+                $tb->pay_date = $request->payment_date;
+                $tb->fee_type = $request->typePaid;
+                $tb->save();
                 // return $tb;
             }
         }
         
-        return redirect('/user/'.\App\User::find($request->user_id)->student_code);
-
+        return redirect('/user/'.$request->user_id);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Payment  $payment
+     * @param  \App\PaymentMigrate  $paymentMigrate
      * @return \Illuminate\Http\Response
      */
-    public function show(Payment $payment)
+    public function show(PaymentMigrate $paymentMigrate)
     {
         //
     }
@@ -79,10 +72,10 @@ class PaymentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Payment  $payment
+     * @param  \App\PaymentMigrate  $paymentMigrate
      * @return \Illuminate\Http\Response
      */
-    public function edit(Payment $payment)
+    public function edit(PaymentMigrate $paymentMigrate)
     {
         //
     }
@@ -91,49 +84,39 @@ class PaymentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Payment  $payment
+     * @param  \App\PaymentMigrate  $paymentMigrate
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        // return $id;
+        // return $request;
+
         $request->validate([
             'receipt' => 'required',
             'payment_date' => 'required',
             'session' => 'required',
             'amount' => 'required',
           ]);
-        
-        $fee = \App\Fee::where([
-            'session' => $request->session,
-            'fee_type_id' => $request->type,
-            'fee_channel_id' => $request->channel_id,
-        ])->first();
-
-
-        $tb = \App\Payment::find($id);
-        $tb->receipt = $request->receipt;
+        $tb = \App\PaymentMigrate::find($id);
+        $tb->tct_id = $request->user_id;
+        $tb->receipt_num = $request->receipt;
         $tb->pay_date = $request->payment_date;
-        $tb->session = $request->session;
+        $tb->fee_type = $request->type;
+        $tb->year = $request->session;
         $tb->amount = $request->amount;
-        $tb->fee_id = $fee->id;
-        $tb->save();
-
         // return $tb;
-
-          return redirect('/user/'.\App\User::find($request->user_id)->student_code)->with('finance_tab', true);
-
-
+        $tb->save();
+        return redirect('/user/'.$request->user_id);
 
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Payment  $payment
+     * @param  \App\PaymentMigrate  $paymentMigrate
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Payment $payment)
+    public function destroy(PaymentMigrate $paymentMigrate)
     {
         //
     }

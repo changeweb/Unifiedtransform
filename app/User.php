@@ -83,6 +83,11 @@ class User extends Model implements
         return $this->hasMany('App\Notification','student_id');
     }
 
+    public function feesAssigned(){
+        return $this->hasMany('App\Assign', 'user_id');
+    }
+
+
     public function hasRole(string $role): bool
     {
         return $this->role == $role ? true : false;

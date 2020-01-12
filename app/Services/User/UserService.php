@@ -173,15 +173,46 @@ class UserService {
         return ($curr)? $this->numberformat($remain) : $remain;
     }
 
-    public function getPayment($user_id, $session, $fee_id, $curr=0){
-        $payments = \App\Payment::where('user_id', $user_id)
-                        ->where('session', $session)
-                        ->orderby('receipt', 'asc')
-                        ->get();
-        $payAmount = $payments->where('fee_id', $fee_id)->sum('amount');
+    public function getOldFees($session){
+        if($session == 2017){
+            $feeList['Term 1'] = 'term1';
+            $feeList['Term 2'] = 'term2';
+            $feeList['Term 3'] = 'term3';
+            $feeList['Term 4'] = 'term4';
+            $feeList['Magazine'] = 'magazine';
+            $feeList['PTA'] = 'pta';
+        } else{
+            $feeList['School Fees'] = 'School Fees';
+        }
+            $feeList['Late Registration'] = 'late';
+            $feeList['Bazaar (Old)'] = 'bazaar';
+            $feeList['Bazaar (New)'] = 'bazaar';
+        return $feeList;
+        
+    }
+
+    public function getPayment($user_id, $session, $fee_id, $curr=0, $type=""){
+        if($session > 2019){
+            $payments = \App\Payment::where('user_id', $user_id)
+                ->where('session', $session)
+                ->orderby('receipt', 'desc')
+                ->get();
+            $payAmount = $payments->where('fee_id', $fee_id)->sum('amount');
+        } else {
+            // return 0;
+            $feeList['Late Registration'] = 'late';
+            $feeList['Magazine'] = 'magazine';
+            $feeList['PTA'] = 'pta';
+            $feeList['Bazaar (Old)'] = 'bazaar';
+            $feeList['Bazaar (New)'] = 'bazaar';
+            $payAmount = \App\PaymentMigrate::where('tct_id', \App\User::find($user_id)->studentInfo->tct_id)
+                ->where('year', $session)
+                ->where('fee_type', $feeList[$type])
+                ->sum('amount');
+        }
         return ($curr)? $this->numberformat($payAmount):$payAmount;
     }
-    
+
     public function numberformat($amount){
         return ($amount == 0.00)?'-':number_format($amount,2);
     }
@@ -192,6 +223,25 @@ class UserService {
             'session' => $session,
         ])->get();
     }
+
+    public function oldPaymentExists($user_id, $type, $session){
+        return \App\PaymentMigrate::where('year', $session)
+            ->where('fee_type', $type)
+            ->where('tct_id', $user_id)
+            ->get();
+    }
+
+    public function getSchoolAssigned($user_id, $session, $curr =0){
+        $feeTypeIDs = \App\FeeType::whereIn('name', ['Term 1', 'Term 2', 'Term 3', 'Term 4'])->pluck('id')->toArray();
+        $feeUser = \App\Assign::where([
+            'user_id' => $user_id,
+            'session' => $session,
+        ])->pluck('fee_id')->toArray();
+        $feeSchool = \App\Fee::find($feeUser)->whereIn('fee_type_id', $feeTypeIDs)->sum('amount');
+        return $feeSchool;
+    }
+
+
     public function getAdminDetails()
     {
         $classes = \App\Myclass::with('sections')->where('school_id',\Auth::user()->school->id)->get();

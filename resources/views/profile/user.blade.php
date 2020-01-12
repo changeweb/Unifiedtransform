@@ -21,14 +21,13 @@
                     @endif
                     @component('components.tct-user-profile',[
                         'user'=>$user,
-                        'assigned'=>$assigned,
+                        'assigned'=> ($assignedCount > 0)?1:0,
                         'feeList' => $feeList,
                         'sessions' => $sessions,
-                        // 'fees_assigned' => $fees_assigned,
+                        'fees_assigned' => $fees_assigned,
                         // 'payments' => $payments,
-                    ]
-                        
-                        )
+                        // 'paymentsOld' => $paymentsOld,
+                    ])
                     @endcomponent
                 </div>
               @else
