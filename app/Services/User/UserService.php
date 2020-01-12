@@ -334,8 +334,7 @@ class UserService {
     public function getTCTArchive(){
         return User::whereHas("studentInfo", function($q){
             $q->where("session", "!=", date("Y"));
-            })->student()
-            ->paginate(50);
+            })->paginate(100);
     }
 
     public function getTeachers(){

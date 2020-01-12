@@ -24,7 +24,7 @@
                     <div class="page-panel-title" role="tab" id="headers">
                         <div class="row">
                             <div class="col-md-2 text-center"><h5>Form</h5></div>
-                            <div class="col-md-3 text-center"><h5>Number of Sections (Active / Inactive)</h5></div>
+                            <div class="col-md-3 text-center"><h5>Number of Sections</h5></div>
                             {{-- <div class="col-md-1 text-center"><h5>Last Session</h5></div> --}}
                             <div class="col-md-3 text-center"><h5>View Sections</h5></div>
                             {{-- <div class="col-md-2 text-center"><h5>Syllabus</h5></div> --}}
@@ -44,9 +44,10 @@
                                         @php
                                             $output = $class->sections()->count('id');
                                             $msg = (($output == 0)? '-': (($output == 1)? '1 section': $output.' sections'));
-                                            $active = $class->sections()->where('active', 1)->count('id');
+                                            // $active = $class->sections()->where('active', 1)->count('id');
+                                            // ({{$active}} / {{$output - $active}})
                                         @endphp
-                                        <h6 class='text-center'>{{$msg}} ({{$active}} / {{$output - $active}})</h6>
+                                        <h6 class='text-center'>{{$msg}} </h6>
                                     </div>
                                     <div class="col-md-3 text-center">
                                         <a class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{$class->id}}" aria-expanded="false" aria-controls="collapse{{$class->id}}"><small><b>@lang('Click to view') <i class="material-icons">keyboard_arrow_down</i></b></small></a>
