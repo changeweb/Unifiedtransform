@@ -12,7 +12,7 @@
             <div class="col-sm-4">
                 <select id="type{{$type->fee_type->id}}" class="form-control" name="type[{{$type->fee_type->id}}]">
                     <option value="1">Assign</option>
-                    <option value="0">No</option>
+                    <option value="0" @if($type->fee_type->name == "Late Registration") selected="selected" @endif>No</option>
                 </select>
             </div>
         </div>

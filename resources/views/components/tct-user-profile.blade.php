@@ -216,10 +216,10 @@
                                         // print json_encode($feeList);
                                         // print json_encode($fees_assigned);
                                         // $lstYear = $user->feesAssigned->max('session');
-                                        $lstYear = $user->StudentInfo->session;
+                                        $lstYear = max($user->studentInfo->session, $user->feesAssigned->max('session'));
                                         $firstYear = $user->feesAssigned->min('session');
-                                        // $years = range($lstYear, $firstYear);
-                                        print json_encode($years);
+                                        $years = range($lstYear, $firstYear);
+                                        // print json_encode($years);
                                     @endphp
                                         @foreach ($years as $session) 
                                         <table class="table table-bordered">
@@ -373,7 +373,7 @@
                                                                             <hr>
                                                                             @foreach ($feeList[$session]['fee_id'] as $id)
                                                                                 @php
-                                                                                if($userSer->paymentExists($id, $session)->first()){
+                                                                                if($userSer->paymentExists($id, $user->id, $session)->first()){
                                                                                     $text = 1;
                                                                                     $assignAm = \App\Fee::find($id)->amount;
                                                                                     $paymentAm = $userSer->paymentExists($id, $session)->sum('amount');
