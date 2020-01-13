@@ -25,7 +25,7 @@
   </style>
   <ul class="nav flex-column">
 
-    <li class="nav-item active">
+    <li class="nav-item">
       <div class="md-form mb-3 mt-0">
           <input id="search-input" class="search-input typeahead form-control" type="text" placeholder="Search" aria-label="Search">
         </div>

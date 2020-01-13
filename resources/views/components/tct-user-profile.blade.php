@@ -215,9 +215,11 @@
                                     @php                              
                                         // print json_encode($feeList);
                                         // print json_encode($fees_assigned);
-                                        $lstYear = $user->studentInfo->session;
-                                        $years = range($lstYear, 2017);
-                                        // print json_encode($years);
+                                        // $lstYear = $user->feesAssigned->max('session');
+                                        $lstYear = $user->StudentInfo->session;
+                                        $firstYear = $user->feesAssigned->min('session');
+                                        // $years = range($lstYear, $firstYear);
+                                        print json_encode($years);
                                     @endphp
                                         @foreach ($years as $session) 
                                         <table class="table table-bordered">
@@ -607,7 +609,7 @@
                                     @endif
                                 @endif     
                             </div>
-                            <div class="col-xs-5 col-xs-offset-1">
+                            <div class="col-xs-6 col-xs-offset-1">
                                 @php 
                                     $allPay = \App\Payment::where('user_id', $user->id)->orderBy('pay_date', 'desc')->get();
                                     $oldPayments = \App\PaymentMigrate::where('tct_id', $user->studentInfo->tct_id)->orderBy('pay_date', 'desc')->get();
@@ -824,7 +826,7 @@
                 type: "GET",
                 data: {
                     "_token": "{{ csrf_token() }}",
-                    fee_id: $(this).val(),
+                    channel_id: $(this).val(),
                 },
                 success: function(data){
                         $('#feeToAssign').html(data);
