@@ -28,6 +28,7 @@
                     <table id="fee_channel" class='table'>
                         <thead>
                             <th class="text-center">#</th>
+                            <th class="text-center">TCT ID</th>
                             <th class="text-center">Full Name</th>
                             <th class="text-center">Category</th>
                             <th class="text-center">Status</th>
@@ -40,6 +41,7 @@
                             @foreach($unassigned as $unassign)
                                 <tr>
                                     <td class="text-center">{{$loop->iteration}}</td>
+                                    <td class="text-center">{{$unassign->student->student_code}}</td>
                                     <td>
                                         <a href="{{url('user/'.$unassign->student->student_code)}}">{{$unassign->student->name}}</a>
                                     </td>
@@ -47,7 +49,7 @@
                                     <td>{{($unassign->student->active)?'Active / '.ucfirst($unassign->group):'Inactive'}}</td>
                                     <td class="text-center">{{$unassign->section->class->class_number}}</td>
                                     <td class="text-center">{{$unassign->house->house_abbrv}}</td>
-                                    <td>
+                                    <td class="text-center">
                                         @component('components.fee-type-form', [
                                             'buttonTitle' => 'Assign Fees',
                                             'modal_name' => 'myModal'.$unassign->id,
@@ -110,7 +112,7 @@
 				type: "GET",
 				data: {
                     "_token": "{{ csrf_token() }}",
-					fee_id: $(this).val(),
+					channel_id: $(this).val(),
 				},
 				success: function(data){
 						$('#feeToAssign').html(data);

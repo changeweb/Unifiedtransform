@@ -3,7 +3,7 @@
     <div class="form-group">
         <label for="session" class="col-sm-4 control-label">@lang('Session')</label>
         <div class="col-sm-4">
-            <input id="session" class="form-control" name="session" value="{{now()->year}}">
+            <input id="session" class="form-control" name="session" value="{{$session}}">
         </div>
     </div>
     @foreach($types as $type)
