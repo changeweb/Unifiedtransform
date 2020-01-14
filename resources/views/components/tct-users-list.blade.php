@@ -1,6 +1,6 @@
-{{$users->links()}}
+{{-- {{$users->links()}} --}}
 <div class="table-responsive">
-<table class="table table-bordered table-data-div table-condensed table-striped table-hover">
+<table id='myTable' class="table table-bordered table-data-div table-condensed table-striped table-hover">
   <thead>
     <tr>
         <th scope="col" class="text-center">TCT ID</th>
@@ -19,14 +19,14 @@
     <tr>
       {{-- <th scope="row">{{ ($current_page-1) * $per_page + $key + 1 }}</th> --}}
         <td class="text-center"><small>{{$user->student_code}}</small></td>
-        <td>
+        <td class="text-center">
             @if($type == 'registered')
                 {{($user->active)?'Active / '.ucfirst($user->studentInfo->group):'Inactive'}}
             @elseif($type == 'archived')
                 {{($user->active)?'Graduated / '.ucfirst($user->studentInfo->group):'Inactive'}}
             @endif
             </td>
-        <td><small><a href="{{url('user/'.$user->student_code)}}">{{$user->name}}</a></small></td>
+        <td><small><a href="{{url('user/'.$user->student_code)}}">{{($user->name == '')?$user->given_name.' '.$user->lst_name:$user->name}}</a></small></td>
         @if($type != 'registered')
             <td class="text-center">
                 <small>
@@ -34,6 +34,7 @@
                 </small>
             </td>
         @endif
+        {{-- <td></td> --}}
         <td class="text-center"><small>{{$user->section->class->class_number}}{{$user->section->section_number}}</small></td>
         <td class="text-center"><small>{{$user->studentInfo->form_num}}</small></td>
         <td  class="text-center" style="white-space: nowrap;"><small>{{$user->studentInfo->house->house_name}}</small></td>
@@ -42,4 +43,6 @@
   </tbody>
 </table>
 </div>
-{{$users->links()}}
+{{-- {{$users->links()}} --}}
+
+

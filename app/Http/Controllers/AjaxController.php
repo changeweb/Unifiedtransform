@@ -8,16 +8,17 @@ class AjaxController extends Controller
 {
     public function getFeeAssignList(Request $request)
     {
-        // return 'SDFSDFSDFSDFSDF';
-        
-
         $fee_channel_id = $request->fee_id;
         // return $fee_channel_id;
-        $types = \App\Fee::where('session', now()->year)
-            ->where('active', 1)
+        if(isset($request->session)){
+            $session = $request->session;
+        } else{
+            $session = now()->year;
+        }
+        $types = \App\Fee::where('session', $session)
+            // ->where('active', 1)
             ->where('fee_channel_id', $fee_channel_id)
             ->get();
-        // return $types;
             
         return view('tableTemplates.feeAssignListTemplate',[
             'fee_channel_id' => $fee_channel_id,

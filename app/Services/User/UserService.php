@@ -110,21 +110,12 @@ class UserService {
     // Check if current batch is NEW and whether a new student has been entered into this new batch
     public function getTCTID(){
         $year = date("Y");
-        // $year = $session[0]->session_year;
-        $subyr = substr($year, 2, 4);
-        // Extract current tct_id batch
-        if(DB::table('student_infos')->orderBy('tct_id', 'desc')->first()){
-            $lastID = DB::table('student_infos')->max('tct_id');
-            $lastIdsubyr = substr($lastID, 0, 2);
-            $lastIdCount = substr($lastID, 2, 6);
-            if($subyr === $lastIdsubyr){
-                $new_id = $lastID + 1;
-            } else{
-                $new_id = $subyr.'0001';
-                $new_id = (int)$new_id;
-            }
-        }
-        else{
+        $subyr = substr($year, 2, 4);  
+        $lastID = DB::table('student_infos')->max('tct_id');
+        $lastIdsubyr = substr($lastID, 0, 2);
+        if($subyr === $lastIdsubyr){
+            $new_id = $lastID + 1;
+        } else{
             $new_id = $subyr.'0001';
             $new_id = (int)$new_id;
         }
@@ -217,10 +208,11 @@ class UserService {
         return ($amount == 0.00)?'-':number_format($amount,2);
     }
 
-    public function paymentExists($fee_id, $session){
+    public function paymentExists($user_id, $fee_id, $session){
         return \App\Payment::where([
             'fee_id' => $fee_id,
             'session' => $session,
+            'user_id' => $user_id,
         ])->get();
     }
 
@@ -325,16 +317,18 @@ class UserService {
 
     public function getTCTStudents(){
         return User::whereHas("studentInfo", function($q){
-                $q->where("session",date("Y"));
+                $q->where("session",now()->year);
              })->where(['code' => auth()->user()->school->code], [])
-             ->student()
              ->get();  
     }
 
     public function getTCTArchive(){
+        ini_set('memory_limit', '-1');
         return User::whereHas("studentInfo", function($q){
-            $q->where("session", "!=", date("Y"));
-            })->paginate(100);
+            $q->where("session", ">", 2018)
+                ->where("session", "<", now()->year);
+            })->where('role', 'student')
+            ->get();
     }
 
     public function getTeachers(){
@@ -374,15 +368,11 @@ class UserService {
     }
 
     public function getTCTSectionStudentsWithSchool($section_id){
-        return $this->user->with('school')
-            ->student()
-            ->whereHas("studentInfo", function($q){
+        return \App\User::whereHas("studentInfo", function($q) use($section_id){
                 $q->where('session', now()->year)
+                ->where('form_id', $section_id)
                 ->orderBy('form_num', 'asc');
                 })
-            ->where('section_id', $section_id)
-            ->where('active', 1)
-            // ->orderBy('name', 'asc')
             ->get();
     }
 

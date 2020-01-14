@@ -62,7 +62,7 @@ class UserController extends Controller
     }
 
     public function tct_index($school_code, $student_code, $teacher_code){
-        session()->forget('section-attendance');
+        // session()->forget('section-attendance');
         
         if($this->userService->isListOfStudents($school_code, $student_code))
             return $this->userService->indexTCTView('list.tct-student-list', $this->userService->getTCTStudents(), 'registered');
@@ -119,7 +119,6 @@ class UserController extends Controller
         $sections = Section::with('class')
         ->where('active', 1)
         ->whereIn('class_id',$classes_id)
-        // ->where('active', 1)
         ->get();
         $form_nums = $this->userService->getFormNumbersArray($sections);
         $houses = House::all();
@@ -134,7 +133,8 @@ class UserController extends Controller
             'register_numbers' => $form_nums,
             'tct_id' => $this->userService->getTCTID(),
         ]);
-        return redirect()->route('tct_register');
+        return view('auth.tct_register');
+        // return redirect()->route('tct_register');
     }
 
     public function showTCTRegistrationForm()
@@ -157,7 +157,7 @@ class UserController extends Controller
     {
         $students = $this->userService->getTCTSectionStudentsWithSchool($section_id);
         $section = Section::find($section_id);
-        $max_form = DB::table('student_infos')->where(['form_id'=> $section_id, 'session'=>date('Y')])->max('form_num');
+        $max_form = DB::table('student_infos')->where(['form_id'=> $section_id, 'session'=>now()->year])->max('form_num');
         $max_loop = ($max_form == 0)? 1 : $max_form;
 
         return view('profile.section-tct-students', compact('students', 'section', 'max_loop'));
@@ -293,7 +293,7 @@ class UserController extends Controller
         // print($request);
         $tb = $this->userService->storeTCTStudent($request);
         event(new TCTStudentInfoUpdateRequested($request, $tb->id));
-        return back()->with('status', __('Saved'));        
+        return redirect('register/tct_student')->with('status', __('Saved'));        
     }
 
     /**

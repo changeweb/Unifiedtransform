@@ -20,14 +20,13 @@
                 {{-- <span class="error">{{ $error}}</span> --}}
             @endforeach
             <br>
-        @endif
-            <hr>
-          
+        @endif         
             <div class="panel panel-default">
                 @if($unassigned->first())
-                    <table id="fee_channel" class='table'>
+                    <table id="myTable" class='table'>
                         <thead>
                             <th class="text-center">#</th>
+                            <th class="text-center">TCT ID</th>
                             <th class="text-center">Full Name</th>
                             <th class="text-center">Category</th>
                             <th class="text-center">Status</th>
@@ -40,14 +39,15 @@
                             @foreach($unassigned as $unassign)
                                 <tr>
                                     <td class="text-center">{{$loop->iteration}}</td>
+                                    <td class="text-center">{{$unassign->student->student_code}}</td>
                                     <td>
-                                        <a href="{{url('user/'.$unassign->student->student_code)}}">{{$unassign->student->name}}</a>
+                                        <a href="{{url('user/'.$unassign->student->student_code)}}">{{($unassign->student->name == '')?$unassign->student->given_name.' '.$unassign->student->lst_name:$unassign->student->name}}</a>
                                     </td>
                                     <td class="text-center">{{$unassign->category_id}}</td>
                                     <td>{{($unassign->student->active)?'Active / '.ucfirst($unassign->group):'Inactive'}}</td>
-                                    <td class="text-center">{{$unassign->section->class->class_number}}</td>
+                                    <td class="text-center">{{$unassign->section->class->class_number}}{{$unassign->section->section_number}} (#{{$unassign->form_num}})</td>
                                     <td class="text-center">{{$unassign->house->house_abbrv}}</td>
-                                    <td>
+                                    <td class="text-center">
                                         @component('components.fee-type-form', [
                                             'buttonTitle' => 'Assign Fees',
                                             'modal_name' => 'myModal'.$unassign->id,
@@ -76,7 +76,6 @@
                                                 </div>
                                                 <hr>    
                                                 <div class="row" id="feeToAssign">
-
                                                 </div>
                                             @endslot
                                         @endcomponent
@@ -97,8 +96,6 @@
 @endsection
 
 @section('jsFiles')
-    {{-- <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script> --}}
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
     </script>
     <script>
@@ -114,27 +111,11 @@
 				},
 				success: function(data){
 						$('#feeToAssign').html(data);
-						// $('.toggle_one').bootstrapToggle({
-						// 	on: "Yes",
-						// 	off: "No",
-						// 	size: "small",
-						// 	onstyle: "success"
-						// });
 				}
 			});
 			}
 			
 		});
-            // $('.toggle_one').bootstrapToggle({
-            //     on: "Yes",
-            //     off: "No",
-            //     size: "small",
-            //     onstyle: "success"
-            // });
-
-            // $('#payment_switch').bootstrapToggle({
-			// on: "Yes",
-			// off: "No",
 		});
     </script>
 
