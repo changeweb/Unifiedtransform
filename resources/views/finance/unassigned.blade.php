@@ -107,7 +107,7 @@
 				type: "GET",
 				data: {
                     "_token": "{{ csrf_token() }}",
-					fee_id: $(this).val(),
+					channel_id: $(this).val(),
 				},
 				success: function(data){
 						$('#feeToAssign').html(data);

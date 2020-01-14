@@ -9,7 +9,6 @@ class AjaxController extends Controller
     public function getFeeAssignList(Request $request)
     {
         $fee_channel_id = $request->fee_id;
-        // return $fee_channel_id;
         if(isset($request->session)){
             $session = $request->session;
         } else{
@@ -23,6 +22,7 @@ class AjaxController extends Controller
         return view('tableTemplates.feeAssignListTemplate',[
             'fee_channel_id' => $fee_channel_id,
             'types' => $types,
+            'session' => $channel->session,
         ]);
     }
 }

@@ -207,7 +207,7 @@ class UserService {
     public function numberformat($amount){
         return ($amount == 0.00)?'-':number_format($amount,2);
     }
-
+  
     public function paymentExists($user_id, $fee_id, $session){
         return \App\Payment::where([
             'fee_id' => $fee_id,
