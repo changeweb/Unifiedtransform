@@ -47,7 +47,7 @@ class PaymentMigrateController extends Controller
                 $tb->amount = $amount;
                 $tb->receipt_num = $request->receipt;
                 $tb->year = $request->session;
-                $tb->pay_notes = $request->notes[$fee_id];
+                $tb->pay_notes = ($request->notes[$fee_id])?$request->notes[$fee_id]:'';
                 $tb->pay_date = $request->payment_date;
                 $tb->fee_type = $request->typePaid;
                 $tb->save();

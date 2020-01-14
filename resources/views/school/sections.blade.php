@@ -72,7 +72,7 @@
                                             @if(isset($_GET['course']) && $_GET['course'] == 1)
                                             <th class="text-center">@lang('Active')</th>
                                             <th class="text-center">@lang('Student Count')</th>
-                                            <th class="text-center">@lang('Last Session')</th>
+                                            {{-- <th class="text-center">@lang('Last Session')</th> --}}
                                             {{-- <th class="text-center">@lang('View Courses')</th> --}}
                                             <th class="text-center">@lang('View Students')</th>
                                             {{-- <th class="text-center">@lang('View Routines')</th> --}}
@@ -121,13 +121,13 @@
                                                     @endif
                                                     @if(isset($_GET['course']) && $_GET['course'] == 1)
                                                         <td class="text-center">{{($section->active)?"Yes":"No"}}</td>
-                                                        <td class="text-center">{{($section->active)?$section->users()->whereHas('studentInfo', function($q){$q->where('session', date('Y'));})->count('id'):'-'}}</td>
-                                                        <td class="text-center">{{
-                                                            \App\User::with('section')
-                                                            ->join('student_infos', 'users.id', '=', 'student_infos.student_id')
-                                                            ->where('users.section_id', $section->id)
-                                                            ->where('users.active', 1)
-                                                            ->max('student_infos.session')}}</td>
+                                                        @php
+                                                            $studentCount = \App\StudentInfo::where('form_id', $section->id)
+                                                            ->where('session', now()->year)
+                                                            ->count('id');
+                                                        @endphp
+                                                        <td class="text-center">{{($section->active)?$studentCount:'-'}}</td>
+                                                        {{-- <td class="text-center"></td> --}}
                                                         {{-- <td class="text-center">
                                                             <a role="button" class="btn btn-info btn-xs" href="{{url('courses/0/'.$section->id)}}"><i class="material-icons">visibility</i> @lang('View Courses')</a>
                                                         </td> --}}

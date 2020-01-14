@@ -8,15 +8,16 @@
         <div class="col-md-2" id="side-navbar">
             @include('layouts.leftside-menubar')
         </div>
-        <div class="col-md-10" id="main-container">
+        <div class="col-md-8" id="main-container">
             <br>
             <h4>
                 @lang('Form') {{$section->class->class_number}}{{$section->section_number}}
             </h4>
             <div class="panel panel-default">
-              @if(count($students) > 0)
+                {{-- {{$students}} --}}
+              @if($students->first())
                 <div class="panel-body">
-                    <table class="table table-data-div table-bordered">
+                    <table id="myTable" class="table table-data-div table-bordered">
                         <thead>
                         <tr>
                             <th class="text-center" scope="col">@lang('#')</th>
@@ -28,9 +29,6 @@
                         </tr>
                         </thead>
                         <tbody>
-
-    
-
                         @for ($i = 1; $i < $max_loop + 1; $i++)
                             <tr>
                             @php $student = \App\StudentInfo::where(
@@ -45,7 +43,7 @@
                                 <td class="text-center">{{$student->student->student_code}}</td>
                                 <td class="text-center">{{($student->student->active)?'Active / '.ucfirst($student->group):'Inactive / '.ucfirst($student->student->inactive->type)}}  
                                 <td>
-                                    <a href="{{url('user/'.$student->student->student_code)}}">{{$student->student->name}}</a>
+                                    <a href="{{url('user/'.$student->student->student_code)}}">{{($student->student->name == '')?$student->student->given_name.' '.$student->student->lst_name:$student->student->name}}</a>
                                 </td>
                                 <td class="text-center">
                                     {{$student->house->house_name}}

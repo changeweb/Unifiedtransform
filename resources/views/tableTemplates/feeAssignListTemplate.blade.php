@@ -1,5 +1,4 @@
-
-@if(count($types))
+@if($types->first())
     <div class="form-group">
         <label for="session" class="col-sm-4 control-label">@lang('Session')</label>
         <div class="col-sm-4">

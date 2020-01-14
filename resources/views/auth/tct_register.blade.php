@@ -107,7 +107,7 @@
                         <div class="form-group{{ $errors->has('birthday') ? ' has-error' : '' }}">
                             <label for="birthday" class="col-md-4 control-label">* @lang('Date of Birth')</label>
                             <div class="col-md-6">
-                                <input id="birthday" type="text" class="form-control" name="birthday" value="{{ old('birthday') }}" placeholder="dd/mm/yyyy"
+                                <input id="birthday" type="text" class="form-control" name="birthday" value="{{old('birthday')}}" placeholder="yyyy/mm/dd"
                                     required>
                                 @if ($errors->has('birthday'))
                                 <span class="help-block">

@@ -215,17 +215,21 @@
                                     @php                              
                                         // print json_encode($feeList);
                                         // print json_encode($fees_assigned);
+                                        $lstYear = $user->feesAssigned->max('session');
+                                        $minYear = $user->feesAssigned->min('session');
+                                        $years = range($lstYear, $minYear);
                                         // $lstYear = $user->feesAssigned->max('session');
-                                        $lstYear = max($user->studentInfo->session, $user->feesAssigned->max('session'));
-                                        $firstYear = $user->feesAssigned->min('session');
-                                        $years = range($lstYear, $firstYear);
+                                        // $lstYear = max($user->studentInfo->session, $user->feesAssigned->max('session'));
+
                                         // print json_encode($years);
                                     @endphp
                                         @foreach ($years as $session) 
+                                        @if(isset($feeList[$session]))
                                         <table class="table table-bordered">
                                             <thead>
-                                                <tr>
-                                                    <td colspan="4" class="bg-info text-white text-center">{{$session}}</td>
+                                                <tr class="bg-info text-white text-center">
+                                                    <td colspan="3" class="text-center" >{{$session}}</td>
+                                                    <td class="text-center"><small>{{\App\Fee::find($feeList[$session]['fee_id'])->first()->fee_channel->name}}</small></td>
                                                 </tr>
                                                 <tr>
                                             @if(in_array($session, $sessions))
@@ -307,10 +311,11 @@
                                                                     'url' => url('fees/reassign'),
                                                                 ])
                                                                     @slot('buttonType')
-                                                                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#assignModal{{$session}}"><i class="material-icons">assignment_returned</i>  
+                                                                        <button type="button" class="btn btn-primary btn-xs" disabled="disabled" data-toggle="modal" data-target="#assignModal{{$session}}"><i class="material-icons">assignment_returned</i>  
                                                                     @endslot
                                                                     @slot('form_content')
                                                                         <input type="hidden" value="{{$user->id}}" name="user_id">
+                                                                        <input id='year' type="hidden" value="{{$session}}" name="session">
                                                                         <div class="row form-group">
                                                                             <label for="channel" class="col-sm-4 control-label">@lang('Fee Channel')</label>
                                                                             <div class="col-sm-8">
@@ -373,10 +378,10 @@
                                                                             <hr>
                                                                             @foreach ($feeList[$session]['fee_id'] as $id)
                                                                                 @php
-                                                                                if($userSer->paymentExists($id, $user->id, $session)->first()){
+                                                                                if($userSer->paymentExists($user->id, $id, $session)->first()){
                                                                                     $text = 1;
                                                                                     $assignAm = \App\Fee::find($id)->amount;
-                                                                                    $paymentAm = $userSer->paymentExists($id, $session)->sum('amount');
+                                                                                    $paymentAm = $userSer->paymentExists($user->id, $id, $session)->sum('amount');
                                                                                     $remainAm = $assignAm - $paymentAm;
                                                                                 } else{ 
                                                                                     $text = 0;
@@ -568,7 +573,9 @@
                                                 </thead>
                                             @endif
                                         </table>
+                                        @endif
                                         @endforeach
+                                        
                                 @else
                                     Student has not been assigned! <br>
                                     <br>
@@ -827,6 +834,7 @@
                 data: {
                     "_token": "{{ csrf_token() }}",
                     channel_id: $(this).val(),
+                    session: $('#year').val(),
                 },
                 success: function(data){
                         $('#feeToAssign').html(data);

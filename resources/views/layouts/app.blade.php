@@ -41,22 +41,16 @@
     <link rel="stylesheet" href="{{ url('css/vendors.css') }}" id="bootswatch-print-id">
     <link rel="stylesheet" href="{{ url('css/application.css') }}">
     <script src="{{asset('js/typeahead.js')}}"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
 
-
-
-    {{-- <script type="text/javascript">
-        var path = "{{ route('autocomplete') }}";
-        $('input.typeahead').typeahead({
-            source:  function (query, process) {
-            return $.get(path, { query: query }, function (data) {
-                    return process(data);
-                });
-            }
-        }); 
-    </script>--}}
     <script>
         $(document).ready(function($){
             // Set the Options for the 'Bloodhound' suggestion engine
+            $(document).ready( function () {
+                // $('#myTable').DataTable();
+            } );
+
             var engine = new Bloodhound({
                 remote: {
                     url: "{{url('/find?q=%QUERY%')}}",

@@ -13,7 +13,6 @@
               @if(count($users) > 0)
               <div class="page-panel-title">{{ucfirst($type)}} Students in {{date("Y")}}</div>
                 <div class="panel-body">
-                   
                     @if (session('status'))
                         <div class="alert alert-success">
                             {{ session('status') }}
@@ -38,15 +37,4 @@
         {{-- @endforeach --}}
     </div>
 </div>
-@endsection
-
-@section('jsFiles')
-{{-- <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> --}}
-{{-- <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"> --}}
-{{-- </script> --}}
-<script>
-    $(document).ready( function () {
-        // $('#myTable').DataTable();
-    } );
-</script>
 @endsection
