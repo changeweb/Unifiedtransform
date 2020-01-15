@@ -4,9 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Assign;
 use Illuminate\Http\Request;
+use App\Services\User\UserService;
+use App\User;
 
 class AssignController extends Controller
 {
+    protected $userService;
+    protected $user;
+
+    public function __construct(UserService $userService, User $user){
+        $this->userService = $userService;
+        $this->user = $user;
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -96,6 +106,14 @@ class AssignController extends Controller
     public function show(Assign $assign)
     {
         //
+    }
+
+    public function showForm(Request $request)
+    {
+        // return $request->user; 
+        $user = \App\User::find($request->user_id);
+        $session = $request->session;
+        return view('finance.assignForm', compact('user','session'));
     }
 
     /**

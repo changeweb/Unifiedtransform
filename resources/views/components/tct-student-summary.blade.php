@@ -1,5 +1,5 @@
 <div id = "student_summary" class="row">
-    <h3>{{($user->name == "")?$user->lst_name.', '.$user->given_name:$user->name}} <small>TCT ID: {{$user->studentInfo->tct_id}}</small></h3>
+    <h3>{{$user->lst_name.', '.$user->given_name}} <small>TCT ID: {{$user->studentInfo->tct_id}}</small></h3>
     <div class="row">
         <div class="col-xs-3"><strong>
             {{($user->studentInfo->session == date('Y'))?'Registered':'Archived'}} 

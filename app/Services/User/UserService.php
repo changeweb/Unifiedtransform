@@ -318,8 +318,7 @@ class UserService {
     public function getTCTStudents(){
         return User::whereHas("studentInfo", function($q){
                 $q->where("session",now()->year);
-             })->where(['code' => auth()->user()->school->code], [])
-             ->get();  
+             })->get();  
     }
 
     public function getTCTArchive(){

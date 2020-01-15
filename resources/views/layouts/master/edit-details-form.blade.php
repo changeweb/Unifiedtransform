@@ -1,6 +1,6 @@
 <!-- ACADEMIC DETAILS -->
-<a role="button" class="" data-toggle="modal" data-target="#editAdminDetails{{$user->id}}"><i class="material-icons">edit</i> @lang('Edit Admin Details')</a>
-<br>
+<a role="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editAdminDetails{{$user->id}}"><i class="material-icons">edit</i> @lang('Edit Admin')</a>
+
 {{-- {{$userSer->getAdminDetails()['sections']}} --}}
 <div class="modal fade" id="editAdminDetails{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="#editAdminDetails{{$user->id}}Label">
     <div class="modal-dialog" role="document">
@@ -109,10 +109,8 @@
         </div>
     </div>
 </div>
-
-<br>
 <!-- OTHER DETAILS -->
-<a role="button" class="" data-toggle="modal" data-target="#editOtherDetails{{$user->id}}"><i class="material-icons">edit</i> @lang('Edit Other Details')</a>
+<a role="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editOtherDetails{{$user->id}}"><i class="material-icons">edit</i> @lang('Edit Other')</a>
 <div class="modal fade" id="editOtherDetails{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="#editOtherDetails{{$user->id}}Label">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

@@ -1,4 +1,4 @@
-<a role="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#reinstateApproval{{$user->id}}"><i class="material-icons">done_outline</i> @lang('Approval')</a>
+<a role="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#reinstateApproval{{$user->id}}"><i class="material-icons">done_outline</i> @lang('Approval')</a>
 <!-- MODAL -->
 <div class="modal fade" id="reinstateApproval{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="reinstateApproval{{$user->id}}Label">
     <div class="modal-dialog" role="document">

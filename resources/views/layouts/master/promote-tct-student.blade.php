@@ -1,4 +1,4 @@
-<a role="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#promote{{$user->id}}"><i class="material-icons">add</i >@lang('Promote')</a>
+<a role="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#promote{{$user->id}}"><i class="material-icons">add</i >@lang('Promote')</a>
 
 <div class="modal fade" id="promote{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="promote{{$user->id}}Label">
     <div class="modal-dialog" role="document">

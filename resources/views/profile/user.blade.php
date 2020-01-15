@@ -19,7 +19,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    @component('components.tct-user-profile',[
+                    @component('components.tct-user-profile-v2',[
                         'user'=>$user,
                         'assigned'=> ($assignedCount > 0)?1:0,
                         'feeList' => $feeList,

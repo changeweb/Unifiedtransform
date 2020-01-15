@@ -1,4 +1,4 @@
-<a role="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#setInactive{{$user->id}}"><i class="material-icons">person_add_disabled</i> @lang('Set Inactive')</a>
+<a role="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#setInactive{{$user->id}}"><i class="material-icons">person_add_disabled</i> @lang('Set Inactive')</a>
 <!-- MODAL -->
 <div class="modal fade" id="setInactive{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="setInactive{{$user->id}}Label">
     <div class="modal-dialog" role="document">

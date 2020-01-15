@@ -1,4 +1,4 @@
-<a role="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#reinstate{{$user->id}}"><i class="material-icons">redo</i> @lang('Reinstate')</a>
+<a role="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#reinstate{{$user->id}}"><i class="material-icons">redo</i> @lang('Reinstate')</a>
 <!-- MODAL -->
 <div class="modal fade" id="reinstate{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="reinstate{{$user->id}}Label">
     <div class="modal-dialog" role="document">
