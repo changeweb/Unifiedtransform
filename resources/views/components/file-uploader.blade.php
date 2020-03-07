@@ -5,6 +5,28 @@
         <input type="text" class="form-control" name="upload-title" id="upload-title" placeholder="@lang('File title here...')" required>
         <br/>
     @endif
+    @if($upload_type == 'routine')
+        <label for="sections">For</label>
+        <select id="sections" class="form-control" name="sections" required>
+            @foreach($classes as $class)
+                @foreach($class->sections as $section)
+                <option value="{{$section->id}}">
+                    @lang('Class'): {{$class->class_number}} -
+                    @lang('Section'): {{$section->section_number}}
+                </option>
+                @endforeach
+            @endforeach
+        </select>
+    @elseif($upload_type == 'syllabus')
+        <label for="classes">Class</label>
+        <select id="classes" class="form-control" name="classes" required>
+            @foreach($classes as $class)
+            <option value="{{$class->id}}">
+                @lang('Class'): {{$class->class_number}}
+            </option>
+            @endforeach
+        </select>
+    @endif
   <input class="form-control-sm" id="fileupload" type="file"  accept=".xlsx,.xls,.doc,.docx,.ppt,.pptx,.txt,.pdf,image/png,image/jpeg" name="file" data-url="{{url('upload/file')}}">
   <br/>
   <div class="progress">
@@ -61,7 +83,13 @@ $(function () {
                             data.context.text(@json( __('File Upload has been canceled')));
                         });
                         @if($upload_type != 'profile')
-                            data.formData = {upload_type: '{{$upload_type}}',title: $('#upload-title').val()};
+                            @if($upload_type == 'routine')
+                                data.formData = {upload_type: '{{$upload_type}}',section_id:$('#sections').val(),title: $('#upload-title').val()};
+                            @elseif($upload_type == 'syllabus')
+                                data.formData = {upload_type: '{{$upload_type}}',class_id:$('#classes').val(),title: $('#upload-title').val()};
+                            @else
+                                data.formData = {upload_type: '{{$upload_type}}',title: $('#upload-title').val()};
+                            @endif
                         @else
                             data.formData = {upload_type: '{{$upload_type}}',user_id: $('#userIdPic').val()};
                         @endif
