@@ -14,3 +14,5 @@ yarn-error.log
 .rnd
 /database/database.*
 .env.dusk.local
+composer.lock
+composer.json

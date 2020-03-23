@@ -80,7 +80,7 @@ return [
 
     //'locale' => 'en',
 
-    'locale' => 'en',
+    'locale' => 'fr',
     'languages' => [
     'fr' => 'Français',
     'ar' => 'Arabe',
