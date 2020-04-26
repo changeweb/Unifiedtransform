@@ -250,6 +250,7 @@ DB_PASSWORD=secret
    //factory(User::class, 200)->states('student')->create();
    ```
 
+* Make Unifiedtransform a native desktop application by using **[Nativefier](https://github.com/jiahaog/nativefier)**
 * [Laravel 5 log viewer](https://github.com/rap2hpoutre/laravel-log-viewer) is used to view Logs using a UI at 'example.com/logs' while in development environment.
 
 ## Stripe setup
