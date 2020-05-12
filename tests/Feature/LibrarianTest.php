@@ -43,7 +43,7 @@ class LibrarianTest extends TestCase
 
         $response->assertStatus(200)
                 ->assertViewHas('users')
-                ->assertSeeText(e($student->name));
+                ->assertSeeText(e($student->student_code));
     }
 
     /**
