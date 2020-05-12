@@ -15,7 +15,7 @@ class IssuedBookModuleTest extends TestCase
 
     protected $librarian;
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
         $this->librarian = factory(User::class)->states('librarian')->create();
         $this->actingAs($this->librarian);

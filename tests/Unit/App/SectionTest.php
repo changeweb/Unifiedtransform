@@ -13,7 +13,7 @@ class SectionTest extends TestCase
 
     protected $section;
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
         $this->section = create(Section::class);
     }

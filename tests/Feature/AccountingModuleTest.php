@@ -13,7 +13,7 @@ class AccountingModuleTest extends TestCase
 {
     use WithFaker, RefreshDatabase;
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
         $accountant = factory(User::class)->states('accountant')->create();
         $this->actingAs($accountant);

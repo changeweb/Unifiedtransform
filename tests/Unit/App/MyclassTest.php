@@ -14,7 +14,7 @@ class MyclassTest extends TestCase
 
     protected $class;
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
         $this->class = create(Myclass::class);
     }

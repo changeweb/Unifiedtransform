@@ -67,9 +67,9 @@
             <img src="{{asset('01-progress.gif')}}" data-src="{{url($user->pic_path)}}" style="border-radius: 50%;" width="25px" height="25px">
           @else
             @if(strtolower($user->gender) == trans('male'))
-              <img src="{{asset('01-progress.gif')}}" data-src="https://png.icons8.com/dusk/50/000000/user.png" style="border-radius: 50%;" width="25px" height="25px">&nbsp;
+              <img src="{{asset('01-progress.gif')}}" data-src="https://img.icons8.com/color/48/000000/guest-male--v1.png" style="border-radius: 50%;" width="25px" height="25px">&nbsp;
             @else
-              <img src="{{asset('01-progress.gif')}}" data-src="https://png.icons8.com/dusk/50/000000/user-female.png" style="border-radius: 50%;" width="25px" height="25px">&nbsp;
+              <img src="{{asset('01-progress.gif')}}" data-src="https://img.icons8.com/color/48/000000/businesswoman.png" style="border-radius: 50%;" width="25px" height="25px">&nbsp;
             @endif
           @endif
           <a href="{{url('user/'.$user->student_code)}}">
@@ -85,15 +85,20 @@
         @if (!Session::has('section-attendance'))
         <td>
           <small>
+          @isset($user->studentInfo['session'])
             {{$user->studentInfo['session']}}
             @if($user->studentInfo['session'] == now()->year || $user->studentInfo['session'] > now()->year)
               <span class="label label-success">@lang('Promoted/New')</span>
             @else
               <span class="label label-danger">@lang('Not Promoted')</span>
             @endif
+          @endisset
           </small>
         </td>
-        <td><small>{{ucfirst($user->studentInfo['version'])}}</small></td>
+        <td><small>
+        @isset($user->studentInfo['version'])
+          {{ucfirst($user->studentInfo['version'])}}
+        @endisset</small></td>
         <td><small>{{$user->section->class->class_number}} {{!empty($user->group)? '- '.$user->group:''}}</small></td>
         <td style="white-space: nowrap;"><small>{{$user->section->section_number}}
           {{-- @if(Auth::user()->role == 'student' || Auth::user()->role == 'teacher' || Auth::user()->role == 'admin')
@@ -101,8 +106,14 @@
           @endif --}}
           </small>
         </td>
-        <td><small>{{$user->studentInfo['father_name']}}</small></td>
-        <td><small>{{$user->studentInfo['mother_name']}}</small></td>
+        <td><small>
+        @isset($user->studentInfo['father_name'])
+          {{$user->studentInfo['father_name']}}
+        @endisset</small></td>
+        <td><small>
+        @isset($user->studentInfo['mother_name'])
+          {{$user->studentInfo['mother_name']}}
+        @endisset</small></td>
         @endif
       @elseif($user->role == 'teacher')
         @if (!Session::has('section-attendance'))

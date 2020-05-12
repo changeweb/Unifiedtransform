@@ -16,6 +16,20 @@ We like to challenge the quality of what we build to make it better. To do so, w
 ![Screenshot_2019-04-07 Laravel News](https://user-images.githubusercontent.com/9896315/55683832-1b3c8c80-5966-11e9-8dfb-ab30a79a98ed.png)
 See the news [here](https://laravel-news.com/unified-transform-open-source-school-management-platform)
 
+## Framework used
+
+- Laravel 7.X
+- Bootstrap 3.3.7
+
+## Server Requirements
+
+- PHP >= 7.2.5
+- OpenSSL PHP Extension
+- PDO PHP Extension
+- Mbstring PHP Extension
+- Tokenizer PHP Extension
+- XML PHP Extension
+
 ## Table of Contents
 - [Features](https://github.com/changeweb/Unifiedtransform#features)
 - [Framework used](https://github.com/changeweb/Unifiedtransform#framework-used)
@@ -96,20 +110,6 @@ This software has following features:
 
     'timezone' => 'Asia/Dhaka',//'UTC',
     'locale' => 'en',//'es-MX' for Spanish
-
-## Framework used
-
-- Laravel 5.5
-- Bootstrap 3.3.7
-
-## Server Requirements
-
-- PHP >= 7.1.0
-- OpenSSL PHP Extension
-- PDO PHP Extension
-- Mbstring PHP Extension
-- Tokenizer PHP Extension
-- XML PHP Extension
 
 ## How to Start
 ### Using Docker Container:
@@ -319,7 +319,7 @@ DB_PASSWORD=secret
 * This project uses [Laravel Impersonate](https://github.com/404labfr/laravel-impersonate) in development and staging environments, so you can view the application through another user's eyes, which is useful for testing. See the guide for using [Impersonation](https://github.com/changeweb/Unifiedtransform/pull/118).
 * In `.env`, turn `APP_DEBUG` to `false` for production environment.
 * Remove `Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');` from `routes/web.php` while in Production Environment.
-* `Cache::remember()` generates cache files. To delete expired cache files [LaravelCacheGarbageCollector](https://github.com/jdavidbakr/laravel-cache-garbage-collector) package is used. Run `php artisan cache:gc`.
+* `Cache::remember()` generates cache files. **Removed** ~~To delete expired cache files [LaravelCacheGarbageCollector](https://github.com/jdavidbakr/laravel-cache-garbage-collector) package is used. Run `php artisan cache:gc`.~~
 * You can switch to and from maintenance mode by running `php artisan up` and `php artisan down`.
 * **Optimizing Route** Loading `php artisan route:cache`
 * Dashboard page contents(e.g. Student count, Teacher count, Notice, etc.) are **cached** because these are not frequently changed. If you don't want these to be cached, just remove the cache lines in `index` method in `app\Http\Controller\HomeController.php`like the following example.
