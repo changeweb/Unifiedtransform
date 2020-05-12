@@ -13,7 +13,7 @@ class MasterUserManagesSchoolsTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
         $this->master = factory(User::class)->states('master')->create();
     }

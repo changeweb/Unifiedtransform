@@ -20,7 +20,7 @@ use App\Http\Requests\User\ChangePasswordRequest;
 use App\Http\Requests\User\ImpersonateUserRequest;
 use App\Http\Requests\User\CreateLibrarianRequest;
 use App\Http\Requests\User\CreateAccountantRequest;
-use Mavinoo\LaravelBatch\Batch;
+use Mavinoo\LaravelBatch\LaravelBatch;
 use App\Events\UserRegistered;
 use App\Events\StudentInfoUpdateRequested;
 use Illuminate\Support\Facades\Log;

@@ -13,12 +13,12 @@ class AddStripeFieldsInUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function ($table) {
-            $table->string('stripe_id')->nullable();
-            $table->string('card_brand')->nullable();
-            $table->string('card_last_four')->nullable();
-            $table->timestamp('trial_ends_at')->nullable();
-        });
+        // Schema::table('users', function ($table) {
+        //     $table->string('stripe_id')->nullable();
+        //     $table->string('card_brand')->nullable();
+        //     $table->string('card_last_four')->nullable();
+        //     $table->timestamp('trial_ends_at')->nullable();
+        // });
     }
 
     /**
@@ -28,8 +28,8 @@ class AddStripeFieldsInUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['stripe_id','card_brand','card_last_four','trial_ends_at']);
-        });
+        // Schema::table('users', function (Blueprint $table) {
+        //     $table->dropColumn(['stripe_id','card_brand','card_last_four','trial_ends_at']);
+        // });
     }
 }

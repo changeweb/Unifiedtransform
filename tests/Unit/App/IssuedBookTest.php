@@ -14,7 +14,7 @@ class IssuedBookTest extends TestCase
 
     protected $issuedbook;
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
         $this->issuedbook = create(Issuedbook::class);
     }

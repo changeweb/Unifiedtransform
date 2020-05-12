@@ -9,6 +9,7 @@ use App\Section;
 use App\Myclass;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Mavinoo\LaravelBatch\LaravelBatch;
 
 class GradeService {
 
@@ -175,7 +176,7 @@ class GradeService {
   public function saveCalculatedGPAFromTotalMarks($tbc){
     try{
       if(count($tbc) > 0)
-        return \Batch::update('grades',(array) $tbc,'id');
+        return LaravelBatch::update('grades',(array) $tbc,'id');
     }catch(\Exception $e){
       return "OOps, an error occured";
     }

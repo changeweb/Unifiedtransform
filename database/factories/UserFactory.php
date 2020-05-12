@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Support\Str;
 use App\User;
 use App\School;
 use App\Section;
@@ -23,7 +23,7 @@ $factory->define(User::class, function (Faker $faker) {
         'name'           => $faker->name,
         'email'          => $faker->unique()->safeEmail,
         'password'       => $password ?: $password = bcrypt('secret'),
-        'remember_token' => str_random(10),
+        'remember_token' => Str::random(10),
         'active'         => 1,
         'role'           => $faker->randomElement(['student', 'teacher', 'admin', 'accountant', 'librarian']),
         'school_id' => function () use ($faker) {
@@ -55,6 +55,10 @@ $factory->define(User::class, function (Faker $faker) {
         'blood_group'    => $faker->randomElement(['a+', 'b+', 'ab', 'o+']),
         'nationality'    => 'Bangladeshi',
         'gender'         => $faker->randomElement(['male', 'female']),
+        'stripe_id' => null,
+        'card_brand' => null,
+        'card_last_four' => null,
+        'trial_ends_at' => null,
     ];
 });
 

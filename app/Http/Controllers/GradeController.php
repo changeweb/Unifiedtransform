@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Grade\CalculateMarksRequest;
 use App\Http\Traits\GradeTrait;
 use App\Services\Grade\GradeService;
+use Mavinoo\LaravelBatch\LaravelBatch;
 
 class GradeController extends Controller
 {
@@ -166,7 +167,7 @@ class GradeController extends Controller
       $tbc = $this->gradeService->updateGrade($request);
       try{
           if(count($tbc) > 0)
-            \Batch::update('grades', (array) $tbc,'id');
+            LaravelBatch::update('grades', (array) $tbc,'id');
         }catch(\Exception $e){
             return __("Ops, an error occured");
         }
