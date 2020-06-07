@@ -140,7 +140,7 @@ Route::middleware(['auth','accountant'])->prefix('accounts')->name('accounts.')-
   Route::post('create-sector','AccountController@storeSector')->name('sectors.create');
   Route::get('edit-sector/{sector}','AccountController@editSector')->name('sectors.edit');
   Route::patch('update-sector/{sector}','AccountController@updateSector')->name('sectors.update');
-  //Route::get('delete-sector/{id}','AccountController@deleteSector');
+  //Route::get('delete-sector/{sector}','AccountController@deleteSector')->name('sectors.delete');
 
   Route::get('income','AccountController@income');
   Route::post('create-income','AccountController@storeIncome');

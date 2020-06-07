@@ -39,7 +39,7 @@ class AccountController extends Controller {
      */
     public function storeSector( StoreSectorRequest $request )
     {
-        $this -> accountService -> storeSector($request->validated());
+        $this -> accountService -> storeSector( $request -> validated() );
         
         return back() -> with( "status", "Account Sector Created Successfully." );
     }
@@ -72,12 +72,12 @@ class AccountController extends Controller {
     /**
      * Delete the specified resource.
      *
-     * @param int $id
-     * @return Response
+     * @param \App\AccountSector $sector
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
      */
-    public function deleteSector( $id )
+    public function deleteSector( AccountSector $sector )
     {
-        $sector = AccountSector ::find( $id );
         $sector -> delete();
         
         return redirect( '/accounts/sectors' ) -> with( "status", "Account Sector Deleted Successfully." );
