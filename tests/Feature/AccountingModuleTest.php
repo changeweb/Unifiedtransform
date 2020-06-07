@@ -25,8 +25,8 @@ class AccountingModuleTest extends TestCase {
     /** @test */
     public function view_is()
     {
-        $response = $this -> get( 'accounts/sectors' );
-        $response -> assertViewIs( 'accounts.sector' );
+        $this -> get( route( 'accounts.sectors.index' ) )
+              -> assertViewIs( 'accounts.sector' );
     }
     
     /** @test */
