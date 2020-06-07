@@ -1,8 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -139,10 +136,10 @@ Route::middleware(['auth','librarian'])->prefix('library')->name('library.issued
 });
 
 Route::middleware(['auth','accountant'])->prefix('accounts')->name('accounts.')->group(function (){
-  Route::get('sectors','AccountController@sectors');
-  Route::post('create-sector','AccountController@storeSector');
-  Route::get('edit-sector/{id}','AccountController@editSector');
-  Route::post('update-sector','AccountController@updateSector');
+  Route::get('sectors','AccountController@sectors')->name('sectors.index');
+  Route::post('create-sector','AccountController@storeSector')->name('sectors.create');
+  Route::get('edit-sector/{sector}','AccountController@editSector')->name('sectors.edit');
+  Route::patch('update-sector/{sector}','AccountController@updateSector')->name('sectors.update');
   //Route::get('delete-sector/{id}','AccountController@deleteSector');
 
   Route::get('income','AccountController@income');
