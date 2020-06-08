@@ -17,10 +17,10 @@
                             </div>
                         @endif
                         @isset($sector)
-                            <form class="form-horizontal" action="{{route('accounts.sectors.update',$sector->id)}}"
-                                  method="post">
+                            <form class="form-horizontal" action="{{route('accounts.sectors.update',['sector'=>$sector->id])}}"
+                                  method="POST">
                                 @csrf
-                                @method('path')
+                                @method('PATCH')
                                 <input type="hidden" name="id" value="{{$sector->id}}">
                                 <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                                     <label for="name" class="col-md-4 control-label">@lang('Sector Name')</label>
