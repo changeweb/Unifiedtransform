@@ -140,13 +140,13 @@ Route::middleware(['auth', 'accountant'])->prefix('accounts')->name('accounts.')
     Route::patch('update-sector/{sector}', 'AccountController@updateSector')->name('sectors.update');
     //Route::get('delete-sector/{sector}','AccountController@deleteSector')->name('sectors.delete');
 
-    Route::get('income', 'AccountController@income');
-    Route::post('create-income', 'AccountController@storeIncome');
-    Route::get('income-list', 'AccountController@listIncome');
-    Route::post('list-income', 'AccountController@postIncome');
-    Route::get('edit-income/{id}', 'AccountController@editIncome');
-    Route::post('update-income', 'AccountController@updateIncome');
-    Route::get('delete-income/{id}', 'AccountController@deleteIncome');
+    Route::get('income', 'AccountController@income')->name('incomes.index');
+    Route::post('store-income', 'AccountController@storeIncome')->name('incomes.store');
+    Route::get('income-list', 'AccountController@listIncome')->name('incomes.');
+    Route::post('list-income', 'AccountController@postIncome')->name('incomes.');
+    Route::get('edit-income/{id}', 'AccountController@editIncome')->name('incomes.edit');
+    Route::post('update-income', 'AccountController@updateIncome')->name('incomes.update');
+    Route::get('delete-income/{id}', 'AccountController@deleteIncome')->name('incomes.delete');
 
     Route::get('expense', 'AccountController@expense');
     Route::post('create-expense', 'AccountController@storeExpense');

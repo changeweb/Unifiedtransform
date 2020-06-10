@@ -17,7 +17,8 @@
                             </div>
                         @endif
                         @isset($sector)
-                            <form class="form-horizontal" action="{{route('accounts.sectors.update',['sector'=>$sector->id])}}"
+                            <form class="form-horizontal"
+                                  action="{{route('accounts.sectors.update',['sector'=>$sector->id])}}"
                                   method="POST">
                                 @csrf
                                 @method('PATCH')
@@ -31,8 +32,8 @@
                                         
                                         @if ($errors->has('name'))
                                             <span class="help-block">
-                                      <strong>{{ $errors->first('name') }}</strong>
-                                  </span>
+                                               <strong>{{ $errors->first('name') }}</strong>
+                                            </span>
                                         @endif
                                     </div>
                                 </div>
@@ -48,8 +49,8 @@
                                         
                                         @if ($errors->has('type'))
                                             <span class="help-block">
-                                      <strong>{{ $errors->first('type') }}</strong>
-                                  </span>
+                                                <strong>{{ $errors->first('type') }}</strong>
+                                            </span>
                                         @endif
                                     </div>
                                 </div>

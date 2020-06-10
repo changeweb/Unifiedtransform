@@ -77,7 +77,7 @@ class AccountingModuleTest extends TestCase
     {
         $request = factory(Account::class)->make();
         $this->followingRedirects()
-              ->post('accounts/create-income', $request->toArray())
+              ->post('accounts/store-income', $request->toArray())
               ->assertStatus(200);
         $this->assertDatabaseHas('accounts', [
             'name' => $request->name,

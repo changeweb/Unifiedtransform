@@ -9,6 +9,7 @@ use App\Services\Account\AccountService;
 use App\Http\Requests\Account\StoreSectorRequest;
 use App\Http\Requests\Account\StoreAccountRequest;
 use App\Http\Requests\Account\UpdateAccountRequest;
+use function route;
 
 class AccountController extends Controller
 {
@@ -76,7 +77,7 @@ class AccountController extends Controller
     {
         $sector->delete();
 
-        return redirect('/accounts/sectors')->with('status', 'Account Sector Deleted Successfully.');
+        return redirect(route('accounts.sectors.index'))->with('status', 'Account Sector Deleted Successfully.');
     }
 
     public function income()

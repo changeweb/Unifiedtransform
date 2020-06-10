@@ -134,7 +134,7 @@
     </ul>
   </li>
   @endif
-   
+  
   @if(Auth::user()->role == 'admin' || Auth::user()->role == 'accountant')
   <li class="nav-item dropdown">
     <a role="button" href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
@@ -146,7 +146,7 @@
           <span class="nav-link-text">@lang('Accountant List')</span></a>
       </li>
       <li>
-        <a class="dropdown-item" href="{{ url('accounts/sectors') }}"><i class="material-icons">developer_board</i>
+        <a class="dropdown-item" href="{{ route('accounts.sectors.index') }}"><i class="material-icons">developer_board</i>
 		<span class="nav-link-text">@lang('Add Account Sector')</span></a>
       </li>
       <li>
