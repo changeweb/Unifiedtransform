@@ -57,6 +57,8 @@
                                 <div class="form-group">
                                     <div class="col-sm-offset-4 col-sm-8">
                                         <button type="submit" class="btn btn-danger">@lang('Save')</button>
+                                        <a href="{{route('accounts.sectors.index')}}"
+                                           class="btn btn-default">@lang('Back')</a>
                                     </div>
                                 </div>
                             </form>
