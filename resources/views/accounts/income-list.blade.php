@@ -21,13 +21,13 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <form class="form-horizontal" action="{{url('/accounts/list-income')}}" method="post">
+                    <form class="form-horizontal" action="{{route('accounts.incomes.index')}}" method="post">
                       {{ csrf_field() }}
                       <div class="form-group{{ $errors->has('year') ? ' has-error' : '' }}">
                           <label for="year" class="col-md-4 control-label">@lang('Year')</label>
 
                           <div class="col-md-6">
-                              <input id="date" type="text" class="form-control datepicker" name="year" value="{{ old('year') }}" placeholder="@lang('Year')" required>
+                              <input id="date" type="text" class="form-control datepicker" name="year" value="{{ date('Y') }}" placeholder="@lang('Year')" required>
 
                               @if ($errors->has('year'))
                                   <span class="help-block">

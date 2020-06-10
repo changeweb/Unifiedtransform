@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Account;
+use function compact;
 use App\AccountSector;
 use Illuminate\Http\Request;
 use App\Services\Account\AccountService;
@@ -41,15 +42,9 @@ class AccountController extends Controller
         return back()->with('status', 'Income saved Successfully.');
     }
 
-    public function listIncome()
-    {
-        $incomes = [];
-
-        return view('accounts.income-list', ['incomes' => $incomes]);
-    }
-
     public function postIncome(Request $request)
     {
+        $request->year = date('Y');
         $this->accountService->request = $request;
         $this->accountService->account_type = 'income';
         $incomes = $this->accountService->getAccountsByYear();
@@ -102,7 +97,7 @@ class AccountController extends Controller
     {
         $expenses = [];
 
-        return view('accounts.expense-list', ['expenses' => $expenses]);
+        return view('accounts.expense-list', compact('expenses'));
     }
 
     public function postExpense(Request $request)

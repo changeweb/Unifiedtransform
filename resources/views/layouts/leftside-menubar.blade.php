@@ -161,7 +161,7 @@
         <a class="dropdown-item" href="{{ url('accounts/income') }}"><i class="material-icons">note_add</i> <span class="nav-link-text">@lang('Add New Income')</span></a>
       </li>
       <li>
-        <a class="dropdown-item" href="{{ url('accounts/income-list') }}"><i class="material-icons">developer_board</i>
+        <a class="dropdown-item" href="{{ url('accounts/list-income') }}"><i class="material-icons">developer_board</i>
           <span class="nav-link-text">@lang('Income List')</span></a>
       </li>
     </ul>

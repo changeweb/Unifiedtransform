@@ -119,10 +119,9 @@ Route ::middleware(['auth', 'accountant'])->prefix('accounts')->name('accounts.'
     Route ::patch('sectors/update/{sector}', 'AccountSectorController@update')->name('sectors.update');
     //Route::get('sectors/delete/{sector}','AccountSectorController@delete')->name('sectors.delete');
     // ;; account incomes routes ;;
-    Route ::get('income', 'AccountController@income')->name('incomes.index');
+    Route ::get('income', 'AccountController@income')->name('incomes.create');
     Route ::post('store-income', 'AccountController@storeIncome')->name('incomes.store');
-    Route ::get('income-list', 'AccountController@listIncome')->name('incomes.');
-    Route ::post('list-income', 'AccountController@postIncome')->name('incomes.');
+    Route ::get('list-income', 'AccountController@postIncome')->name('incomes.index');
     Route ::get('edit-income/{id}', 'AccountController@editIncome')->name('incomes.edit');
     Route ::post('update-income', 'AccountController@updateIncome')->name('incomes.update');
     Route ::get('delete-income/{id}', 'AccountController@deleteIncome')->name('incomes.delete');

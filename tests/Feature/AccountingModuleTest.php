@@ -48,7 +48,7 @@ class AccountingModuleTest extends TestCase
     }
 
     /** @test */
-    public function accountant_can_edit_sector()
+    public function accountant_can_update_sector()
     {
         $account_sector = factory(AccountSector::class)->create();
         $attributes = [
@@ -64,12 +64,8 @@ class AccountingModuleTest extends TestCase
     public function accountant_can_view_income_list()
     {
         $account = factory(Account::class, 10)->create();
-        $response = $this->get('accounts/income');
-        $response->assertViewIs('accounts.income');
-        $response->assertViewHas([
-            'sectors',
-            //'sections','students'
-        ]);
+        $response = $this->get(route('accounts.incomes.index'));
+        $response->assertViewIs('accounts.income-list');
     }
 
     /** @test */
