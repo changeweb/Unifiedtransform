@@ -20,7 +20,7 @@
                                     {{ session('status') }}
                                 </div>
                             @endif
-                            <form class="form-horizontal" action="{{route('accounts.sectors.create')}}" method="post">
+                            <form class="form-horizontal" action="{{route('accounts.sectors.store')}}" method="post">
                             {{ csrf_field() }}
                             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                                 <label for="name" class="col-md-4 control-label">@lang('Sector Name')</label>

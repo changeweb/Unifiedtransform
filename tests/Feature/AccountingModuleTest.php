@@ -34,7 +34,7 @@ class AccountingModuleTest extends TestCase
     public function accountant_can_create_sector()
     {
         $account_sector = factory(AccountSector::class)->raw();
-        $this->followingRedirects()->post(route('accounts.sectors.create'), $account_sector)
+        $this->followingRedirects()->post(route('accounts.sectors.store'), $account_sector)
               ->assertStatus(200);
     }
 

@@ -20,7 +20,7 @@ class AccountSectorController extends Controller
         $this->accountService = $accountService;
     }
 
-    public function sectors()
+    public function index()
     {
         $sectors = $this->accountService->getSectorsBySchoolId();
         $this->accountService->account_type = 'income';
@@ -37,7 +37,7 @@ class AccountSectorController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function storeSector(StoreSectorRequest $request)
+    public function store(StoreSectorRequest $request)
     {
         $this->accountService->storeSector($request->validated());
 
@@ -49,7 +49,7 @@ class AccountSectorController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function editSector(AccountSector $sector)
+    public function edit(AccountSector $sector)
     {
         return view('accounts.edit_sector', compact('sector'));
     }
@@ -59,7 +59,7 @@ class AccountSectorController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function updateSector(AccountSector $sector, StoreSectorRequest $request)
+    public function update(AccountSector $sector, StoreSectorRequest $request)
     {
         $this->accountService->updateSector($sector, $request->validated());
 
@@ -73,7 +73,7 @@ class AccountSectorController extends Controller
      *
      * @throws \Exception
      */
-    public function deleteSector(AccountSector $sector)
+    public function delete(AccountSector $sector)
     {
         $sector->delete();
 

@@ -113,11 +113,11 @@ Route ::middleware(['auth', 'librarian'])->prefix('library')->name('library.issu
 });
 Route ::middleware(['auth', 'accountant'])->prefix('accounts')->name('accounts.')->group(function () {
     // ;; account sectors routes ;;
-    Route ::get('sectors', 'AccountSectorController@sectors')->name('sectors.index');
-    Route ::post('sectors/create', 'AccountSectorController@storeSector')->name('sectors.create');
-    Route ::get('sectors/edit/{sector}', 'AccountSectorController@editSector')->name('sectors.edit');
-    Route ::patch('sectors/update/{sector}', 'AccountSectorController@updateSector')->name('sectors.update');
-    //Route::get('sectors/delete/{sector}','AccountSectorController@deleteSector')->name('sectors.delete');
+    Route ::get('sectors', 'AccountSectorController@index')->name('sectors.index');
+    Route ::post('sectors/store', 'AccountSectorController@store')->name('sectors.store');
+    Route ::get('sectors/edit/{sector}', 'AccountSectorController@edit')->name('sectors.edit');
+    Route ::patch('sectors/update/{sector}', 'AccountSectorController@update')->name('sectors.update');
+    //Route::get('sectors/delete/{sector}','AccountSectorController@delete')->name('sectors.delete');
     // ;; account incomes routes ;;
     Route ::get('income', 'AccountController@income')->name('incomes.index');
     Route ::post('store-income', 'AccountController@storeIncome')->name('incomes.store');
