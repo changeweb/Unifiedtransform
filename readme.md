@@ -290,6 +290,7 @@ DB_PASSWORD=secret
 * Create Sections
 * Create Exam
 * Add Students
+* Add Department
 * Add Teachers
 * Add Courses
 * Then teacher can take attendance, give marks
