@@ -17,7 +17,8 @@
                             </div>
                         @endif
                         @isset($sector)
-                            <form class="form-horizontal" action="{{route('accounts.sectors.update',['sector'=>$sector->id])}}"
+                            <form class="form-horizontal"
+                                  action="{{route('accounts.sectors.update',['sector'=>$sector->id])}}"
                                   method="POST">
                                 @csrf
                                 @method('PATCH')
@@ -31,8 +32,8 @@
                                         
                                         @if ($errors->has('name'))
                                             <span class="help-block">
-                                      <strong>{{ $errors->first('name') }}</strong>
-                                  </span>
+                                               <strong>{{ $errors->first('name') }}</strong>
+                                            </span>
                                         @endif
                                     </div>
                                 </div>
@@ -48,14 +49,16 @@
                                         
                                         @if ($errors->has('type'))
                                             <span class="help-block">
-                                      <strong>{{ $errors->first('type') }}</strong>
-                                  </span>
+                                                <strong>{{ $errors->first('type') }}</strong>
+                                            </span>
                                         @endif
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-4 col-sm-8">
                                         <button type="submit" class="btn btn-danger">@lang('Save')</button>
+                                        <a href="{{route('accounts.sectors.index')}}"
+                                           class="btn btn-default">@lang('Back')</a>
                                     </div>
                                 </div>
                             </form>

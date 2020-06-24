@@ -20,7 +20,7 @@
                                     {{ session('status') }}
                                 </div>
                             @endif
-                            <form class="form-horizontal" action="{{url('/accounts/create-sector')}}" method="post">
+                            <form class="form-horizontal" action="{{route('accounts.sectors.store')}}" method="post">
                             {{ csrf_field() }}
                             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                                 <label for="name" class="col-md-4 control-label">@lang('Sector Name')</label>
@@ -85,7 +85,7 @@
                                 <td>{{$sector->name}}</td>
                                 <td>{{$sector->type}}</td>
                                 <td>
-                                    <a href="{{url('accounts/edit-sector/'.$sector->id)}}" class="btn btn-danger btn-xs" role="button">@lang('Edit')</a>
+                                    <a href="{{route('accounts.sectors.edit',['sector'=>$sector->id])}}" class="btn btn-danger btn-xs" role="button">@lang('Edit')</a>
                                 </td>
                             </tr>
                         @endforeach

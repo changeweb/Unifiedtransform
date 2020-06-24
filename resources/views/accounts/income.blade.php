@@ -16,7 +16,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <form class="form-horizontal" action="{{url('accounts/create-income')}}" method="post">
+                    <form class="form-horizontal" action="{{url('accounts/store-income')}}" method="post">
                       {{ csrf_field() }}
                       <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                           <label for="name" class="col-md-4 control-label">@lang('Sector Name')</label>
