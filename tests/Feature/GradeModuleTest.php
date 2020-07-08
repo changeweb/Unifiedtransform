@@ -16,7 +16,7 @@ class GradeModuleTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
         $teacher = factory(User::class)->states('teacher')->create();
         $this->actingAs($teacher);

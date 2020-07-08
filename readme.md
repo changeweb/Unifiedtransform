@@ -1,7 +1,12 @@
-## School Management and Accounting Software
+<h1 align="center">Unifiedtransform</h1>
+<p align="center">
+School Management and Accounting Software
+</p>
+
 [![Build Status](https://travis-ci.org/changeweb/Unifiedtransform.svg?branch=master)](https://travis-ci.org/changeweb/Unifiedtransform)
 [![Linux](https://img.shields.io/travis/changeweb/Unifiedtransform/master.svg?label=linux)](https://travis-ci.org/changeweb/Unifiedtransform)
 [![Code Climate](https://codeclimate.com/github/changeweb/Unifiedtransform/badges/gpa.svg)](https://codeclimate.com/github/changeweb/Unifiedtransform)
+[![Latest release](https://img.shields.io/github/release/changeweb/Unifiedtransform/all.svg)](https://github.com/changeweb/Unifiedtransform/releases)
 [![MadeWithLaravel.com shield](https://madewithlaravel.com/storage/repo-shields/1362-shield.svg)](https://madewithlaravel.com/p/unifiedtransform/shield-link)
 [![Join the chat at https://gitter.im/Unifiedtransform](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Unifiedtransform?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -10,6 +15,39 @@ We like to challenge the quality of what we build to make it better. To do so, w
 ## Featured on Laravel News !!
 ![Screenshot_2019-04-07 Laravel News](https://user-images.githubusercontent.com/9896315/55683832-1b3c8c80-5966-11e9-8dfb-ab30a79a98ed.png)
 See the news [here](https://laravel-news.com/unified-transform-open-source-school-management-platform)
+
+## Framework used
+
+- Laravel 7.X
+- Bootstrap 3.3.7
+
+## Server Requirements
+
+- PHP >= 7.2.5
+- OpenSSL PHP Extension
+- PDO PHP Extension
+- Mbstring PHP Extension
+- Tokenizer PHP Extension
+- XML PHP Extension
+
+## Table of Contents
+- [Features](https://github.com/changeweb/Unifiedtransform#features)
+- [Framework used](https://github.com/changeweb/Unifiedtransform#framework-used)
+- [Server Requirements](https://github.com/changeweb/Unifiedtransform#server-requirements)
+- [How to Start (Installation)](https://github.com/changeweb/Unifiedtransform#how-to-start)
+  - [Using Docker Container](https://github.com/changeweb/Unifiedtransform#using-a-container)
+  - [Not using a Container](https://github.com/changeweb/Unifiedtransform#not-using-a-container)
+  - [Video Tutorial](https://github.com/changeweb/Unifiedtransform#video-tutorial)
+- [Optional](https://github.com/changeweb/Unifiedtransform#optional)
+- [Testing](https://github.com/changeweb/Unifiedtransform#testing)
+- [Stripe setup](https://github.com/changeweb/Unifiedtransform#stripe-setup)
+- [Create a school and an admin](https://github.com/changeweb/Unifiedtransform#create-a-school-and-an-admin)
+- [Manage a school](https://github.com/changeweb/Unifiedtransform#manage-a-school)
+- [Basic Steps by Serial](https://github.com/changeweb/Unifiedtransform#basic-steps-by-serial)
+- [Manage Exam (In exam manage page) by Admin](https://github.com/changeweb/Unifiedtransform#manage-exam-in-exam-manage-page-by-admin)
+- [Manage GPA and Grade](https://github.com/changeweb/Unifiedtransform#manage-gpa-and-grade)
+- [Good to know](https://github.com/changeweb/Unifiedtransform#good-to-know)
+- [Screenshots](https://github.com/changeweb/Unifiedtransform#here-are-some-screenshots)
 
 ## Contribute
 
@@ -39,60 +77,42 @@ GNU General Public License v3.0
 
 This software has following features:
 
-* Roles: Master, Admin, Teacher, Student, Librarian, Accountant
+| Feature | Description |
+|---------|-------------|
+| Roles  | Master, Admin, Teacher, Student, Librarian, Accountant.|
+|| **(You can Impersonate User Roles in Development environment)** See how [Impersonation](https://github.com/changeweb/Unifiedtransform/pull/118) works. Cool !!|
+| Payment |**[Stripe](http://stripe.com/)** is used. See configuration below.|
+||Students can pay from their accounts.|
+||Student can view payment receipts (history)|
+||View Screenshot below|
+|Attendance|Take student attendance for each course|
+|Mark|Can give marks to students for each course|
+|Registration|Register students|
+|Notice, Syllabus|Manage uploaded Notices, Syllabus, Routines|
+|Library|Manage a library of books.|
+||Add new books.|
+||Keep track of books.|
+|Exam|Manage Semester by Examination|
+|Grade|Give Grades based on marks of each course.|
+|Accounts|Manage Income, Expense Amounts|
+||View Graphs based on year.|
+|Messaging|Uses CKEditor 5|
+|Export/Import|  Users (Students, Teachers) from/to **Excel**|
+||[Laravel Excel](https://github.com/maatwebsite/Laravel-Excel) package is used.|
+||**Important:** Single sheet supported in an Excel file. So delete any extra sheet in an Excel file.|
+||Following excel column  names supported for both Teachers and Students: `name, email, password, address, about, phone_number, blood_group, nationality, gender`.|
+||Other columns:|
+||For Teachers: `department`, (`class, section`) if assigned as class teacher.|
+||For Students: `class, section, session, version, group, birthday, religion, father_name, father_phone_number, father_national_id, father_occupation, father_designation, father_annual_income, mother_name, mother_phone_number, mother_national_id, mother_occupation, mother_designation, mother_annual_income`|
+||For any number(e.g: phone_number) starts with zero, put (') before zero.|
+|Supported Languages|English, Spanish|
+||To set default Language and Timezone, Edit as following in `config/app.php`:|
 
-   **(You can Impersonate User Roles in Development environment)** See how [Impersonation](https://github.com/changeweb/Unifiedtransform/pull/118) works. Cool !!
-* **Payment**
-   * **[Stripe](http://stripe.com/)** is used. See configuration below
-   * Students can pay from their accounts.
-   * Student can view payment receipts (history)
-   * View Screenshot below
-* Attendance
-* Mark
-* Registration
-* Notice, Syllabus
-* Library
-* Exam
-* Grade
-* Accounts
-* Messaging (uses CKEditor 5)
-* **Export/Import** Users (Students, Teachers) from/to **Excel**
-   * [Laravel Excel](https://github.com/maatwebsite/Laravel-Excel) package is used.
-   * **Important:** Single sheet supported in an Excel file. So delete any extra sheet in an Excel file.
-   * Following excel column  names supported for both Teachers and Students:
-
-      * `name, email, password, address, about, phone_number, blood_group, nationality, gender`.
-   * Other columns:
-
-      * For Teachers: `department`, (`class, section`) if assigned as class teacher.
-      * For Students: `class, section, session, version, group, birthday, religion, father_name, father_phone_number, father_national_id, father_occupation, father_designation, father_annual_income, mother_name, mother_phone_number, mother_national_id, mother_occupation, mother_designation, mother_annual_income`
-   * For any number(e.g: phone_number) starts with zero, put (') before zero.
-* Supported Languages (**English, Spanish**)
-
-   * To set default Language and Timezone, Edit as following in `config/app.php`:
-
-      ```php
-      'timezone' => 'Asia/Dhaka',//'UTC',
-      'locale' => 'en',//'es-MX' for Spanish
-      ```
-
-
-## Framework used
-
-- Laravel 5.5
-- Bootstrap 3.3.7
-
-## Server Requirements
-
-- PHP >= 7.1.0
-- OpenSSL PHP Extension
-- PDO PHP Extension
-- Mbstring PHP Extension
-- Tokenizer PHP Extension
-- XML PHP Extension
+    'timezone' => 'Asia/Dhaka',//'UTC',
+    'locale' => 'en',//'es-MX' for Spanish
 
 ## How to Start
-### Using a Container:
+### Using Docker Container:
 
 **Anyone having trouble related to `mysql-client`, PHP 7.3 needs mariadb instead of mysql.** See issue [#192](https://github.com/changeweb/Unifiedtransform/issues/192)
 
@@ -101,10 +121,11 @@ This software has following features:
 You need to change Docker configuration files according to your need.
 
 - Change following lines in `docker-compose.yml`
-
-      MYSQL_ROOT_PASSWORD: your password
-      MYSQL_USER: root
-      MYSQL_PASSWORD: your password
+    ```yml
+    MYSQL_ROOT_PASSWORD: your password
+    MYSQL_USER: root
+    MYSQL_PASSWORD: your password
+    ```
 
 - To run this software in Docker containers run `sudo docker-compose up -d`.
 - Then run `sudo docker container ls --all`. Copy **Nginx** Container ID.
@@ -170,11 +191,12 @@ DB_PASSWORD=secret
 
 - On localhost, serve your application with `php artisan serve`
 
+## Video Tutorial
 > See **[Video Tutorial](https://vimeo.com/334331502)**.
 
 [![Video Tutorial](https://user-images.githubusercontent.com/9896315/57624079-fbc30000-75b2-11e9-80b8-9bf92de3b1ac.png)](https://vimeo.com/334331502 "Unifiedtransform Installation")
 
-#### (Optional)
+## (Optional)
 
 - [Laravel Page Speed Package](https://github.com/renatomarinho/laravel-page-speed) is installed but not activated. If you want to use it to optimize your site automatically which results in a 35%+ optimization. You need to uncomment some lines from `Kernel.php` file and may need to run `php artisan vendor:publish --provider="RenatoMarinho\LaravelPageSpeed\ServiceProvider"`.
 
@@ -228,6 +250,7 @@ DB_PASSWORD=secret
    //factory(User::class, 200)->states('student')->create();
    ```
 
+* Make Unifiedtransform a native desktop application by using **[Nativefier](https://github.com/jiahaog/nativefier)**
 * [Laravel 5 log viewer](https://github.com/rap2hpoutre/laravel-log-viewer) is used to view Logs using a UI at 'example.com/logs' while in development environment.
 
 ## Stripe setup
@@ -267,6 +290,7 @@ DB_PASSWORD=secret
 * Create Sections
 * Create Exam
 * Add Students
+* Add Department
 * Add Teachers
 * Add Courses
 * Then teacher can take attendance, give marks
@@ -292,14 +316,14 @@ DB_PASSWORD=secret
 
 ## Good to know
 
-* Setup your Mail configuration in `.env` file if you want to send email. Currently registered users are notified by invitation mail if Mail is configured properly.
+* Setup your **Mail** configuration in `.env` file if you want to send email. Currently registered users are notified by invitation mail if Mail is configured properly.
 * This project uses [Laravel Impersonate](https://github.com/404labfr/laravel-impersonate) in development and staging environments, so you can view the application through another user's eyes, which is useful for testing. See the guide for using [Impersonation](https://github.com/changeweb/Unifiedtransform/pull/118).
 * In `.env`, turn `APP_DEBUG` to `false` for production environment.
 * Remove `Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');` from `routes/web.php` while in Production Environment.
-* `Cache::remember()` generates cache files. To delete expired cache files [LaravelCacheGarbageCollector](https://github.com/jdavidbakr/laravel-cache-garbage-collector) package is used. Run `php artisan cache:gc`.
+* `Cache::remember()` generates cache files. **Removed** ~~To delete expired cache files [LaravelCacheGarbageCollector](https://github.com/jdavidbakr/laravel-cache-garbage-collector) package is used. Run `php artisan cache:gc`.~~
 * You can switch to and from maintenance mode by running `php artisan up` and `php artisan down`.
-* Optimizing Route Loading `php artisan route:cache`
-* Dashboard page contents(e.g. Student count, Teacher count, Notice, etc.) are cached because these are not frequently changed. If you don't want these to be cached, just remove the cache lines in `index` method in `app\Http\Controller\HomeController.php`like the following example.
+* **Optimizing Route** Loading `php artisan route:cache`
+* Dashboard page contents(e.g. Student count, Teacher count, Notice, etc.) are **cached** because these are not frequently changed. If you don't want these to be cached, just remove the cache lines in `index` method in `app\Http\Controller\HomeController.php`like the following example.
 So your edit would be something like this:
 
 From:

@@ -4,82 +4,106 @@ namespace Tests\Feature;
 
 use App\User;
 use App\Account;
-use App\AccountSector;
+use function route;
 use Tests\TestCase;
+use App\AccountSector;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AccountingModuleTest extends TestCase
 {
-    use WithFaker, RefreshDatabase;
+    use WithFaker;
+    use RefreshDatabase;
 
-    public function setUp() {
-        parent::setUp();
+    public function setUp(): void
+    {
+        parent ::setUp();
         $accountant = factory(User::class)->states('accountant')->create();
         $this->actingAs($accountant);
         $this->withoutExceptionHandling();
     }
+
     /** @test */
-    public function view_is(){
-        $response = $this->get('accounts/sectors');
-        $response->assertViewIs('accounts.sector');
+    public function view_is()
+    {
+        $this->get(route('accounts.sectors.index'))
+              ->assertViewIs('accounts.sector');
     }
+
     /** @test */
-    public function accountant_can_create_sector(){
-        $account_sector = factory(AccountSector::class)->make();
-        $response = $this->followingRedirects()->post('accounts/create-sector', $account_sector->toArray());
-        $response->assertStatus(200);
+    public function accountant_can_create_sector()
+    {
+        $account_sector = factory(AccountSector::class)->raw();
+        $this->followingRedirects()->post(route('accounts.sectors.create'), $account_sector)
+              ->assertStatus(200);
     }
+
     /** @test */
-    public function accountant_can_view_edit_sector_form(){
+    public function accountant_can_view_edit_sector_form()
+    {
         $account_sector = factory(AccountSector::class)->create();
-        $response = $this->get('accounts/edit-sector/'.$account_sector->id);
-        $response->assertViewIs('accounts.edit_sector');
-        $response->assertViewHas(['sector']);
+        $this->get(route('accounts.sectors.edit', $account_sector->id))
+              ->assertViewIs('accounts.edit_sector')
+              ->assertViewHas(['sector']);
     }
+
     /** @test */
-    public function accountant_can_edit_sector(){
-        $request = factory(AccountSector::class)->create();
-        $response = $this->followingRedirects()->post('accounts/update-sector/', $request->toArray());
-        $response->assertStatus(200);
+    public function accountant_can_edit_sector()
+    {
+        $account_sector = factory(AccountSector::class)->create();
+        $attributes = [
+            'name' => $account_sector->name.'_change',
+        ];
+        $this->followingRedirects()
+              ->patch(route('accounts.sectors.update', $account_sector->id), $attributes)
+              ->assertStatus(200);
+        $this->assertDatabaseHas('account_sectors', $attributes);
     }
+
     /** @test */
-    public function accountant_can_view_income_list(){
+    public function accountant_can_view_income_list()
+    {
         $account = factory(Account::class, 10)->create();
         $response = $this->get('accounts/income');
         $response->assertViewIs('accounts.income');
         $response->assertViewHas([
             'sectors',
             //'sections','students'
-            ]);
+        ]);
     }
+
     /** @test */
-    public function accountant_can_add_income(){
+    public function accountant_can_add_income()
+    {
         $request = factory(Account::class)->make();
         $this->followingRedirects()
-                ->post('accounts/create-income', $request->toArray())
-                ->assertStatus(200);
+              ->post('accounts/create-income', $request->toArray())
+              ->assertStatus(200);
         $this->assertDatabaseHas('accounts', [
             'name' => $request->name,
             'amount' => $request->amount,
         ]);
     }
+
     /** @test */
-    public function accountant_can_view_expense_list(){
+    public function accountant_can_view_expense_list()
+    {
         $account = factory(Account::class, 10)->create();
         $response = $this->get('accounts/expense');
         $response->assertViewIs('accounts.expense');
         $response->assertViewHas([
             'sectors',
             //'sections','students'
-            ]);
+        ]);
     }
+
     /** @test */
-    public function accountant_can_add_expense(){
+    public function accountant_can_add_expense()
+    {
         $request = factory(Account::class)->make();
         $this->followingRedirects()
-                ->post('accounts/create-expense', $request->toArray())
-                ->assertStatus(200);
+              ->post('accounts/create-expense', $request->toArray())
+              ->assertStatus(200);
         $this->assertDatabaseHas('accounts', [
             'name' => $request->name,
             'amount' => $request->amount,

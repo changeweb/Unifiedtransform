@@ -13,7 +13,7 @@ class GradeTest extends TestCase
 
     protected $grade;
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
         $this->grade = create(Grade::class);
     }

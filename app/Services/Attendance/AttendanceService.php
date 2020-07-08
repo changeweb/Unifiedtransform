@@ -4,6 +4,7 @@ namespace App\Services\Attendance;
 use App\User;
 use App\Attendance;
 use Illuminate\Support\Facades\Auth;
+use Mavinoo\LaravelBatch\LaravelBatch;
 
 class AttendanceService {
   public $request;
@@ -35,7 +36,7 @@ class AttendanceService {
             'updated_at' => date('Y-m-d H:i:s'),
           ];
         }
-        \Batch::update('attendances',(array) $atts,'id');
+        LaravelBatch::update('attendances',(array) $atts,'id');
         return back()->with('status', 'Updated');
       }catch(\Exception $ex){
         return false;
@@ -44,7 +45,7 @@ class AttendanceService {
 
     public function getTodaysAttendanceBySectionId($section_id){
         return Attendance::where('section_id', $section_id)
-                      ->whereDate('created_at', \DB::raw('CURDATE()'))
+                      ->whereDate('created_at', '=', date('Y-m-d'))
                       ->orderBy('created_at', 'desc')
                       ->get()
                       ->unique('student_id');

@@ -6,6 +6,7 @@ use App\Model;
 
 class Homework extends Model
 {
+    protected $table = 'homeworks';
     /**
      * Get the teacher record associated with the user.
     */

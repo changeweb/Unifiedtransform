@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Notification as Notification;
 use App\Http\Resources\NotificationResource;
 use Illuminate\Http\Request;
+use Mavinoo\LaravelBatch\LaravelBatch;
 
 class NotificationController extends Controller
 {
@@ -24,7 +25,7 @@ class NotificationController extends Controller
             'updated_at' => date('Y-m-d H:i:s'),
           ];
       }
-      \Batch::update('notifications',(array) $msgs,'id');
+      LaravelBatch::update('notifications',(array) $msgs,'id');
       return view('message.all',['messages'=>$msg]);
     }
 

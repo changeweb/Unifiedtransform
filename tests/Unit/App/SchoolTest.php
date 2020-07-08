@@ -13,7 +13,7 @@ class SchoolTest extends TestCase
 
     protected $school;
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
         $this->school = create(School::class);
     }

@@ -13,7 +13,7 @@ class MarkCalculationTest extends TestCase
 
     protected $gradeService;
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
         $this->gradeService = new GradeService;
     }

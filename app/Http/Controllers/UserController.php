@@ -20,7 +20,7 @@ use App\Http\Requests\User\ChangePasswordRequest;
 use App\Http\Requests\User\ImpersonateUserRequest;
 use App\Http\Requests\User\CreateLibrarianRequest;
 use App\Http\Requests\User\CreateAccountantRequest;
-use Mavinoo\LaravelBatch\Batch;
+use Mavinoo\LaravelBatch\LaravelBatch;
 use App\Events\UserRegistered;
 use App\Events\StudentInfoUpdateRequested;
 use Illuminate\Support\Facades\Log;
@@ -304,8 +304,9 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = $this->user->find($id);
+        
         $classes = Myclass::query()
-            ->bySchool(\Auth::user()->school_id)
+            ->bySchool($user->school_id)
             ->pluck('id')
             ->toArray();
 
@@ -314,7 +315,7 @@ class UserController extends Controller
             ->get();
 
         $departments = Department::query()
-            ->bySchool(\Auth::user()->school_id)
+            ->bySchool($user->school_id)
             ->get();
 
         return view('profile.edit', [

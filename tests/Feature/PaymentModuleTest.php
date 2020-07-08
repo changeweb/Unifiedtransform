@@ -13,7 +13,7 @@ class PaymentModuleTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
         $student = factory(User::class)->states('student')->create();
         $this->actingAs($student);

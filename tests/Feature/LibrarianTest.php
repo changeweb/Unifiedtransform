@@ -15,7 +15,7 @@ class LibrarianTest extends TestCase
 
     protected $librarian;
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
         $this->librarian = factory(User::class)->states('librarian')->create();
         $this->actingAs($this->librarian);
@@ -43,7 +43,7 @@ class LibrarianTest extends TestCase
 
         $response->assertStatus(200)
                 ->assertViewHas('users')
-                ->assertSeeText(e($student->name));
+                ->assertSeeText(e($student->student_code));
     }
 
     /**

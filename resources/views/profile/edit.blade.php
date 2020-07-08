@@ -187,7 +187,7 @@
 
                             <div class="col-md-6">
                                 <input id="group" type="text" class="form-control" name="group"
-                                    value="{{ $user->studentInfo['group'] }}"
+                                    value="@php if(isset($user->studentInfo['group'])){echo $user->studentInfo['group'];} @endphp"
                                     placeholder="@lang('Science, Arts, Commerce,etc.')">
 
                                 @if ($errors->has('group'))
@@ -203,7 +203,7 @@
 
                             <div class="col-md-6">
                                 <input id="father_name" type="text" class="form-control" name="father_name"
-                                    value="{{ $user->studentInfo['father_name'] }}" required>
+                                    value="@php if(isset($user->studentInfo['group'])){echo $user->studentInfo['father_name'];} @endphp" required>
 
                                 @if ($errors->has('father_name'))
                                 <span class="help-block">
@@ -218,7 +218,7 @@
 
                             <div class="col-md-6">
                                 <input id="father_phone_number" type="text" class="form-control"
-                                    name="father_phone_number" value="{{ $user->studentInfo['father_phone_number'] }}">
+                                    name="father_phone_number" value="@php if(isset($user->studentInfo['group'])){echo $user->studentInfo['father_phone_number'];} @endphp">
 
                                 @if ($errors->has('father_phone_number'))
                                 <span class="help-block">
@@ -233,7 +233,7 @@
 
                             <div class="col-md-6">
                                 <input id="father_national_id" type="text" class="form-control"
-                                    name="father_national_id" value="{{ $user->studentInfo['father_national_id'] }}">
+                                    name="father_national_id" value="@php if(isset($user->studentInfo['group'])){echo $user->studentInfo['father_national_id'];} @endphp">
 
                                 @if ($errors->has('father_national_id'))
                                 <span class="help-block">
@@ -248,7 +248,7 @@
 
                             <div class="col-md-6">
                                 <input id="father_occupation" type="text" class="form-control" name="father_occupation"
-                                    value="{{ $user->studentInfo['father_occupation'] }}">
+                                    value="@php if(isset($user->studentInfo['group'])){echo $user->studentInfo['father_occupation'];} @endphp">
 
                                 @if ($errors->has('father_occupation'))
                                 <span class="help-block">
@@ -263,7 +263,7 @@
 
                             <div class="col-md-6">
                                 <input id="father_designation" type="text" class="form-control"
-                                    name="father_designation" value="{{ $user->studentInfo['father_designation'] }}">
+                                    name="father_designation" value="@php if(isset($user->studentInfo['group'])){echo $user->studentInfo['father_designation'];} @endphp">
 
                                 @if ($errors->has('father_designation'))
                                 <span class="help-block">
@@ -279,7 +279,7 @@
                             <div class="col-md-6">
                                 <input id="father_annual_income" type="text" class="form-control"
                                     name="father_annual_income"
-                                    value="{{ $user->studentInfo['father_annual_income'] }}">
+                                    value="@php if(isset($user->studentInfo['group'])){echo $user->studentInfo['father_annual_income'];} @endphp">
 
                                 @if ($errors->has('father_annual_income'))
                                 <span class="help-block">
@@ -294,7 +294,7 @@
 
                             <div class="col-md-6">
                                 <input id="mother_name" type="text" class="form-control" name="mother_name"
-                                    value="{{ $user->studentInfo['mother_name'] }}" required>
+                                    value="@php if(isset($user->studentInfo['group'])){echo $user->studentInfo['mother_name'];} @endphp" required>
 
                                 @if ($errors->has('mother_name'))
                                 <span class="help-block">
@@ -309,7 +309,7 @@
 
                             <div class="col-md-6">
                                 <input id="mother_phone_number" type="text" class="form-control"
-                                    name="mother_phone_number" value="{{ $user->studentInfo['mother_phone_number'] }}">
+                                    name="mother_phone_number" value="@php if(isset($user->studentInfo['group'])){echo $user->studentInfo['mother_phone_number'];} @endphp">
 
                                 @if ($errors->has('mother_phone_number'))
                                 <span class="help-block">
@@ -324,7 +324,7 @@
 
                             <div class="col-md-6">
                                 <input id="mother_national_id" type="text" class="form-control"
-                                    name="mother_national_id" value="{{ $user->studentInfo['mother_national_id'] }}">
+                                    name="mother_national_id" value="@php if(isset($user->studentInfo['group'])){echo $user->studentInfo['mother_national_id'];} @endphp">
 
                                 @if ($errors->has('mother_national_id'))
                                 <span class="help-block">
@@ -339,7 +339,7 @@
 
                             <div class="col-md-6">
                                 <input id="mother_occupation" type="text" class="form-control" name="mother_occupation"
-                                    value="{{ $user->studentInfo['mother_occupation'] }}">
+                                    value="@php if(isset($user->studentInfo['group'])){echo $user->studentInfo['mother_occupation'];} @endphp">
 
                                 @if ($errors->has('mother_occupation'))
                                 <span class="help-block">
@@ -354,7 +354,7 @@
 
                             <div class="col-md-6">
                                 <input id="mother_designation" type="text" class="form-control"
-                                    name="mother_designation" value="{{ $user->studentInfo['mother_designation'] }}">
+                                    name="mother_designation" value="@php if(isset($user->studentInfo['group'])){echo $user->studentInfo['mother_designation'];} @endphp">
 
                                 @if ($errors->has('mother_designation'))
                                 <span class="help-block">
@@ -370,7 +370,7 @@
                             <div class="col-md-6">
                                 <input id="mother_annual_income" type="text" class="form-control"
                                     name="mother_annual_income"
-                                    value="{{ $user->studentInfo['mother_annual_income'] }}">
+                                    value="@php if(isset($user->studentInfo['group'])){echo $user->studentInfo['mother_annual_income'];} @endphp">
 
                                 @if ($errors->has('mother_annual_income'))
                                 <span class="help-block">
@@ -404,14 +404,16 @@
             format: "yyyy-mm-dd",
         });
         $('#birthday').datepicker('setDate',
-            "{{ Carbon\Carbon::parse($user->studentInfo['birthday'])->format('Y-d-m') }}");
+            "@php if(isset($user->studentInfo['birthday'])){echo Carbon\Carbon::parse($user->studentInfo['birthday'])->format('Y-d-m');} @endphp
+");
         $('#session').datepicker({
             format: "yyyy",
             viewMode: "years",
             minViewMode: "years"
         });
         $('#session').datepicker('setDate',
-            "{{ Carbon\Carbon::parse($user->studentInfo['session'])->format('Y') }}");
+            "@php if(isset($user->studentInfo['session'])){echo Carbon\Carbon::parse($user->studentInfo['session'])->format('Y');} @endphp
+");
     });
 </script>
 @endsection

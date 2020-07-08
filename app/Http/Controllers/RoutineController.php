@@ -20,7 +20,20 @@ class RoutineController extends Controller
                         ->bySchool(\Auth::user()->school_id)
                         ->where('active',1)
                         ->get();
-        return view('routines.create',['files'=>$files,'section_id' => 0]);
+        $classes = \App\Myclass::bySchool(\Auth::user()->school->id)
+                        ->get();
+        $classeIds = \App\Myclass::bySchool(\Auth::user()->school->id)
+                        ->pluck('id')
+                        ->toArray();
+        $sections = \App\Section::whereIn('class_id',$classeIds)
+                      ->orderBy('section_number')
+                      ->get();
+        return view('routines.create',[
+          'files'=>$files,
+          'classes'=>$classes,
+          'sections'=>$sections,
+          'section_id' => 0
+        ]);
      }
 
     /**
@@ -37,13 +50,26 @@ class RoutineController extends Controller
                           ->where('section_id', $section_id)
                           ->where('active',1)
                           ->get();
+          $classes = \App\Myclass::bySchool(\Auth::user()->school->id)
+                          ->get();
+          $classeIds = \App\Myclass::bySchool(\Auth::user()->school->id)
+                          ->pluck('id')
+                          ->toArray();
+          $sections = \App\Section::whereIn('class_id',$classeIds)
+                        ->orderBy('section_number')
+                        ->get();
         } else {
           return '<code>section_id</code> column missing. Run <code>php artisan migrate</code>';
         }
       } catch(Exception $ex){
         return __('Something went wrong!!');
       }
-      return view('routines.create',['files'=>$files,'section_id'=>$section_id]);
+      return view('routines.create',[
+        'files'=>$files,
+        'classes'=>$classes,
+        'sections'=>$sections,
+        'section_id'=>$section_id
+      ]);
     }
 
     /**

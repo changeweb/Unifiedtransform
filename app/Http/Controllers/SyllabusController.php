@@ -20,7 +20,9 @@ class SyllabusController extends Controller
                           ->bySchool(\Auth::user()->school_id)
                           ->where('active',1)
                           ->get();
-        return view('syllabus.course-syllabus',['files'=>$files,'class_id' => 0]);
+        $classes = \App\Myclass::bySchool(\Auth::user()->school->id)
+                          ->get();
+        return view('syllabus.course-syllabus',['files'=>$files,'classes'=>$classes,'class_id' => 0]);
      }
 
     /**
@@ -37,6 +39,8 @@ class SyllabusController extends Controller
                           ->where('class_id', $class_id)
                           ->where('active',1)
                           ->get();
+          $classes = \App\Myclass::bySchool(\Auth::user()->school->id)
+                          ->get();
         } else {
           return '<code>class_id</code> column missing. Run <code>php artisan migrate</code>';
         }
@@ -44,7 +48,7 @@ class SyllabusController extends Controller
         return 'Something went wrong!!';
       }
 
-      return view('syllabus.course-syllabus',['files'=>$files,'class_id'=>$class_id]);
+      return view('syllabus.course-syllabus',['files'=>$files,'classes'=>$classes,'class_id'=>$class_id]);
     }
 
     /**

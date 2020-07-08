@@ -4,8 +4,8 @@ namespace App\Http\Requests\Account;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreSectorRequest extends FormRequest
-{
+class StoreSectorRequest extends FormRequest {
+    
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -13,9 +13,9 @@ class StoreSectorRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return TRUE;
     }
-
+    
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,8 +24,8 @@ class StoreSectorRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
-            'type' => 'required|string',
+            'name' => 'sometimes|required|string',
+            'type' => 'sometimes|required|string',
         ];
     }
 }
