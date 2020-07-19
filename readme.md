@@ -23,7 +23,7 @@ See the news [here](https://laravel-news.com/unified-transform-open-source-schoo
 
 ## Server Requirements
 
-- PHP >= 7.2.5
+- PHP >= 7.3
 - OpenSSL PHP Extension
 - PDO PHP Extension
 - Mbstring PHP Extension
