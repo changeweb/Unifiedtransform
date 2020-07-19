@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Grade;
+use App\Grade as Grade;
 use App\Http\Resources\GradeResource;
 use Illuminate\Http\Request;
 use App\Http\Requests\Grade\CalculateMarksRequest;
@@ -165,8 +165,10 @@ class GradeController extends Controller
     {
       $tbc = $this->gradeService->updateGrade($request);
       try{
-          if(count($tbc) > 0)
-            \Batch::update('grades', (array) $tbc,'id');
+          if(count($tbc) > 0){
+            $gradeTb = new Grade;
+            \Batch::update($gradeTb, (array) $tbc,'id');
+          }
         }catch(\Exception $e){
             return __("Ops, an error occured");
         }

@@ -2,179 +2,199 @@
 
 namespace App\Http\Controllers;
 
-use App\AccountSector;
 use App\Account;
-use App\Myclass;
-use App\User;
-use App\Section;
+use App\AccountSector;
 use Illuminate\Http\Request;
+use App\Services\Account\AccountService;
 use App\Http\Requests\Account\StoreSectorRequest;
 use App\Http\Requests\Account\StoreAccountRequest;
 use App\Http\Requests\Account\UpdateAccountRequest;
-use App\Services\Account\AccountService;
 
 class AccountController extends Controller
 {
+    protected $accountService;
 
-  protected $accountSectors;
+    public function __construct(AccountService $accountService)
+    {
+        $this->accountService = $accountService;
+    }
 
-  public function __construct(AccountService $accountSectors){
-    $this->accountSectors = $accountSectors;
-  }
+    public function sectors()
+    {
+        $sectors = $this->accountService->getSectorsBySchoolId();
+        $this->accountService->account_type = 'income';
+        $incomes = $this->accountService->getAccountsBySchoolId();
+        $this->accountService->account_type = 'expense';
+        $expenses = $this->accountService->getAccountsBySchoolId();
+        $sector = [];
 
-  public function sectors(){
-    $sectors= $this->accountSectors->getSectorsBySchoolId();
-    $this->accountSectors->account_type = 'income';
-    $incomes = $this->accountSectors->getAccountsBySchoolId();
-    $this->accountSectors->account_type = 'expense';
-    $expenses = $this->accountSectors->getAccountsBySchoolId();
-    $sector = [];
-    return view('accounts.sector',compact('sectors','sector','incomes','expenses'));
-  }
+        return view('accounts.sector', compact('sectors', 'sector', 'incomes', 'expenses'));
+    }
 
-  /**
-  * Show the form for creating a new resource.
-  *
-  * @return Response
-  */
-  public function storeSector(StoreSectorRequest $request){
-    $this->accountSectors->request = $request;
-    $this->accountSectors->storeSector();
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function storeSector(StoreSectorRequest $request)
+    {
+        $this->accountService->storeSector($request->validated());
 
-    return back()->with("status","Account Sector Created Succesfully.");
-  }
+        return back()->with('status', 'Account Sector Created Successfully.');
+    }
 
-  /**
-  * Store a newly created resource in storage.
-  *
-  * @return Response
-  */
-  public function editSector($id){
-    $sector = AccountSector::find($id);
-    return view('accounts.edit_sector',compact('sector'));
-  }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function editSector(AccountSector $sector)
+    {
+        return view('accounts.edit_sector', compact('sector'));
+    }
 
+    /**
+     * Display the specified resource.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateSector(AccountSector $sector, StoreSectorRequest $request)
+    {
+        $this->accountService->updateSector($sector, $request->validated());
 
-  /**
-  * Display the specified resource.
-  *
-  * @param  int  $id
-  * @return Response
-  */
-  public function updateSector(StoreSectorRequest $request){
-    $this->accountSectors->request = $request;
-    $this->accountSectors->updateSector();
-    return back()->with("status","Account Sector Updated Successfully.");
-  }
+        return back()->with('status', 'Account Sector Updated Successfully.');
+    }
 
-  /**
-  * Delete the specified resource.
-  *
-  * @param  int  $id
-  * @return Response
-  */
-  public function deleteSector($id){
-    $sector = AccountSector::find($id);
-    $sector->delete();
-    return redirect('/accounts/sectors')->with("status","Account Sector Deleted Successfully.");
-  }
+    /**
+     * Delete the specified resource.
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     *
+     * @throws \Exception
+     */
+    public function deleteSector(AccountSector $sector)
+    {
+        $sector->delete();
 
-  public function income(){
-    $sectors = AccountSector::bySchool(\Auth::user()->school_id)
-                                ->where('type','income')
-                                ->get();
-    //$sections = $this->accountSectors->getSectionsIds();
-    //$students = $this->accountSectors->getStudentsBySectionIds();
-    return view('accounts.income',[
-      'sectors'=>$sectors,
-      //'sections'=>$sections,
-      //'students'=>$students,
-    ]);
+        return redirect('/accounts/sectors')->with('status', 'Account Sector Deleted Successfully.');
+    }
 
-  }
-  public function storeIncome(StoreAccountRequest $request){
-    $this->accountSectors->request = $request;
-    $this->accountSectors->account_type = 'income';
-    $this->accountSectors->storeAccount();
+    public function income()
+    {
+        $sectors = AccountSector ::bySchool(\Auth ::user()->school_id)
+                                 ->where('type', 'income')
+                                 ->get();
+        //$sections = $this->$accountService->getSectionsIds();
+        //$students = $this->$accountService->getStudentsBySectionIds();
+        return view('accounts.income', [
+            'sectors' => $sectors,
+            //'sections'=>$sections,
+            //'students'=>$students,
+        ]);
+    }
 
-    return back()->with("status","Income saved Successfully.");
-  }
+    public function storeIncome(StoreAccountRequest $request)
+    {
+        $this->accountService->request = $request;
+        $this->accountService->account_type = 'income';
+        $this->accountService->storeAccount();
 
-  public function listIncome(){
-    $incomes = [];
-    return view('accounts.income-list',['incomes'=>$incomes]);
-  }
+        return back()->with('status', 'Income saved Successfully.');
+    }
 
-  public function postIncome(Request $request){
-    $this->accountSectors->request = $request;
-    $this->accountSectors->account_type = 'income';
-    $incomes = $this->accountSectors->getAccountsByYear();
+    public function listIncome()
+    {
+        $incomes = [];
 
-    return view('accounts.income-list',compact('incomes'));
-  }
+        return view('accounts.income-list', ['incomes' => $incomes]);
+    }
 
-  public function editIncome($id){
-    $income = Account::find($id);
-    return view('accounts.income-edit',compact('income'));
-  }
-  public function updateIncome(UpdateAccountRequest $request)
-  {
-    $this->accountSectors->request = $request;
-    $this->accountSectors->updateAccount();
+    public function postIncome(Request $request)
+    {
+        $this->accountService->request = $request;
+        $this->accountService->account_type = 'income';
+        $incomes = $this->accountService->getAccountsByYear();
 
-    return back()->with("status","Income Updated Successfully.");
-  }
+        return view('accounts.income-list', compact('incomes'));
+    }
 
-  public function deleteIncome($id){
-    $income = Account::find($id);
-    $income->delete();
+    public function editIncome($id)
+    {
+        $income = Account ::find($id);
 
-    return back()->with("status","Income Deleted Successfully.");
-  }
+        return view('accounts.income-edit', compact('income'));
+    }
 
-  public function expense(){
-    $sectors = AccountSector::bySchool(\Auth::user()->school_id)
-                                ->where('type','expense')
-                                ->get();
-    return view('accounts.expense',['sectors'=>$sectors]);
+    public function updateIncome(UpdateAccountRequest $request)
+    {
+        $this->accountService->request = $request;
+        $this->accountService->updateAccount();
 
-  }
-  public function storeExpense(StoreAccountRequest $request){
-    $this->accountSectors->request = $request;
-    $this->accountSectors->account_type = 'expense';
-    $this->accountSectors->storeAccount();
+        return back()->with('status', 'Income Updated Successfully.');
+    }
 
-    return back()->with("status","expense saved Successfully.");
-  }
+    public function deleteIncome($id)
+    {
+        $income = Account ::find($id);
+        $income->delete();
 
-  public function listExpense(){
-    $expenses = [];
-    return view('accounts.expense-list',['expenses'=>$expenses]);
-  }
+        return back()->with('status', 'Income Deleted Successfully.');
+    }
 
-  public function postExpense(Request $request){
-    $this->accountSectors->request = $request;
-    $this->accountSectors->account_type = 'expense';
-    $expenses = $this->accountSectors->getAccountsByYear();
+    public function expense()
+    {
+        $sectors = AccountSector ::bySchool(\Auth ::user()->school_id)
+                                 ->where('type', 'expense')
+                                 ->get();
 
-    return view('accounts.expense-list',compact('expenses'));
-  }
+        return view('accounts.expense', ['sectors' => $sectors]);
+    }
 
-  public function editExpense($id){
-    $expense = Account::find($id);
-    return view('accounts.expense-edit',['expense'=>$expense]);
-  }
+    public function storeExpense(StoreAccountRequest $request)
+    {
+        $this->accountService->request = $request;
+        $this->accountService->account_type = 'expense';
+        $this->accountService->storeAccount();
 
-  public function updateExpense(UpdateAccountRequest $request){
-    $this->accountSectors->request = $request;
-    $this->accountSectors->updateAccount();
+        return back()->with('status', 'expense saved Successfully.');
+    }
 
-    return back()->with("status","expense Updated Successfully.");
-  }
+    public function listExpense()
+    {
+        $expenses = [];
 
-  public function deleteExpense($id){
-    $expense = Account::find($id);
-    $expense->delete();
-    return back()->with("status","expense Deleted Successfully.");
-  }
+        return view('accounts.expense-list', ['expenses' => $expenses]);
+    }
+
+    public function postExpense(Request $request)
+    {
+        $this->accountService->request = $request;
+        $this->accountService->account_type = 'expense';
+        $expenses = $this->accountService->getAccountsByYear();
+
+        return view('accounts.expense-list', compact('expenses'));
+    }
+
+    public function editExpense($id)
+    {
+        $expense = Account ::find($id);
+
+        return view('accounts.expense-edit', ['expense' => $expense]);
+    }
+
+    public function updateExpense(UpdateAccountRequest $request)
+    {
+        $this->accountService->request = $request;
+        $this->accountService->updateAccount();
+
+        return back()->with('status', 'expense Updated Successfully.');
+    }
+
+    public function deleteExpense($id)
+    {
+        $expense = Account ::find($id);
+        $expense->delete();
+
+        return back()->with('status', 'expense Deleted Successfully.');
+    }
 }

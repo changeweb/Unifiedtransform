@@ -21,7 +21,7 @@
 
                         <form action="{{ route('library.books.store') }}" method="POST" class="form-horizontal">
                             {{ csrf_field() }}
-                            @include('library.books.form')
+                            @include('library.books.create-form')
 
                             <div class="form-group">
                                 <div class="col-sm-offset-4 col-sm-8">

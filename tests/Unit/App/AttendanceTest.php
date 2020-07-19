@@ -13,7 +13,7 @@ class AttendanceTest extends TestCase
 
     protected $attendance;
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
         $this->attendance = create(Attendance::class);
     }

@@ -14,7 +14,7 @@ class GradesystemTest extends TestCase
 
     protected $gradesystem;
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
         $this->gradesystem = create(Gradesystem::class);
     }

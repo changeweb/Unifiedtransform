@@ -38,7 +38,7 @@
                             <td>{{$student->student_code}}</td>
                             <td><a href="{{url('user/'.$student->student_code)}}">{{$student->name}}</a></td>
                             <td>
-                            @if($student->studentInfo['session'] == now()->year || $student->studentInfo['session'] > now()->year)
+                            @if(isset($student->studentInfo['session']) && ($student->studentInfo['session'] == now()->year || $student->studentInfo['session'] > now()->year))
                             <span class="label label-success">@lang('Promoted/New')</span>
                             @else
                             <span class="label label-danger">@lang('Not Promoted')</span>

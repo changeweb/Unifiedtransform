@@ -11,7 +11,7 @@ class RegisterLoginTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
     }
@@ -33,7 +33,12 @@ class RegisterLoginTest extends TestCase
         $master = factory(User::class)->states('master')->create();
         $this->actingAs($master);
 
-        $this->assertDatabaseHas('users', $master->toArray());
+        $this->assertDatabaseHas('users', [
+            'email' => $master->email,
+            'role' => 'master',
+        ]);
+
+        // $this->assertDatabaseHas('users', $master->toArray());
 
         $admin = factory(User::class)->states('admin')->make();
         $this->followingRedirects()
@@ -60,7 +65,12 @@ class RegisterLoginTest extends TestCase
             'password' => bcrypt('secret'),
         ]);
 
-        $this->assertDatabaseHas('users', $user->toArray());
+        $this->assertDatabaseHas('users', [
+            'email' => $user->email,
+            'role' => 'admin',
+        ]);
+
+        // $this->assertDatabaseHas('users', $user->toArray());
         
         $response = $this->from('/login')->post('/login', [
             'email' => $user->email,

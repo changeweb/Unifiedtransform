@@ -167,7 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
-        Mavinoo\LaravelBatch\LaravelBatchServiceProvider::class,
+        Mavinoo\Batch\BatchServiceProvider::class,
         Lab404\Impersonate\ImpersonateServiceProvider::class,
         /*
          * Application Service Providers...
@@ -225,7 +225,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Batch' => Mavinoo\LaravelBatch\LaravelBatchFacade::class,
+        'Batch' => Mavinoo\Batch\BatchFacade::class,
     ],
 
 ];

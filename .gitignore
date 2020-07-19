@@ -14,3 +14,4 @@ yarn-error.log
 .rnd
 /database/database.*
 .env.dusk.local
+_ide_helper.php

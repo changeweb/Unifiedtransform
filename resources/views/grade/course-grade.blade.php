@@ -180,7 +180,7 @@
                   @endforeach
                   <input type="hidden" name="exam_id" value="{{$exam_id}}">
                   <input type="hidden" name="teacher_id" value="{{$teacher_id}}">
-                  <button type="submit" class="btn btn-info btn-xs pull-right">
+                  <button type="submit" class="btn btn-info btn-xs">
                     <span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span> @lang('Get Total Marks')
                   </button>
                 </form>

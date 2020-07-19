@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \jdavidbakr\LaravelCacheGarbageCollector\LaravelCacheGarbageCollector::class,
+        // \jdavidbakr\LaravelCacheGarbageCollector\LaravelCacheGarbageCollector::class,
     ];
 
     /**

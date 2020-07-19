@@ -174,8 +174,12 @@ class GradeService {
 
   public function saveCalculatedGPAFromTotalMarks($tbc){
     try{
-      if(count($tbc) > 0)
-        return \Batch::update('grades',(array) $tbc,'id');
+      if(count($tbc) > 0){
+        $gradeTb = new Grade;
+        return \Batch::update($gradeTb,(array) $tbc,'id');
+      } else {
+        return false;
+      }
     }catch(\Exception $e){
       return "OOps, an error occured";
     }

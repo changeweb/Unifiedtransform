@@ -15,7 +15,7 @@ class SchoolModuleTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
         $master = factory(User::class)->states('master')->create();
         $this->actingAs($master);
