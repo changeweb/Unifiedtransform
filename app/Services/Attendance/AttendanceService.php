@@ -2,9 +2,8 @@
 namespace App\Services\Attendance;
 
 use App\User;
-use App\Attendance;
+use App\Attendance as Attendance;
 use Illuminate\Support\Facades\Auth;
-use Mavinoo\LaravelBatch\LaravelBatch;
 
 class AttendanceService {
   public $request;
@@ -36,7 +35,8 @@ class AttendanceService {
             'updated_at' => date('Y-m-d H:i:s'),
           ];
         }
-        LaravelBatch::update('attendances',(array) $atts,'id');
+        $attTb = new Attendance;
+        \Batch::update($attTb,(array) $atts,'id');
         return back()->with('status', 'Updated');
       }catch(\Exception $ex){
         return false;

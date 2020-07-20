@@ -4,7 +4,7 @@ namespace App\Services\User;
 use App\User;
 use App\StudentInfo;
 use Illuminate\Support\Facades\DB;
-use Mavinoo\LaravelBatch\LaravelBatch;
+use Mavinoo\Batch\Batch as Batch;
 use Illuminate\Support\Facades\Log;
 
 class UserService {
@@ -15,7 +15,7 @@ class UserService {
     protected $batch;
     protected $st, $st2;
 
-    public function __construct(User $user, StudentInfo $student_info, DB $db, LaravelBatch $batch){
+    public function __construct(User $user, StudentInfo $student_info, DB $db, Batch $batch){
         $this->user = $user;
         $this->student_info = $student_info;
         $this->db = $db;
