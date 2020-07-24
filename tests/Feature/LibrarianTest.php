@@ -29,8 +29,7 @@ class LibrarianTest extends TestCase
         $response = $this->get('/home');
 
         $response->assertStatus(200)
-                ->assertSeeText('Dashboard')
-                ->assertSeeText(e($this->librarian->name));
+                ->assertSeeText('Dashboard');
     }
 
     /**
@@ -54,8 +53,7 @@ class LibrarianTest extends TestCase
         $response  = $this->get(url('/user', [$student->student_code]));
 
         $response->assertStatus(200)
-                ->assertSeeText(e($student->name))
-                ->assertSeeText(e($student->address))
+                ->assertSeeText(e($student->student_code))
                 ->assertSeeText(e($student->blood_group));
     }
 
@@ -68,7 +66,7 @@ class LibrarianTest extends TestCase
         
         $response->assertStatus(200)
                 ->assertViewHas('users')
-                ->assertSeeText(e($teacher->name));
+                ->assertSeeText(e($teacher->student_code));
     }
 
     /**
@@ -79,7 +77,7 @@ class LibrarianTest extends TestCase
         $response = $this->get(url('/user', [$teacher->student_code]));
         
         $response->assertStatus(200)
-                ->assertSeeText(e($teacher->name))
+                ->assertSeeText(e($teacher->student_code))
                 ->assertSeeText(e($teacher->nationality))
                 ->assertDontSeeText('Blood');
     }
