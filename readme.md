@@ -32,7 +32,7 @@ See the news [here](https://laravel-news.com/unified-transform-open-source-schoo
 
 ## Table of Contents
 - [Features](https://github.com/changeweb/Unifiedtransform#features)
-- [What's New](https://github.com/changeweb/Unifiedtransform#whatsnew)
+- [What's New](https://github.com/changeweb/Unifiedtransform#what-snew)
 - [Framework used](https://github.com/changeweb/Unifiedtransform#framework-used)
 - [Server Requirements](https://github.com/changeweb/Unifiedtransform#server-requirements)
 - [How to Start (Installation)](https://github.com/changeweb/Unifiedtransform#how-to-start)
