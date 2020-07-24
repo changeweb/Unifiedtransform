@@ -81,6 +81,20 @@ class UploadController extends Controller {
       $tb->class_id = $request->class_id;
       $tb->user_id = auth()->user()->id;
       $tb->save();
+    } else if($request->upload_type == 'certificate'){
+      $request->validate([
+        'title' => 'required|string',
+        'given_to' => 'required|int',
+      ]);
+      
+      $tb = new \App\Certificate;
+      $tb->file_path = 'storage/'.$path;
+      $tb->title = $request->title;
+      $tb->given_to = $request->given_to;
+      $tb->active = 1;
+      $tb->school_id = auth()->user()->school_id;
+      $tb->user_id = auth()->user()->id;
+      $tb->save();
     } else if($request->upload_type == 'profile' && $request->user_id > 0){
       $tb = \App\User::find($request->user_id);
       $tb->pic_path = 'storage/'.$path;
