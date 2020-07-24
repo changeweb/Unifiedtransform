@@ -1,4 +1,4 @@
-<h1 align="center">Unifiedtransform</h1>
+<h1 align="center"><img src="public/appname.svg" width="500"></h1>
 <p align="center">
 School Management and Accounting Software
 </p>
