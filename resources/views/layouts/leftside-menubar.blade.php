@@ -100,6 +100,9 @@
   <li class="nav-item">
     <a class="nav-link" href="{{ url('academic/event') }}"><i class="material-icons">event</i> <span class="nav-link-text">@lang('Event')</span></a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ url('academic/certificate') }}"><i class="material-icons">verified</i> <span class="nav-link-text">Certificate</span></a>
+  </li>
   <li class="nav-item" style="border-bottom: 1px solid #dbd8d8;"></li>
   <li class="nav-item">
     <a class="nav-link" href="{{ route('settings.index') }}"><i class="material-icons">settings</i> <span class="nav-link-text">@lang('Academic Settings')</span></a>
@@ -173,6 +176,18 @@
       <span class="nav-link-text">@lang('My Attendance')</span></a>
   </li>
   <li class="nav-item">
+    <a class="nav-link" href="{{url('user/'.Auth::user()->id.'/notifications')}}">
+      <i class="material-icons">email</i> 
+      <span class="nav-link-text">Notifications</span>
+      <?php
+        $mc = \App\Notification::where('student_id',Auth::user()->id)->where('active',1)->count();
+      ?>
+      @if($mc > 0)
+        <span class="label label-danger" style="vertical-align: middle;border-style: none;border-radius: 50%;width: 30px;height: 30px;">{{$mc}}</span>
+      @endif
+    </a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="{{ url('courses/0/'.Auth::user()->section_id) }}"><i class="material-icons">subject</i>
       <span class="nav-link-text">@lang('My Courses')</span></a>
   </li>
@@ -185,6 +200,9 @@
   </li>
   <li class="nav-item">
     <a class="nav-link" href="{{url('stripe/receipts')}}"><i class="material-icons">receipt</i> <span class="nav-link-text">@lang('Receipt')</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{url('academic/student/certificates')}}"><i class="material-icons">verified</i> <span class="nav-link-text">Certificates</span></a>
   </li>
   @endif
   {{--<div style="text-align:center;">@lang('Student')</div>--}}

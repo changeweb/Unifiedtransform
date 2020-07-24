@@ -8,6 +8,8 @@
           <th scope="col">@lang('Class')</th>
         @elseif($upload_type == 'routine' && $parent == 'section')
           <th scope="col">@lang('section')</th>
+        @elseif($upload_type == 'certificate')
+          <th scope="col">Certificates</th>
         @endif
         <th scope="col">@lang('Is Active')</th>
         <th scope="col">@lang('Action')</th>
@@ -22,6 +24,13 @@
           <td>{{$file->myclass->class_number}}</td>
         @elseif($upload_type == 'routine' && $parent == 'section')
           <td>{{$file->section->section_number}}</td>
+        @elseif($upload_type == 'certificate')
+          @isset($file->student->name)
+            <td>{{$file->student->name}}</td>
+          @endisset
+          @empty($file->student)
+            <td>Student Code: <span style="color: #d93025;">{{$file->given_to}}</span> does not exist</td>
+          @endempty
         @endif
         <td>{{($file->active === 1)?'Yes':'No'}}</td>
         <td>

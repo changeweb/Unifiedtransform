@@ -39,5 +39,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AccountSectorsTableSeeder::class);
         $this->call(StudentinfosTableSeeder::class);
         $this->call(StudentboardexamsTableSeeder::class);
+        $this->call(CertificateTableSeeder::class);
     }
 }

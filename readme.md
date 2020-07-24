@@ -32,6 +32,7 @@ See the news [here](https://laravel-news.com/unified-transform-open-source-schoo
 
 ## Table of Contents
 - [Features](https://github.com/changeweb/Unifiedtransform#features)
+- [What's New](https://github.com/changeweb/Unifiedtransform#whatsnew)
 - [Framework used](https://github.com/changeweb/Unifiedtransform#framework-used)
 - [Server Requirements](https://github.com/changeweb/Unifiedtransform#server-requirements)
 - [How to Start (Installation)](https://github.com/changeweb/Unifiedtransform#how-to-start)
@@ -73,6 +74,13 @@ Thus you permit the user of this software to use your contribution under the ter
 
 GNU General Public License v3.0
 
+## Whats New
+
+- Certificate Upload Feature is added.
+   - Admin can upload certificate to a student using student code.
+   - Students can see their certificates link from Left Navigation bar.
+- Now students can also go to their Notifications(Teacher's Message) from Left Navigation bar.
+
 ## Features
 
 This software has following features:
@@ -81,6 +89,7 @@ This software has following features:
 |---------|-------------|
 | Roles  | Master, Admin, Teacher, Student, Librarian, Accountant.|
 || **(You can Impersonate User Roles in Development environment)** See how [Impersonation](https://github.com/changeweb/Unifiedtransform/pull/118) works. Cool !!|
+| Certificate | Now you can upload certificate to a student using student code. |
 | Payment |**[Stripe](http://stripe.com/)** is used. See configuration below.|
 ||Students can pay from their accounts.|
 ||Student can view payment receipts (history)|
@@ -164,7 +173,7 @@ git clone https://github.com/changeweb/Unifiedtransform
    Barryvdh\Debugbar\ServiceProvider,
    Logviewer Service provider,
    //Alias
-   Debugbar' => Barryvdh...
+   'Debugbar' => Barryvdh...
 ```
  from `config/app.php` before running **`composer install`** in **Production Environment**)
 
@@ -314,6 +323,10 @@ DB_PASSWORD=secret
    4. To get Grade of students of a course for given marks, Teacher clicks the Get Total Marks button.
       (Usually this is done at the end of the semester)
 
+## Give Certificate or Diploma to students
+
+Upon request in issue #258, Certification file upload system has been added.
+
 ## Good to know
 
 * Setup your **Mail** configuration in `.env` file if you want to send email. Currently registered users are notified by invitation mail if Mail is configured properly.
@@ -371,3 +384,5 @@ Auto generated fake data were used.
 ![Screenshot_2019-03-12 Manage Schools - Arvid Marquardt](https://user-images.githubusercontent.com/9896315/54187740-6c2ca280-44d8-11e9-93b1-a998ac1cd585.png)
 ![Screenshot_2019-03-12 Promote Section Students - Arvid Marquardt(1)](https://user-images.githubusercontent.com/9896315/54187741-6c2ca280-44d8-11e9-871a-51148b27c2b4.png)
 ![Screenshot_2019-03-12 Students - Arvid Marquardt](https://user-images.githubusercontent.com/9896315/54187744-6cc53900-44d8-11e9-9ad4-c1acc58fe6a2.png)
+![Screenshot_2020-07-24 Give Certificate - Ruthie Gorczany](https://user-images.githubusercontent.com/9896315/88412643-b5467380-cdfb-11ea-88da-45afa2756e64.png)
+![Screenshot_2020-07-24 My Certificates - Ruthie Gorczany](https://user-images.githubusercontent.com/9896315/88412655-b677a080-cdfb-11ea-8ca4-62407d39f61f.png)

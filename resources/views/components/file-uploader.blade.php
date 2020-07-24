@@ -5,6 +5,11 @@
         <input type="text" class="form-control" name="upload-title" id="upload-title" placeholder="@lang('File title here...')" required>
         <br/>
     @endif
+    @if($upload_type == 'certificate')
+        <label for="sections">Certificate Given to Student Code:</label>
+        <input type="text" class="form-control" name="to_student_code" id="to_student_code" placeholder="Student Code here..." required>
+        <br/>
+    @endif
     @if($upload_type == 'routine')
         <label for="sections">For</label>
         <select id="sections" class="form-control" name="sections" required>
@@ -87,8 +92,10 @@ $(function () {
                                 data.formData = {upload_type: '{{$upload_type}}',section_id:$('#sections').val(),title: $('#upload-title').val()};
                             @elseif($upload_type == 'syllabus')
                                 data.formData = {upload_type: '{{$upload_type}}',class_id:$('#classes').val(),title: $('#upload-title').val()};
-                            @else
+                            @elseif($upload_type == 'notice')
                                 data.formData = {upload_type: '{{$upload_type}}',title: $('#upload-title').val()};
+                            @elseif($upload_type == 'certificate')
+                                data.formData = {upload_type: '{{$upload_type}}',title: $('#upload-title').val(), given_to: $('#to_student_code').val()}; //certificate
                             @endif
                         @else
                             data.formData = {upload_type: '{{$upload_type}}',user_id: $('#userIdPic').val()};

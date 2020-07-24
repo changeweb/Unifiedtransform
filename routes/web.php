@@ -83,8 +83,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('courses/{teacher_id}/{section_id}', 'CourseController@index');
 });
 
-Route::get('user/{id}/notifications', 'NotificationController@index')->middleware(['auth', 'student']);
-
 Route::middleware(['auth', 'teacher'])->group(function () {
     Route::get('course/students/{teacher_id}/{course_id}/{exam_id}/{section_id}', 'CourseController@course');
     Route::post('courses/create', 'CourseController@create');
@@ -98,14 +96,21 @@ Route::middleware(['auth', 'admin'])->prefix('academic')->name('academic.')->gro
     Route::get('syllabus/{class_id}', 'SyllabusController@create');
     Route::get('notice', 'NoticeController@create');
     Route::get('event', 'EventController@create');
+    Route::get('certificate', 'CertificateController@create');
     Route::get('routine', 'RoutineController@index');
     Route::get('routine/{section_id}', 'RoutineController@create');
     Route::prefix('remove')->name('remove.')->group(function () {
         Route::get('syllabus/{id}', 'SyllabusController@update');
         Route::get('notice/{id}', 'NoticeController@update');
         Route::get('event/{id}', 'EventController@update');
+        Route::get('certificate/{id}', 'CertificateController@update');
         Route::get('routine/{id}', 'RoutineController@update');
     });
+});
+
+Route::middleware(['auth', 'student'])->group(function () {
+    Route::get('user/{id}/notifications', 'NotificationController@index');
+    Route::get('academic/student/certificates', 'CertificateController@index');
 });
 
 Route::middleware(['auth', 'admin'])->prefix('exams')->name('exams.')->group(function () {
