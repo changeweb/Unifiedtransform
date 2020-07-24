@@ -37,7 +37,7 @@ $factory->define(User::class, function (Faker $faker) {
           else return factory(School::class)->create()->code;
         },
         'student_code'   => $faker->unique()->randomNumber(7, false),
-        'address'        => $faker->address,
+        'address'        => e($faker->address),
         'about'          => $faker->sentences(3, true),
         'pic_path'       => $faker->imageUrl(640, 480),
         'phone_number'   => $faker->unique()->phoneNumber,
