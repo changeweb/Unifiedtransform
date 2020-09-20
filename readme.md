@@ -137,7 +137,7 @@ You need to change Docker configuration files according to your need.
     ```
 
 - To run this software in Docker containers run `sudo docker-compose up -d`.
-- Then run `sudo docker container ls --all`. Copy **Nginx** Container ID.
+- Then run `sudo docker container ls --all`. Copy **digitalocean/php** Container ID.
 - Then run `sudo docker exec -it <container id> bash`
 - Run `cp .env.example .env` and change following lines in `.env` file
    ```sh
