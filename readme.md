@@ -123,34 +123,38 @@ This software has following features:
 ## How to Start
 ### Using Docker Container:
 
-**Anyone having trouble related to `mysql-client`, PHP 7.3 needs mariadb instead of mysql.** See issue [#192](https://github.com/changeweb/Unifiedtransform/issues/192)
+**[Docker](https://www.docker.com/)** is now supported and improved.
 
-**[Docker](https://www.docker.com/)** is now supported.
+With the improved Docker setup, you will get:
+- Nginx
+- PHP 7.4
+- MySQL 8
+- PHPMyAdmin
+- Composer commands: access composer commands directly without entering the container
+- Artisan commands: access artisan commands directly without entering the container
 
-You need to change Docker configuration files according to your need.
+In a nutshell, you only need to install Docker as well as `docker-compose` on your (host) machine and let Docker does the rest
 
-- Change following lines in `docker-compose.yml`
-    ```yml
-    MYSQL_ROOT_PASSWORD: your password
-    MYSQL_USER: root
-    MYSQL_PASSWORD: your password
-    ```
+#### Step to install:
 
-- To run this software in Docker containers run `sudo docker-compose up -d`.
-- Then run `sudo docker container ls --all`. Copy **Nginx** Container ID.
-- Then run `sudo docker exec -it <container id> bash`
-- Run `cp .env.example .env` and change following lines in `.env` file
-   ```sh
-   DB_HOST=db
-   DB_PORT=3306
-   DB_DATABASE=school
-   DB_USERNAME=root
-   DB_PASSWORD=your password
-   ```
-- Run `composer install`
-- Run `php artisan key:generate`
-- Run `php artisan migrate:fresh --seed`
-- Visit `http://localhost:80`.
+1. Run `cp .env.example .env`
+2. If you think the default setting are pretty well setup, you can run `./docker-install.sh` right away from your terminal. 
+3. Otherwise, read a section below for further information about properties you may change.
+4. Run `./docker-install.sh`
+
+#### Note
+
+Here are `.env` properties you can change: 
+
+- Common Laravel `.env` properties
+- `DOCKER_WEBSERVER_HOST` defines the Unifiedtransform port address. default value: `4049`
+- `DOCKER_PHPMYADMIN_HOST` defines the PHPMyAdmin port address. default value: `5051` 
+
+You can also customize the database name defined on the `DB_DATABASE` property when Docker is being initialized the first time.
+
+#### Added Commands
+- `docker-compose run --rm composer <commands>`
+- `docker-compose run --rm artisan <commands>`
 
 ### Not using a Container:
 
