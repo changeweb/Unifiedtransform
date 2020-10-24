@@ -65,6 +65,7 @@
             "@php artisan key:generate"
         ],
         "post-install-cmd": [
+            "@php artisan key:generate",
             "@php artisan passport:keys"
         ],
         "post-autoload-dump": [
