@@ -204,6 +204,10 @@ DB_PASSWORD=secret
 
 - On localhost, serve your application with `php artisan serve`
 
+## Login for the First Time
+
+Go to example.com/login, default password is `secret` and email is `hasib@unifiedtransform.com`. Please change credential after login!
+
 ## Video Tutorial
 > See **[Video Tutorial](https://vimeo.com/334331502)**.
 
