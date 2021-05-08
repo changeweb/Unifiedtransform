@@ -1,4 +1,4 @@
-<h1 align="center">Unifiedtransform</h1>
+<h1 align="center"><img src="public/appname.svg" width="500"></h1>
 <p align="center">
 School Management and Accounting Software
 </p>
@@ -23,7 +23,7 @@ See the news [here](https://laravel-news.com/unified-transform-open-source-schoo
 
 ## Server Requirements
 
-- PHP >= 7.2.5
+- PHP >= 7.3
 - OpenSSL PHP Extension
 - PDO PHP Extension
 - Mbstring PHP Extension
@@ -32,6 +32,7 @@ See the news [here](https://laravel-news.com/unified-transform-open-source-schoo
 
 ## Table of Contents
 - [Features](https://github.com/changeweb/Unifiedtransform#features)
+- [What's New](https://github.com/changeweb/Unifiedtransform#what-snew)
 - [Framework used](https://github.com/changeweb/Unifiedtransform#framework-used)
 - [Server Requirements](https://github.com/changeweb/Unifiedtransform#server-requirements)
 - [How to Start (Installation)](https://github.com/changeweb/Unifiedtransform#how-to-start)
@@ -73,6 +74,13 @@ Thus you permit the user of this software to use your contribution under the ter
 
 GNU General Public License v3.0
 
+## Whats New
+
+- Certificate Upload Feature is added.
+   - Admin can upload certificate to a student using student code.
+   - Students can see their certificates link from Left Navigation bar.
+- Now students can also go to their Notifications(Teacher's Message) from Left Navigation bar.
+
 ## Features
 
 This software has following features:
@@ -81,6 +89,7 @@ This software has following features:
 |---------|-------------|
 | Roles  | Master, Admin, Teacher, Student, Librarian, Accountant.|
 || **(You can Impersonate User Roles in Development environment)** See how [Impersonation](https://github.com/changeweb/Unifiedtransform/pull/118) works. Cool !!|
+| Certificate | Now you can upload certificate to a student using student code. |
 | Payment |**[Stripe](http://stripe.com/)** is used. See configuration below.|
 ||Students can pay from their accounts.|
 ||Student can view payment receipts (history)|
@@ -114,34 +123,38 @@ This software has following features:
 ## How to Start
 ### Using Docker Container:
 
-**Anyone having trouble related to `mysql-client`, PHP 7.3 needs mariadb instead of mysql.** See issue [#192](https://github.com/changeweb/Unifiedtransform/issues/192)
+**[Docker](https://www.docker.com/)** is now supported and improved.
 
-**[Docker](https://www.docker.com/)** is now supported.
+With the improved Docker setup, you will get:
+- Nginx
+- PHP 7.4
+- MySQL 8
+- PHPMyAdmin
+- Composer commands: access composer commands directly without entering the container
+- Artisan commands: access artisan commands directly without entering the container
 
-You need to change Docker configuration files according to your need.
+In a nutshell, you only need to install Docker as well as `docker-compose` on your (host) machine and let Docker does the rest
 
-- Change following lines in `docker-compose.yml`
-    ```yml
-    MYSQL_ROOT_PASSWORD: your password
-    MYSQL_USER: root
-    MYSQL_PASSWORD: your password
-    ```
+#### Step to install:
 
-- To run this software in Docker containers run `sudo docker-compose up -d`.
-- Then run `sudo docker container ls --all`. Copy **Nginx** Container ID.
-- Then run `sudo docker exec -it <container id> bash`
-- Run `cp .env.example .env` and change following lines in `.env` file
-   ```sh
-   DB_HOST=db
-   DB_PORT=3306
-   DB_DATABASE=school
-   DB_USERNAME=root
-   DB_PASSWORD=your password
-   ```
-- Run `composer install`
-- Run `php artisan key:generate`
-- Run `php artisan migrate:fresh --seed`
-- Visit `http://localhost:80`.
+1. Run `cp .env.example .env`
+2. If you think the default setting are pretty well setup, you can run `./docker-install.sh` right away from your terminal. 
+3. Otherwise, read a section below for further information about properties you may change.
+4. Run `./docker-install.sh`
+
+#### Note
+
+Here are `.env` properties you can change: 
+
+- Common Laravel `.env` properties
+- `DOCKER_WEBSERVER_HOST` defines the Unifiedtransform port address. default value: `4049`
+- `DOCKER_PHPMYADMIN_HOST` defines the PHPMyAdmin port address. default value: `5051` 
+
+You can also customize the database name defined on the `DB_DATABASE` property when Docker is being initialized the first time.
+
+#### Added Commands
+- `docker-compose run --rm composer <commands>`
+- `docker-compose run --rm artisan <commands>`
 
 ### Not using a Container:
 
@@ -164,7 +177,7 @@ git clone https://github.com/changeweb/Unifiedtransform
    Barryvdh\Debugbar\ServiceProvider,
    Logviewer Service provider,
    //Alias
-   Debugbar' => Barryvdh...
+   'Debugbar' => Barryvdh...
 ```
  from `config/app.php` before running **`composer install`** in **Production Environment**)
 
@@ -314,6 +327,10 @@ DB_PASSWORD=secret
    4. To get Grade of students of a course for given marks, Teacher clicks the Get Total Marks button.
       (Usually this is done at the end of the semester)
 
+## Give Certificate or Diploma to students
+
+Upon request in issue #258, Certification file upload system has been added.
+
 ## Good to know
 
 * Setup your **Mail** configuration in `.env` file if you want to send email. Currently registered users are notified by invitation mail if Mail is configured properly.
@@ -371,3 +388,5 @@ Auto generated fake data were used.
 ![Screenshot_2019-03-12 Manage Schools - Arvid Marquardt](https://user-images.githubusercontent.com/9896315/54187740-6c2ca280-44d8-11e9-93b1-a998ac1cd585.png)
 ![Screenshot_2019-03-12 Promote Section Students - Arvid Marquardt(1)](https://user-images.githubusercontent.com/9896315/54187741-6c2ca280-44d8-11e9-871a-51148b27c2b4.png)
 ![Screenshot_2019-03-12 Students - Arvid Marquardt](https://user-images.githubusercontent.com/9896315/54187744-6cc53900-44d8-11e9-9ad4-c1acc58fe6a2.png)
+![Screenshot_2020-07-24 Give Certificate - Ruthie Gorczany](https://user-images.githubusercontent.com/9896315/88412643-b5467380-cdfb-11ea-88da-45afa2756e64.png)
+![Screenshot_2020-07-24 My Certificates - Ruthie Gorczany](https://user-images.githubusercontent.com/9896315/88412655-b677a080-cdfb-11ea-8ca4-62407d39f61f.png)

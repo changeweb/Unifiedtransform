@@ -17,6 +17,7 @@ class UsersTableSeeder extends Seeder
             'email'    => 'hasib@unifiedtransform.com',
             'password' => bcrypt('secret'),
             'role'     => 'master',
+            'student_code' => 0000000,
             'active'   => 1,
             'verified' => 1,
         ]);

@@ -16,7 +16,7 @@
         "laravel/tinker": "^2.0",
         "maatwebsite/excel": "^3.1",
         "laravel/ui": "2.0.3",
-        "mavinoo/laravel-batch": "2.1.5",
+        "mavinoo/laravel-batch": "2.1.9",
         "renatomarinho/laravel-page-speed": "^1.8"
     },
     "require-dev": {
@@ -65,6 +65,7 @@
             "@php artisan key:generate"
         ],
         "post-install-cmd": [
+            "@php artisan key:generate",
             "@php artisan passport:keys"
         ],
         "post-autoload-dump": [
