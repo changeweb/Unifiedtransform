@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateNoticesTable extends Migration
+class CreateSectionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,15 @@ class CreateNoticesTable extends Migration
      */
     public function up()
     {
-        Schema::create('notices', function (Blueprint $table) {
+        Schema::create('sections', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('file_path');
-            $table->string('title');
-            $table->text('description');
-            $table->tinyInteger('active');
-            $table->bigInteger('school_id')->unsigned();
-            $table->bigInteger('user_id')->unsigned();
-            $table->foreign('school_id')->references('id')->on('schools');
+            $table->string('section_number');
+            $table->integer('room_number');
+            $table->bigInteger('class_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned()->default(0);
+            $table->foreign('class_id')->references('id')->on('classes');
             $table->foreign('user_id')->references('id')->on('users');
+
             $table->timestamps();
         });
     }
@@ -34,6 +33,6 @@ class CreateNoticesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notices');
+        Schema::dropIfExists('sections');
     }
 }

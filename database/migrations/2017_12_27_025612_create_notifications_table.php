@@ -19,7 +19,9 @@ class CreateNotificationsTable extends Migration
             $table->tinyInteger('active');
             $table->text('message');
             $table->integer('student_id')->unsigned();
-            $table->integer('user_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');            
+            // $table->foreign('student_id')->references('student_code')->on('users');
             $table->timestamps();
         });
     }
