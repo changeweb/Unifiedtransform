@@ -19,8 +19,10 @@ class CreateRoutinesTable extends Migration
             $table->string('title');
             $table->text('description');
             $table->tinyInteger('active');
-            $table->integer('school_id')->unsigned();
-            $table->integer('user_id')->unsigned();
+            $table->bigInteger('school_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('school_id')->references('id')->on('schools');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

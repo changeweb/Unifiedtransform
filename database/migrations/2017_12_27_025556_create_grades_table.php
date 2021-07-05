@@ -34,11 +34,16 @@ class CreateGradesTable extends Migration
             $table->float('written', 8, 2);
             $table->float('mcq', 8, 2);
             $table->float('practical', 8, 2);
-            $table->integer('exam_id')->unsigned();
+            $table->bigInteger('exam_id')->unsigned();
             $table->integer('student_id')->unsigned();
-            $table->integer('teacher_id')->unsigned();
-            $table->integer('course_id')->unsigned();
-            $table->integer('user_id')->unsigned();
+            $table->bigInteger('teacher_id')->unsigned();
+            $table->bigInteger('course_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
+            // $table->foreign('student_id')->references('student_code')->on('users');
+            $table->foreign('course_id')->references('id')->on('courses');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('teacher_id')->references('id')->on('users');
+            $table->foreign('exam_id')->references('id')->on('exams');
             $table->timestamps();
         });
     }

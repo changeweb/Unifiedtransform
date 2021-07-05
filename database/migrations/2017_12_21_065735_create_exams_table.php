@@ -14,13 +14,15 @@ class CreateExamsTable extends Migration
     public function up()
     {
         Schema::create('exams', function (Blueprint $table) {
-          $table->increments('id');
+          $table->bigIncrements('id');
           $table->string('exam_name');
           $table->tinyInteger('active');
           $table->tinyInteger('notice_published');
           $table->tinyInteger('result_published');
-          $table->integer('school_id')->unsigned();
-          $table->integer('user_id')->unsigned();
+          $table->bigInteger('school_id')->unsigned();
+          $table->bigInteger('user_id')->unsigned();
+          $table->foreign('school_id')->references('id')->on('schools');
+          $table->foreign('user_id')->references('id')->on('users');
           $table->timestamps();
         });
     }

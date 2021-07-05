@@ -14,7 +14,7 @@ class CreateCoursesTable extends Migration
     public function up()
     {
         Schema::create('courses', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('course_name');
             $table->integer('class_id')->unsigned();
             $table->string('course_type');
@@ -35,11 +35,16 @@ class CreateCoursesTable extends Migration
             $table->integer('ct_fullmark');
             $table->integer('final_fullmark');
             $table->integer('practical_fullmark');
-            $table->integer('school_id')->unsigned();
-            $table->integer('exam_id')->unsigned();
-            $table->integer('teacher_id')->unsigned();
-            $table->integer('section_id')->unsigned();
-            $table->integer('user_id')->unsigned();
+            $table->bigInteger('school_id')->unsigned();
+            $table->bigInteger('exam_id')->unsigned();
+            $table->bigInteger('teacher_id')->unsigned();
+            $table->bigInteger('section_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('school_id')->references('id')->on('schools');
+            $table->foreign('exam_id')->references('id')->on('exams');
+            $table->foreign('teacher_id')->references('id')->on('users');
+            $table->foreign('section_id')->references('id')->on('sections');
+            
             $table->timestamps();
         });
     }

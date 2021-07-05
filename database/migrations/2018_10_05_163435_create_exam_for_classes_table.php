@@ -15,8 +15,10 @@ class CreateExamForClassesTable extends Migration
     {
         Schema::create('exam_for_classes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('class_id')->unsigned();
-            $table->integer('exam_id')->unsigned();
+            $table->bigInteger('class_id')->unsigned();
+            $table->bigInteger('exam_id')->unsigned();
+            $table->foreign('class_id')->references('id')->on('classes');
+            $table->foreign('exam_id')->references('id')->on('exams');
         });
     }
 

@@ -15,11 +15,16 @@ class CreateAttendancesTable extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('student_id')->unsigned();
-            $table->integer('section_id')->unsigned();
-            $table->integer('exam_id')->unsigned();
+            $table->bigInteger('student_id')->unsigned();
+            $table->bigInteger('section_id')->unsigned();
+            $table->bigInteger('exam_id')->unsigned();
             $table->tinyInteger('present')->unsigned();
-            $table->integer('user_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
+            // $table->foreign('student_id')->references('student_code')->on('users');
+            $table->foreign('section_id')->references('id')->on('sections');
+            $table->foreign('exam_id')->references('id')->on('exams');
+            $table->foreign('user_id')->references('id')->on('users');
+            
             $table->timestamps();
         });
     }
