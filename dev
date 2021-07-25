@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+if ! [ -x "$(command -v docker-compose)" ]; then
+    echo 'docker-compose is not installed on your machine. Seems you should run the docker-install executable first to help you go through' >&2
+    sleep 1
+    exit 1
+fi
+
+COMPOSE="docker-compose"
+
+if [ $# -gt 0 ]; then
+    if [ "$1" == "artisan" ]; then
+        shift 1
+        $COMPOSE run --rm artisan "$@"
+        elif [ "$1" == "composer" ]; then
+            shift 1
+            $COMPOSE run --rm composer "$@"
+        elif [ "$1" == "rebuild" ]; then
+            shift 1
+            $COMPOSE up -d --force-recreate --no-deps --build "$@"
+            $COMPOSE down
+        else
+            $COMPOSE "$@"
+    fi
+else
+    $COMPOSE ps
+fi

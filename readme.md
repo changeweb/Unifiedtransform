@@ -150,11 +150,19 @@ Here are `.env` properties you can change:
 - `DOCKER_WEBSERVER_HOST` defines the Unifiedtransform port address. default value: `4049`
 - `DOCKER_PHPMYADMIN_HOST` defines the PHPMyAdmin port address. default value: `5051` 
 
-You can also customize the database name defined on the `DB_DATABASE` property when Docker is being initialized the first time.
+You can also customize the database name and the database password defined on the `DB_DATABASE` and `DB_PASSWORD` property, respectively, when Docker installs your app.
 
-#### Added Commands
-- `docker-compose run --rm composer <commands>`
-- `docker-compose run --rm artisan <commands>`
+#### Added Utility Scripts for Working With docker-compose
+
+Under this project, there is an executable called `dev`. 
+It contains utility scripts which really comes in handy when you are working with the Docker app, especially `docker-compose` scripts cause it shortens some of `docker-compose` scripts.
+
+Available commands:
+- `dev composer <commands>` stands for `docker-compose run --rm composer <commands>`
+- `dev artisan <commands>` stands for `docker-compose run --rm artisan <commands>`
+- `dev rebuild <service>` to rebuild some services defined in the `docker-compose.yml`
+
+Really saving your time, isn't it?
 
 ### Not using a Container:
 
