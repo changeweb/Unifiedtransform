@@ -150,7 +150,13 @@ Here are `.env` properties you can change:
 - `DOCKER_WEBSERVER_HOST` defines the Unifiedtransform port address. default value: `4049`
 - `DOCKER_PHPMYADMIN_HOST` defines the PHPMyAdmin port address. default value: `5051` 
 
-You can also customize the database name and the database password defined on the `DB_DATABASE` and `DB_PASSWORD` property, respectively, and it will be reflected on the database credentials after Docker is finished installing.
+You can also customize:
+
+- `DB_DATABASE`: the database name
+- `DB_USERNAME`: the database username. Fill it other than `root` otherwise you will get trouble ahead
+- `DB_PASSWORD`: the database password 
+
+And it will be reflected on the database credentials after Docker is finished installing.
 
 #### Added Utility Scripts for Working With docker-compose
 
