@@ -37,15 +37,27 @@
                         <tr>
                             <td>
                                 @if($admin->active == 0)
-                                <a href="{{url('master/activate-admin/'.$admin->id)}}" class="btn btn-xs btn-success"
+                                    <a href="{{ route('master.activate.admin') }}" onclick="event.preventDefault();
+                                        document.getElementById('activate-admin-'+{{$admin->id}}).submit();" class="btn btn-xs btn-success"
                                     role="button"><i class="material-icons">
                                         done
                                     </i>@lang('Activate')</a>
+
+                                    <form id="activate-admin-{{$admin->id}}" action="{{ route('master.activate.admin') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="id" value="{{$admin->id}}">
+                                    </form>
                                 @else
-                                <a href="{{url('master/deactivate-admin/'.$admin->id)}}" class="btn btn-xs btn-danger"
+                                    <a href="{{ route('master.deactivate.admin') }}" onclick="event.preventDefault();
+                                        document.getElementById('deactivate-admin-'+{{$admin->id}}).submit();" class="btn btn-xs btn-danger"
                                     role="button"><i class="material-icons">
                                         clear
                                     </i>@lang('Deactivate')</a>
+
+                                    <form id="deactivate-admin-{{$admin->id}}" action="{{ route('master.deactivate.admin') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="id" value="{{$admin->id}}">
+                                    </form>
                                 @endif
                             </td>
                             <td>

@@ -173,8 +173,8 @@ Route::middleware(['auth', 'master'])->group(function () {
         return redirect()->route('register');
     });
     Route::post('register/admin', 'UserController@storeAdmin');
-    Route::get('master/activate-admin/{id}', 'UserController@activateAdmin');
-    Route::get('master/deactivate-admin/{id}', 'UserController@deactivateAdmin');
+    Route::post('master/activate-admin', 'UserController@activateAdmin')->name('master.activate.admin');
+    Route::post('master/deactivate-admin', 'UserController@deactivateAdmin')->name('master.deactivate.admin');
     Route::get('school/admin-list/{school_id}', 'SchoolController@show');
 });
 

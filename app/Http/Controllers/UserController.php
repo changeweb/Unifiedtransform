@@ -373,12 +373,12 @@ class UserController extends Controller
 
     /**
      * Activate admin
-     * @param $id
+     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function activateAdmin($id)
+    public function activateAdmin(Request $request)
     {
-        $admin = $this->user->find($id);
+        $admin = $this->user->find($request->id);
 
         if ($admin->active !== 0) {
             $admin->active = 0;
@@ -393,12 +393,12 @@ class UserController extends Controller
 
     /**
      * Deactivate admin
-     * @param $id
+     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function deactivateAdmin($id)
+    public function deactivateAdmin(Request $request)
     {
-       $admin = $this->user->find($id);
+       $admin = $this->user->find($request->id);
 
         if ($admin->active !== 1) {
             $admin->active = 1;
