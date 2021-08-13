@@ -100,11 +100,11 @@ Route::middleware(['auth', 'admin'])->prefix('academic')->name('academic.')->gro
     Route::get('routine', 'RoutineController@index');
     Route::get('routine/{section_id}', 'RoutineController@create');
     Route::prefix('remove')->name('remove.')->group(function () {
-        Route::get('syllabus', 'SyllabusController@update');
-        Route::get('notice', 'NoticeController@update');
+        Route::post('syllabus', 'SyllabusController@update');
+        Route::post('notice', 'NoticeController@update');
         Route::post('event', 'EventController@update');
-        Route::get('certificate', 'CertificateController@update');
-        Route::get('routine', 'RoutineController@update');
+        Route::post('certificate', 'CertificateController@update');
+        Route::post('routine', 'RoutineController@update');
     });
 });
 
