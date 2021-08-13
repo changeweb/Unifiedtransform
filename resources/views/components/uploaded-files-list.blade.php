@@ -34,7 +34,13 @@
         @endif
         <td>{{($file->active === 1)?'Yes':'No'}}</td>
         <td>
-          <a href="{{url('academic/remove/'.$upload_type.'/'.$file->id)}}" class="btn btn-danger btn-sm" role="button"><i class="material-icons">delete</i> @lang('Remove')</a>
+          <a href="{{url('academic/remove/'.$upload_type)}}" onclick="event.preventDefault();
+            document.getElementById('remove-file-'+{{$file->id}}).submit();" class="btn btn-danger btn-sm" role="button"><i class="material-icons">delete</i> @lang('Remove')</a>
+
+          <form id="remove-file-{{$file->id}}" action="{{url('academic/remove/'.$upload_type)}}" method="POST" style="display: none;">
+            {{ csrf_field() }}
+            <input type="hidden" name="id" value="{{$file->id}}">
+          </form>
         </td>
       </tr>
       @endforeach

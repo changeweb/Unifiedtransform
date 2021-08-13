@@ -69,12 +69,12 @@ class CertificateController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param  Request $request
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Request $request)
     {
-        $tb = Certificate::find($id);
+        $tb = Certificate::find($request->id);
         $tb->active = 0;
         $tb->save();
         return back()->with('status',__('File removed'));
