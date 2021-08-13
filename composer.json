@@ -8,16 +8,17 @@
         "php": ">=7.2.5",
         "doctrine/dbal": "^2.9",
         "fideloper/proxy": "^4.2",
+        "guzzlehttp/guzzle": "^6.3",
         "lab404/laravel-impersonate": "1.6.0",
         "laravel/cashier": "^11.0",
-        "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^7.0",
         "laravel/passport": "^9.1.0",
         "laravel/tinker": "^2.0",
-        "maatwebsite/excel": "^3.1",
         "laravel/ui": "2.0.3",
+        "maatwebsite/excel": "^3.1",
         "mavinoo/laravel-batch": "2.1.9",
-        "renatomarinho/laravel-page-speed": "^1.8"
+        "renatomarinho/laravel-page-speed": "^1.8",
+        "stevebauman/purify": "^4.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
