@@ -12,6 +12,6 @@ echo "Scaffolding your app using Docker... This will take a while..."
 sleep 1
 sudo docker-compose up -d
 sudo docker-compose run --rm composer install
-sudo docker-compose run --rm artisan migrate:fresh
+sudo docker-compose run --rm artisan migrate:fresh --seed
 
 sleep 1
