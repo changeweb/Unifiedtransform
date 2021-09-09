@@ -172,6 +172,8 @@ Really saving your time, isn't it?
 
 ### Not using a Container:
 
+Here is a latest article about [Manual installation in Windows 10](https://github.com/changeweb/Unifiedtransform/issues/315#issuecomment-889040823).
+
 Here are some basic steps to start using this application
 
 **Note:** Instruction on cached data for Dashboard is given in **Good to know** segment below.
