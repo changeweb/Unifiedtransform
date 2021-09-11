@@ -17,8 +17,10 @@ class CreateHomeworksTable extends Migration
             $table->increments('id');
             $table->string('file_path');
             $table->text('description');
-            $table->integer('teacher_id')->unsigned();
-            $table->integer('section_id')->unsigned();
+            $table->bigInteger('teacher_id')->unsigned();
+            $table->bigInteger('section_id')->unsigned();
+            $table->foreign('teacher_id')->references('id')->on('users');
+            $table->foreign('section_id')->references('id')->on('sections');
             $table->timestamps();
         });
     }

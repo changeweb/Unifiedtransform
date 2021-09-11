@@ -16,8 +16,9 @@ class CreateFeedbacksTable extends Migration
         Schema::create('feedbacks', function (Blueprint $table) {
             $table->increments('id');
             $table->text('description');
-            $table->integer('teacher_id')->unsigned();
+            $table->bigInteger('teacher_id')->unsigned();
             $table->integer('student_id')->unsigned();
+            $table->foreign('teacher_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

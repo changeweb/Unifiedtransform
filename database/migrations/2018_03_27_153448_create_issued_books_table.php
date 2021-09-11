@@ -15,15 +15,19 @@ class CreateIssuedBooksTable extends Migration
     {
         Schema::create('issued_books', function (Blueprint $table) {
           $table->increments('id');
-          $table->integer('student_code');
-          $table->integer('book_id')->unsigned();
+          $table->bigInteger('student_code');
+          $table->bigInteger('book_id')->unsigned();
           $table->integer('quantity');
-          $table->integer('school_id')->unsigned();
+          $table->bigInteger('school_id')->unsigned();
           $table->date('issue_date');
           $table->date('return_date');
           $table->decimal('fine');
           $table->tinyInteger('borrowed');
-          $table->integer('user_id')->unsigned();
+          $table->bigInteger('user_id')->unsigned();
+          $table->foreign('student_code')->references('student_code')->on('users');
+          $table->foreign('book_id')->references('id')->on('books');
+          $table->foreign('school_id')->references('id')->on('schools');
+          $table->foreign('user_id')->references('id')->on('users');
           $table->timestamps();
         });
     }

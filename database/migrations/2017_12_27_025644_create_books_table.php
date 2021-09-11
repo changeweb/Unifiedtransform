@@ -14,7 +14,7 @@ class CreateBooksTable extends Migration
     public function up()
     {
         Schema::create('books', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
       		$table->string('book_code',50)->unique();
       		$table->string('title',250);
       		$table->string('author',100);
@@ -25,9 +25,12 @@ class CreateBooksTable extends Migration
             $table->text('about');
 			$table->string('type',10);
             $table->integer('price');
-            $table->integer('class_id')->unsigned();
-            $table->integer('school_id')->unsigned();
-            $table->integer('user_id')->unsigned();
+            $table->bigInteger('class_id')->unsigned();
+            $table->bigInteger('school_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('class_id')->references('id')->on('classes');
+            $table->foreign('school_id')->references('id')->on('schools');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
