@@ -1,7 +1,6 @@
 language: php
 php:
 - 7.4
-- 7.3
 before_script:
 - cp .env.example .env
 - composer install
