@@ -14,6 +14,7 @@ School Management and Accounting Software
 [![Latest release](https://img.shields.io/github/release/changeweb/Unifiedtransform/all.svg)](https://github.com/changeweb/Unifiedtransform/releases)
 [![MadeWithLaravel.com shield](https://madewithlaravel.com/storage/repo-shields/1362-shield.svg)](https://madewithlaravel.com/p/unifiedtransform/shield-link)
 [![Join the chat at https://gitter.im/Unifiedtransform](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Unifiedtransform?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[Join Discord Server](https://discord.gg/8sz6kpup99)
 
 We like to challenge the quality of what we build to make it better. To do so, we try to make the product intuitive, beautiful, and user friendly. Innovation and hard work help to fulfill these requirements. I believe in order to innovate we need to think differently. A few months ago I discovered there was no open source free school management software that met my quality standards. I happen to know a bit of programming so I decided to make one. I also believe that working with more people can push the standard higher than working alone. So I decided to make it open source and free.
 
@@ -30,7 +31,7 @@ See the news [here](https://laravel-news.com/unified-transform-open-source-schoo
 
 ## Server Requirements
 
-- PHP >= 7.4
+- PHP >= 7.
 - OpenSSL PHP Extension
 - PDO PHP Extension
 - Mbstring PHP Extension
