@@ -1,87 +1,57 @@
 <?php
+
+namespace Database\Factories;
+
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\User;
-use App\School;
-use App\Section;
-use App\Department;
-use Faker\Generator as Faker;
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| This directory should contain each of the model factory definitions for
-| your application. Factories provide a convenient way to generate new
-| model instances for testing / seeding your application's database.
-|
-*/
-$factory->define(User::class, function (Faker $faker) {
-    static $password;
+class UserFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = User::class;
 
-    return [
-        'name'           => e($faker->name),
-        'email'          => $faker->unique()->safeEmail,
-        'password'       => $password ?: $password = bcrypt('secret'),
-        'remember_token' => Str::random(10),
-        'active'         => 1,
-        'role'           => $faker->randomElement(['student', 'teacher', 'admin', 'accountant', 'librarian']),
-        'school_id' => function () use ($faker) {
-          if (School::count())
-            return $faker->randomElement(School::pluck('id')->toArray());
-          else return factory(School::class)->create()->id;
-        },
-        'code' => function () use ($faker) {
-          if (School::count())
-            return $faker->randomElement(School::pluck('code')->toArray());
-          else return factory(School::class)->create()->code;
-        },
-        'student_code'   => $faker->unique()->randomNumber(7, false),
-        'address'        => e($faker->address),
-        'about'          => $faker->sentences(3, true),
-        'pic_path'       => $faker->imageUrl(640, 480),
-        'phone_number'   => $faker->unique()->phoneNumber,
-        'verified'       => 1,
-        'section_id' => function () use ($faker) {
-          if (Section::count())
-            return $faker->randomElement(Section::pluck('id')->toArray());
-          else return factory(Section::class)->create()->id;
-        },
-        'department_id' => function () use ($faker) {
-          if (Department::count())
-            return $faker->randomElement(Department::pluck('id')->toArray());
-          else return factory(Department::class)->create()->id;
-        },
-        'blood_group'    => $faker->randomElement(['a+', 'b+', 'ab', 'o+']),
-        'nationality'    => 'Bangladeshi',
-        'gender'         => $faker->randomElement(['male', 'female']),
-        'stripe_id' => null,
-        'card_brand' => null,
-        'card_last_four' => null,
-        'trial_ends_at' => null,
-    ];
-});
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'first_name' => $this->faker->name(),
+            'last_name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'remember_token' => Str::random(10),
+            'gender'        => $this->faker->randomElement(['Male', 'Female']),
+            'nationality'   => 'Bangladeshi',
+            'phone'         => 'Ex: 325 43657 7554',
+            'address'       => '568, Dhaka',
+            'address2'      => 'Same',
+            'city'          => 'Dhaka',
+            'zip'           => '32545',
+            'photo'         => null,
+            'role'          => 'admin',
+        ];
+    }
 
-$factory->state(User::class, 'master', [
-    'role' => 'master'
-]);
-
-$factory->state(User::class, 'accountant', [
-    'role' => 'accountant'
-]);
-
-$factory->state(User::class, 'admin', [
-    'role' => 'admin'
-]);
-
-$factory->state(User::class, 'librarian', [
-    'role' => 'librarian'
-]);
-
-$factory->state(User::class, 'teacher', [
-    'role' => 'teacher'
-]);
-
-$factory->state(User::class, 'student', [
-    'role' => 'student'
-]);
+    /**
+     * Indicate that the model's email address should be unverified.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function unverified()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'email_verified_at' => null,
+            ];
+        });
+    }
+}

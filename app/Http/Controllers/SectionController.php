@@ -2,37 +2,44 @@
 
 namespace App\Http\Controllers;
 
-use App\Section as Section;
-use App\Http\Resources\SectionResource;
+use App\Http\Controllers\Controller;
+use App\Models\Section;
 use Illuminate\Http\Request;
+use App\Traits\SchoolSession;
+use App\Interfaces\CourseInterface;
+use App\Interfaces\SectionInterface;
+use App\Http\Requests\SectionStoreRequest;
+use App\Interfaces\SchoolSessionInterface;
 
 class SectionController extends Controller
 {
+    use SchoolSession;
+    
+    protected $schoolSectionRepository;
+    protected $schoolSessionRepository;
+    protected $courseRepository;
+
+    /**
+    * Create a new Controller instance
+    * 
+    * @param SectionInterface $schoolSectionRepository
+    * @return void
+    */
+    public function __construct(SchoolSessionInterface $schoolSessionRepository, SectionInterface $schoolSectionRepository, CourseInterface $courseRepository) {
+        $this->schoolSectionRepository = $schoolSectionRepository;
+        $this->schoolSessionRepository = $schoolSessionRepository;
+        $this->courseRepository = $courseRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-     public function index()
-     {
-      $classes = \App\Myclass::bySchool(\Auth::user()->school->id)
-                  ->get();
-      $classeIds = \App\Myclass::bySchool(\Auth::user()->school->id)
-                    ->pluck('id')
-                    ->toArray();
-      $sections = \App\Section::whereIn('class_id',$classeIds)
-                  ->orderBy('section_number')
-                  ->get();
-      $exams = \App\ExamForClass::whereIn('class_id',$classeIds)
-                  ->where('active', 1)
-                  ->groupBy('class_id')
-                  ->get();
-      return view('school.sections',[
-        'classes'=>$classes,
-        'sections'=>$sections,
-        'exams'=>$exams
-      ]);
-     }
+    public function index()
+    {
+        //
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -47,78 +54,83 @@ class SectionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  SectionStoreRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SectionStoreRequest $request)
     {
-      $request->validate([
-        'section_number' => 'required',
-        'room_number' => 'required|numeric',
-        'class_id' => 'required|numeric',
-      ]);
-      $tb = new Section;
-      $tb->section_number = $request->section_number;
-      $tb->room_number = $request->room_number;
-      $tb->class_id = $request->class_id;
-      $tb->save();
-      return back()->with('status', __('Created'));
+        try {
+            $this->schoolSectionRepository->create($request->validated());
+
+            return back()->with('status', 'Section creation was successful!');
+        } catch (\Exception $e) {
+            return back()->withError($e->getMessage());
+        }
+    }
+
+    public function getByClassId(Request $request) {
+        $sections = $this->schoolSectionRepository->getAllByClassId($request->query('class_id', 0));
+        $courses = $this->courseRepository->getByClassId($request->query('class_id', 0));
+
+        return response()->json(['sections' => $sections, 'courses' => $courses]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Section  $section
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Section $section)
     {
-        return new SectionResource(Section::find($id));
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param $section_id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($section_id)
     {
-        //
+        $current_school_session_id = $this->getSchoolCurrentSession();
+
+        $section = $this->schoolSectionRepository->findById($section_id);
+
+        $data = [
+            'current_school_session_id' => $current_school_session_id,
+            'section_id'                => $section_id,
+            'section'                   => $section,
+        ];
+        return view('sections.edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-      $tb = Section::find($id);
-      $tb->section_number = $request->section_number;
-      $tb->room_number = $request->room_number;
-      $tb->class_id = $request->class_id;
-      return ($tb->save())?response()->json([
-        'status' => 'success'
-      ]):response()->json([
-        'status' => 'error'
-      ]);
+        try {
+            $this->schoolSectionRepository->update($request);
+
+            return back()->with('status', 'Section edit was successful!');
+        } catch (\Exception $e) {
+            return back()->withError($e->getMessage());
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Section  $section
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Section $section)
     {
-      return (Section::destroy($id))?response()->json([
-        'status' => 'success'
-      ]):response()->json([
-        'status' => 'error'
-      ]);
+        //
     }
 }

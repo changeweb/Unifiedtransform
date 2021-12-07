@@ -14,18 +14,13 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        // \App\Http\Middleware\TrustHosts::class,
+        \App\Http\Middleware\TrustProxies::class,
+        \Fruitcake\Cors\HandleCors::class,
+        \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        \App\Http\Middleware\TrustProxies::class,
-//         \RenatoMarinho\LaravelPageSpeed\Middleware\InlineCss::class,
-//         \RenatoMarinho\LaravelPageSpeed\Middleware\ElideAttributes::class,
-//         \RenatoMarinho\LaravelPageSpeed\Middleware\InsertDNSPrefetch::class,
-//         \RenatoMarinho\LaravelPageSpeed\Middleware\RemoveComments::class,
-//         \RenatoMarinho\LaravelPageSpeed\Middleware\TrimUrls::class,
-//         \RenatoMarinho\LaravelPageSpeed\Middleware\RemoveQuotes::class,
-//         \RenatoMarinho\LaravelPageSpeed\Middleware\CollapseWhitespace::class,
     ];
 
     /**
@@ -45,8 +40,8 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            'throttle:60,1',
-            'bindings',
+            'throttle:api',
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
 
@@ -58,19 +53,14 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
-        'master' => \App\Http\Middleware\CheckMaster::class,
-        'master.admin' => \App\Http\Middleware\CheckMasterOrAdmin::class,
-        'teacher.student' => \App\Http\Middleware\CheckTeacherOrStudent::class,
-        'admin' => \App\Http\Middleware\CheckAdmin::class,
-        'accountant' => \App\Http\Middleware\CheckAccountant::class,
-        'librarian' => \App\Http\Middleware\CheckLibrarian::class,
-        'student' => \App\Http\Middleware\CheckStudent::class,
-        'teacher' => \App\Http\Middleware\CheckTeacher::class,
+        'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
+        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     ];
 }
