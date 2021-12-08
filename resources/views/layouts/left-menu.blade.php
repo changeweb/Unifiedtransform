@@ -1,5 +1,5 @@
 <div class="col-xs-1 col-sm-1 col-md-1 col-lg-2 col-xl-2 col-xxl-2 border-rt-e6 px-0">
-    <div class="d-flex flex-column align-items-center align-items-sm-start min-vh-100">
+    <div class="d-flex flex-column align-items-center align-items-sm-start ">
                 <ul class="nav flex-column pt-2 w-100">
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('home')? 'active' : '' }}" href="{{url('home')}}"><i class="ms-auto bi bi-grid"></i> <span class="ms-1 d-inline d-sm-none d-md-none d-xl-inline">{{ __('Dashboard') }}</span></a>
