@@ -89,8 +89,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row row-cols-2 mt-4">
-                    <div class="col">
+                    <div class="row mt-4">
+                        <div class="col-lg-6">
                             <div class="card mb-3">
                                 <div class="card-header bg-transparent"><i class="bi bi-calendar-event me-2"></i> Events</div>
                                 <div class="card-body text-dark">
@@ -110,7 +110,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-lg-6">
                             <div class="card mb-3">
                                 <div class="card-header bg-transparent d-flex justify-content-between"><span><i class="bi bi-megaphone me-2"></i> Notices</span> {{ $notices->links() }}</div>
                                 <div class="card-body p-0 text-dark">
