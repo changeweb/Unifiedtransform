@@ -17,7 +17,7 @@
                     <div class="mb-4">
                         <div class="row" data-masonry='{"percentPosition": true }'>
                             @if ($latest_school_session_id == $current_school_session_id)
-                            <div class="col-4 mb-4">
+                            <div class="col-md-4 mb-4">
                                 <div class="p-3 border bg-light shadow-sm">
                                     <h6>Create Session</h6>
                                     <p class="text-danger">
@@ -33,7 +33,7 @@
                                 </div>
                             </div>
                             @endif
-                            <div class="col-4 mb-4">
+                            <div class="col-md-4 mb-4">
                                 <div class="p-3 border bg-light shadow-sm">
                                     <h6>Browse by Session</h6>
                                     <p class="text-danger">
@@ -56,7 +56,7 @@
                                 </div>
                             </div>
                             @if ($latest_school_session_id == $current_school_session_id)
-                            <div class="col-4 mb-4">
+                            <div class="col-md-4 mb-4">
                                 <div class="p-3 border bg-light shadow-sm">
                                     <h6>Create Semester for Current Session</h6>
                                     <form action="{{route('school.semester.create')}}" method="POST">
@@ -78,7 +78,7 @@
                                 </form>
                                 </div>
                             </div>
-                            <div class="col-4 mb-4">
+                            <div class="col-md-4 mb-4">
                                 <div class="p-3 border bg-light shadow-sm">
                                     <h6>Attendance Type</h6>
                                     <p class="text-danger">
@@ -103,7 +103,7 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="col-4 mb-4">
+                            <div class="col-md-4 mb-4">
                                 <div class="p-3 border bg-light shadow-sm">
                                     <h6>Create Class</h6>
                                     <form action="{{route('school.class.create')}}" method="POST">
@@ -116,7 +116,7 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="col-4 mb-4">
+                            <div class="col-md-4 mb-4">
                                 <div class="p-3 border bg-light shadow-sm">
                                 <h6>Create Section</h6>
                                     <form action="{{route('school.section.create')}}" method="POST">
@@ -142,7 +142,7 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="col-4 mb-4">
+                            <div class="col-md-4 mb-4">
                                 <div class="p-3 border bg-light shadow-sm">
                                     <h6>Create Course</h6>
                                     <form action="{{route('school.course.create')}}" method="POST">
@@ -184,7 +184,7 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="col-4 mb-4">
+                            <div class="col-md-4 mb-4">
                                 <div class="p-3 border bg-light shadow-sm">
                                     <h6>Assign Teacher</h6>
                                     <form action="{{route('school.teacher.assign')}}" method="POST">
@@ -235,7 +235,7 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="col-4 mb-4">
+                            <div class="col-md-4 mb-4">
                                 <div class="p-3 border bg-light shadow-sm">
                                     <h6>Allow Final Marks Submission</h6>
                                     <form action="{{route('school.final.marks.submission.status.update')}}" method="POST">

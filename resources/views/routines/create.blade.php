@@ -16,7 +16,7 @@
                     </nav>
                     @include('session-messages')
                     <div class="row">
-                        <div class="col-5 mb-4">
+                        <div class="col-md-5 mb-4">
                             <div class="p-3 border bg-light shadow-sm">
                                 <form action="{{route('section.routine.store')}}" method="POST">
                                     @csrf

@@ -6,7 +6,7 @@
         @include('layouts.left-menu')
         <div class="col-xs-11 col-sm-11 col-md-11 col-lg-10 col-xl-10 col-xxl-10">
             <div class="row pt-2">
-                <div class="col-6 ps-4">
+                <div class="col-md-5 ps-4">
                     <h1 class="display-6 mb-3"><i class="bi bi-journal-text"></i> Create Syllabus</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
