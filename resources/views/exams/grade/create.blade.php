@@ -10,7 +10,7 @@
                     <h1 class="display-6 mb-3"><i class="bi bi-file-plus"></i> Create Grading System</h1>
                     @include('session-messages')
                     <div class="row">
-                        <div class="col-5 mb-4">
+                        <div class="col-md-5 mb-4">
                             <div class="p-3 border shadow-sm bg-light">
                                 <form action="{{route('exam.grade.system.store')}}" method="POST">
                                     @csrf
