@@ -60,18 +60,21 @@
                     </div>
                     @if($studentCount > 0)
                     <div class="mt-3 d-flex align-items-center">
-                        {{-- <div class="col-9 d-flex flex-row" style="height: 10px;">
-                            <div class="bg-dark border text-white" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px; width: {{($maleStudentsBySession/$studentCount) * 100}}%"> </div>
-                            <div class="bg-white border text-dark" style="border-top-right-radius: 5px; border-bottom-right-radius: 5px; width: {{(($studentCount - $maleStudentsBySession)/$studentCount) * 100}}%"> </div>
-                        </div> --}}
                         <div class="col-3">
                             <span class="ps-2 me-2">Students %</span>
                             <span class="badge rounded-pill border" style="background-color: #0678c8;">Male</span>
                             <span class="badge rounded-pill border" style="background-color: #49a4fe;">Female</span>
                         </div>
+                        @php
+                        $maleStudentPercentage = round(($maleStudentsBySession/$studentCount), 2) * 100;
+                        $maleStudentPercentageStyle = "style='background-color: #0678c8; width: $maleStudentPercentage%'";
+
+                        $femaleStudentPercentage = round((($studentCount - $maleStudentsBySession)/$studentCount), 2) * 100;
+                        $femaleStudentPercentageStyle = "style='background-color: #49a4fe; width: $femaleStudentPercentage%'";
+                        @endphp
                         <div class="col-9 progress">
-                            <div class="progress-bar progress-bar-striped" role="progressbar" style="background-color: #0678c8; width: {{round(($maleStudentsBySession/$studentCount), 2) * 100}}%" aria-valuenow="{{round(($maleStudentsBySession/$studentCount), 2) * 100}}" aria-valuemin="0" aria-valuemax="100">{{round(($maleStudentsBySession/$studentCount), 2) * 100}}%</div>
-                            <div class="progress-bar progress-bar-striped" role="progressbar" style="background-color: #49a4fe; width: {{round((($studentCount - $maleStudentsBySession)/$studentCount), 2) * 100}}%" aria-valuenow="{{round((($studentCount - $maleStudentsBySession)/$studentCount), 2) * 100}}" aria-valuemin="0" aria-valuemax="100">{{round((($studentCount - $maleStudentsBySession)/$studentCount), 2) * 100}}%</div>
+                            <div class="progress-bar progress-bar-striped" role="progressbar" {!!$maleStudentPercentageStyle!!} aria-valuenow="{{$maleStudentPercentage}}" aria-valuemin="0" aria-valuemax="100">{{$maleStudentPercentage}}%</div>
+                            <div class="progress-bar progress-bar-striped" role="progressbar" {!!$femaleStudentPercentageStyle!!} aria-valuenow="{{$femaleStudentPercentage}}" aria-valuemin="0" aria-valuemax="100">{{$femaleStudentPercentage}}%</div>
                           </div>
                     </div>
                     @endif
