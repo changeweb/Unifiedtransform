@@ -94,7 +94,7 @@ With the improved Docker setup, you will get:
 1. Clone or donwload the repository.
 2. Create **purify** folder in `storage/app/` directory.
 3. Run `cp .env.example .env`.
-4. Run `composer up -d`.
+4. Run `docker-compose up -d`.
 5. Run `docker exec -it db sh`. Inside the shell, run:
 
     ```sh
