@@ -2,91 +2,107 @@
 
 namespace App\Http\Controllers;
 
-use App\Syllabus as Syllabus;
-use App\Http\Resources\SyllabusResource;
+use App\Http\Controllers\Controller;
+use App\Models\Syllabus;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Schema;
+use App\Traits\SchoolSession;
+use App\Http\Requests\StoreFileRequest;
+use App\Interfaces\SchoolClassInterface;
+use App\Repositories\SyllabusRepository;
+use App\Interfaces\SchoolSessionInterface;
 
 class SyllabusController extends Controller
 {
+    use SchoolSession;
+    protected $schoolSessionRepository;
+    protected $schoolClassRepository;
+
+    public function __construct(
+        SchoolSessionInterface $schoolSessionRepository,
+        SchoolClassInterface $schoolClassRepository
+    ) {
+        $this->schoolSessionRepository = $schoolSessionRepository;
+        $this->schoolClassRepository = $schoolClassRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-     public function index()
-     {
-        $files = Syllabus::with('myclass')
-                          ->bySchool(\Auth::user()->school_id)
-                          ->where('active',1)
-                          ->get();
-        $classes = \App\Myclass::bySchool(\Auth::user()->school->id)
-                          ->get();
-        return view('syllabus.course-syllabus',['files'=>$files,'classes'=>$classes,'class_id' => 0]);
-     }
+    public function index(Request $request)
+    {
+        $course_id = $request->query('course_id', 0);
+        $syllabusRepository = new SyllabusRepository();
+        $syllabi = $syllabusRepository->getByCourse($course_id);
+
+        $data = [
+            'syllabi'   => $syllabi
+        ];
+
+        return view('syllabi.show', $data);
+    }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(int $class_id)
+    public function create()
     {
-      try{
-        if(Schema::hasColumn('syllabuses','class_id')){
-          $files = Syllabus::with('myclass')
-                          ->bySchool(\Auth::user()->school_id)
-                          ->where('class_id', $class_id)
-                          ->where('active',1)
-                          ->get();
-          $classes = \App\Myclass::bySchool(\Auth::user()->school->id)
-                          ->get();
-        } else {
-          return '<code>class_id</code> column missing. Run <code>php artisan migrate</code>';
-        }
-      } catch(Exception $ex){
-        return 'Something went wrong!!';
-      }
+        $current_school_session_id = $this->getSchoolCurrentSession();
 
-      return view('syllabus.course-syllabus',['files'=>$files,'classes'=>$classes,'class_id'=>$class_id]);
+        $school_classes = $this->schoolClassRepository->getAllBySession($current_school_session_id);
+
+        $data = [
+            'current_school_session_id' => $current_school_session_id,
+            'school_classes'    => $school_classes,
+        ];
+        return view('syllabi.create', $data);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  StoreFileRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreFileRequest $request)
     {
-      $tb = new Syllabus;
-      $tb->file_path = $request->file_path;
-      $tb->title = $request->title;
-      $tb->active = 1;
-      $tb->school_id = \Auth::user()->school_id;
-      $tb->user_id = \Auth::user()->id;
-      $tb->save();
-      return back()->with('status', __('Uploaded'));
+        $validatedRequest = $request->validated();
+        $validatedRequest['class_id'] = $request->class_id;
+        $validatedRequest['course_id'] = $request->course_id;
+        $validatedRequest['syllabus_name'] = $request->syllabus_name;
+        $validatedRequest['session_id'] = $this->getSchoolCurrentSession();
+
+        try {
+            $syllabusRepository = new SyllabusRepository();
+            $syllabusRepository->store($validatedRequest);
+
+            return back()->with('status', 'Creating syllabus was successful!');
+        } catch (\Exception $e) {
+            return back()->withError($e->getMessage());
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Syllabus  $syllabus
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Syllabus $syllabus)
     {
-        return new SyllabusResource(Syllabus::find($id));
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Syllabus  $syllabus
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Syllabus $syllabus)
     {
         //
     }
@@ -95,29 +111,22 @@ class SyllabusController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Syllabus  $syllabus
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Request $request, Syllabus $syllabus)
     {
-      $tb = Syllabus::find($id);
-      $tb->active = 0;
-      $tb->save();
-      return back()->with('status',__('File removed'));
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Syllabus  $syllabus
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Syllabus $syllabus)
     {
-      return (Syllabus::destroy($id))?response()->json([
-        'status' => 'success'
-      ]):response()->json([
-        'status' => 'error'
-      ]);
+        //
     }
 }

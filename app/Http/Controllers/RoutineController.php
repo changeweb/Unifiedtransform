@@ -2,116 +2,102 @@
 
 namespace App\Http\Controllers;
 
-use App\Routine as Routine;
-use App\Http\Resources\RoutineResource;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\RoutineStoreRequest;
+use App\Models\Routine;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Schema;
+use App\Traits\SchoolSession;
+use App\Repositories\RoutineRepository;
+use App\Interfaces\SchoolClassInterface;
+use App\Interfaces\SchoolSessionInterface;
 
 class RoutineController extends Controller
 {
+    use SchoolSession;
+    protected $schoolSessionRepository;
+    protected $schoolClassRepository;
+
+    public function __construct(SchoolSessionInterface $schoolSessionRepository, SchoolClassInterface $schoolClassRepository)
+    {
+        $this->schoolSessionRepository = $schoolSessionRepository;
+        $this->schoolClassRepository = $schoolClassRepository;
+    }
+    
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-     public function index()
-     {
-       $files = Routine::with('section')
-                        ->bySchool(\Auth::user()->school_id)
-                        ->where('active',1)
-                        ->get();
-        $classes = \App\Myclass::bySchool(\Auth::user()->school->id)
-                        ->get();
-        $classeIds = \App\Myclass::bySchool(\Auth::user()->school->id)
-                        ->pluck('id')
-                        ->toArray();
-        $sections = \App\Section::whereIn('class_id',$classeIds)
-                      ->orderBy('section_number')
-                      ->get();
-        return view('routines.create',[
-          'files'=>$files,
-          'classes'=>$classes,
-          'sections'=>$sections,
-          'section_id' => 0
-        ]);
-     }
+    public function index()
+    {
+        //
+    }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(int $section_id)
+    public function create()
     {
-      try{
-        if(Schema::hasColumn('routines','section_id')){
-          $files = Routine::with('section')
-                          ->bySchool(\Auth::user()->school_id)
-                          ->where('section_id', $section_id)
-                          ->where('active',1)
-                          ->get();
-          $classes = \App\Myclass::bySchool(\Auth::user()->school->id)
-                          ->get();
-          $classeIds = \App\Myclass::bySchool(\Auth::user()->school->id)
-                          ->pluck('id')
-                          ->toArray();
-          $sections = \App\Section::whereIn('class_id',$classeIds)
-                        ->orderBy('section_number')
-                        ->get();
-        } else {
-          return '<code>section_id</code> column missing. Run <code>php artisan migrate</code>';
-        }
-      } catch(Exception $ex){
-        return __('Something went wrong!!');
-      }
-      return view('routines.create',[
-        'files'=>$files,
-        'classes'=>$classes,
-        'sections'=>$sections,
-        'section_id'=>$section_id
-      ]);
+        $current_school_session_id = $this->getSchoolCurrentSession();
+        $school_classes = $this->schoolClassRepository->getAllBySession($current_school_session_id);
+
+        $data = [
+            'current_school_session_id' => $current_school_session_id,
+            'classes'                   => $school_classes,
+        ];
+
+        return view('routines.create', $data);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  RoutineStoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RoutineStoreRequest $request)
     {
-      $request->validate([
-        'file_path' => 'required|string|max:255',
-        'title' => 'required|string|max:255',
-      ]);
-      $tb = new Routine;
-      $tb->file_path = $request->file_path;
-      $tb->title = $request->title;
-      $tb->active = 1;
-      $tb->school_id = \Auth::user()->school_id;
-      $tb->user_id = \Auth::user()->id;
-      $tb->save();
-      return back()->with('status', __('Uploaded'));
+        try {
+            $routineRepository = new RoutineRepository();
+            $routineRepository->saveRoutine($request->validated());
+
+            return back()->with('status', 'Routine save was successful!');
+        } catch (\Exception $e) {
+            return back()->withError($e->getMessage());
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $routine
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        return new RoutineResource(Routine::find($id));
+        $class_id = $request->query('class_id', 0);
+        $section_id = $request->query('section_id', 0);
+        $current_school_session_id = $this->getSchoolCurrentSession();
+        $routineRepository = new RoutineRepository();
+        $routines = $routineRepository->getAll($class_id, $section_id, $current_school_session_id);
+        $routines = $routines->sortBy('weekday')->groupBy('weekday');
+
+        $data = [
+            'routines' => $routines
+        ];
+
+        return view('routines.show', $data);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Routine  $routine
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Routine $routine)
     {
         //
     }
@@ -120,29 +106,22 @@ class RoutineController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Routine  $routine
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Request $request, Routine $routine)
     {
-      $tb = Routine::find($id);
-      $tb->active = 0;
-      $tb->save();
-      return back()->with('status',__('File removed'));
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Routine  $routine
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Routine $routine)
     {
-      return (Routine::destroy($id))?response()->json([
-        'status' => 'success'
-      ]):response()->json([
-        'status' => 'error'
-      ]);
+        //
     }
 }

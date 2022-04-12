@@ -1,17 +1,28 @@
 <?php
 
-use App\Section;
-use App\Myclass;
-use Faker\Generator as Faker;
+namespace Database\Factories;
 
-$factory->define(Section::class, function (Faker $faker) {
-    return [
-        'section_number' => $faker->randomElement(['A', 'B','C','D','E','F','G','H','I','J','K','L','M']),
-        'room_number'    => $faker->randomDigitNotNull,
-        'class_id'       => function() use ($faker) {
-            if (Myclass::count())
-                return $faker->randomElement(Myclass::pluck('id')->toArray());
-            else return factory(Myclass::class)->create()->id;
-        },
-    ];
-});
+use App\Models\Section;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class SectionFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Section::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            //
+        ];
+    }
+}

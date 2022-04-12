@@ -2,146 +2,183 @@
 
 namespace App\Http\Controllers;
 
-use App\Attendance;
-use App\User;
-use App\Http\Resources\AttendanceResource;
+use App\Http\Controllers\Controller;
+use App\Models\Attendance;
 use Illuminate\Http\Request;
-use App\Http\Requests\Attendance\StoreAttendanceRequest;
-use App\Http\Traits\GradeTrait;
-use App\Services\Attendance\AttendanceService;
+use App\Interfaces\UserInterface;
+use App\Interfaces\SchoolClassInterface;
+use App\Interfaces\SchoolSessionInterface;
+use App\Interfaces\AcademicSettingInterface;
+use App\Http\Requests\AttendanceStoreRequest;
+use App\Interfaces\SectionInterface;
+use App\Repositories\AttendanceRepository;
+use App\Repositories\CourseRepository;
+use App\Traits\SchoolSession;
 
 class AttendanceController extends Controller
 {
-    use GradeTrait;
-    
-    protected $attendanceService;
+    use SchoolSession;
+    protected $academicSettingRepository;
+    protected $schoolSessionRepository;
+    protected $schoolClassRepository;
+    protected $sectionRepository;
+    protected $userRepository;
 
-    public function __construct(AttendanceService $attendanceService){
-      $this->attendanceService = $attendanceService;
+    public function __construct(
+        UserInterface $userRepository,
+        AcademicSettingInterface $academicSettingRepository,
+        SchoolSessionInterface $schoolSessionRepository,
+        SchoolClassInterface $schoolClassRepository,
+        SectionInterface $sectionRepository
+    ) {
+        $this->middleware(['can:view attendances']);
+
+        $this->userRepository = $userRepository;
+        $this->academicSettingRepository = $academicSettingRepository;
+        $this->schoolSessionRepository = $schoolSessionRepository;
+        $this->schoolClassRepository = $schoolClassRepository;
+        $this->sectionRepository = $sectionRepository;
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($section_id, $student_id, $exam_id)
+    public function index()
     {
-      if($section_id > 0 && \Auth::user()->role != 'student'){
-        // View attendances of students of a section
-        $students = $this->attendanceService->getStudentsBySection($section_id);
-        $attendances = $this->attendanceService->getTodaysAttendanceBySectionId($section_id);
-        $attCount = $this->attendanceService->getAllAttendanceBySecAndExam($section_id,$exam_id);
+        return back();
+        // $academic_setting = $this->academicSettingRepository->getAcademicSetting();
 
-        return view('attendance.attendance', [
-          'students' => $students,
-          'attendances' => $attendances,
-          'attCount' => $attCount,
-          'section_id'=>$section_id,
-          'exam_id'=>$exam_id
-        ]);
-      } else {
-        // View attendance of a single student by student id
-        if(\Auth::user()->role == 'student'){
-          // From student view
-          $exam = \App\ExamForClass::where('class_id',\Auth::user()->section->class->id)
-                  ->where('active', 1)
-                  ->first();
-        } else {
-          // From other users view
-          $student = $this->attendanceService->getStudent($student_id);
-          $exam = \App\ExamForClass::where('class_id',$student->section->class->id)
-                  ->where('active', 1)
-                  ->first();
+        // $current_school_session_id = $this->getSchoolCurrentSession();
+
+        // $classes_and_sections = $this->schoolClassRepository->getClassesAndSections($current_school_session_id);
+        // $courseRepository = new CourseRepository();
+        // $courses = $courseRepository->getAll($current_school_session_id);
+
+        // $data = [
+        //     'academic_setting'      => $academic_setting,
+        //     'classes_and_sections'  => $classes_and_sections,
+        //     'courses'               => $courses,
+        // ];
+
+        // return view('attendances.index', $data);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function create(Request $request)
+    {
+        if($request->query('class_id') == null){
+            return abort(404);
         }
-        if($exam)
-          $exId = $exam->exam_id;
-        else
-          $exId = 0;
-        $attendances = $this->attendanceService->getAttendanceByStudentAndExam($student_id, $exId);
-        return view('attendance.student-attendances',['attendances' => $attendances]);
-      }
-    }
-    /**
-     * View for Adjust missing Attendances
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function adjust($student_id){
-      $student = $this->attendanceService->getStudent($student_id);
-      $exam = \App\ExamForClass::where('class_id',$student->section->class->id)
-                  ->where('active', 1)
-                  ->first();
-      if(count((array) $exam) == 1)
-        $exId = $exam->exam_id;
-      else
-        $exId = 0;
-      $attendances = $this->attendanceService->getAbsentAttendanceByStudentAndExam($student_id, $exId);
-      return view('attendance.adjust',['attendances'=>$attendances,'student_id'=>$student_id]);
-    }
-    /**
-     * @param  \Illuminate\Http\Request  $request
-     * Adjust missing Attendances POST request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function adjustPost(Request $request){
-      $request->validate([
-        'att_id' => 'required|array',
-      ]);
-      return $this->attendanceService->adjustPost($request);
-    }
-    /**
-      * Add students to a Course before taking attendances
-      * @return \Illuminate\Http\Response
-    */
-    public function addStudentsToCourseBeforeAtt($teacher_id,$course_id,$exam_id,$section_id){
-      $this->addStudentsToCourse($teacher_id,$course_id,$exam_id,$section_id);
-       
-        $students = $this->attendanceService->getStudentsBySection($section_id);
-        $attendances = $this->attendanceService->getTodaysAttendanceBySectionId($section_id);
-        $attCount = $this->attendanceService->getAllAttendanceBySecAndExam($section_id,$exam_id);
+        try{
+            $academic_setting = $this->academicSettingRepository->getAcademicSetting();
+            $current_school_session_id = $this->getSchoolCurrentSession();
 
-        return view('attendance.attendance', [
-          'students' => $students,
-          'attendances' => $attendances,
-          'attCount' => $attCount,
-          'section_id'=>$section_id,
-          'exam_id'=>$exam_id
-        ]);
-    }
-    /**
-     * @param  \Illuminate\Http\Request  $request
-     * View students of a section to view attendances
-     * @return \Illuminate\Http\Response
-    */
-    public function sectionIndex(Request $request, $section_id){
-      $users = $this->attendanceService->getStudentsWithInfoBySection($section_id);
+            $class_id = $request->query('class_id');
+            $section_id = $request->query('section_id', 0);
+            $course_id = $request->query('course_id');
 
-      $request->session()->put('section-attendance', true);
+            $student_list = $this->userRepository->getAllStudents($current_school_session_id, $class_id, $section_id);
 
-      return view('list.student-list',[
-        'users' =>$users,
-        'current_page'=>$users->currentPage(),
-        'per_page'=>$users->perPage()
-      ]);
+            $school_class = $this->schoolClassRepository->findById($class_id);
+            $school_section = $this->sectionRepository->findById($section_id);
+
+            $attendanceRepository = new AttendanceRepository();
+
+            if($academic_setting->attendance_type == 'section') {
+                $attendance_count = $attendanceRepository->getSectionAttendance($class_id, $section_id, $current_school_session_id)->count();
+            } else {
+                $attendance_count = $attendanceRepository->getCourseAttendance($class_id, $course_id, $current_school_session_id)->count();
+            }
+
+            $data = [
+                'current_school_session_id' => $current_school_session_id,
+                'academic_setting'  => $academic_setting,
+                'student_list'      => $student_list,
+                'school_class'      => $school_class,
+                'school_section'    => $school_section,
+                'attendance_count'  => $attendance_count,
+            ];
+
+            return view('attendances.take', $data);
+        } catch (\Exception $e) {
+            return back()->withError($e->getMessage());
+        }
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
+     * @param  \Illuminate\Http\AttendanceStoreRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(AttendanceStoreRequest $request)
+    {
+        try {
+            $attendanceRepository = new AttendanceRepository();
+            $attendanceRepository->saveAttendance($request->validated());
+
+            return back()->with('status', 'Attendance save was successful!');
+        } catch (\Exception $e) {
+            return back()->withError($e->getMessage());
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreAttendanceRequest $request)
+    public function show(Request $request)
     {
-      $this->attendanceService->request = $request;
-      if($request->update == 1){
-        $at = $this->attendanceService->updateAttendance();
-        if(isset($at))
-          if(count($at) > 0)
-            Attendance::insert($at);
-      } else {
-        $this->attendanceService->storeAttendance();
-      }
-      return back()->with('status',__('Saved'));
+        if($request->query('class_id') == null){
+            return abort(404);
+        }
+
+        $current_school_session_id = $this->getSchoolCurrentSession();
+
+        $class_id = $request->query('class_id');
+        $section_id = $request->query('section_id');
+        $course_id = $request->query('course_id');
+
+        $attendanceRepository = new AttendanceRepository();
+
+        try {
+            $academic_setting = $this->academicSettingRepository->getAcademicSetting();
+            if($academic_setting->attendance_type == 'section') {
+                $attendances = $attendanceRepository->getSectionAttendance($class_id, $section_id, $current_school_session_id);
+            } else {
+                $attendances = $attendanceRepository->getCourseAttendance($class_id, $course_id, $current_school_session_id);
+            }
+            $data = ['attendances' => $attendances];
+            
+            return view('attendances.view', $data);
+        } catch (\Exception $e) {
+            return back()->withError($e->getMessage());
+        }
+    }
+
+    public function showStudentAttendance($id) {
+        if(auth()->user()->role == "student" && auth()->user()->id != $id) {
+            return abort(404);
+        }
+        $current_school_session_id = $this->getSchoolCurrentSession();
+
+        $attendanceRepository = new AttendanceRepository();
+        $attendances = $attendanceRepository->getStudentAttendance($current_school_session_id, $id);
+        $student = $this->userRepository->findStudent($id);
+
+        $data = [
+            'attendances'   => $attendances,
+            'student'       => $student,
+        ];
+
+        return view('attendances.attendance', $data);
     }
 }

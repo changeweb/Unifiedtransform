@@ -1,186 +1,150 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-    .badge-download {
-        background-color: transparent !important;
-        color: #464443 !important;
-    }
-    .list-group-item-text{
-      font-size: 12px;
-    }
-</style>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2" id="side-navbar">
-            @include('layouts.leftside-menubar')
-        </div>
-        <div class="col-md-10" id="main-container">
-            <div class="panel panel-default" style="border-top: 0px;">
-                <div class="panel-body">
-                    @if (session('status'))
-                    <div class="alert alert-success">
-                        {{ session('status') }}
+<div class="container">
+    <div class="row justify-content-start">
+        @include('layouts.left-menu')
+        <div class="col-xs-11 col-sm-11 col-md-11 col-lg-10 col-xl-10 col-xxl-10">
+            <div class="row pt-3">
+                <div class="col ps-4">
+                    <!-- <h1 class="display-6 mb-3"><i class="ms-auto bi bi-grid"></i> {{ __('Dashboard') }}</h1> -->
+                    <div class="row dashboard">
+                        <div class="col">
+                            <div class="card rounded-pill">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div class="ms-2 me-auto">
+                                            <div class="fw-bold"><i class="bi bi-person-lines-fill me-3"></i> Total Students</div>
+                                        </div>
+                                        <span class="badge bg-dark rounded-pill">{{$studentCount}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card rounded-pill">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div class="ms-2 me-auto">
+                                            <div class="fw-bold"><i class="bi bi-person-lines-fill me-3"></i> Total Teachers</div>
+                                        </div>
+                                        <span class="badge bg-dark rounded-pill">{{$teacherCount}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card rounded-pill">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div class="ms-2 me-auto">
+                                            <div class="fw-bold"><i class="bi bi-diagram-3 me-3"></i> Total Classes</div>
+                                        </div>
+                                        <span class="badge bg-dark rounded-pill">{{ $classCount }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- <div class="col">
+                            <div class="card rounded-pill">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div class="ms-2 me-auto">
+                                            <div class="fw-bold">Total Books</div>
+                                        </div>
+                                        <span class="badge bg-dark rounded-pill">800</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> --}}
+                    </div>
+                    @if($studentCount > 0)
+                    <div class="mt-3 d-flex align-items-center">
+                        <div class="col-3">
+                            <span class="ps-2 me-2">Students %</span>
+                            <span class="badge rounded-pill border" style="background-color: #0678c8;">Male</span>
+                            <span class="badge rounded-pill border" style="background-color: #49a4fe;">Female</span>
+                        </div>
+                        @php
+                        $maleStudentPercentage = round(($maleStudentsBySession/$studentCount), 2) * 100;
+                        $maleStudentPercentageStyle = "style='background-color: #0678c8; width: $maleStudentPercentage%'";
+
+                        $femaleStudentPercentage = round((($studentCount - $maleStudentsBySession)/$studentCount), 2) * 100;
+                        $femaleStudentPercentageStyle = "style='background-color: #49a4fe; width: $femaleStudentPercentage%'";
+                        @endphp
+                        <div class="col-9 progress">
+                            <div class="progress-bar progress-bar-striped" role="progressbar" {!!$maleStudentPercentageStyle!!} aria-valuenow="{{$maleStudentPercentage}}" aria-valuemin="0" aria-valuemax="100">{{$maleStudentPercentage}}%</div>
+                            <div class="progress-bar progress-bar-striped" role="progressbar" {!!$femaleStudentPercentageStyle!!} aria-valuenow="{{$femaleStudentPercentage}}" aria-valuemin="0" aria-valuemax="100">{{$femaleStudentPercentage}}%</div>
+                          </div>
                     </div>
                     @endif
-                    <div class="row">
-                        <div class="page-panel-title">@lang('Dashboard')</div>
-                        <div class="col-sm-2">
-                            <div class="card text-white bg-primary mb-3">
-                                <div class="card-header">@lang('Students') - <b>{{$totalStudents}}</b></div>
+                    <div class="row align-items-md-stretch mt-4">
+                        <div class="col">
+                            <div class="p-3 text-white bg-dark rounded-3">
+                                <h3>Welcome to Unifiedtransform!</h3>
+                                <p><i class="bi bi-emoji-heart-eyes"></i> Thanks for your love and support.</p>
                             </div>
                         </div>
-                        <div class="col-sm-2">
-                            <div class="card text-white bg-success mb-3">
-                                <div class="card-header">@lang('Teachers') - <b>{{$totalTeachers}}</b></div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="card text-white bg-dark mb-3">
-                                <div class="card-header">@lang('Types of Books In Library') - <b>{{$totalBooks}}</b></div>
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="card text-white bg-danger mb-3">
-                                <div class="card-header">@lang('Classes') - <b>{{$totalClasses}}</b></div>
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="card text-white bg-info mb-3">
-                                <div class="card-header">@lang('Sections') - <b>{{$totalSections}}</b></div>
+                        <div class="col">
+                            <div class="p-3 bg-white border rounded-3" style="height: 100%;">
+                                <h3>Manage school better</h3>
+                                <p class="text-end">with <i class="bi bi-lightning"></i> <a href="https://github.com/changeweb/Unifiedtransform" target="_blank" style="text-decoration: none;">Unifiedtransform</a> <i class="bi bi-lightning"></i>.</p>
                             </div>
                         </div>
                     </div>
-                    <p></p>
-                    <div class="row">
-                        <div class="col-sm-8">
-                            <div class="panel panel-default" style="background-color: rgba(242,245,245,0.8);">
-                                <div class="panel-body">
-                                    <h3>@lang('Welcome to') {{Auth::user()->school->name}}</h3>
-                                    @lang('Your presence and cooperation will help us to improve the education system of our organization.')
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="page-panel-title">@lang('Active Exams')</div>
-                                <div class="panel-body">
-                                    @if(count($exams) > 0)
-                                    <table class="table">
-                                        <tr>
-                                            <th>@lang('Exam Name')</th>
-                                            <th>@lang('Notice Published')</th>
-                                            <th>@lang('Result Published')</th>
-                                        </tr>
-                                        @foreach($exams as $exam)
-                                        <tr>
-                                            <td>{{$exam->exam_name}}</td>
-                                            <td>{{($exam->notice_published === 1)?__('Yes'):__('No')}}</td>
-                                            <td>{{($exam->result_published === 1)?__('Yes'):__('No')}}</td>
-                                        </tr>
-                                        @endforeach
-                                    </table>
-                                    @else
-                                    @lang('No Active Examination')
-                                    @endif
+                    <div class="row mt-4">
+                        <div class="col-lg-6">
+                            <div class="card mb-3">
+                                <div class="card-header bg-transparent"><i class="bi bi-calendar-event me-2"></i> Events</div>
+                                <div class="card-body text-dark">
+                                    @include('components.events.event-calendar', ['editable' => 'false', 'selectable' => 'false'])
+                                    {{-- <div class="overflow-auto" style="height: 250px;">
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item list-group-item-action">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">List group item heading</h5>
+                                                <small>3 days ago</small>
+                                                </div>
+                                                <p class="mb-1">Some placeholder content in a paragraph.</p>
+                                                <small>And some small print.</small>
+                                            </a>
+                                        </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4">
-                            <div class="panel panel-default">
-                                <div class="page-panel-title">@lang('Notices')</div>
-                                <div class="panel-body pre-scrollable">
-                                    @if(count($notices) > 0)
-                                    <div class="list-group">
-                                        @foreach($notices as $notice)
-                                        <a href="{{url($notice->file_path)}}" class="list-group-item" download>
-                                            <i class="badge badge-download material-icons">
-                                                get_app
-                                            </i>
-                                            <h5 class="list-group-item-heading">{{$notice->title}}</h5>
-                                            <p class="list-group-item-text">@lang('Published at'):
-                                                {{$notice->created_at->format('M d Y h:i:sa')}}</p>
-                                        </a>
-                                        @endforeach
+                        <div class="col-lg-6">
+                            <div class="card mb-3">
+                                <div class="card-header bg-transparent d-flex justify-content-between"><span><i class="bi bi-megaphone me-2"></i> Notices</span> {{ $notices->links() }}</div>
+                                <div class="card-body p-0 text-dark">
+                                    <div>
+                                        @isset($notices)
+                                        <div class="accordion accordion-flush" id="noticeAccordion">
+                                            @foreach ($notices as $notice)
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="flush-heading{{$notice->id}}">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{$notice->id}}" aria-expanded={{($loop->first)?"true":"false"}} aria-controls="flush-collapse{{$notice->id}}">
+                                                        Published at: {{$notice->created_at}}
+                                                    </button>
+                                                </h2>
+                                                <div id="flush-collapse{{$notice->id}}" class="accordion-collapse collapse {{($loop->first)?"show":"hide"}}" aria-labelledby="flush-heading{{$notice->id}}" data-bs-parent="#noticeAccordion">
+                                                    <div class="accordion-body overflow-auto">{!!Purify::clean($notice->notice)!!}</div>
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                            @endisset
+                                            @if(count($notices) < 1)
+                                                <div class="p-3">No notices</div>
+                                            @endif
+                                        </div>
                                     </div>
-                                    @else
-                                    @lang('No New Notice')
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="panel panel-default">
-                                <div class="page-panel-title">@lang('Events')</div>
-                                <div class="panel-body pre-scrollable">
-                                    @if(count($events) > 0)
-                                    <div class="list-group">
-                                        @foreach($events as $event)
-                                        <a href="{{url($event->file_path)}}" class="list-group-item" download>
-                                            <i class="badge badge-download material-icons">
-                                                get_app
-                                            </i>
-                                            <h5 class="list-group-item-heading">{{$event->title}}</h5>
-                                            <p class="list-group-item-text">@lang('Published at'):
-                                                {{$event->created_at->format('M d Y')}}</p>
-                                        </a>
-                                        @endforeach
-                                    </div>
-                                    @else
-                                    @lang('No New Event')
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="panel panel-default">
-                                <div class="page-panel-title">@lang('Routines')</div>
-                                <div class="panel-body pre-scrollable">
-                                    @if(count($routines) > 0)
-                                    <div class="list-group">
-                                        @foreach($routines as $routine)
-                                        <a href="{{url($routine->file_path)}}" class="list-group-item" download>
-                                            <i class="badge badge-download material-icons">
-                                                get_app
-                                            </i>
-                                            <h5 class="list-group-item-heading">{{$routine->title}}</h5>
-                                            <p class="list-group-item-text">@lang('Published at'):
-                                                {{$routine->created_at->format('M d Y')}}</p>
-                                        </a>
-                                        @endforeach
-                                    </div>
-                                    @else
-                                    @lang('No New Routine')
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="panel panel-default">
-                                <div class="page-panel-title">@lang('Syllabus')</div>
-                                <div class="panel-body pre-scrollable">
-                                    @if(count($syllabuses) > 0)
-                                    <div class="list-group">
-                                        @foreach($syllabuses as $syllabus)
-                                        <a href="{{url($syllabus->file_path)}}" class="list-group-item" download>
-                                            <i class="badge badge-download material-icons">
-                                                get_app
-                                            </i>
-                                            <h5 class="list-group-item-heading">{{$syllabus->title}}</h5>
-                                            <p class="list-group-item-text">@lang('Published at'):
-                                                {{$syllabus->created_at->format('M d Y')}}</p>
-                                        </a>
-                                        @endforeach
-                                    </div>
-                                    @else
-                                    @lang('No New Syllabus')
-                                    @endif
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            @include('layouts.footer')
         </div>
     </div>
 </div>

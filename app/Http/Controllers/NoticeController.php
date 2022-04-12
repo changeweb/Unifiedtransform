@@ -2,21 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Notice as Notice;
-use App\Http\Resources\NoticeResource;
+use App\Http\Controllers\Controller;
+use App\Models\Notice;
 use Illuminate\Http\Request;
+use App\Traits\SchoolSession;
+use App\Repositories\NoticeRepository;
+use App\Http\Requests\NoticeStoreRequest;
+use App\Interfaces\SchoolSessionInterface;
 
 class NoticeController extends Controller
 {
+    use SchoolSession;
+    
+    protected $schoolSessionRepository;
+
+    public function __construct(SchoolSessionInterface $schoolSessionRepository) {
+        $this->schoolSessionRepository = $schoolSessionRepository;
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-     public function index()
-     {
-       //Notice::bySchool(\Auth::user()->school_id)->get();
-     }
+    public function index()
+    {
+        //
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -25,46 +36,46 @@ class NoticeController extends Controller
      */
     public function create()
     {
-      $files = Notice::bySchool(\Auth::user()->school_id)->where('active',1)->get();
-      return view('notices.create',['files'=>$files]);
+        $current_school_session_id = $this->getSchoolCurrentSession();
+        return view('notices.create', compact('current_school_session_id'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  NoticeStoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NoticeStoreRequest $request)
     {
-      $tb = new Notice;
-      $tb->file_path = $request->file_path;
-      $tb->title = $request->title;
-      $tb->active = 1;
-      $tb->school_id = \Auth::user()->school_id;
-      $tb->user_id = \Auth::user()->id;
-      $tb->save();
-      return back()->with('status', __('Uploaded'));
+        try {
+            $noticeRepository = new NoticeRepository();
+            $noticeRepository->store($request->validated());
+
+            return back()->with('status', 'Creating Notice was successful!');
+        } catch (\Exception $e) {
+            return back()->withError($e->getMessage());
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Notice  $notice
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Notice $notice)
     {
-        return new NoticeResource(Notice::find($id));
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Notice  $notice
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Notice $notice)
     {
         //
     }
@@ -72,29 +83,23 @@ class NoticeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Notice  $notice
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Request $request, Notice $notice)
     {
-      $tb = Notice::find($id);
-      $tb->active = 0;
-      $tb->save();
-      return back()->with('status',__('File removed'));
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Notice  $notice
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Notice $notice)
     {
-      return (Notice::destroy($id))?response()->json([
-        'status' => 'success'
-      ]):response()->json([
-        'status' => 'error'
-      ]);
+        //
     }
 }

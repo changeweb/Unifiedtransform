@@ -2,100 +2,69 @@
 
 namespace App\Http\Controllers;
 
-use App\Event as Event;
-use App\Http\Resources\EventResource;
+use App\Http\Controllers\Controller;
+use App\Models\Event;
 use Illuminate\Http\Request;
+use App\Traits\SchoolSession;
+use App\Interfaces\SchoolSessionInterface;
 
 class EventController extends Controller
 {
+    use SchoolSession;
+    protected $schoolSessionRepository;
+
+    public function __construct(SchoolSessionInterface $schoolSessionRepository) {
+        $this->schoolSessionRepository = $schoolSessionRepository;
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($class_id)
+    public function index(Request $request)
     {
-      return ($class_id > 0)? EventResource::collection(Event::where('class_id', $class_id)->get()):response()->json(['Invalid Class id: '. $class_id, 404]);
+        if($request->ajax()) {
+            $current_school_session_id = $this->getSchoolCurrentSession();
+
+            $data = Event::whereDate('start', '>=', $request->start)
+                    ->whereDate('end',   '<=', $request->end)
+                    ->where('session_id', $current_school_session_id)
+                    ->get(['id', 'title', 'start', 'end']);
+            return response()->json($data);
+        }
+        return view('events.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function calendarEvents(Request $request)
     {
-      $files = Event::bySchool(\Auth::user()->school_id)->where('active',1)->get();
-      return view('events.create',['files'=>$files]);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-      $tb = new Event;
-      $tb->file_path = $request->file_path;
-      $tb->title = $request->title;
-      $tb->active = 1;
-      $tb->school_id = \Auth::user()->school_id;
-      $tb->user_id = \Auth::user()->id;
-      $tb->save();
-      return back()->with('status', __('Uploaded'));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        return new EventResource(Event::find($id));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update($id)
-    {
-      $tb = Event::find($id);
-      $tb->active = 0;
-      $tb->save();
-      return back()->with('status','File removed');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-      return (Event::destroy($id))?response()->json([
-        'status' => 'success'
-      ]):response()->json([
-        'status' => 'error'
-      ]);
+        $current_school_session_id = $this->getSchoolCurrentSession();
+        $event = null;
+        switch ($request->type) {
+            case 'create':
+                $event = Event::create([
+                    'title' => $request->title,
+                    'start' => $request->start,
+                    'end' => $request->end,
+                    'session_id' => $current_school_session_id
+                ]);
+                break;
+  
+            case 'edit':
+                $event = Event::find($request->id)->update([
+                    'title' => $request->title,
+                    'start' => $request->start,
+                    'end' => $request->end,
+                ]);
+                break;
+  
+            case 'delete':
+                $event = Event::find($request->id)->delete();
+                break;
+             
+            default:
+                break;
+        }
+        dd($event);
+        return response()->json($event);
     }
 }

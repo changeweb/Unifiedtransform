@@ -1,27 +1,31 @@
 @extends('layouts.app')
 
-@section('title', __('Add Notice'))
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2" id="side-navbar">
-            @include('layouts.leftside-menubar')
-        </div>
-        <div class="col-md-10" id="main-container">
-            <div class="panel panel-default">
-                <div class="page-panel-title">@lang('Add Notice')</div>
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    @component('components.file-uploader',['upload_type'=>'notice'])
-                    @endcomponent
-                    @component('components.uploaded-files-list',['files'=>$files,'upload_type'=>'notice'])
-                    @endcomponent
+<div class="container">
+    <div class="row justify-content-start">
+        @include('layouts.left-menu')
+        <div class="col-xs-11 col-sm-11 col-md-11 col-lg-10 col-xl-10 col-xxl-10">
+            <div class="row pt-2">
+                <div class="col ps-4">
+                    <h1 class="display-6 mb-3"><i class="bi bi-megaphone"></i> Create Notice</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Create Notice</li>
+                        </ol>
+                    </nav>
+                    @include('session-messages')
+                    <div class="row">
+                        <form action="{{route('notice.store')}}" method="POST">
+                            @csrf
+                            <input type="hidden" name="session_id" value="{{$current_school_session_id}}">
+                            @include('components.ckeditor.editor', ['name' => 'notice'])
+                            <button type="submit" class="btn btn-outline-primary"><i class="bi bi-check2"></i> Save</button>
+                        </form>
+                    </div>
                 </div>
             </div>
+            @include('layouts.footer')
         </div>
     </div>
 </div>
