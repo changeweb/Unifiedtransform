@@ -2,7 +2,7 @@
 
 ## Version 2.X is here!!
 
-For Version 1.X, view [releases](https://github.com/changeweb/Unifiedtransform/releases).
+For Version 1.X, view [releases](https://github.com/changeweb/Unifiedtransform/releases). Continuation of Version 1.X support in **[v1-x-branch](https://github.com/changeweb/Unifiedtransform/tree/v1-x-branch)** branch.
 </p>
 <p align="center">
 School Management and Accounting Software
