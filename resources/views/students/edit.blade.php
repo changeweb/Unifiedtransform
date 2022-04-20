@@ -38,7 +38,7 @@
                                 </div>
                                 <div class="col-3">
                                     <label for="inputBirthday" class="form-label">Birthday<sup><i class="bi bi-asterisk text-primary"></i></sup></label>
-                                    <input type="date" class="form-control" id="inputBirthday" name="birthday" placeholder="Birthday" required value="{{$student->birthday}}">
+                                    <input type="text" class="form-control" id="inputBirthday" name="birthday" placeholder="Birthday" required value="{{$student->birthday}}">
                                 </div>
                                 <div class="col-3">
                                     <label for="inputAddress" class="form-label">Address<sup><i class="bi bi-asterisk text-primary"></i></sup></label>
@@ -138,4 +138,25 @@
     </div>
 </div>
 @include('components.photos.photo-input')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css%22rel=%22stylesheet%22%3E
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js%22%3E</script>
+<script>
+    $(function () {
+        $('#inputBirthday').datepicker({
+            format: "dd-mm-yyyy",
+        });
+        $('#inputBirthday').datepicker('setDate',
+            "@php if(isset($student->birthday)){echo Carbon\Carbon::parse($student->birthday)->format('d-m-Y');} @endphp
+");
+        $('#session').datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years"
+        });
+        $('#session').datepicker('setDate',
+            "@php if(isset($student->birthday)){echo Carbon\Carbon::parse($student->birthday)->format('Y');} @endphp
+");
+    });
+</script> 
+
 @endsection
