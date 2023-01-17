@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Traits\SchoolSession;
 use App\Interfaces\UserInterface;
 use App\Repositories\NoticeRepository;
 use App\Interfaces\SchoolClassInterface;
-use App\Interfaces\SchoolSessionInterface;
 use App\Repositories\PromotionRepository;
 
 class HomeController extends Controller
 {
     use SchoolSession;
-    protected $schoolSessionRepository;
+
     protected $schoolClassRepository;
+
     protected $userRepository;
     /**
      * Create a new controller instance.
@@ -22,11 +21,10 @@ class HomeController extends Controller
      * @return void
      */
     public function __construct(
-        UserInterface $userRepository, SchoolSessionInterface $schoolSessionRepository, SchoolClassInterface $schoolClassRepository)
+        UserInterface $userRepository, SchoolClassInterface $schoolClassRepository)
     {
         // $this->middleware('auth');
         $this->userRepository = $userRepository;
-        $this->schoolSessionRepository = $schoolSessionRepository;
         $this->schoolClassRepository = $schoolClassRepository;
     }
 

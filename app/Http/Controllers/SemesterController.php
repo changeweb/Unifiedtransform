@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Semester;
 use App\Interfaces\SemesterInterface;
 use App\Http\Requests\SemesterStoreRequest;
 
@@ -14,7 +12,7 @@ class SemesterController extends Controller
     public function __construct(SemesterInterface $semesterRepository) {
         $this->semesterRepository = $semesterRepository;
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
