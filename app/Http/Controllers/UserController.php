@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\PromotionRepository;
 use Illuminate\Http\Request;
 use App\Traits\SchoolSession;
 use App\Interfaces\UserInterface;
 use App\Interfaces\SectionInterface;
 use App\Interfaces\SchoolClassInterface;
-use App\Repositories\PromotionRepository;
 use App\Http\Requests\StudentStoreRequest;
 use App\Http\Requests\TeacherStoreRequest;
 use App\Repositories\StudentParentInfoRepository;
@@ -16,139 +16,128 @@ class UserController extends Controller
 {
     use SchoolSession;
 
-    protected $userRepository;
+    private $userRepository;
 
-    protected $schoolClassRepository;
+    private $schoolClassRepository;
 
-    protected $schoolSectionRepository;
+    private $schoolSectionRepository;
+
+    private $promotionRepository;
 
     public function __construct(UserInterface        $userRepository,
                                 SchoolClassInterface $schoolClassRepository,
-                                SectionInterface     $schoolSectionRepository
+                                SectionInterface     $schoolSectionRepository,
+                                PromotionRepository  $promotionRepository
     )
     {
         $this->middleware(['can:view users']);
-
         $this->userRepository = $userRepository;
         $this->schoolClassRepository = $schoolClassRepository;
         $this->schoolSectionRepository = $schoolSectionRepository;
+        $this->promotionRepository = $promotionRepository;
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  TeacherStoreRequest $request
+     * @param TeacherStoreRequest $request
      * @return \Illuminate\Http\Response
      */
     public function storeTeacher(TeacherStoreRequest $request)
     {
         try {
             $this->userRepository->createTeacher($request->validated());
-
             return back()->with('status', 'Teacher creation was successful!');
         } catch (\Exception $e) {
             return back()->withError($e->getMessage());
         }
     }
 
-    public function getStudentList(Request $request) {
+    public function getStudentList(Request $request)
+    {
         $currentSchoolSessionId = $this->getSchoolCurrentSession();
+        $classId = $request->query('class_id', 0);
+        $sectionId = $request->query('section_id', 0);
 
-        $class_id = $request->query('class_id', 0);
-        $section_id = $request->query('section_id', 0);
-
-        try{
-
-            $school_classes = $this->schoolClassRepository->getAllBySession($currentSchoolSessionId);
-
-            $studentList = $this->userRepository->getAllStudents($currentSchoolSessionId, $class_id, $section_id);
-
-            $data = [
-                'studentList'       => $studentList,
-                'school_classes'    => $school_classes,
-            ];
-
-            return view('students.list', $data);
+        try {
+            $schoolClasses = $this->schoolClassRepository->getAllBySession($currentSchoolSessionId);
+            $studentList = $this->userRepository->getAllStudents($currentSchoolSessionId, $classId, $sectionId);
+            return view('students.list')
+                ->with([
+                    'studentList' => $studentList,
+                    'school_classes' => $schoolClasses,
+                ]);
         } catch (\Exception $e) {
             return back()->withError($e->getMessage());
         }
     }
 
 
-    public function showStudentProfile($id) {
+    public function showStudentProfile($id)
+    {
         $student = $this->userRepository->findStudent($id);
-
         $currentSchoolSessionId = $this->getSchoolCurrentSession();
-        $promotionRepository = new PromotionRepository();
-        $promotion_info = $promotionRepository->getPromotionInfoById($currentSchoolSessionId, $id);
-
-        $data = [
-            'student'           => $student,
-            'promotion_info'    => $promotion_info,
-        ];
-
-        return view('students.profile', $data);
+        $promotionInfo = $this->promotionRepository->getPromotionInfoById($currentSchoolSessionId, $id);
+        return view('students.profile')
+            ->with([
+                'student' => $student,
+                'promotion_info' => $promotionInfo,
+            ]);
     }
 
-    public function showTeacherProfile($id) {
-        $teacher = $this->userRepository->findTeacher($id);
-        $data = [
-            'teacher'   => $teacher,
-        ];
-        return view('teachers.profile', $data);
+    public function showTeacherProfile($id)
+    {
+        return view('teachers.profile')
+            ->with(['teacher' => $this->userRepository->findTeacher($id)]);
     }
 
 
-    public function createStudent() {
+    public function createStudent()
+    {
         $currentSchoolSessionId = $this->getSchoolCurrentSession();
-
-        $school_classes = $this->schoolClassRepository->getAllBySession($currentSchoolSessionId);
-
-        $data = [
-            'current_school_session_id' => $currentSchoolSessionId,
-            'school_classes'            => $school_classes,
-        ];
-
-        return view('students.add', $data);
+        $schoolClasses = $this->schoolClassRepository->getAllBySession($currentSchoolSessionId);
+        return view('students.add')
+            ->with([
+                'current_school_session_id' => $currentSchoolSessionId,
+                'school_classes' => $schoolClasses,
+            ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  StudentStoreRequest $request
-     * @return \Illuminate\Http\Response
+     * @param StudentStoreRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function storeStudent(StudentStoreRequest $request)
     {
         try {
             $this->userRepository->createStudent($request->validated());
-
             return back()->with('status', 'Student creation was successful!');
         } catch (\Exception $e) {
             return back()->withError($e->getMessage());
         }
     }
 
-    public function editStudent($student_id) {
-        $student = $this->userRepository->findStudent($student_id);
+    public function editStudent(int $studentId)
+    {
+        $student = $this->userRepository->findStudent($studentId);
         $studentParentInfoRepository = new StudentParentInfoRepository();
-        $parent_info = $studentParentInfoRepository->getParentInfo($student_id);
-        $promotionRepository = new PromotionRepository();
+        $parentInfo = $studentParentInfoRepository->getParentInfo($studentId);
         $currentSchoolSessionId = $this->getSchoolCurrentSession();
-        $promotion_info = $promotionRepository->getPromotionInfoById($currentSchoolSessionId, $student_id);
-
-        $data = [
-            'student'       => $student,
-            'parent_info'   => $parent_info,
-            'promotion_info'=> $promotion_info,
-        ];
-        return view('students.edit', $data);
+        $promotionInfo = $this->promotionRepository->getPromotionInfoById($currentSchoolSessionId, $studentId);
+        return view('students.edit')
+            ->with([
+                'student' => $student,
+                'parent_info' => $parentInfo,
+                'promotion_info' => $promotionInfo,
+            ]);
     }
 
-    public function updateStudent(Request $request) {
+    public function updateStudent(Request $request)
+    {
         try {
             $this->userRepository->updateStudent($request->toArray());
-
             return back()->with('status', 'Student update was successful!');
         } catch (\Exception $e) {
             return back()->withError($e->getMessage());
@@ -165,7 +154,6 @@ class UserController extends Controller
     {
         try {
             $this->userRepository->updateTeacher($request->toArray());
-
             return back()->with('status', 'Teacher update was successful!');
         } catch (\Exception $e) {
             return back()->withError($e->getMessage());
