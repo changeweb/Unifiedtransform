@@ -2,29 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Traits\SchoolSession;
 use App\Interfaces\CourseInterface;
 use App\Http\Requests\CourseStoreRequest;
-use App\Interfaces\SchoolSessionInterface;
 use App\Repositories\PromotionRepository;
 
 class CourseController extends Controller
 {
     use SchoolSession;
+
     protected $schoolCourseRepository;
-    protected $schoolSessionRepository;
+
 
     /**
     * Create a new Controller instance
-    * 
     * @param CourseInterface $schoolCourseRepository
     * @return void
     */
-    public function __construct(SchoolSessionInterface $schoolSessionRepository, CourseInterface $schoolCourseRepository) {
-        $this->schoolSessionRepository = $schoolSessionRepository;
+    public function __construct(CourseInterface $schoolCourseRepository) {
         $this->schoolCourseRepository = $schoolCourseRepository;
     }
 

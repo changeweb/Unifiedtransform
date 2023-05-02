@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Promotion;
 use Illuminate\Http\Request;
 use App\Traits\SchoolSession;
@@ -16,24 +15,21 @@ class PromotionController extends Controller
 {
     use SchoolSession;
 
-    protected $schoolSessionRepository;
     protected $userRepository;
     protected $schoolClassRepository;
     protected $schoolSectionRepository;
 
     /**
     * Create a new Controller instance
-    * 
+    *
     * @param SchoolSessionInterface $schoolSessionRepository
     * @return void
     */
     public function __construct(
-        SchoolSessionInterface $schoolSessionRepository,
         UserInterface $userRepository,
         SchoolClassInterface $schoolClassRepository,
         SectionInterface $schoolSectionRepository
     ) {
-        $this->schoolSessionRepository = $schoolSessionRepository;
         $this->userRepository = $userRepository;
         $this->schoolClassRepository = $schoolClassRepository;
         $this->schoolSectionRepository = $schoolSectionRepository;
@@ -41,7 +37,7 @@ class PromotionController extends Controller
     /**
      * Display a listing of the resource.
      * @param  \Illuminate\Http\Request  $request
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -78,7 +74,7 @@ class PromotionController extends Controller
     /**
      * Show the form for creating a new resource.
      * @param  \Illuminate\Http\Request  $request
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)

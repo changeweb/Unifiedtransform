@@ -2,23 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Notice;
 use Illuminate\Http\Request;
 use App\Traits\SchoolSession;
 use App\Repositories\NoticeRepository;
 use App\Http\Requests\NoticeStoreRequest;
-use App\Interfaces\SchoolSessionInterface;
 
 class NoticeController extends Controller
 {
     use SchoolSession;
-    
-    protected $schoolSessionRepository;
 
-    public function __construct(SchoolSessionInterface $schoolSessionRepository) {
-        $this->schoolSessionRepository = $schoolSessionRepository;
-    }
     /**
      * Display a listing of the resource.
      *

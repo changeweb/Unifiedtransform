@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use App\Traits\SchoolSession;
 use App\Interfaces\SemesterInterface;
@@ -13,18 +15,16 @@ use App\Repositories\AssignedTeacherRepository;
 class AssignedTeacherController extends Controller
 {
     use SchoolSession;
-    protected $schoolSessionRepository;
+
     protected $semesterRepository;
 
     /**
     * Create a new Controller instance
-    * 
+    *
     * @param SchoolSessionInterface $schoolSessionRepository
     * @return void
     */
-    public function __construct(SchoolSessionInterface $schoolSessionRepository,
-    SemesterInterface $semesterRepository) {
-        $this->schoolSessionRepository = $schoolSessionRepository;
+    public function __construct(SemesterInterface $semesterRepository) {
         $this->semesterRepository = $semesterRepository;
     }
     /**
@@ -38,39 +38,35 @@ class AssignedTeacherController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @param  CourseStoreRequest $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Application|Factory|View
      */
     public function getTeacherCourses(Request $request)
     {
-        $teacher_id = $request->query('teacher_id');
-        $semester_id = $request->query('semester_id');
+        $courses = [];
+        $teacherId = $request->query('teacher_id');
+        $semesterId = $request->query('semester_id');
 
-        if($teacher_id == null) {
+        if (is_null($teacherId)) {
             abort(404);
         }
-        
-        $current_school_session_id = $this->getSchoolCurrentSession();
 
-        $semesters = $this->semesterRepository->getAll($current_school_session_id);
+        $currentSchoolSessionId = $this->getSchoolCurrentSession();
+
+        $semesters = $this->semesterRepository->getAll($currentSchoolSessionId);
 
         $assignedTeacherRepository = new AssignedTeacherRepository();
 
-        if($semester_id == null) {
-            $courses = [];
-        } else {
-            $courses = $assignedTeacherRepository->getTeacherCourses($current_school_session_id, $teacher_id, $semester_id);
+        if (!is_null($semesterId)) {
+            $courses = $assignedTeacherRepository->getTeacherCourses($currentSchoolSessionId, $teacherId, $semesterId);
         }
-        
-        $data = [
-            'courses'               => $courses,
-            'semesters'             => $semesters,
-            'selected_semester_id'  => $semester_id,
-        ];
 
-        return view('courses.teacher', $data);
+        return view('courses.teacher')
+            ->with([
+                    'courses' => $courses,
+                    'semesters' => $semesters,
+                    'selected_semester_id' => $semesterId
+                ]);
     }
 
     /**

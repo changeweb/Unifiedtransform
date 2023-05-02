@@ -2,32 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Section;
 use Illuminate\Http\Request;
 use App\Traits\SchoolSession;
 use App\Interfaces\CourseInterface;
 use App\Interfaces\SectionInterface;
 use App\Http\Requests\SectionStoreRequest;
-use App\Interfaces\SchoolSessionInterface;
 
 class SectionController extends Controller
 {
     use SchoolSession;
-    
+
     protected $schoolSectionRepository;
-    protected $schoolSessionRepository;
+
     protected $courseRepository;
 
     /**
     * Create a new Controller instance
-    * 
+    *
     * @param SectionInterface $schoolSectionRepository
     * @return void
     */
-    public function __construct(SchoolSessionInterface $schoolSessionRepository, SectionInterface $schoolSectionRepository, CourseInterface $courseRepository) {
+    public function __construct(SectionInterface $schoolSectionRepository, CourseInterface $courseRepository) {
         $this->schoolSectionRepository = $schoolSectionRepository;
-        $this->schoolSessionRepository = $schoolSessionRepository;
         $this->courseRepository = $courseRepository;
     }
 

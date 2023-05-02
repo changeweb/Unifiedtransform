@@ -2,24 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Interfaces\SchoolSessionInterface;
 use App\Http\Requests\SchoolSessionStoreRequest;
 use App\Http\Requests\SchoolSessionBrowseRequest;
 
 class SchoolSessionController extends Controller
 {
-    protected $schoolSessionRepository;
-
-    /**
-    * Create a new Controller instance
-    * 
-    * @param SchoolSessionInterface $schoolSessionRepository
-    * @return void
-    */
-    public function __construct(SchoolSessionInterface $schoolSessionRepository) {
-        $this->schoolSessionRepository = $schoolSessionRepository;
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -36,7 +23,7 @@ class SchoolSessionController extends Controller
         } catch (\Exception $e) {
             return back()->withError($e->getMessage());
         }
-        
+
     }
 
     /**
@@ -55,6 +42,6 @@ class SchoolSessionController extends Controller
         } catch (\Exception $e) {
             return back()->withError($e->getMessage());
         }
-        
+
     }
 }

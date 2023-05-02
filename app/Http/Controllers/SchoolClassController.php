@@ -2,30 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\SchoolClass;
 use Illuminate\Http\Request;
 use App\Interfaces\SchoolClassInterface;
-use App\Interfaces\SchoolSessionInterface;
 use App\Http\Requests\SchoolClassStoreRequest;
 use App\Traits\SchoolSession;
 
 class SchoolClassController extends Controller
 {
     use SchoolSession;
+
     protected $schoolClassRepository;
-    protected $schoolSessionRepository;
 
     /**
     * Create a new Controller instance
-    * 
+    *
     * @param SchoolClassInterface $schoolClassRepository
     * @return void
     */
-    public function __construct(SchoolSessionInterface $schoolSessionRepository, SchoolClassInterface $schoolClassRepository) {
+    public function __construct(SchoolClassInterface $schoolClassRepository) {
         $this->middleware(['can:view classes']);
 
-        $this->schoolSessionRepository = $schoolSessionRepository;
         $this->schoolClassRepository = $schoolClassRepository;
     }
 

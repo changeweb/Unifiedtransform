@@ -2,27 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\RoutineStoreRequest;
 use App\Models\Routine;
 use Illuminate\Http\Request;
 use App\Traits\SchoolSession;
 use App\Repositories\RoutineRepository;
 use App\Interfaces\SchoolClassInterface;
-use App\Interfaces\SchoolSessionInterface;
 
 class RoutineController extends Controller
 {
     use SchoolSession;
-    protected $schoolSessionRepository;
+
     protected $schoolClassRepository;
 
-    public function __construct(SchoolSessionInterface $schoolSessionRepository, SchoolClassInterface $schoolClassRepository)
+    public function __construct(SchoolClassInterface $schoolClassRepository)
     {
-        $this->schoolSessionRepository = $schoolSessionRepository;
         $this->schoolClassRepository = $schoolClassRepository;
     }
-    
+
     /**
      * Display a listing of the resource.
      *
