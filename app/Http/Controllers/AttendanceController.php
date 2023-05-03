@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Attendance;
 use Illuminate\Http\Request;
 use App\Interfaces\UserInterface;
 use App\Interfaces\SchoolClassInterface;
@@ -12,12 +10,12 @@ use App\Interfaces\AcademicSettingInterface;
 use App\Http\Requests\AttendanceStoreRequest;
 use App\Interfaces\SectionInterface;
 use App\Repositories\AttendanceRepository;
-use App\Repositories\CourseRepository;
 use App\Traits\SchoolSession;
 
 class AttendanceController extends Controller
 {
     use SchoolSession;
+
     protected $academicSettingRepository;
     protected $schoolSessionRepository;
     protected $schoolClassRepository;
@@ -66,7 +64,7 @@ class AttendanceController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -157,7 +155,7 @@ class AttendanceController extends Controller
                 $attendances = $attendanceRepository->getCourseAttendance($class_id, $course_id, $current_school_session_id);
             }
             $data = ['attendances' => $attendances];
-            
+
             return view('attendances.view', $data);
         } catch (\Exception $e) {
             return back()->withError($e->getMessage());

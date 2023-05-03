@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Interfaces\NoticeRepository;
 use App\Models\Notice;
 use Illuminate\Http\Request;
 use App\Traits\SchoolSession;
-use App\Repositories\NoticeRepository;
 use App\Http\Requests\NoticeStoreRequest;
-use App\Interfaces\SchoolSessionInterface;
 
 class NoticeController extends Controller
 {
     use SchoolSession;
-    
-    protected $schoolSessionRepository;
 
-    public function __construct(SchoolSessionInterface $schoolSessionRepository) {
-        $this->schoolSessionRepository = $schoolSessionRepository;
+    private $repository;
+
+    public function __construct(NoticeRepository $repository)
+    {
+        $this->repository = $repository;
     }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -49,9 +50,7 @@ class NoticeController extends Controller
     public function store(NoticeStoreRequest $request)
     {
         try {
-            $noticeRepository = new NoticeRepository();
-            $noticeRepository->store($request->validated());
-
+            $this->repository->store($request->validated());
             return back()->with('status', 'Creating Notice was successful!');
         } catch (\Exception $e) {
             return back()->withError($e->getMessage());

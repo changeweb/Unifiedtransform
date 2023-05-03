@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\ExamStoreRequest;
 use App\Models\Exam;
 use Illuminate\Http\Request;
 use App\Traits\SchoolSession;
 use App\Interfaces\SemesterInterface;
 use App\Interfaces\SchoolClassInterface;
-use App\Interfaces\SchoolSessionInterface;
 use App\Repositories\AssignedTeacherRepository;
 use App\Repositories\ExamRepository;
 
@@ -18,12 +16,12 @@ class ExamController extends Controller
     use SchoolSession;
 
     protected $schoolClassRepository;
-    protected $semesterRepository;
-    protected $schoolSessionRepository;
 
-    public function __construct(SchoolSessionInterface $schoolSessionRepository, SchoolClassInterface $schoolClassRepository, SemesterInterface $semesterRepository)
+    protected $semesterRepository;
+
+    public function __construct(SchoolClassInterface $schoolClassRepository,
+                                SemesterInterface $semesterRepository)
     {
-        $this->schoolSessionRepository = $schoolSessionRepository;
         $this->schoolClassRepository = $schoolClassRepository;
         $this->semesterRepository = $semesterRepository;
     }
@@ -38,24 +36,24 @@ class ExamController extends Controller
         $class_id = $request->query('class_id', 0);
         $semester_id = $request->query('semester_id', 0);
 
-        $current_school_session_id = $this->getSchoolCurrentSession();
+        $currentSchoolSessionId = $this->getSchoolCurrentSession();
 
-        $semesters = $this->semesterRepository->getAll($current_school_session_id);
+        $semesters = $this->semesterRepository->getAll($currentSchoolSessionId);
 
-        $school_classes = $this->schoolClassRepository->getAllBySession($current_school_session_id);
+        $school_classes = $this->schoolClassRepository->getAllBySession($currentSchoolSessionId);
 
         $examRepository = new ExamRepository();
 
-        $exams = $examRepository->getAll($current_school_session_id, $semester_id, $class_id);
+        $exams = $examRepository->getAll($currentSchoolSessionId, $semester_id, $class_id);
 
         $assignedTeacherRepository = new AssignedTeacherRepository();
 
         $teacher_id = (auth()->user()->role == "teacher")?auth()->user()->id : 0;
 
-        $teacherCourses = $assignedTeacherRepository->getTeacherCourses($current_school_session_id, $teacher_id, $semester_id);
+        $teacherCourses = $assignedTeacherRepository->getTeacherCourses($currentSchoolSessionId, $teacher_id, $semester_id);
 
         $data = [
-            'current_school_session_id' => $current_school_session_id,
+            'current_school_session_id' => $currentSchoolSessionId,
             'semesters'                 => $semesters,
             'classes'                   => $school_classes,
             'exams'                     => $exams,
@@ -72,13 +70,13 @@ class ExamController extends Controller
      */
     public function create()
     {
-        $current_school_session_id = $this->getSchoolCurrentSession();
+        $currentSchoolSessionId = $this->getSchoolCurrentSession();
 
-        $semesters = $this->semesterRepository->getAll($current_school_session_id);
+        $semesters = $this->semesterRepository->getAll($currentSchoolSessionId);
 
         if(auth()->user()->role == "teacher") {
             $teacher_id = auth()->user()->id;
-            $assigned_classes = $this->schoolClassRepository->getAllBySessionAndTeacher($current_school_session_id, $teacher_id);
+            $assigned_classes = $this->schoolClassRepository->getAllBySessionAndTeacher($currentSchoolSessionId, $teacher_id);
 
             $school_classes = [];
             $i = 0;
@@ -88,11 +86,11 @@ class ExamController extends Controller
                 $i++;
             }
         } else {
-            $school_classes = $this->schoolClassRepository->getAllBySession($current_school_session_id);
+            $school_classes = $this->schoolClassRepository->getAllBySession($currentSchoolSessionId);
         }
 
         $data = [
-            'current_school_session_id' => $current_school_session_id,
+            'current_school_session_id' => $currentSchoolSessionId,
             'semesters'                 => $semesters,
             'classes'                   => $school_classes,
         ];

@@ -2,24 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\ExamRuleStoreRequest;
 use App\Models\ExamRule;
 use Illuminate\Http\Request;
 use App\Traits\SchoolSession;
 use App\Repositories\ExamRuleRepository;
-use App\Interfaces\SchoolSessionInterface;
 
 class ExamRuleController extends Controller
 {
     use SchoolSession;
 
-    protected $schoolSessionRepository;
-
-    public function __construct(SchoolSessionInterface $schoolSessionRepository)
-    {
-        $this->schoolSessionRepository = $schoolSessionRepository;
-    }
     /**
      * Display a listing of the resource.
      *
@@ -28,13 +20,13 @@ class ExamRuleController extends Controller
      */
     public function index(Request $request)
     {
-        $current_school_session_id = $this->getSchoolCurrentSession();
-        $exam_id = $request->query('exam_id', 0);
+        $currentSchoolSessionId = $this->getSchoolCurrentSession();
+        $examId = $request->query('exam_id', 0);
         $examRuleRepository = new ExamRuleRepository();
-        $exam_rules = $examRuleRepository->getAll($current_school_session_id, $exam_id);
+        $examRules = $examRuleRepository->getAll($currentSchoolSessionId, $examId);
 
         $data = [
-            'exam_rules' => $exam_rules
+            'exam_rules' => $examRules
         ];
         return view('exams.view-rule', $data);
     }
@@ -47,12 +39,12 @@ class ExamRuleController extends Controller
      */
     public function create(Request $request)
     {
-        $current_school_session_id = $this->getSchoolCurrentSession();
-        $exam_id = $request->query('exam_id');
+        $currentSchoolSessionId = $this->getSchoolCurrentSession();
+        $examId = $request->query('exam_id');
 
         $data = [
-            'exam_id' => $exam_id,
-            'current_school_session_id' => $current_school_session_id,
+            'exam_id' => $examId,
+            'current_school_session_id' => $currentSchoolSessionId,
         ];
 
         return view('exams.add-rule', $data);
@@ -96,10 +88,10 @@ class ExamRuleController extends Controller
     public function edit(Request $request)
     {
         $examRuleRepository = new ExamRuleRepository();
-        $exam_rule = $examRuleRepository->getById($request->exam_rule_id);
+        $examRule = $examRuleRepository->getById($request->exam_rule_id);
         $data = [
             'exam_rule_id'  => $request->exam_rule_id,
-            'exam_rule'     => $exam_rule,
+            'exam_rule'     => $examRule,
         ];
         return view('exams.edit-rule', $data);
     }

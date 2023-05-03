@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\GradingSystem;
 use App\Traits\SchoolSession;
 use App\Interfaces\SemesterInterface;
 use App\Interfaces\SchoolClassInterface;
-use App\Interfaces\SchoolSessionInterface;
 use App\Http\Requests\GradingSystemStoreRequest;
 use App\Repositories\GradingSystemRepository;
 
@@ -17,15 +15,13 @@ class GradingSystemController extends Controller
     use SchoolSession;
 
     protected $schoolClassRepository;
-    protected $schoolSessionRepository;
+
     protected $semesterRepository;
 
     public function __construct(
-        SchoolSessionInterface $schoolSessionRepository,
         SchoolClassInterface $schoolClassRepository,
         SemesterInterface $semesterRepository)
     {
-        $this->schoolSessionRepository = $schoolSessionRepository;
         $this->schoolClassRepository = $schoolClassRepository;
         $this->semesterRepository = $semesterRepository;
     }
@@ -37,12 +33,12 @@ class GradingSystemController extends Controller
     public function index()
     {
         $gradingSystemRepository = new GradingSystemRepository();
-        $current_school_session_id = $this->getSchoolCurrentSession();
-        $gradingSystems = $gradingSystemRepository->getAll($current_school_session_id);
+        $currentSchoolSessionId = $this->getSchoolCurrentSession();
+        $gradingSystems = $gradingSystemRepository->getAll($currentSchoolSessionId);
 
         $data = [
             'gradingSystems'            => $gradingSystems,
-            'current_school_session_id' => $current_school_session_id,
+            'current_school_session_id' => $currentSchoolSessionId,
         ];
 
         return view('exams.grade.view', $data);
@@ -55,13 +51,13 @@ class GradingSystemController extends Controller
      */
     public function create()
     {
-        $current_school_session_id = $this->getSchoolCurrentSession();
-        $school_classes = $this->schoolClassRepository->getAllBySession($current_school_session_id);
-        $semesters = $this->semesterRepository->getAll($current_school_session_id);
+        $currentSchoolSessionId = $this->getSchoolCurrentSession();
+        $schoolClasses = $this->schoolClassRepository->getAllBySession($currentSchoolSessionId);
+        $semesters = $this->semesterRepository->getAll($currentSchoolSessionId);
 
         $data = [
-            'current_school_session_id' => $current_school_session_id,
-            'school_classes'            => $school_classes,
+            'current_school_session_id' => $currentSchoolSessionId,
+            'school_classes'            => $schoolClasses,
             'semesters'                 => $semesters,
         ];
 
