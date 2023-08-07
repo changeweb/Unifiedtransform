@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>EducationHub</title>
+        <title>New Bridge Port Academy</title>
 
         <link rel="shortcut icon" href="{{asset('favicon_io/favicon.ico')}}">
         <link rel="shortcut icon" sizes="16x16" href="{{asset('favicon_io/favicon-16x16.png')}}">

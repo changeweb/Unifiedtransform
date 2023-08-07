@@ -81,7 +81,7 @@
                     <div class="row align-items-md-stretch mt-4">
                         <div class="col">
                             <div class="p-3 text-white bg-dark rounded-3">
-                                <h3>Welcome to EducationHub!</h3>
+                                <h3>Welcome to New Bridge Port Academy!</h3>
                                 {{-- <p><i class="bi bi-emoji-heart-eyes"></i> Thanks for your love and support.</p> --}}
                             </div>
                         </div>
