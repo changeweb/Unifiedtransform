@@ -36,9 +36,9 @@ use App\Http\Controllers\Auth\UpdatePasswordController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 
@@ -76,7 +76,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
 
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/', [HomeController::class, 'index'])->name('home');
 
     // Attendance
     Route::get('/attendances', [AttendanceController::class, 'index'])->name('attendance.index');

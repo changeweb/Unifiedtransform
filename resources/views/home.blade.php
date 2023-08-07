@@ -81,14 +81,14 @@
                     <div class="row align-items-md-stretch mt-4">
                         <div class="col">
                             <div class="p-3 text-white bg-dark rounded-3">
-                                <h3>Welcome to Unifiedtransform!</h3>
-                                <p><i class="bi bi-emoji-heart-eyes"></i> Thanks for your love and support.</p>
+                                <h3>Welcome to EducationHub!</h3>
+                                {{-- <p><i class="bi bi-emoji-heart-eyes"></i> Thanks for your love and support.</p> --}}
                             </div>
                         </div>
                         <div class="col">
                             <div class="p-3 bg-white border rounded-3" style="height: 100%;">
                                 <h3>Manage school better</h3>
-                                <p class="text-end">with <i class="bi bi-lightning"></i> <a href="https://github.com/changeweb/Unifiedtransform" target="_blank" style="text-decoration: none;">Unifiedtransform</a> <i class="bi bi-lightning"></i>.</p>
+                                {{-- <p class="text-end">with <i class="bi bi-lightning"></i> <a href="https://opencore.co.ke/products.html" target="_blank" style="text-decoration: none;">EducationHub</a> <i class="bi bi-lightning"></i>.</p> --}}
                             </div>
                         </div>
                     </div>
