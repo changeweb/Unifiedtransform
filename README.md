@@ -1,7 +1,7 @@
 <h1 align="center"><img src="public/appname.svg" width="500"></h1>
 
 ## Version 2.X is here!!
-
+<p>
 For Version 1.X, view [releases](https://github.com/changeweb/Unifiedtransform/releases). Continuation of Version 1.X support in **[v1-x-branch](https://github.com/changeweb/Unifiedtransform/tree/v1-x-branch)** branch.
 </p>
 <p align="center">
@@ -101,7 +101,7 @@ With the improved Docker setup, you will get:
 - MySQL 5.7
 
 ### Steps to install:
-1. Clone or donwload the repository.
+1. Clone or download the repository.
 2. Create **purify** folder in `storage/app/` directory.
 3. Run `cp .env.example .env`.
 4. Run `docker-compose up -d`.
