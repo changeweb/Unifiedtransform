@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Mark;
 use Illuminate\Http\Request;
 use App\Traits\SchoolSession;
@@ -15,7 +14,6 @@ use App\Traits\AssignedTeacherCheck;
 use App\Interfaces\SemesterInterface;
 use App\Interfaces\SchoolClassInterface;
 use App\Repositories\GradeRuleRepository;
-use App\Interfaces\SchoolSessionInterface;
 use App\Interfaces\AcademicSettingInterface;
 use App\Repositories\GradingSystemRepository;
 
@@ -29,12 +27,10 @@ class MarkController extends Controller
     protected $schoolSectionRepository;
     protected $courseRepository;
     protected $semesterRepository;
-    protected $schoolSessionRepository;
 
     public function __construct(
         AcademicSettingInterface $academicSettingRepository,
         UserInterface $userRepository,
-        SchoolSessionInterface $schoolSessionRepository,
         SchoolClassInterface $schoolClassRepository,
         SectionInterface $schoolSectionRepository,
         CourseInterface $courseRepository,
@@ -42,7 +38,6 @@ class MarkController extends Controller
     ) {
         $this->academicSettingRepository = $academicSettingRepository;
         $this->userRepository = $userRepository;
-        $this->schoolSessionRepository = $schoolSessionRepository;
         $this->schoolClassRepository = $schoolClassRepository;
         $this->schoolSectionRepository = $schoolSectionRepository;
         $this->courseRepository = $courseRepository;
@@ -61,14 +56,14 @@ class MarkController extends Controller
         $course_id = $request->query('course_id', 0);
         $semester_id = $request->query('semester_id', 0);
 
-        $current_school_session_id = $this->getSchoolCurrentSession();
+        $currentSchoolSessionId = $this->getSchoolCurrentSession();
 
-        $semesters = $this->semesterRepository->getAll($current_school_session_id);
+        $semesters = $this->semesterRepository->getAll($currentSchoolSessionId);
 
-        $school_classes = $this->schoolClassRepository->getAllBySession($current_school_session_id);
+        $school_classes = $this->schoolClassRepository->getAllBySession($currentSchoolSessionId);
 
         $markRepository = new MarkRepository();
-        $marks = $markRepository->getAllFinalMarks($current_school_session_id, $semester_id, $class_id, $section_id, $course_id);
+        $marks = $markRepository->getAllFinalMarks($currentSchoolSessionId, $semester_id, $class_id, $section_id, $course_id);
 
         if(!$marks) {
             return abort(404);
@@ -120,7 +115,7 @@ class MarkController extends Controller
         $section_id = $request->query('section_id');
         $course_id = $request->query('course_id');
         $semester_id = $request->query('semester_id', 0);
-        
+
         try{
 
             $current_school_session_id = $this->getSchoolCurrentSession();
@@ -139,7 +134,7 @@ class MarkController extends Controller
             $sectionStudents = $this->userRepository->getAllStudents($current_school_session_id, $class_id, $section_id);
 
             $final_marks_submitted = false;
-            
+
             $final_marks_submit_count = $markRepository->getFinalMarksCount($current_school_session_id, $semester_id, $class_id, $section_id, $course_id);
 
             if($final_marks_submit_count > 0) {

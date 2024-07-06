@@ -2,28 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Assignment;
 use Illuminate\Http\Request;
 use App\Traits\SchoolSession;
 use App\Http\Requests\StoreFileRequest;
-use App\Interfaces\SchoolSessionInterface;
 use App\Repositories\AssignmentRepository;
 
 class AssignmentController extends Controller
 {
     use SchoolSession;
-    protected $schoolSessionRepository;
 
-    /**
-    * Create a new Controller instance
-    * 
-    * @param CourseInterface $schoolCourseRepository
-    * @return void
-    */
-    public function __construct(SchoolSessionInterface $schoolSessionRepository) {
-        $this->schoolSessionRepository = $schoolSessionRepository;
-    }
+
     /**
      * Display a listing of the resource.
      *
@@ -31,16 +20,16 @@ class AssignmentController extends Controller
      */
     public function getCourseAssignments(Request $request)
     {
-        $course_id = $request->query('course_id', 0);
-        $current_school_session_id = $this->getSchoolCurrentSession();
+        $courseId = $request->query('course_id', 0);
+        $currentSchoolSessionId = $this->getSchoolCurrentSession();
         $assignmentRepository = new AssignmentRepository();
-        $assignments = $assignmentRepository->getAssignments($current_school_session_id, $course_id);
+        $assignments = $assignmentRepository->getAssignments($currentSchoolSessionId, $courseId);
         $data = [
             'assignments'   => $assignments,
         ];
         return view('assignments.index', $data);
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -48,9 +37,9 @@ class AssignmentController extends Controller
      */
     public function create(Request $request)
     {
-        $current_school_session_id = $this->getSchoolCurrentSession();
+        $currentSchoolSessionId = $this->getSchoolCurrentSession();
         $data = [
-            'current_school_session_id' => $current_school_session_id,
+            'current_school_session_id' => $currentSchoolSessionId,
             'class_id'  => $request->query('class_id', 0),
             'section_id'  => $request->query('section_id', 0),
             'course_id'  => $request->query('course_id', 0),
