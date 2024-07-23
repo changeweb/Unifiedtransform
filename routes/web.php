@@ -164,12 +164,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/notice/create', [NoticeController::class, 'store'])->name('notice.store');
 
     // Courses
-    Route::get('courses/teacher/index', [AssignedTeacherController::class, 'getTeacherCourses'])->name('course.teacher.list.show');
-    Route::get('courses/student/index/{student_id}', [CourseController::class, 'getStudentCourses'])->name('course.student.list.show');
+    Route::get('courses/teacher/index', [AssignedTeacherController::class, 'getTeacherCourses'])
+        ->name('course.teacher.list.show');
+    Route::get('courses/student/index/{student_id}', [CourseController::class, 'getStudentCourses'])
+        ->name('course.student.list.show');
     Route::get('course/edit/{id}', [CourseController::class, 'edit'])->name('course.edit');
 
     // Assignment
-    Route::get('courses/assignments/index', [AssignmentController::class, 'getCourseAssignments'])->name('assignment.list.show');
+    Route::get('courses/assignments/index', [AssignmentController::class, 'getCourseAssignments'])
+        ->name('assignment.list.show');
     Route::get('courses/assignments/create', [AssignmentController::class, 'create'])->name('assignment.create');
     Route::post('courses/assignments/create', [AssignmentController::class, 'store'])->name('assignment.store');
 

@@ -9,7 +9,7 @@ use App\Models\SchoolClass;
 use App\Models\Section;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use App\Repositories\PromotionRepository;
+use App\Repositories\PromotionRepositoryImpl;
 use App\Repositories\StudentParentInfoRepository;
 use App\Repositories\StudentAcademicInfoRepository;
 
@@ -97,7 +97,7 @@ class UserRepository implements UserInterface {
                 $studentAcademicInfoRepository->store($request, $student->id);
 
                 // Assign student to a Class and a Section
-                $promotionRepository = new PromotionRepository();
+                $promotionRepository = new PromotionRepositoryImpl();
                 $promotionRepository->assignClassSection($request, $student->id);
 
                 $student->givePermissionTo(
@@ -142,7 +142,7 @@ class UserRepository implements UserInterface {
                 $studentParentInfoRepository->update($request, $request['student_id']);
 
                 // Update Student's ID card number
-                $promotionRepository = new PromotionRepository();
+                $promotionRepository = new PromotionRepositoryImpl();
                 $promotionRepository->update($request, $request['student_id']);
             });
         } catch (\Exception $e) {
@@ -183,10 +183,10 @@ class UserRepository implements UserInterface {
                 $class_id = $schoolClass->id;
                 $section_id = $section->id;
             }
-            
+
         }
         try {
-            $promotionRepository = new PromotionRepository();
+            $promotionRepository = new PromotionRepositoryImpl();
             return $promotionRepository->getAll($session_id, $class_id, $section_id);
         } catch (\Exception $e) {
             throw new \Exception('Failed to get all Students. '.$e->getMessage());
@@ -194,12 +194,12 @@ class UserRepository implements UserInterface {
     }
 
     public function getAllStudentsBySession($session_id) {
-        $promotionRepository = new PromotionRepository();
+        $promotionRepository = new PromotionRepositoryImpl();
         return $promotionRepository->getAllStudentsBySession($session_id);
     }
 
     public function getAllStudentsBySessionCount($session_id) {
-        $promotionRepository = new PromotionRepository();
+        $promotionRepository = new PromotionRepositoryImpl();
         return $promotionRepository->getAllStudentsBySessionCount($session_id);
     }
 

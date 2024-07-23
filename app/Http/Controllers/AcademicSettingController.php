@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\SchoolSession;
 use App\Interfaces\UserInterface;
@@ -10,7 +9,6 @@ use App\Interfaces\CourseInterface;
 use App\Interfaces\SectionInterface;
 use App\Interfaces\SemesterInterface;
 use App\Interfaces\SchoolClassInterface;
-use App\Interfaces\SchoolSessionInterface;
 use App\Interfaces\AcademicSettingInterface;
 use App\Http\Requests\AttendanceTypeUpdateRequest;
 
@@ -18,7 +16,6 @@ class AcademicSettingController extends Controller
 {
     use SchoolSession;
     protected $academicSettingRepository;
-    protected $schoolSessionRepository;
     protected $schoolClassRepository;
     protected $schoolSectionRepository;
     protected $userRepository;
@@ -27,7 +24,6 @@ class AcademicSettingController extends Controller
 
     public function __construct(
         AcademicSettingInterface $academicSettingRepository,
-        SchoolSessionInterface $schoolSessionRepository,
         SchoolClassInterface $schoolClassRepository,
         SectionInterface $schoolSectionRepository,
         UserInterface $userRepository,
@@ -37,7 +33,6 @@ class AcademicSettingController extends Controller
         $this->middleware(['can:view academic settings']);
 
         $this->academicSettingRepository = $academicSettingRepository;
-        $this->schoolSessionRepository = $schoolSessionRepository;
         $this->schoolClassRepository = $schoolClassRepository;
         $this->schoolSectionRepository = $schoolSectionRepository;
         $this->userRepository = $userRepository;

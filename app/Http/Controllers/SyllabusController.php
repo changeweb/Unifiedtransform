@@ -2,26 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Syllabus;
 use Illuminate\Http\Request;
 use App\Traits\SchoolSession;
 use App\Http\Requests\StoreFileRequest;
 use App\Interfaces\SchoolClassInterface;
 use App\Repositories\SyllabusRepository;
-use App\Interfaces\SchoolSessionInterface;
 
 class SyllabusController extends Controller
 {
     use SchoolSession;
-    protected $schoolSessionRepository;
+
     protected $schoolClassRepository;
 
-    public function __construct(
-        SchoolSessionInterface $schoolSessionRepository,
-        SchoolClassInterface $schoolClassRepository
-    ) {
-        $this->schoolSessionRepository = $schoolSessionRepository;
+    public function __construct(SchoolClassInterface $schoolClassRepository) {
         $this->schoolClassRepository = $schoolClassRepository;
     }
 
@@ -50,12 +44,12 @@ class SyllabusController extends Controller
      */
     public function create()
     {
-        $current_school_session_id = $this->getSchoolCurrentSession();
+        $currentSchoolSessionId = $this->getSchoolCurrentSession();
 
-        $school_classes = $this->schoolClassRepository->getAllBySession($current_school_session_id);
+        $school_classes = $this->schoolClassRepository->getAllBySession($currentSchoolSessionId);
 
         $data = [
-            'current_school_session_id' => $current_school_session_id,
+            'current_school_session_id' => $currentSchoolSessionId,
             'school_classes'    => $school_classes,
         ];
         return view('syllabi.create', $data);
