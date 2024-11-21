@@ -45,7 +45,7 @@ See the news [here](https://laravel-news.com/unified-transform-open-source-schoo
 - To run Feature and Unit Tests run following commands:
 
     ```sh
-    $ docker exec -it app sh
+    $ docker exec -it app bash
     // Inside container shell
     :/# php artisan test
     ```
@@ -105,7 +105,7 @@ With the improved Docker setup, you will get:
 2. Create **purify** folder in `storage/app/` directory.
 3. Run `cp .env.example .env`.
 4. Run `docker-compose up -d`.
-5. Run `docker exec -it db sh`. Inside the shell, run:
+5. Run `docker exec -it db bash`. Inside the shell, run:
 
     ```sh
     :/# mysql -u root -p
@@ -120,7 +120,7 @@ With the improved Docker setup, you will get:
     mysql> EXIT;
     ```
 6. Finally, exit the container by running `exit` in the container shell.
-7. Run `docker exec -it app sh`. Inside the shell, run following commands:
+7. Run `docker exec -it app bash`. Inside the shell, run following commands:
 
     ```sh
     :/# composer install
