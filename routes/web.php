@@ -2,28 +2,28 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ExamController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\MarkController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\CourseController;
-use App\Http\Controllers\NoticeController;
-use App\Http\Controllers\RoutineController;
-use App\Http\Controllers\SectionController;
-use App\Http\Controllers\ExamRuleController;
-use App\Http\Controllers\SemesterController;
-use App\Http\Controllers\SyllabusController;
-use App\Http\Controllers\GradeRuleController;
-use App\Http\Controllers\PromotionController;
-use App\Http\Controllers\AssignmentController;
-use App\Http\Controllers\AttendanceController;
-use App\Http\Controllers\SchoolClassController;
-use App\Http\Controllers\GradingSystemController;
-use App\Http\Controllers\SchoolSessionController;
-use App\Http\Controllers\AcademicSettingController;
-use App\Http\Controllers\AssignedTeacherController;
-use App\Http\Controllers\Auth\UpdatePasswordController;
+use App\Http\MVCControllers\ExamController;
+use App\Http\MVCControllers\HomeController;
+use App\Http\MVCControllers\MarkController;
+use App\Http\MVCControllers\UserController;
+use App\Http\MVCControllers\EventController;
+use App\Http\MVCControllers\CourseController;
+use App\Http\MVCControllers\NoticeController;
+use App\Http\MVCControllers\RoutineController;
+use App\Http\MVCControllers\SectionController;
+use App\Http\MVCControllers\ExamRuleController;
+use App\Http\MVCControllers\SemesterController;
+use App\Http\MVCControllers\SyllabusController;
+use App\Http\MVCControllers\GradeRuleController;
+use App\Http\MVCControllers\PromotionController;
+use App\Http\MVCControllers\AssignmentController;
+use App\Http\MVCControllers\AttendanceController;
+use App\Http\MVCControllers\SchoolClassController;
+use App\Http\MVCControllers\GradingSystemController;
+use App\Http\MVCControllers\SchoolSessionController;
+use App\Http\MVCControllers\AcademicSettingController;
+use App\Http\MVCControllers\AssignedTeacherController;
+use App\Http\MVCControllers\Auth\UpdatePasswordController;
 
 /*
 |--------------------------------------------------------------------------
