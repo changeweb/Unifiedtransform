@@ -66,8 +66,11 @@
                                                     <tr>
                                                         <td>{{$students_with_mark[0]->student->first_name}} {{$students_with_mark[0]->student->last_name}}</td>
                                                         @foreach ($students_with_mark as $st)
+                                                            @php
+                                                                $currentExamId = $exams[$markedExamCount]->id;
+                                                            @endphp
                                                             <td>
-                                                                <input type="number" step="0.01" class="form-control" name="student_mark[{{$students_with_mark[0]->student->id}}][{{$exams[$markedExamCount]->id}}]" value="{{$st->marks}}">
+                                                                <input type="number" step="0.01" min="0" @if($exam_rules_by_exam_id->has($currentExamId)) max="{{$exam_rules_by_exam_id[$currentExamId]}}" @endif class="form-control" name="student_mark[{{$students_with_mark[0]->student->id}}][{{$currentExamId}}]" value="{{$st->marks}}">
                                                             </td>
                                                             
                                                             @php
@@ -83,8 +86,11 @@
                                                             }
                                                         @endphp
                                                         @for ($i = 0; $i < $gt; $i++)
+                                                            @php
+                                                                $currentExamId = $exams[$markedExamCount]->id;
+                                                            @endphp
                                                             <td>
-                                                                <input type="number" step="0.01" class="form-control" name="student_mark[{{$students_with_mark[0]->student->id}}][{{$exams[$markedExamCount]->id}}]">
+                                                                <input type="number" step="0.01" min="0" @if($exam_rules_by_exam_id->has($currentExamId)) max="{{$exam_rules_by_exam_id[$currentExamId]}}" @endif class="form-control" name="student_mark[{{$students_with_mark[0]->student->id}}][{{$currentExamId}}]">
                                                             </td>
                                                             @php
                                                                 $markedExamCount++;
@@ -101,7 +107,7 @@
                                                         @isset($exams)
                                                             @foreach ($exams as $exam)
                                                                 <td>
-                                                                    <input type="number" class="form-control" name="student_mark[{{$sectionStudent->student->id}}][{{$exam->id}}]">
+                                                                    <input type="number" step="0.01" min="0" @if($exam_rules_by_exam_id->has($exam->id)) max="{{$exam_rules_by_exam_id[$exam->id]}}" @endif class="form-control" name="student_mark[{{$sectionStudent->student->id}}][{{$exam->id}}]">
                                                                 </td>
                                                             @endforeach
                                                         @endisset
