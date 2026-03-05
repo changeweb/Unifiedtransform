@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Mark;
+use App\Models\ExamRule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Traits\SchoolSession;
 use App\Interfaces\UserInterface;
 use App\Interfaces\CourseInterface;
@@ -131,6 +133,9 @@ class MarkController extends Controller
             $examRepository = new ExamRepository();
 
             $exams = $examRepository->getAll($current_school_session_id, $semester_id, $class_id);
+            $examRulesByExamId = ExamRule::where('session_id', $current_school_session_id)
+                                            ->whereIn('exam_id', $exams->pluck('id')->toArray())
+                                            ->pluck('total_marks', 'exam_id');
 
             $markRepository = new MarkRepository();
             $studentsWithMarks = $markRepository->getAll($current_school_session_id, $semester_id, $class_id, $section_id, $course_id);
@@ -156,6 +161,7 @@ class MarkController extends Controller
                 'semester_id'               => $semester_id,
                 'final_marks_submitted'     => $final_marks_submitted,
                 'sectionStudents'           => $sectionStudents,
+                'exam_rules_by_exam_id'     => $examRulesByExamId,
                 'current_school_session_id' => $current_school_session_id,
             ];
 
@@ -209,9 +215,44 @@ class MarkController extends Controller
     {
         $current_school_session_id = $this->getSchoolCurrentSession();
         $this->checkIfLoggedInUserIsAssignedTeacher($request, $current_school_session_id);
+
+        $validator = Validator::make($request->all(), [
+            'student_mark' => 'required|array',
+            'student_mark.*' => 'required|array',
+            'student_mark.*.*' => 'nullable|numeric|min:0',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withInput()->withErrors($validator);
+        }
+
+        $submittedExamIds = collect($request->student_mark)
+                                ->flatMap(function ($studentMarks) {
+                                    return array_keys($studentMarks);
+                                })
+                                ->unique()
+                                ->values()
+                                ->toArray();
+
+        $maxMarksByExamId = ExamRule::where('session_id', $current_school_session_id)
+                                    ->whereIn('exam_id', $submittedExamIds)
+                                    ->pluck('total_marks', 'exam_id');
+
         $rows = [];
         foreach($request->student_mark as $id => $stm) {
             foreach($stm as $exam => $mark){
+                if($mark === null || $mark === '') {
+                    continue;
+                }
+
+                if(!$maxMarksByExamId->has($exam)) {
+                    return back()->withInput()->withError('Please create exam rules with total marks before submitting marks.');
+                }
+
+                if((float) $mark > (float) $maxMarksByExamId[$exam]) {
+                    return back()->withInput()->withError("Marks must be between 0 and {$maxMarksByExamId[$exam]} for each exam.");
+                }
+
                 $row = [];
                 $row['class_id'] = $request->class_id;
                 $row['student_id'] = $id;
