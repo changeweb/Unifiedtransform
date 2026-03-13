@@ -25,14 +25,14 @@ See the news [here](https://laravel-news.com/unified-transform-open-source-schoo
 
 ## Framework used
 
-- [Laravel 8.X](https://laravel.com/docs/8.x)
+- [Laravel 12.X](https://laravel.com/docs/12.x)
 - [Bootstrap 5.X](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
 
 <h1 align="center"><img src="public/docs/imgs/ut/Screenshot 2021-12-07 at 01-39-17 Unifiedtransform.png"></h1>
 
 ## Server Requirements
 
-- PHP >= 7.4
+- PHP >= 8.2
 - OpenSSL PHP Extension
 - PDO PHP Extension
 - Mbstring PHP Extension
@@ -97,8 +97,8 @@ https://user-images.githubusercontent.com/9896315/231230479-bb497be3-024c-4568-b
 
 With the improved Docker setup, you will get:
 - Nginx
-- PHP 7.4
-- MySQL 5.7
+- PHP 8.2
+- MySQL 8.0
 
 ### Steps to install:
 1. Clone or download the repository.

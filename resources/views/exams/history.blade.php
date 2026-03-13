@@ -34,7 +34,7 @@
                                                                     <div class="col">&nbsp;</div>
                                                                 </div>
                                                                 <h5 class="m-2">
-                                                                    <span class="badge rounded-pill bg-light border">&nbsp;</span>
+                                                                    <span class="badge rounded-pill bg-light text-dark border">&nbsp;</span>
                                                                 </h5>
                                                                 <div class="row h-50">
                                                                     <div class="col border-end">&nbsp;</div>
@@ -72,7 +72,7 @@
                                                                 <div class="col">&nbsp;</div>
                                                             </div>
                                                             <h5 class="m-2">
-                                                                <span class="badge rounded-pill bg-light border">&nbsp;</span>
+                                                                <span class="badge rounded-pill bg-light text-dark border">&nbsp;</span>
                                                             </h5>
                                                             <div class="row h-50">
                                                                 <div class="col border-end">&nbsp;</div>
@@ -99,7 +99,7 @@
                                                                     <div class="col">&nbsp;</div>
                                                                 </div>
                                                                 <h5 class="m-2">
-                                                                    <span class="badge rounded-pill bg-light border">&nbsp;</span>
+                                                                    <span class="badge rounded-pill bg-light text-dark border">&nbsp;</span>
                                                                 </h5>
                                                                 <div class="row h-50">
                                                                     <div class="col border-end">&nbsp;</div>

@@ -173,7 +173,6 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
 
         App\Providers\SchoolSessionServiceProvider::class,
         App\Providers\SemesterServiceProvider::class,
@@ -182,7 +181,6 @@ return [
         App\Providers\SectionServiceProvider::class,
         App\Providers\CourseServiceProvider::class,
         App\Providers\UserServiceProvider::class,
-        App\Providers\PurifySetupProvider::class,
     ],
 
     /*
