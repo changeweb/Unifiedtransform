@@ -19,10 +19,7 @@ class AcademicSettingRepository implements AcademicSettingInterface {
     }
 
     public function updateFinalMarksSubmissionStatus($request) {
-        $status = "off";
-        if(isset($request['marks_submission_status'])) {
-            $status = "on";
-        }
+        $status = isset($request['marks_submission_status']) ? "on" : "off";
         try {
             AcademicSetting::where('id', 1)->update(['marks_submission_status' => $status]);
         } catch (\Exception $e) {
