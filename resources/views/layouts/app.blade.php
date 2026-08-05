@@ -7,14 +7,14 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Unifiedtransform') }}</title>
+    <title>{{ config('app.name', 'KCS_ManagementSystem') }}</title>
 
-    <link rel="shortcut icon" href="{{asset('favicon_io/favicon.ico')}}">
-    <link rel="shortcut icon" sizes="16x16" href="{{asset('favicon_io/favicon-16x16.png')}}">
-    <link rel="shortcut icon" sizes="32x32" href="{{asset('favicon_io/favicon-32x32.png')}}">
-    <link rel="apple-touch-icon" href="{{asset('favicon_io/apple-touch-icon.png')}}">
-    <link rel="icon" href="{{asset('favicon_io/android-chrome-192x192.png')}}" sizes="192x192">
-    <link rel="icon" href="{{asset('favicon_io/android-chrome-512x512.png')}}" sizes="512x512">
+    <link rel="shortcut icon" href="{{asset('favicon_io/favicon.ico')}}?v=2">
+    <link rel="shortcut icon" sizes="16x16" href="{{asset('favicon_io/favicon-16x16.png')}}?v=2">
+    <link rel="shortcut icon" sizes="32x32" href="{{asset('favicon_io/favicon-32x32.png')}}?v=2">
+    <link rel="apple-touch-icon" href="{{asset('favicon_io/apple-touch-icon.png')}}?v=2">
+    <link rel="icon" href="{{asset('favicon_io/android-chrome-192x192.png')}}?v=2" sizes="192x192">
+    <link rel="icon" href="{{asset('favicon_io/android-chrome-512x512.png')}}?v=2" sizes="512x512">
 
     <!-- Scripts -->
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
@@ -32,8 +32,9 @@
     <div id="app">
         <nav class="navbar sticky-top navbar-expand-md navbar-light bg-white border-btm-e6">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    <i class="bi bi-house"></i> {{ config('app.name', 'Laravel') }}
+                <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
+                <img src="{{ asset('imgs/kcs-logo.png') }}" height="35" class="me-2">
+                <strong>{{ config('app.name') }}</strong>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -100,10 +101,6 @@
         <main>
             @yield('content')
         </main>
-    </div>
-
-    <div id="watermark">
-        <p>Unifiedtransform</p>
     </div>
 </body>
 </html>
