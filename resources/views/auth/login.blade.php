@@ -4,6 +4,9 @@
 <div class="container">
     <div class="row justify-content-center mt-4">
         <div class="col-md-6">
+            <div class="text-center mb-3">
+                <img src="{{ asset('imgs/kcs-logo.png') }}" height="80" alt="{{ config('app.name') }}">
+            </div>
             <div class="card">
                 <div class="card-header bg-white">{{ __('Login') }}</div>
 
