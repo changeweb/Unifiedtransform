@@ -324,6 +324,10 @@ class MarkController extends Controller
         $course_id = $request->query('course_id');
         $course_name = $request->query('course_name');
         $student_id = $request->query('student_id');
+
+        if ((int) $student_id !== auth()->id() && !auth()->user()->can('view marks')) {
+            abort(403);
+        }
         $markRepository = new MarkRepository();
         $marks = $markRepository->getAllByStudentId($session_id, $semester_id, $class_id, $section_id, $course_id, $student_id);
         $finalMarks = $markRepository->getAllFinalMarksByStudentId($session_id, $student_id, $semester_id, $class_id, $section_id, $course_id);
