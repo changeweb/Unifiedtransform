@@ -66,6 +66,7 @@ class UserController extends Controller
             $data = [
                 'studentList'       => $studentList,
                 'school_classes'    => $school_classes,
+                'current_school_session_id' => $current_school_session_id,
             ];
 
             return view('students.list', $data);

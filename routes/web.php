@@ -24,6 +24,7 @@ use App\Http\Controllers\SchoolSessionController;
 use App\Http\Controllers\AcademicSettingController;
 use App\Http\Controllers\AssignedTeacherController;
 use App\Http\Controllers\Auth\UpdatePasswordController;
+use App\Http\Controllers\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,8 +38,26 @@ use App\Http\Controllers\Auth\UpdatePasswordController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('pages.home');
 });
+
+// Public school website pages
+Route::get('/about', fn () => view('pages.about'))->name('about');
+Route::get('/academics', fn () => view('pages.academics'))->name('academics');
+Route::get('/admissions', fn () => view('pages.admissions'))->name('admissions');
+Route::get('/alumni', fn () => view('pages.alumni'))->name('alumni');
+Route::get('/campus-facilities', fn () => view('pages.campus-facilities'))->name('campus-facilities');
+Route::get('/faculty-staff', fn () => view('pages.faculty-staff'))->name('faculty-staff');
+Route::get('/students-life', fn () => view('pages.students-life'))->name('students-life');
+Route::get('/news', fn () => view('pages.news'))->name('news');
+Route::get('/news-details', fn () => view('pages.news-details'))->name('news-details');
+Route::get('/events', fn () => view('pages.events'))->name('events');
+Route::get('/event-details', fn () => view('pages.event-details'))->name('event-details');
+Route::get('/privacy', fn () => view('pages.privacy'))->name('privacy');
+Route::get('/terms-of-service', fn () => view('pages.terms-of-service'))->name('terms-of-service');
+Route::get('/starter-page', fn () => view('pages.starter-page'))->name('starter-page');
+Route::get('/contact', fn () => view('pages.contact'))->name('contact');
+Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
 
 Auth::routes();
 

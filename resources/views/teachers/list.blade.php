@@ -7,8 +7,13 @@
         <div class="col-xs-11 col-sm-11 col-md-11 col-lg-10 col-xl-10 col-xxl-10">
             <div class="row pt-2">
                 <div class="col ps-4">
-                    <h1 class="display-6 mb-3">
-                        <i class="bi bi-person-lines-fill"></i> Teacher List
+                    <h1 class="display-6 mb-3 d-flex align-items-center justify-content-between">
+                        <span><i class="bi bi-person-lines-fill"></i> Teacher List</span>
+                        @if (!session()->has('browse_session_id') && Auth::user()->role == "admin")
+                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addTeacherModal">
+                            <i class="bi bi-person-plus"></i> Add New
+                        </button>
+                        @endif
                     </h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -62,4 +67,33 @@
         </div>
     </div>
 </div>
+
+@if (!session()->has('browse_session_id') && Auth::user()->role == "admin")
+<div class="modal fade" id="addTeacherModal" tabindex="-1" aria-labelledby="addTeacherModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addTeacherModalLabel"><i class="bi bi-person-plus"></i> Add Teacher</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3" action="{{route('school.teacher.create')}}" method="POST">
+                    @include('teachers._form-fields')
+                    <div class="modal-footer px-0 pb-0">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-person-plus"></i> Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    @if ($errors->any())
+        var addTeacherModal = new bootstrap.Modal(document.getElementById('addTeacherModal'));
+        addTeacherModal.show();
+    @endif
+</script>
+@endif
 @endsection
